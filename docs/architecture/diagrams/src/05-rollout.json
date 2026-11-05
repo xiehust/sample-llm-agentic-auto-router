@@ -1,0 +1,140 @@
+{
+ "schema_version": 1,
+ "mode": "architecture",
+ "template_type": "architecture",
+ "style": 1,
+ "quality_profile": "showcase",
+ "text_policy": "strict",
+ "width": 1460,
+ "height": 560,
+ "title": "observe → auto 上线路径",
+ "subtitle": "每一步都只改 policy / assessorMode，回退就是把 mode 改回 observe",
+ "containers": [
+  {
+   "id": "stages",
+   "x": 30,
+   "y": 110,
+   "width": 1400,
+   "height": 330,
+   "label": "分阶段放开（policy.mode 与 assessorMode 相互独立）"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "s1",
+   "kind": "rect",
+   "x": 70,
+   "y": 170,
+   "width": 290,
+   "height": 96,
+   "type_label": "阶段 1 · 默认",
+   "label": "全量 observe",
+   "sublabel": "服务默认模型 · 记 wouldChoose",
+   "fill": "#f8fafc",
+   "stroke": "#94a3b8",
+   "flat": true
+  },
+  {
+   "id": "s2",
+   "kind": "rect",
+   "x": 410,
+   "y": 170,
+   "width": 290,
+   "height": 96,
+   "type_label": "阶段 2",
+   "label": "离线对账",
+   "sublabel": "replay 重放 · 命中率差 ≤ 2 pp",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "s3",
+   "kind": "rect",
+   "x": 750,
+   "y": 170,
+   "width": 290,
+   "height": 96,
+   "type_label": "阶段 3",
+   "label": "auto：只在断点切",
+   "sublabel": "boundaryGated · assessor 仍 observe",
+   "fill": "#f0fdf4",
+   "stroke": "#16a34a",
+   "flat": true
+  },
+  {
+   "id": "s4",
+   "kind": "rect",
+   "x": 1090,
+   "y": 170,
+   "width": 300,
+   "height": 96,
+   "type_label": "阶段 4",
+   "label": "auto：用户 turn 走成本门",
+   "sublabel": "costModeled · assessor 仅 fast 规则",
+   "fill": "#fff7ed",
+   "stroke": "#f97316",
+   "flat": true
+  }
+ ],
+ "arrows": [
+  {
+   "id": "a12",
+   "source": "s1",
+   "target": "s2",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "a23",
+   "source": "s2",
+   "target": "s3",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "a34",
+   "source": "s3",
+   "target": "s4",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "back",
+   "source": "s4",
+   "target": "s1",
+   "source_port": "bottom",
+   "target_port": "bottom",
+   "flow": "feedback",
+   "dashed": true,
+   "label": "任何指标变差：mode 改回 observe（不需要发版）",
+   "route_points": [
+    [
+     1240,
+     380
+    ],
+    [
+     215,
+     380
+    ]
+   ]
+  }
+ ],
+ "legend_orientation": "horizontal",
+ "legend_x": 48,
+ "legend_y": 480,
+ "legend_locked": true,
+ "legend": [
+  {
+   "flow": "read",
+   "label": "推进（指标达标）"
+  },
+  {
+   "flow": "feedback",
+   "label": "回退"
+  }
+ ]
+}

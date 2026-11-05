@@ -1,0 +1,15 @@
+**
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!tsconfig.base.json
+!packages/pricing/package.json
+!packages/pricing/src/**
+!packages/core/package.json
+!packages/core/src/**
+!packages/assessor/package.json
+!packages/assessor/src/**
+!packages/router/package.json
+!packages/router/src/**
+!packages/router/config/**
+**/node_modules

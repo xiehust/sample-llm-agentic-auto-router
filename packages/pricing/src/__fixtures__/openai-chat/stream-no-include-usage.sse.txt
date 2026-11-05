@@ -1,0 +1,8 @@
+data: {"choices":[{"delta":{"content":"","role":"assistant","refusal":null},"finish_reason":null,"index":0}],"created":1793792462,"id":"chatcmpl-SCRUBBED1","model":"global.openai.gpt-6-luna","object":"chat.completion.chunk","service_tier":"default","system_fingerprint":null,"obfuscation":"abcdefghijklmnopqrstuvwxyzABCDEFGHI"}
+
+data: {"choices":[{"delta":{"content":"ok"},"finish_reason":null,"index":0}],"created":1793792462,"id":"chatcmpl-SCRUBBED1","model":"global.openai.gpt-6-luna","object":"chat.completion.chunk","service_tier":"default","system_fingerprint":null,"obfuscation":"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"}
+
+data: {"choices":[{"delta":{},"finish_reason":"stop","index":0}],"created":1793792462,"id":"chatcmpl-SCRUBBED1","model":"global.openai.gpt-6-luna","object":"chat.completion.chunk","service_tier":"default","system_fingerprint":null,"obfuscation":"abcdefghijk"}
+
+data: [DONE]
+

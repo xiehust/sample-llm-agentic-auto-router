@@ -1,0 +1,79 @@
+{
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1793792463,
+  "created_at": 1793792463,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_SCRUBBED1",
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": 64,
+  "max_tool_calls": null,
+  "metadata": {},
+  "model": "global.openai.gpt-6-luna",
+  "object": "response",
+  "output": [
+    {
+      "content": [
+        {
+          "annotations": [],
+          "logprobs": [],
+          "text": "Ok",
+          "type": "output_text"
+        }
+      ],
+      "id": "msg_SCRUBBED2",
+      "phase": "final_answer",
+      "role": "assistant",
+      "status": "completed",
+      "type": "message"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "presence_penalty": 0.0,
+  "previous_response_id": null,
+  "prompt_cache_key": null,
+  "prompt_cache_options": {
+    "mode": "implicit",
+    "ttl": "30m"
+  },
+  "prompt_cache_retention": "in_memory",
+  "reasoning": {
+    "summary": null,
+    "effort": "none",
+    "context": "all_turns"
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": false,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 3048,
+    "input_tokens_details": {
+      "cache_write_tokens": 3046,
+      "cached_tokens": 0
+    },
+    "output_tokens": 5,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 3053
+  },
+  "user": null,
+  "moderation": null
+}

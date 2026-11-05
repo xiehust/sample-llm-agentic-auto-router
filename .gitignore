@@ -1,0 +1,34 @@
+node_modules/
+dist/
+/packages/*/lib/
+cdk.out/
+.venv/
+__pycache__/
+*.log
+.env
+dsh-superagent-prototype/
+.orca/
+.pytest_cache/
+.agents/
+.claude/
+.codegraph/
+.codex/
+.kiro/
+# Installation-specific: the target account and CDK's cached AZ lookups (they name the account).
+scripts/local.env
+infra/cdk.context.json
+# Internal agent workflow, task notes and personal journals (task docs are mirrored to docs/tasks/).
+/.trellis/
+/.kiro/
+
+# Panel UI acceptance output (pnpm e2e)
+/packages/panel/tests/e2e/results/
+/packages/panel/tests/e2e/screenshots/
+
+# Spike state and raw results name the account
+spikes/*/state.json
+spikes/*/results/
+
+# Local Trellis tooling (not published)
+/AGENTS.md
+/.gitattributes

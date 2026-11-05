@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "version": "default-observe-2026-11-04",
+  "mode": "observe",
+  "userTurn": "retain",
+  "pools": {
+    "anthropic-messages": {
+      "defaultTier": "standard",
+      "models": [
+        {
+          "model": "global.anthropic.claude-opus-5-5"
+        },
+        {
+          "model": "global.anthropic.claude-sonnet-5-5"
+        },
+        {
+          "model": "global.anthropic.claude-haiku-5-5"
+        }
+      ]
+    },
+    "openai-chat": {
+      "defaultTier": "standard",
+      "models": [
+        {
+          "model": "global.openai.gpt-6-astra",
+          "tier": "frontier"
+        },
+        {
+          "model": "global.openai.gpt-6.1-sol",
+          "tier": "standard"
+        },
+        {
+          "model": "global.openai.gpt-6-luna",
+          "tier": "fast"
+        }
+      ]
+    },
+    "openai-responses": {
+      "defaultTier": "standard",
+      "models": [
+        {
+          "model": "global.openai.gpt-6-astra",
+          "tier": "frontier"
+        },
+        {
+          "model": "global.openai.gpt-6.1-sol",
+          "tier": "standard"
+        },
+        {
+          "model": "global.openai.gpt-6-luna",
+          "tier": "fast"
+        }
+      ]
+    }
+  },
+  "rules": [],
+  "observeDefaults": {
+    "anthropic-messages": "global.anthropic.claude-sonnet-5-5",
+    "openai-chat": "global.openai.gpt-6.1-sol",
+    "openai-responses": "global.openai.gpt-6.1-sol"
+  }
+}

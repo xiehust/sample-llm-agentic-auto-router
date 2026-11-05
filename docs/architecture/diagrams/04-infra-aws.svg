@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 1010" width="1680" height="1010" data-generator="fireworks-tech-graph" data-schema-version="1" data-text-metrics="heuristic-v1" data-style-id="10" data-visual-theme="Cloud Fabric" data-diagram-type="deployment" data-motion-scene="" data-semantic-profile="cloud-fabric" data-semantic-valid="true" data-quality-profile="showcase" data-max-bends-per-edge="2" data-max-total-bends="8" data-max-route-stretch="1.35" data-max-bridged-crossings="0" data-min-node-gap="40.0" data-min-container-gutter="20.0" data-min-label-clearance="4.0" data-min-segment-length="16.0">
+  <defs>
+    <marker id="arrowA" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowB" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ea580c"/>
+    </marker>
+    <marker id="arrowC" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0891b2"/>
+    </marker>
+    <marker id="arrowE" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#059669"/>
+    </marker>
+    <marker id="arrowF" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#db2777"/>
+    </marker>
+    <marker id="arrowH" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <filter id="shadowSoft" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <filter id="shadowGlass" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#020617" flood-opacity="0.28"/>
+    </filter>
+    <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fcff"/>
+      <stop offset="100%" stop-color="#dfedf7"/>
+    </linearGradient>
+    <pattern id="cloudGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#7fa3c2" stroke-opacity="0.10" stroke-width="1"/>
+    </pattern>
+    <style>
+    text { font-family: Inter, 'Helvetica Neue', 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif; }
+    .title { font-size: 27px; font-weight: 700; fill: #102a43; }
+    .subtitle { font-size: 13px; font-weight: 500; fill: #52718d; }
+    .section { font-size: 13px; font-weight: 700; fill: #315d7e; letter-spacing: 1.4px; }
+    .section-sub { font-size: 12px; font-weight: 500; fill: #4b6680; }
+    .node-title { font-weight: 700; fill: #102a43; }
+    .node-sub { font-weight: 500; fill: #486581; }
+    .node-type { font-size: 10px; font-weight: 700; fill: #4b6680; letter-spacing: 0.08em; }
+    .arrow-label { font-size: 12px; font-weight: 600; fill: #334e68; }
+    .legend { font-size: 12px; font-weight: 500; fill: #486581; }
+    .footnote { font-size: 12px; font-weight: 500; fill: #4b6680; }
+    .metric-label { font-size: 8.5px; font-weight: 700; fill: #4b6680; text-transform: uppercase; }
+    .metric-value { font-size: 9.5px; font-weight: 700; fill: #102a43; }
+    </style>
+  </defs>
+  <rect data-graph-role="background" width="1680.0" height="1010.0" fill="url(#cloudGradient)"/>
+  <rect data-graph-role="decoration" width="1680.0" height="1010.0" fill="url(#cloudGrid)"/>
+  <text x="48.0" y="48" text-anchor="start" class="title">基础设施（AWS，单 Region）</text>
+  <text x="48.0" y="72" text-anchor="start" class="subtitle">Region 是部署参数（-c region）；router 只在无 IGW / 无 NAT 的私有子网里，经私有 REST API hop 被 gateway 调用</text>
+  <g id="style-signature" data-graph-role="decoration" data-style-signature="cloud-ownership-map">
+    <rect x="1456.0" y="22.0" width="176.0" height="34.0" rx="9" fill="#ffffff" fill-opacity="0.82" stroke="#7fa3c2" stroke-width="1.1"/>
+    <rect x="1467.0" y="31.0" width="14" height="14" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="1"/>
+    <rect x="1476.0" y="35.0" width="14" height="14" rx="4" fill="#dcfce7" stroke="#059669" stroke-width="1"/>
+    <text data-full-text="AWS · 1 REGIONS" x="1499.0" y="36.0" font-size="8.5" font-weight="800" fill="#315d7e">AWS · 1 REGIONS</text>
+    <text data-full-text="REGION = DEPLOY PARAMETER" x="1499.0" y="49.0" font-size="8" font-weight="700" fill="#52718d">REGION = DEPLOY PARAMETER</text>
+  </g>
+  <g id="clients" data-graph-role="container" data-container-id="clients" data-semantic-role="global" data-graph-bounds="30,110,1640,246">
+  <rect data-graph-role="container" x="30.0" y="110.0" width="1610.0" height="136.0" rx="16.0" fill="rgba(255,255,255,0.54)" stroke="#7fa3c2" stroke-width="1.4" stroke-dasharray="7 5"/>
+  <rect data-graph-role="decoration" x="1572.0" y="120.0" width="54.0" height="18" rx="9" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.8"/>
+  <text data-graph-role="decoration" x="1599.0" y="132.5" text-anchor="middle" font-size="9" font-weight="700" fill="#315d7e">GLOBAL</text>
+  <line data-graph-role="decoration" x1="38.0" y1="152.0" x2="38.0" y2="232.0" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" opacity="0.72"/>
+  <text x="48.0" y="134.0" class="section">AGENT 客户端（INTERNET）</text>
+    <rect id="clients-header" data-graph-role="reserved" data-reserved-kind="container-header" x="38" y="116" width="194.32" height="30" fill="none" stroke="none"/>
+  </g>
+  <g id="region" data-graph-role="container" data-container-id="region" data-semantic-role="region" data-graph-bounds="30,270,1640,890">
+  <rect data-graph-role="container" x="30.0" y="270.0" width="1610.0" height="620.0" rx="16.0" fill="rgba(255,255,255,0.54)" stroke="#7fa3c2" stroke-width="1.4" stroke-dasharray="7 5"/>
+  <rect data-graph-role="decoration" x="1572.0" y="280.0" width="54.0" height="18" rx="9" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.8"/>
+  <text data-graph-role="decoration" x="1599.0" y="292.5" text-anchor="middle" font-size="9" font-weight="700" fill="#315d7e">REGION</text>
+  <line data-graph-role="decoration" x1="38.0" y1="312.0" x2="38.0" y2="876.0" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" opacity="0.72"/>
+  <text x="48.0" y="294.0" class="section">REGION &lt;REGION&gt;</text>
+    <rect id="region-header" data-graph-role="reserved" data-reserved-kind="container-header" x="38" y="276" width="133.48" height="30" fill="none" stroke="none"/>
+  </g>
+  <g id="vpc" data-graph-role="container" data-container-id="vpc" data-semantic-role="network" data-graph-bounds="310,480,1430,860">
+  <rect data-graph-role="container" x="310.0" y="480.0" width="1120.0" height="380.0" rx="16.0" fill="rgba(255,255,255,0.54)" stroke="#7fa3c2" stroke-width="1.4" stroke-dasharray="7 5"/>
+  <rect data-graph-role="decoration" x="1361.46" y="490.0" width="54.54" height="18" rx="9" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.8"/>
+  <text data-graph-role="decoration" x="1388.73" y="502.5" text-anchor="middle" font-size="9" font-weight="700" fill="#315d7e">NETWORK</text>
+  <line data-graph-role="decoration" x1="318.0" y1="522.0" x2="318.0" y2="846.0" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round" opacity="0.72"/>
+  <text x="328.0" y="504.0" class="section">VPC</text>
+    <rect id="vpc-header" data-graph-role="reserved" data-reserved-kind="container-header" x="318" y="486" width="52.62" height="30" fill="none" stroke="none"/>
+  </g>
+  <path id="token" data-graph-role="edge" data-edge-id="token" data-source="client" data-target="cognito" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="取 token" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 190,224 L 190,340" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="invoke" data-graph-role="edge" data-edge-id="invoke" data-source="client" data-target="gateway" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="HTTPS · JWT" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="1" data-route-stretch="1.0" data-bridges="" d="M 290,188 L 470,188 L 470,340" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="to-pe" data-graph-role="edge" data-edge-id="to-pe" data-source="gateway" data-target="pe" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="SigV4 execute-api" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 470,412 L 470,540" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="to-vpce" data-graph-role="edge" data-edge-id="to-vpce" data-source="pe" data-target="vpce" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 580,576 L 620,576" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="to-api" data-graph-role="edge" data-edge-id="to-api" data-source="vpce" data-target="api" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="aws:SourceVpce" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 730,540 L 730,412" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="vpc-link" data-graph-role="edge" data-edge-id="vpc-link" data-source="api" data-target="nlb" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="VPC link" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="1" data-route-stretch="1.0" data-bridges="" d="M 840,376 L 1010,376 L 1010,540" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="to-router" data-graph-role="edge" data-edge-id="to-router" data-source="nlb" data-target="router" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 1010,612 L 1010,740" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="egress-out" data-graph-role="edge" data-edge-id="egress-out" data-source="router" data-target="egress" data-edge-kind="flow" data-topic-id="" data-flow="write" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 1120,776 L 1180,776" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowB)"/>
+  <path id="to-bedrock" data-graph-role="edge" data-edge-id="to-bedrock" data-source="egress" data-target="bedrock" data-edge-kind="flow" data-topic-id="" data-flow="write" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="SigV4 bedrock" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 1290,740 L 1290,412" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowB)"/>
+  <path id="to-cw" data-graph-role="edge" data-edge-id="to-cw" data-source="egress" data-target="cw" data-edge-kind="flow" data-topic-id="" data-flow="async" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="日志 + EMF" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="1" data-route-stretch="1.0" data-bridges="" d="M 1400,776 L 1537.5,776 L 1537.5,612" fill="none" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowF)" stroke-dasharray="6,4"/>
+  <g id="node-client" data-graph-role="node" data-node-id="client" data-semantic-role="edge" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="clients" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="90,152,290,224">
+  <rect x="90.0" y="152.0" width="200.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="102.0" y="167.0" width="42.0" height="42.0" rx="11" fill="#2563eb" opacity="0.12" stroke="#2563eb" stroke-width="1.2"/>
+  <circle cx="123.0" cy="188.0" r="11" fill="none" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 112.0 188.0 H 134.0 M 123.0 177.0 C 117.0 183.0 117.0 193.0 123.0 199.0 M 123.0 177.0 C 129.0 183.0 129.0 193.0 123.0 199.0" fill="none" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="Agent 客户端" x="156.0" y="183.0" text-anchor="start" class="node-title" font-size="13.5">Agent 客户端</text>
+  <text data-text-role="subtitle" data-full-text="Claude Code / SDK" x="156.0" y="202.0" text-anchor="start" class="node-sub" font-size="11.5">Claude Code / SDK</text>
+  <text x="280.0" y="166.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">SDK</text>
+  </g>
+  <g id="node-cognito" data-graph-role="node" data-node-id="cognito" data-semantic-role="identity" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="region" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="90,340,290,412">
+  <rect x="90.0" y="340.0" width="200.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="102.0" y="355.0" width="42.0" height="42.0" rx="11" fill="#ea580c" opacity="0.12" stroke="#ea580c" stroke-width="1.2"/>
+  <ellipse cx="123.0" cy="368.0" rx="11" ry="4" fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 112.0 368.0 V 384.0 C 112.0 389.0 134.0 389.0 134.0 384.0 V 368.0" fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 112.0 376.0 C 112.0 381.0 134.0 381.0 134.0 376.0" fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="Cognito user pool" x="156.0" y="371.0" text-anchor="start" class="node-title" font-size="12.69">Cognito user pool</text>
+  <text data-text-role="subtitle" data-full-text="client credentials" x="156.0" y="390.0" text-anchor="start" class="node-sub" font-size="11.5">client credentials</text>
+  <text x="280.0" y="354.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-gateway" data-graph-role="node" data-node-id="gateway" data-semantic-role="gateway" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="region" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="360,340,580,412">
+  <rect x="360.0" y="340.0" width="220.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="372.0" y="355.0" width="42.0" height="42.0" rx="11" fill="#7c3aed" opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <path d="M 393.0 364.0 L 405.0 376.0 L 393.0 388.0 L 381.0 376.0 Z" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 387.0 376.0 H 399.0 M 396.0 373.0 L 399.0 376.0 L 396.0 379.0" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="AgentCore Gateway" x="426.0" y="371.0" text-anchor="start" class="node-title" font-size="13.5">AgentCore Gateway</text>
+  <text data-text-role="subtitle" data-full-text="CUSTOM_JWT · role" x="426.0" y="390.0" text-anchor="start" class="node-sub" font-size="11.5">CUSTOM_JWT · role</text>
+  <text x="570.0" y="354.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-api" data-graph-role="node" data-node-id="api" data-semantic-role="gateway" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="region" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="620,340,840,412">
+  <rect x="620.0" y="340.0" width="220.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="632.0" y="355.0" width="42.0" height="42.0" rx="11" fill="#7c3aed" opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <path d="M 653.0 364.0 L 665.0 376.0 L 653.0 388.0 L 641.0 376.0 Z" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 647.0 376.0 H 659.0 M 656.0 373.0 L 659.0 376.0 L 656.0 379.0" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="私有 REST API" x="686.0" y="371.0" text-anchor="start" class="node-title" font-size="13.5">私有 REST API</text>
+  <text data-text-role="subtitle" data-full-text="AWS_IAM · 资源策略" x="686.0" y="390.0" text-anchor="start" class="node-sub" font-size="11.5">AWS_IAM · 资源策略</text>
+  <text x="830.0" y="354.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-bedrock" data-graph-role="node" data-node-id="bedrock" data-semantic-role="compute" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="region" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="1180,340,1400,412">
+  <rect x="1180.0" y="340.0" width="220.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="1192.0" y="355.0" width="42.0" height="42.0" rx="11" fill="#059669" opacity="0.12" stroke="#059669" stroke-width="1.2"/>
+  <rect x="1202.0" y="367.0" width="22" height="18" rx="4" fill="none" stroke="#059669" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 1207.0 373.0 H 1219.0 M 1207.0 379.0 H 1216.0" fill="none" stroke="#059669" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="Bedrock runtime" x="1246.0" y="371.0" text-anchor="start" class="node-title" font-size="13.5">Bedrock runtime</text>
+  <text data-text-role="subtitle" data-full-text="inference profiles" x="1246.0" y="390.0" text-anchor="start" class="node-sub" font-size="11.5">inference profiles</text>
+  <text x="1390.0" y="354.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-cw" data-graph-role="node" data-node-id="cw" data-semantic-role="observability" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="region" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="1455,540,1620,612">
+  <rect x="1455.0" y="540.0" width="165.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="1467.0" y="555.0" width="42.0" height="42.0" rx="11" fill="#0891b2" opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <path d="M 1475.0 576.0 Q 1488.0 564.0 1501.0 576.0 Q 1488.0 588.0 1475.0 576.0 Z" fill="none" stroke="#0891b2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 1482.0 576.0 H 1486.0 L 1489.0 571.0 L 1492.0 581.0 L 1495.0 576.0" fill="none" stroke="#0891b2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="CloudWatch" x="1521.0" y="571.0" text-anchor="start" class="node-title" font-size="13.5">CloudWatch</text>
+  <text data-text-role="subtitle" data-full-text="Logs · EMF" x="1521.0" y="590.0" text-anchor="start" class="node-sub" font-size="11.5">Logs · EMF</text>
+  <text x="1610.0" y="554.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-pe" data-graph-role="node" data-node-id="pe" data-semantic-role="network" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="vpc" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="360,540,580,612">
+  <rect x="360.0" y="540.0" width="220.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="372.0" y="555.0" width="42.0" height="42.0" rx="11" fill="#7c3aed" opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <path d="M 393.0 564.0 L 405.0 576.0 L 393.0 588.0 L 381.0 576.0 Z" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 387.0 576.0 H 399.0 M 396.0 573.0 L 399.0 576.0 L 396.0 579.0" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="托管私有端点" x="426.0" y="571.0" text-anchor="start" class="node-title" font-size="13.5">托管私有端点</text>
+  <text data-text-role="subtitle" data-full-text="resource gateway ENI" x="426.0" y="590.0" text-anchor="start" class="node-sub" font-size="11.5">resource gateway ENI</text>
+  <text x="570.0" y="554.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-vpce" data-graph-role="node" data-node-id="vpce" data-semantic-role="network" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="vpc" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="620,540,840,612">
+  <rect x="620.0" y="540.0" width="220.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="632.0" y="555.0" width="42.0" height="42.0" rx="11" fill="#7c3aed" opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <path d="M 653.0 564.0 L 665.0 576.0 L 653.0 588.0 L 641.0 576.0 Z" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 647.0 576.0 H 659.0 M 656.0 573.0 L 659.0 576.0 L 656.0 579.0" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="execute-api VPCE" x="686.0" y="571.0" text-anchor="start" class="node-title" font-size="13.5">execute-api VPCE</text>
+  <text data-text-role="subtitle" data-full-text="仅 gateway role" x="686.0" y="590.0" text-anchor="start" class="node-sub" font-size="11.5">仅 gateway role</text>
+  <text x="830.0" y="554.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-nlb" data-graph-role="node" data-node-id="nlb" data-semantic-role="network" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="vpc" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="900,540,1120,612">
+  <rect x="900.0" y="540.0" width="220.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="912.0" y="555.0" width="42.0" height="42.0" rx="11" fill="#7c3aed" opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <path d="M 933.0 564.0 L 945.0 576.0 L 933.0 588.0 L 921.0 576.0 Z" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 927.0 576.0 H 939.0 M 936.0 573.0 L 939.0 576.0 L 936.0 579.0" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="internal NLB" x="966.0" y="571.0" text-anchor="start" class="node-title" font-size="13.5">internal NLB</text>
+  <text data-text-role="subtitle" data-full-text="TCP 8080 · 无入站规则" x="966.0" y="590.0" text-anchor="start" class="node-sub" font-size="11.5">TCP 8080 · 无入站规则</text>
+  <text x="1110.0" y="554.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-router" data-graph-role="node" data-node-id="router" data-semantic-role="compute" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="vpc" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="900,740,1120,812">
+  <rect x="900.0" y="740.0" width="220.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="912.0" y="755.0" width="42.0" height="42.0" rx="11" fill="#059669" opacity="0.12" stroke="#059669" stroke-width="1.2"/>
+  <rect x="922.0" y="767.0" width="22" height="18" rx="4" fill="none" stroke="#059669" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 927.0 773.0 H 939.0 M 927.0 779.0 H 936.0" fill="none" stroke="#059669" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text data-text-role="title" data-full-text="ECS Fargate router" x="966.0" y="771.0" text-anchor="start" class="node-title" font-size="13.14">ECS Fargate router</text>
+  <text data-text-role="subtitle" data-full-text="ARM64 · task role" x="966.0" y="790.0" text-anchor="start" class="node-sub" font-size="11.5">ARM64 · task role</text>
+  <text x="1110.0" y="754.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="node-egress" data-graph-role="node" data-node-id="egress" data-semantic-role="network" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="vpc" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="1180,740,1400,812">
+  <rect x="1180.0" y="740.0" width="220.0" height="72.0" rx="12" fill="#ffffff" stroke="#9bb7cf" stroke-width="1.4" filter="url(#shadowSoft)"/>
+  <rect x="1192.0" y="755.0" width="42.0" height="42.0" rx="11" fill="#db2777" opacity="0.12" stroke="#db2777" stroke-width="1.2"/>
+  <path d="M 1201.0 769.0 H 1218.0 M 1208.0 776.0 H 1225.0 M 1201.0 783.0 H 1218.0" fill="none" stroke="#db2777" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1221.0" cy="769.0" r="2.4" fill="#db2777"/><circle cx="1205.0" cy="776.0" r="2.4" fill="#db2777"/><circle cx="1221.0" cy="783.0" r="2.4" fill="#db2777"/>
+  <text data-text-role="title" data-full-text="VPC endpoints（无 NAT）" x="1246.0" y="771.0" text-anchor="start" class="node-title" font-size="10.81">VPC endpoints（无 NAT）</text>
+  <text data-text-role="subtitle" data-full-text="bedrock · ECR · Logs · S3" x="1246.0" y="790.0" text-anchor="start" class="node-sub" font-size="9.97">bedrock · ECR · Logs · S3</text>
+  <text x="1390.0" y="754.0" text-anchor="end" font-size="8.5" font-weight="800" fill="#4b6680">AWS</text>
+  </g>
+  <g id="token-label" data-graph-role="label" data-owner="token" data-graph-bounds="193,268,258.12,288">
+  <rect x="193.0" y="268.0" width="65.12" height="20" rx="6" fill="#f7fbfe" opacity="0.96"/>
+  <text x="225.56" y="282.0" text-anchor="middle" class="arrow-label">取 token</text>
+  </g>
+  <g id="invoke-label" data-graph-role="label" data-owner="invoke" data-graph-bounds="335.92,157,424.08,177">
+  <rect x="335.92" y="157.0" width="88.16000000000001" height="20" rx="6" fill="#f7fbfe" opacity="0.96"/>
+  <text x="380.0" y="171.0" text-anchor="middle" class="arrow-label">HTTPS · JWT</text>
+  </g>
+  <g id="to-pe-label" data-graph-role="label" data-owner="to-pe" data-graph-bounds="343.56,462,467,482">
+  <rect x="343.56" y="462.0" width="123.44000000000001" height="20" rx="6" fill="#f7fbfe" opacity="0.96"/>
+  <text x="405.28" y="476.0" text-anchor="middle" class="arrow-label">SigV4 execute-api</text>
+  </g>
+  <g id="to-api-label" data-graph-role="label" data-owner="to-api" data-graph-bounds="618.68,462,727,482">
+  <rect x="618.68" y="462.0" width="108.32000000000001" height="20" rx="6" fill="#f7fbfe" opacity="0.96"/>
+  <text x="672.84" y="476.0" text-anchor="middle" class="arrow-label">aws:SourceVpce</text>
+  </g>
+  <g id="vpc-link-label" data-graph-role="label" data-owner="vpc-link" data-graph-bounds="894.6,345,955.4,365">
+  <rect x="894.6" y="345.0" width="60.8" height="20" rx="6" fill="#f7fbfe" opacity="0.96"/>
+  <text x="925.0" y="359.0" text-anchor="middle" class="arrow-label">VPC link</text>
+  </g>
+  <g id="to-bedrock-label" data-graph-role="label" data-owner="to-bedrock" data-graph-bounds="1188.28,562,1287,582">
+  <rect x="1188.28" y="562.0" width="98.72" height="20" rx="6" fill="#f7fbfe" opacity="0.96"/>
+  <text x="1237.64" y="576.0" text-anchor="middle" class="arrow-label">SigV4 bedrock</text>
+  </g>
+  <g id="to-cw-label" data-graph-role="label" data-owner="to-cw" data-graph-bounds="1457.14,680,1534.5,700">
+  <rect x="1457.14" y="680.0" width="77.36" height="20" rx="6" fill="#f7fbfe" opacity="0.96"/>
+  <text x="1495.82" y="694.0" text-anchor="middle" class="arrow-label">日志 + EMF</text>
+  </g>
+  <g id="legend" data-graph-role="legend">
+    <rect id="legend-zone" data-graph-role="reserved" data-reserved-kind="legend" x="38" y="916" width="546.8" height="46" rx="10" fill="none" stroke="none"/>
+    <line data-graph-role="decoration" x1="48.0" y1="930.0" x2="78.0" y2="930.0" stroke="#0891b2" stroke-width="2.2" marker-end="url(#arrowC)"/>
+    <text data-graph-role="decoration" x="88.0" y="934.0" class="legend">入站与 hop（逐跳鉴权）</text>
+    <line data-graph-role="decoration" x1="249.2" y1="930.0" x2="279.2" y2="930.0" stroke="#ea580c" stroke-width="2.2" marker-end="url(#arrowB)"/>
+    <text data-graph-role="decoration" x="289.2" y="934.0" class="legend">router 出站（仅 VPC 端点）</text>
+    <line data-graph-role="decoration" x1="476.79999999999995" y1="930.0" x2="506.79999999999995" y2="930.0" stroke="#7c3aed" stroke-width="2.2" marker-end="url(#arrowF)"/>
+    <text data-graph-role="decoration" x="516.8" y="934.0" class="legend">可观测性</text>
+  </g>
+  <g id="footer" data-graph-role="reserved" data-graph-bounds="48,973,517,989">
+  <text x="48.0" y="985.0" class="footnote">Style 10 · Cloud Fabric · 占位符：&lt;region&gt; &lt;account&gt; &lt;api-id&gt;，不含任何真实 id</text>
+  </g>
+</svg>

@@ -1,0 +1,474 @@
+{
+ "schema_version": 1,
+ "mode": "architecture",
+ "template_type": "architecture",
+ "style": 1,
+ "quality_profile": "showcase",
+ "text_policy": "strict",
+ "width": 1440,
+ "height": 1290,
+ "title": "core decide()：路由决策流程",
+ "subtitle": "按顺序判断，第一个命中即返回；期望 tier 按 hint → alias → rules → assessor → 默认 先到先得",
+ "containers": [
+  {
+   "id": "checks",
+   "x": 30,
+   "y": 110,
+   "width": 1380,
+   "height": 640,
+   "label": "按顺序判断（第一个命中即返回）"
+  },
+  {
+   "id": "tier",
+   "x": 30,
+   "y": 790,
+   "width": 1380,
+   "height": 170,
+   "label": "期望 tier"
+  },
+  {
+   "id": "output",
+   "x": 30,
+   "y": 1000,
+   "width": 1380,
+   "height": 210,
+   "label": "输出"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "q-pin",
+   "kind": "rect",
+   "x": 70,
+   "y": 160,
+   "width": 400,
+   "height": 76,
+   "type_label": "判断 1",
+   "label": "pin？",
+   "sublabel": "x-router-pin，或 auto 模式下的具体 model id",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "q-lock",
+   "kind": "rect",
+   "x": 70,
+   "y": 280,
+   "width": 400,
+   "height": 76,
+   "type_label": "判断 2",
+   "label": "硬锁？",
+   "sublabel": "tool loop · previous_response_id 链 · 不可移植状态",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "q-fail",
+   "kind": "rect",
+   "x": 70,
+   "y": 400,
+   "width": 400,
+   "height": 76,
+   "type_label": "判断 3",
+   "label": "failover？",
+   "sublabel": "当前模型在 failover 窗口（10 s）内 429 / 5xx",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "q-break",
+   "kind": "rect",
+   "x": 70,
+   "y": 520,
+   "width": 400,
+   "height": 76,
+   "type_label": "判断 4",
+   "label": "免费断点？",
+   "sublabel": "会话/子 agent 开始 · idle > TTL · 压缩 · 前缀重置",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "q-turn",
+   "kind": "rect",
+   "x": 70,
+   "y": 640,
+   "width": 400,
+   "height": 76,
+   "type_label": "判断 5",
+   "label": "用户新 turn",
+   "sublabel": "最后一条是用户文本（prefill 则 retain）",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "r-pin",
+   "kind": "rect",
+   "x": 640,
+   "y": 160,
+   "width": 720,
+   "height": 76,
+   "type_label": "pin",
+   "label": "原样转发，只计量",
+   "sublabel": "具体 id 必须在 catalog ∩（pool ∪ failover ∪ observe 默认）内",
+   "fill": "#ffffff",
+   "stroke": "#cbd5e1",
+   "flat": true
+  },
+  {
+   "id": "r-lock",
+   "kind": "rect",
+   "x": 640,
+   "y": 280,
+   "width": 720,
+   "height": 76,
+   "type_label": "retain",
+   "label": "保持当前模型",
+   "sublabel": "hard-lock-tool-loop / hard-lock-response-chain / hard-lock-state",
+   "fill": "#ffffff",
+   "stroke": "#cbd5e1",
+   "flat": true
+  },
+  {
+   "id": "r-fail",
+   "kind": "rect",
+   "x": 640,
+   "y": 400,
+   "width": 720,
+   "height": 76,
+   "type_label": "failover",
+   "label": "429：同一模型换 profile",
+   "sublabel": "5xx 或所有 profile 都失败：换同 tier 兄弟；response 链上从不换",
+   "fill": "#fef2f2",
+   "stroke": "#ef4444",
+   "flat": true
+  },
+  {
+   "id": "r-break",
+   "kind": "rect",
+   "x": 640,
+   "y": 520,
+   "width": 720,
+   "height": 76,
+   "type_label": "initialize / switch",
+   "label": "完整决策，没有切换成本",
+   "sublabel": "按期望 tier 选模型；gate 检查上下文窗口和可移植性",
+   "fill": "#f0fdf4",
+   "stroke": "#16a34a",
+   "flat": true
+  },
+  {
+   "id": "r-turn",
+   "kind": "rect",
+   "x": 640,
+   "y": 640,
+   "width": 720,
+   "height": 76,
+   "type_label": "cost gate",
+   "label": "升级立即切；降级要过成本门和迟滞",
+   "sublabel": "stay − switch > max(minUsd, (k−1)·switch)，且满足 minTurns / maxSwitches",
+   "fill": "#fff7ed",
+   "stroke": "#f97316",
+   "flat": true
+  },
+  {
+   "id": "t-hint",
+   "kind": "rect",
+   "x": 167.5,
+   "y": 840,
+   "width": 205,
+   "height": 84,
+   "type_label": "1",
+   "label": "client hint",
+   "sublabel": "x-router-hint tier=",
+   "fill": "#ffffff",
+   "stroke": "#cbd5e1",
+   "flat": true
+  },
+  {
+   "id": "t-alias",
+   "kind": "rect",
+   "x": 417.5,
+   "y": 840,
+   "width": 205,
+   "height": 84,
+   "type_label": "2",
+   "label": "alias",
+   "sublabel": "auto:fast / :standard",
+   "fill": "#ffffff",
+   "stroke": "#cbd5e1",
+   "flat": true
+  },
+  {
+   "id": "t-rule",
+   "kind": "rect",
+   "x": 667.5,
+   "y": 840,
+   "width": 205,
+   "height": 84,
+   "type_label": "3",
+   "label": "policy rules",
+   "sublabel": "agentId · lineageKind",
+   "fill": "#ffffff",
+   "stroke": "#cbd5e1",
+   "flat": true
+  },
+  {
+   "id": "t-assess",
+   "kind": "hexagon",
+   "x": 917.5,
+   "y": 840,
+   "width": 205,
+   "height": 84,
+   "type_label": "4",
+   "label": "assessor",
+   "sublabel": "置信度 ≥ 0.8",
+   "fill": "#faf5ff",
+   "stroke": "#8b5cf6",
+   "flat": true
+  },
+  {
+   "id": "t-default",
+   "kind": "rect",
+   "x": 1167.5,
+   "y": 840,
+   "width": 205,
+   "height": 84,
+   "type_label": "5",
+   "label": "pool default",
+   "sublabel": "默认 standard",
+   "fill": "#ffffff",
+   "stroke": "#cbd5e1",
+   "flat": true
+  },
+  {
+   "id": "o-observe",
+   "kind": "rect",
+   "x": 70,
+   "y": 1050,
+   "width": 470,
+   "height": 84,
+   "type_label": "observe",
+   "label": "服务 observeDefaults",
+   "sublabel": "auto 会选的模型写入 wouldChoose（只进日志）",
+   "fill": "#f8fafc",
+   "stroke": "#94a3b8",
+   "flat": true
+  },
+  {
+   "id": "o-auto",
+   "kind": "rect",
+   "x": 600,
+   "y": 1050,
+   "width": 470,
+   "height": 84,
+   "type_label": "auto",
+   "label": "服务选中的模型",
+   "sublabel": "assessor 把 frontier 往下拉时被钳制（guard）",
+   "fill": "#f0fdf4",
+   "stroke": "#16a34a",
+   "flat": true
+  },
+  {
+   "id": "o-mode",
+   "kind": "hexagon",
+   "x": 1155,
+   "y": 1050,
+   "width": 230,
+   "height": 84,
+   "label": "policy.mode",
+   "sublabel": "observe / auto",
+   "fill": "#faf5ff",
+   "stroke": "#8b5cf6",
+   "flat": true
+  }
+ ],
+ "arrows": [
+  {
+   "id": "pin-yes",
+   "source": "q-pin",
+   "target": "r-pin",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "write",
+   "label": "是"
+  },
+  {
+   "id": "lock-yes",
+   "source": "q-lock",
+   "target": "r-lock",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "write",
+   "label": "是"
+  },
+  {
+   "id": "fail-yes",
+   "source": "q-fail",
+   "target": "r-fail",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "feedback",
+   "label": "是"
+  },
+  {
+   "id": "break-yes",
+   "source": "q-break",
+   "target": "r-break",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "write",
+   "label": "是"
+  },
+  {
+   "id": "turn-yes",
+   "source": "q-turn",
+   "target": "r-turn",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "write",
+   "label": "是"
+  },
+  {
+   "id": "pin-no",
+   "source": "q-pin",
+   "target": "q-lock",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "label": "否"
+  },
+  {
+   "id": "lock-no",
+   "source": "q-lock",
+   "target": "q-fail",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "label": "否"
+  },
+  {
+   "id": "fail-no",
+   "source": "q-fail",
+   "target": "q-break",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "label": "否"
+  },
+  {
+   "id": "break-no",
+   "source": "q-break",
+   "target": "q-turn",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "label": "否"
+  },
+  {
+   "id": "turn-tier",
+   "source": "q-turn",
+   "target": "t-hint",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "label": "期望 tier"
+  },
+  {
+   "id": "h-a",
+   "source": "t-hint",
+   "target": "t-alias",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "a-r",
+   "source": "t-alias",
+   "target": "t-rule",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "r-as",
+   "source": "t-rule",
+   "target": "t-assess",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "async"
+  },
+  {
+   "id": "as-d",
+   "source": "t-assess",
+   "target": "t-default",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "d-mode",
+   "source": "t-default",
+   "target": "o-mode",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "label": "选出的模型"
+  },
+  {
+   "id": "mode-auto",
+   "source": "o-mode",
+   "target": "o-auto",
+   "source_port": "left",
+   "target_port": "right",
+   "flow": "write",
+   "label": "auto"
+  },
+  {
+   "id": "mode-observe",
+   "source": "o-mode",
+   "target": "o-observe",
+   "source_port": "bottom",
+   "target_port": "bottom",
+   "flow": "neutral",
+   "label": "observe",
+   "route_points": [
+    [
+     1270,
+     1170
+    ],
+    [
+     305,
+     1170
+    ]
+   ]
+  }
+ ],
+ "legend_orientation": "horizontal",
+ "legend_x": 48,
+ "legend_y": 1245,
+ "legend_locked": true,
+ "legend": [
+  {
+   "flow": "read",
+   "label": "继续判断"
+  },
+  {
+   "flow": "write",
+   "label": "命中并返回"
+  },
+  {
+   "flow": "feedback",
+   "label": "failover"
+  },
+  {
+   "flow": "async",
+   "label": "assessor（可选）"
+  }
+ ]
+}

@@ -1,0 +1,708 @@
+[
+  {
+    "tier": "fast",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "where is the retry backoff configured?",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 18000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": true,
+          "reason": "asks where a setting is defined; no edits"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "no change requested"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": false,
+          "reason": "nothing to implement"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": false,
+          "reason": "a single lookup"
+        }
+      ],
+      "task_facts": {
+        "edits_code": false,
+        "scope": "none",
+        "specification": "fully-specified",
+        "reasoning_depth": "lookup",
+        "prior_failures": 0
+      },
+      "confidence": 0.93,
+      "reason": "Locate where the retry backoff setting is defined; read-only lookup."
+    }
+  },
+  {
+    "tier": "fast",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "List every caller of `parseConfig` and summarise how each one uses the result. Report back; do not change anything.",
+        "images": 0
+      },
+      "role": {
+        "label": "explore"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Glob"
+        ],
+        "total": 3
+      },
+      "lineage": {
+        "kind": "subagent"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 6000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": true,
+          "reason": "list usages and summarise, explicitly read-only"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "no edit"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": false,
+          "reason": "no implementation"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": false,
+          "reason": "usage survey, no root-cause work"
+        }
+      ],
+      "task_facts": {
+        "edits_code": false,
+        "scope": "none",
+        "specification": "fully-specified",
+        "reasoning_depth": "lookup",
+        "prior_failures": 0
+      },
+      "confidence": 0.9,
+      "reason": "Read-only sub-agent survey of parseConfig callers and how they use the result."
+    }
+  },
+  {
+    "tier": "standard",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "the date picker shows UTC instead of local time on the settings page; fix it and add a test",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 18000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "asks for a fix"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "the change is not given"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": true,
+          "reason": "bounded bug in known UI code with a test as acceptance"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": false,
+          "reason": "cause is likely local timezone handling"
+        }
+      ],
+      "task_facts": {
+        "edits_code": true,
+        "scope": "multi-file",
+        "specification": "partially",
+        "reasoning_depth": "routine",
+        "prior_failures": 0
+      },
+      "confidence": 0.86,
+      "reason": "Fix a local timezone display bug in the settings date picker and add a regression test."
+    }
+  },
+  {
+    "tier": "standard",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "add a `--dry-run` flag to the deploy script",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 18000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "asks for a feature"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "behaviour must be designed in code, not a given edit"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": true,
+          "reason": "small bounded feature in one script"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": false,
+          "reason": "no investigation or trade-off"
+        }
+      ],
+      "task_facts": {
+        "edits_code": true,
+        "scope": "single-file",
+        "specification": "partially",
+        "reasoning_depth": "routine",
+        "prior_failures": 0
+      },
+      "confidence": 0.85,
+      "reason": "Add a dry-run option to the existing deploy script."
+    }
+  },
+  {
+    "tier": "frontier",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "requests hang under load every few hours and logs show nothing; find out why",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 42000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "requires diagnosis, not a lookup"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "no explicit change"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": false,
+          "reason": "cause unknown, not bounded"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": true,
+          "reason": "intermittent hang under load with no evidence: concurrency or resource analysis"
+        }
+      ],
+      "task_facts": {
+        "edits_code": false,
+        "scope": "cross-module",
+        "specification": "ambiguous",
+        "reasoning_depth": "deep",
+        "prior_failures": 0
+      },
+      "confidence": 0.9,
+      "reason": "Diagnose an intermittent hang under load with no log evidence; likely concurrency or resource exhaustion across components."
+    }
+  },
+  {
+    "tier": "frontier",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "design the migration from the monolith's job queue to SQS without downtime",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 18000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "design work, not a lookup"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "nothing mechanical"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": false,
+          "reason": "not a bounded change"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": true,
+          "reason": "architecture and migration trade-offs across services"
+        }
+      ],
+      "task_facts": {
+        "edits_code": false,
+        "scope": "cross-module",
+        "specification": "ambiguous",
+        "reasoning_depth": "deep",
+        "prior_failures": 0
+      },
+      "confidence": 0.92,
+      "reason": "Design a zero-downtime migration of the job queue to SQS; architecture trade-offs across services."
+    }
+  },
+  {
+    "tier": "standard",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "fix the failing test in `billing.spec.ts`",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 18000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "asks for a fix"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "the cause of the failure is unknown, so the change is not explicit"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": true,
+          "reason": "bounded fix with a clear acceptance: the test passes"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": false,
+          "reason": "one failing test, no evidence of a cross-module cause"
+        }
+      ],
+      "task_facts": {
+        "edits_code": true,
+        "scope": "single-file",
+        "specification": "partially",
+        "reasoning_depth": "routine",
+        "prior_failures": 0
+      },
+      "confidence": 0.84,
+      "reason": "Diagnose and fix one failing billing test; cause unknown but likely local."
+    }
+  },
+  {
+    "tier": "fast",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "update the copyright year in the LICENSE header to 2026",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 18000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "requests an edit"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": true,
+          "reason": "explicit target and explicit change"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": false,
+          "reason": "mechanical, no behaviour change"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": false,
+          "reason": "no investigation"
+        }
+      ],
+      "task_facts": {
+        "edits_code": true,
+        "scope": "single-file",
+        "specification": "fully-specified",
+        "reasoning_depth": "routine",
+        "prior_failures": 0
+      },
+      "confidence": 0.95,
+      "reason": "Mechanical one-line copyright year update in the LICENSE header."
+    }
+  },
+  {
+    "tier": "fast",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "rename `getUser` to `fetchUser` everywhere",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 18000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "requests an edit"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": true,
+          "reason": "explicit rename, no design needed"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": false,
+          "reason": "mechanical, no behaviour change"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": false,
+          "reason": "no investigation"
+        }
+      ],
+      "task_facts": {
+        "edits_code": true,
+        "scope": "multi-file",
+        "specification": "fully-specified",
+        "reasoning_depth": "routine",
+        "prior_failures": 0
+      },
+      "confidence": 0.9,
+      "reason": "Mechanical rename of getUser to fetchUser across all files that reference it."
+    }
+  },
+  {
+    "tier": "frontier",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "still failing, same error as before. this is the third time",
+        "images": 0
+      },
+      "firstUser": {
+        "text": "make the upload worker retry S3 timeouts instead of crashing"
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 3,
+        "estPromptTokens": 64000,
+        "prevTurnToolCalls": 9,
+        "prevTurnToolErrors": 4
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "asks for a fix"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "not a given change"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": false,
+          "reason": "already failed repeatedly, no longer bounded"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": true,
+          "reason": "work that has already failed twice"
+        }
+      ],
+      "task_facts": {
+        "edits_code": true,
+        "scope": "multi-file",
+        "specification": "partially",
+        "reasoning_depth": "routine",
+        "prior_failures": 2
+      },
+      "confidence": 0.86,
+      "reason": "Third attempt to fix upload worker retries after two failed fixes; needs a fresh diagnosis."
+    }
+  },
+  {
+    "tier": "standard",
+    "card": {
+      "v": "card/v1",
+      "latestUser": {
+        "text": "Bug: `formatBytes(1023)` prints \"1.0 KB\" instead of \"1023 B\". Looks like the threshold comparison in `units.py` uses `<=` where it should use `<`.",
+        "images": 0
+      },
+      "role": {
+        "label": "coding-agent"
+      },
+      "tools": {
+        "names": [
+          "Read",
+          "Grep",
+          "Edit",
+          "Bash"
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "kind": "root"
+      },
+      "stats": {
+        "turnIndex": 0,
+        "estPromptTokens": 26000,
+        "prevTurnToolCalls": 0,
+        "prevTurnToolErrors": 0
+      }
+    },
+    "output": {
+      "rule_assessments": [
+        {
+          "rule_id": "explore-readonly",
+          "matched": false,
+          "reason": "asks for a fix"
+        },
+        {
+          "rule_id": "mechanical-edit",
+          "matched": false,
+          "reason": "the report suggests a fix; it still has to be verified and tested"
+        },
+        {
+          "rule_id": "bounded-change",
+          "matched": true,
+          "reason": "local bug, the report points to the faulty comparison"
+        },
+        {
+          "rule_id": "deep-investigation",
+          "matched": false,
+          "reason": "cause is identified and local"
+        }
+      ],
+      "task_facts": {
+        "edits_code": true,
+        "scope": "single-file",
+        "specification": "partially",
+        "reasoning_depth": "routine",
+        "prior_failures": 0
+      },
+      "confidence": 0.86,
+      "reason": "Verify and fix an off-by-one unit threshold the report points to, with a test."
+    }
+  }
+]

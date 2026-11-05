@@ -1,0 +1,251 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1290" width="1440" height="1290" data-generator="fireworks-tech-graph" data-schema-version="1" data-text-metrics="heuristic-v1" data-style-id="1" data-visual-theme="Flat Icon" data-diagram-type="architecture" data-motion-scene="" data-semantic-profile="generic" data-semantic-valid="true" data-quality-profile="showcase" data-max-bends-per-edge="2" data-max-total-bends="8" data-max-route-stretch="1.35" data-max-bridged-crossings="0" data-min-node-gap="40.0" data-min-container-gutter="20.0" data-min-label-clearance="4.0" data-min-segment-length="16.0">
+  <defs>
+    <marker id="arrowA" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrowB" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+    <marker id="arrowC" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowE" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f97316"/>
+    </marker>
+    <marker id="arrowF" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrowH" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+    </marker>
+    <filter id="shadowSoft" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <filter id="shadowGlass" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#020617" flood-opacity="0.28"/>
+    </filter>
+    <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Noto Sans CJK SC', 'Microsoft YaHei', 'Microsoft JhengHei', 'SimHei', sans-serif; }
+    .title { font-size: 30px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 14px; font-weight: 500; fill: #6b7280; }
+    .section { font-size: 13px; font-weight: 700; fill: #2563eb; letter-spacing: 1.4px; }
+    .section-sub { font-size: 12px; font-weight: 500; fill: #64748b; }
+    .node-title { font-weight: 700; fill: #111827; }
+    .node-sub { font-weight: 500; fill: #6b7280; }
+    .node-type { font-size: 12px; font-weight: 700; fill: #64748b; letter-spacing: 0.08em; }
+    .arrow-label { font-size: 12px; font-weight: 600; fill: #6b7280; }
+    .legend { font-size: 12px; font-weight: 500; fill: #6b7280; }
+    .footnote { font-size: 12px; font-weight: 500; fill: #64748b; }
+    .metric-label { font-size: 8.5px; font-weight: 700; fill: #64748b; text-transform: uppercase; }
+    .metric-value { font-size: 9.5px; font-weight: 700; fill: #111827; }
+    </style>
+  </defs>
+  <rect data-graph-role="background" width="1440.0" height="1290.0" fill="#ffffff"/>
+  <text x="720.0" y="56" text-anchor="middle" class="title">core decide()：路由决策流程</text>
+  <text x="720.0" y="82" text-anchor="middle" class="subtitle">按顺序判断，第一个命中即返回；期望 tier 按 hint → alias → rules → assessor → 默认 先到先得</text>
+  <g id="checks" data-graph-role="container" data-container-id="checks" data-semantic-role="boundary" data-graph-bounds="30,110,1410,750">
+  <rect data-graph-role="container" x="30.0" y="110.0" width="1380.0" height="640.0" rx="16.0" fill="none" stroke="#dbe5f1" stroke-width="1.4" stroke-dasharray="6 5"/>
+  <text x="48.0" y="134.0" class="section">按顺序判断（第一个命中即返回）</text>
+    <rect id="checks-header" data-graph-role="reserved" data-reserved-kind="container-header" x="38" y="116" width="225" height="30" fill="none" stroke="none"/>
+  </g>
+  <g id="tier" data-graph-role="container" data-container-id="tier" data-semantic-role="boundary" data-graph-bounds="30,790,1410,960">
+  <rect data-graph-role="container" x="30.0" y="790.0" width="1380.0" height="170.0" rx="16.0" fill="none" stroke="#dbe5f1" stroke-width="1.4" stroke-dasharray="6 5"/>
+  <text x="48.0" y="814.0" class="section">期望 TIER</text>
+    <rect id="tier-header" data-graph-role="reserved" data-reserved-kind="container-header" x="38" y="796" width="87.46" height="30" fill="none" stroke="none"/>
+  </g>
+  <g id="output" data-graph-role="container" data-container-id="output" data-semantic-role="boundary" data-graph-bounds="30,1000,1410,1210">
+  <rect data-graph-role="container" x="30.0" y="1000.0" width="1380.0" height="210.0" rx="16.0" fill="none" stroke="#dbe5f1" stroke-width="1.4" stroke-dasharray="6 5"/>
+  <text x="48.0" y="1024.0" class="section">输出</text>
+    <rect id="output-header" data-graph-role="reserved" data-reserved-kind="container-header" x="38" y="1006" width="56" height="30" fill="none" stroke="none"/>
+  </g>
+  <path id="mode-observe" data-graph-role="edge" data-edge-id="mode-observe" data-source="o-mode" data-target="o-observe" data-edge-kind="flow" data-topic-id="" data-flow="neutral" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="2" data-route-stretch="1.075" data-bridges="" d="M 1270,1134 L 1270,1170 L 305,1170 L 305,1134" fill="none" stroke="#6b7280" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowH)"/>
+  <path id="pin-yes" data-graph-role="edge" data-edge-id="pin-yes" data-source="q-pin" data-target="r-pin" data-edge-kind="flow" data-topic-id="" data-flow="write" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 470,198 L 640,198" fill="none" stroke="#10b981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowB)"/>
+  <path id="lock-yes" data-graph-role="edge" data-edge-id="lock-yes" data-source="q-lock" data-target="r-lock" data-edge-kind="flow" data-topic-id="" data-flow="write" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 470,318 L 640,318" fill="none" stroke="#10b981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowB)"/>
+  <path id="fail-yes" data-graph-role="edge" data-edge-id="fail-yes" data-source="q-fail" data-target="r-fail" data-edge-kind="flow" data-topic-id="" data-flow="feedback" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 470,438 L 640,438" fill="none" stroke="#ef4444" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowG)"/>
+  <path id="break-yes" data-graph-role="edge" data-edge-id="break-yes" data-source="q-break" data-target="r-break" data-edge-kind="flow" data-topic-id="" data-flow="write" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 470,558 L 640,558" fill="none" stroke="#10b981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowB)"/>
+  <path id="turn-yes" data-graph-role="edge" data-edge-id="turn-yes" data-source="q-turn" data-target="r-turn" data-edge-kind="flow" data-topic-id="" data-flow="write" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 470,678 L 640,678" fill="none" stroke="#10b981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowB)"/>
+  <path id="pin-no" data-graph-role="edge" data-edge-id="pin-no" data-source="q-pin" data-target="q-lock" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 270,236 L 270,280" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="lock-no" data-graph-role="edge" data-edge-id="lock-no" data-source="q-lock" data-target="q-fail" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 270,356 L 270,400" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="fail-no" data-graph-role="edge" data-edge-id="fail-no" data-source="q-fail" data-target="q-break" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 270,476 L 270,520" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="break-no" data-graph-role="edge" data-edge-id="break-no" data-source="q-break" data-target="q-turn" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 270,596 L 270,640" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="turn-tier" data-graph-role="edge" data-edge-id="turn-tier" data-source="q-turn" data-target="t-hint" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 270,716 L 270,840" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="h-a" data-graph-role="edge" data-edge-id="h-a" data-source="t-hint" data-target="t-alias" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 372.5,882 L 417.5,882" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="a-r" data-graph-role="edge" data-edge-id="a-r" data-source="t-alias" data-target="t-rule" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 622.5,882 L 667.5,882" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="r-as" data-graph-role="edge" data-edge-id="r-as" data-source="t-rule" data-target="t-assess" data-edge-kind="flow" data-topic-id="" data-flow="async" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 872.5,882 L 917.5,882" fill="none" stroke="#7c3aed" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowA)"/>
+  <path id="as-d" data-graph-role="edge" data-edge-id="as-d" data-source="t-assess" data-target="t-default" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 1122.5,882 L 1167.5,882" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="d-mode" data-graph-role="edge" data-edge-id="d-mode" data-source="t-default" data-target="o-mode" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 1270,924 L 1270,1050" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="mode-auto" data-graph-role="edge" data-edge-id="mode-auto" data-source="o-mode" data-target="o-auto" data-edge-kind="flow" data-topic-id="" data-flow="write" data-motion-role="" data-motion-stage="" data-motion-order="" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 1155,1092 L 1070,1092" fill="none" stroke="#10b981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowB)"/>
+  <g id="node-q-pin" data-graph-role="node" data-node-id="q-pin" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="70,160,470,236">
+  <rect x="70.0" y="160.0" width="400.0" height="76.0" rx="10.0" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="270.0" y="178.0" text-anchor="middle" class="node-type">判断 1</text>
+  <text data-text-role="title" data-full-text="pin？" data-text-max-width="376.0" x="270.0" y="204.0" text-anchor="middle" class="node-title" font-size="18">pin？</text>
+  <text data-text-role="subtitle" data-full-text="x-router-pin，或 auto 模式下的具体 model id" data-text-max-width="376.0" x="270.0" y="226.0" text-anchor="middle" class="node-sub" font-size="12">x-router-pin，或 auto 模式下的具体 model id</text>
+  </g>
+  <g id="node-q-lock" data-graph-role="node" data-node-id="q-lock" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="70,280,470,356">
+  <rect x="70.0" y="280.0" width="400.0" height="76.0" rx="10.0" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="270.0" y="298.0" text-anchor="middle" class="node-type">判断 2</text>
+  <text data-text-role="title" data-full-text="硬锁？" data-text-max-width="376.0" x="270.0" y="324.0" text-anchor="middle" class="node-title" font-size="18">硬锁？</text>
+  <text data-text-role="subtitle" data-full-text="tool loop · previous_response_id 链 · 不可移植状态" data-text-max-width="376.0" x="270.0" y="346.0" text-anchor="middle" class="node-sub" font-size="12">tool loop · previous_response_id 链 · 不可移植状态</text>
+  </g>
+  <g id="node-q-fail" data-graph-role="node" data-node-id="q-fail" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="70,400,470,476">
+  <rect x="70.0" y="400.0" width="400.0" height="76.0" rx="10.0" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="270.0" y="418.0" text-anchor="middle" class="node-type">判断 3</text>
+  <text data-text-role="title" data-full-text="failover？" data-text-max-width="376.0" x="270.0" y="444.0" text-anchor="middle" class="node-title" font-size="18">failover？</text>
+  <text data-text-role="subtitle" data-full-text="当前模型在 failover 窗口（10 s）内 429 / 5xx" data-text-max-width="376.0" x="270.0" y="466.0" text-anchor="middle" class="node-sub" font-size="12">当前模型在 failover 窗口（10 s）内 429 / 5xx</text>
+  </g>
+  <g id="node-q-break" data-graph-role="node" data-node-id="q-break" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="70,520,470,596">
+  <rect x="70.0" y="520.0" width="400.0" height="76.0" rx="10.0" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="270.0" y="538.0" text-anchor="middle" class="node-type">判断 4</text>
+  <text data-text-role="title" data-full-text="免费断点？" data-text-max-width="376.0" x="270.0" y="564.0" text-anchor="middle" class="node-title" font-size="18">免费断点？</text>
+  <text data-text-role="subtitle" data-full-text="会话/子 agent 开始 · idle &gt; TTL · 压缩 · 前缀重置" data-text-max-width="376.0" x="270.0" y="586.0" text-anchor="middle" class="node-sub" font-size="12">会话/子 agent 开始 · idle &gt; TTL · 压缩 · 前缀重置</text>
+  </g>
+  <g id="node-q-turn" data-graph-role="node" data-node-id="q-turn" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="70,640,470,716">
+  <rect x="70.0" y="640.0" width="400.0" height="76.0" rx="10.0" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="270.0" y="658.0" text-anchor="middle" class="node-type">判断 5</text>
+  <text data-text-role="title" data-full-text="用户新 turn" data-text-max-width="376.0" x="270.0" y="684.0" text-anchor="middle" class="node-title" font-size="18">用户新 turn</text>
+  <text data-text-role="subtitle" data-full-text="最后一条是用户文本（prefill 则 retain）" data-text-max-width="376.0" x="270.0" y="706.0" text-anchor="middle" class="node-sub" font-size="12">最后一条是用户文本（prefill 则 retain）</text>
+  </g>
+  <g id="node-r-pin" data-graph-role="node" data-node-id="r-pin" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="640,160,1360,236">
+  <rect x="640.0" y="160.0" width="720.0" height="76.0" rx="10.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/>
+  <text x="1000.0" y="178.0" text-anchor="middle" class="node-type">pin</text>
+  <text data-text-role="title" data-full-text="原样转发，只计量" data-text-max-width="696.0" x="1000.0" y="204.0" text-anchor="middle" class="node-title" font-size="18">原样转发，只计量</text>
+  <text data-text-role="subtitle" data-full-text="具体 id 必须在 catalog ∩（pool ∪ failover ∪ observe 默认）内" data-text-max-width="696.0" x="1000.0" y="226.0" text-anchor="middle" class="node-sub" font-size="12">具体 id 必须在 catalog ∩（pool ∪ failover ∪ observe 默认）内</text>
+  </g>
+  <g id="node-r-lock" data-graph-role="node" data-node-id="r-lock" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="640,280,1360,356">
+  <rect x="640.0" y="280.0" width="720.0" height="76.0" rx="10.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/>
+  <text x="1000.0" y="298.0" text-anchor="middle" class="node-type">retain</text>
+  <text data-text-role="title" data-full-text="保持当前模型" data-text-max-width="696.0" x="1000.0" y="324.0" text-anchor="middle" class="node-title" font-size="18">保持当前模型</text>
+  <text data-text-role="subtitle" data-full-text="hard-lock-tool-loop / hard-lock-response-chain / hard-lock-state" data-text-max-width="696.0" x="1000.0" y="346.0" text-anchor="middle" class="node-sub" font-size="12">hard-lock-tool-loop / hard-lock-response-chain / hard-lock-state</text>
+  </g>
+  <g id="node-r-fail" data-graph-role="node" data-node-id="r-fail" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="640,400,1360,476">
+  <rect x="640.0" y="400.0" width="720.0" height="76.0" rx="10.0" fill="#fef2f2" stroke="#ef4444" stroke-width="1.8"/>
+  <text x="1000.0" y="418.0" text-anchor="middle" class="node-type">failover</text>
+  <text data-text-role="title" data-full-text="429：同一模型换 profile" data-text-max-width="696.0" x="1000.0" y="444.0" text-anchor="middle" class="node-title" font-size="18">429：同一模型换 profile</text>
+  <text data-text-role="subtitle" data-full-text="5xx 或所有 profile 都失败：换同 tier 兄弟；response 链上从不换" data-text-max-width="696.0" x="1000.0" y="466.0" text-anchor="middle" class="node-sub" font-size="12">5xx 或所有 profile 都失败：换同 tier 兄弟；response 链上从不换</text>
+  </g>
+  <g id="node-r-break" data-graph-role="node" data-node-id="r-break" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="640,520,1360,596">
+  <rect x="640.0" y="520.0" width="720.0" height="76.0" rx="10.0" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="1000.0" y="538.0" text-anchor="middle" class="node-type">initialize / switch</text>
+  <text data-text-role="title" data-full-text="完整决策，没有切换成本" data-text-max-width="696.0" x="1000.0" y="564.0" text-anchor="middle" class="node-title" font-size="18">完整决策，没有切换成本</text>
+  <text data-text-role="subtitle" data-full-text="按期望 tier 选模型；gate 检查上下文窗口和可移植性" data-text-max-width="696.0" x="1000.0" y="586.0" text-anchor="middle" class="node-sub" font-size="12">按期望 tier 选模型；gate 检查上下文窗口和可移植性</text>
+  </g>
+  <g id="node-r-turn" data-graph-role="node" data-node-id="r-turn" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="640,640,1360,716">
+  <rect x="640.0" y="640.0" width="720.0" height="76.0" rx="10.0" fill="#fff7ed" stroke="#f97316" stroke-width="1.8"/>
+  <text x="1000.0" y="658.0" text-anchor="middle" class="node-type">cost gate</text>
+  <text data-text-role="title" data-full-text="升级立即切；降级要过成本门和迟滞" data-text-max-width="696.0" x="1000.0" y="684.0" text-anchor="middle" class="node-title" font-size="18">升级立即切；降级要过成本门和迟滞</text>
+  <text data-text-role="subtitle" data-full-text="stay − switch &gt; max(minUsd, (k−1)·switch)，且满足 minTurns / maxSwitches" data-text-max-width="696.0" x="1000.0" y="706.0" text-anchor="middle" class="node-sub" font-size="12">stay − switch &gt; max(minUsd, (k−1)·switch)，且满足 minTurns / maxSwitches</text>
+  </g>
+  <g id="node-t-hint" data-graph-role="node" data-node-id="t-hint" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="167.5,840,372.5,924">
+  <rect x="167.5" y="840.0" width="205.0" height="84.0" rx="10.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/>
+  <text x="270.0" y="858.0" text-anchor="middle" class="node-type">1</text>
+  <text data-text-role="title" data-full-text="client hint" data-text-max-width="181.0" x="270.0" y="888.0" text-anchor="middle" class="node-title" font-size="18">client hint</text>
+  <text data-text-role="subtitle" data-full-text="x-router-hint tier=" data-text-max-width="181.0" x="270.0" y="910.0" text-anchor="middle" class="node-sub" font-size="12">x-router-hint tier=</text>
+  </g>
+  <g id="node-t-alias" data-graph-role="node" data-node-id="t-alias" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="417.5,840,622.5,924">
+  <rect x="417.5" y="840.0" width="205.0" height="84.0" rx="10.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/>
+  <text x="520.0" y="858.0" text-anchor="middle" class="node-type">2</text>
+  <text data-text-role="title" data-full-text="alias" data-text-max-width="181.0" x="520.0" y="888.0" text-anchor="middle" class="node-title" font-size="18">alias</text>
+  <text data-text-role="subtitle" data-full-text="auto:fast / :standard" data-text-max-width="181.0" x="520.0" y="910.0" text-anchor="middle" class="node-sub" font-size="12">auto:fast / :standard</text>
+  </g>
+  <g id="node-t-rule" data-graph-role="node" data-node-id="t-rule" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="667.5,840,872.5,924">
+  <rect x="667.5" y="840.0" width="205.0" height="84.0" rx="10.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/>
+  <text x="770.0" y="858.0" text-anchor="middle" class="node-type">3</text>
+  <text data-text-role="title" data-full-text="policy rules" data-text-max-width="181.0" x="770.0" y="888.0" text-anchor="middle" class="node-title" font-size="18">policy rules</text>
+  <text data-text-role="subtitle" data-full-text="agentId · lineageKind" data-text-max-width="181.0" x="770.0" y="910.0" text-anchor="middle" class="node-sub" font-size="12">agentId · lineageKind</text>
+  </g>
+  <g id="node-t-assess" data-graph-role="node" data-node-id="t-assess" data-semantic-role="hexagon" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="917.5,840,1122.5,924">
+  <path d="M 939.5 840.0 L 1100.5 840.0 L 1122.5 882.0 L 1100.5 924.0 L 939.5 924.0 L 917.5 882.0 Z" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2.0"/>
+  <text x="1020.0" y="858.0" text-anchor="middle" class="node-type">4</text>
+  <text data-text-role="title" data-full-text="assessor" data-text-max-width="153.0" x="1020.0" y="888.0" text-anchor="middle" class="node-title" font-size="18">assessor</text>
+  <text data-text-role="subtitle" data-full-text="置信度 ≥ 0.8" data-text-max-width="153.0" x="1020.0" y="910.0" text-anchor="middle" class="node-sub" font-size="12">置信度 ≥ 0.8</text>
+  </g>
+  <g id="node-t-default" data-graph-role="node" data-node-id="t-default" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="1167.5,840,1372.5,924">
+  <rect x="1167.5" y="840.0" width="205.0" height="84.0" rx="10.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/>
+  <text x="1270.0" y="858.0" text-anchor="middle" class="node-type">5</text>
+  <text data-text-role="title" data-full-text="pool default" data-text-max-width="181.0" x="1270.0" y="888.0" text-anchor="middle" class="node-title" font-size="18">pool default</text>
+  <text data-text-role="subtitle" data-full-text="默认 standard" data-text-max-width="181.0" x="1270.0" y="910.0" text-anchor="middle" class="node-sub" font-size="12">默认 standard</text>
+  </g>
+  <g id="node-o-observe" data-graph-role="node" data-node-id="o-observe" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="70,1050,540,1134">
+  <rect x="70.0" y="1050.0" width="470.0" height="84.0" rx="10.0" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.8"/>
+  <text x="305.0" y="1068.0" text-anchor="middle" class="node-type">observe</text>
+  <text data-text-role="title" data-full-text="服务 observeDefaults" data-text-max-width="446.0" x="305.0" y="1098.0" text-anchor="middle" class="node-title" font-size="18">服务 observeDefaults</text>
+  <text data-text-role="subtitle" data-full-text="auto 会选的模型写入 wouldChoose（只进日志）" data-text-max-width="446.0" x="305.0" y="1120.0" text-anchor="middle" class="node-sub" font-size="12">auto 会选的模型写入 wouldChoose（只进日志）</text>
+  </g>
+  <g id="node-o-auto" data-graph-role="node" data-node-id="o-auto" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="600,1050,1070,1134">
+  <rect x="600.0" y="1050.0" width="470.0" height="84.0" rx="10.0" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="835.0" y="1068.0" text-anchor="middle" class="node-type">auto</text>
+  <text data-text-role="title" data-full-text="服务选中的模型" data-text-max-width="446.0" x="835.0" y="1098.0" text-anchor="middle" class="node-title" font-size="18">服务选中的模型</text>
+  <text data-text-role="subtitle" data-full-text="assessor 把 frontier 往下拉时被钳制（guard）" data-text-max-width="446.0" x="835.0" y="1120.0" text-anchor="middle" class="node-sub" font-size="12">assessor 把 frontier 往下拉时被钳制（guard）</text>
+  </g>
+  <g id="node-o-mode" data-graph-role="node" data-node-id="o-mode" data-semantic-role="hexagon" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="1155,1050,1385,1134">
+  <path d="M 1177.0 1050.0 L 1363.0 1050.0 L 1385.0 1092.0 L 1363.0 1134.0 L 1177.0 1134.0 L 1155.0 1092.0 Z" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2.0"/>
+  <text data-text-role="title" data-full-text="policy.mode" data-text-max-width="178.0" x="1270.0" y="1092.0" text-anchor="middle" class="node-title" font-size="18">policy.mode</text>
+  <text data-text-role="subtitle" data-full-text="observe / auto" data-text-max-width="178.0" x="1270.0" y="1114.0" text-anchor="middle" class="node-sub" font-size="12">observe / auto</text>
+  </g>
+  <g id="pin-yes-label" data-graph-role="label" data-owner="pin-yes" data-graph-bounds="537,167,573,187">
+  <rect x="537.0" y="167.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="555.0" y="181.0" text-anchor="middle" class="arrow-label">是</text>
+  </g>
+  <g id="lock-yes-label" data-graph-role="label" data-owner="lock-yes" data-graph-bounds="537,287,573,307">
+  <rect x="537.0" y="287.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="555.0" y="301.0" text-anchor="middle" class="arrow-label">是</text>
+  </g>
+  <g id="fail-yes-label" data-graph-role="label" data-owner="fail-yes" data-graph-bounds="537,407,573,427">
+  <rect x="537.0" y="407.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="555.0" y="421.0" text-anchor="middle" class="arrow-label">是</text>
+  </g>
+  <g id="break-yes-label" data-graph-role="label" data-owner="break-yes" data-graph-bounds="537,527,573,547">
+  <rect x="537.0" y="527.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="555.0" y="541.0" text-anchor="middle" class="arrow-label">是</text>
+  </g>
+  <g id="turn-yes-label" data-graph-role="label" data-owner="turn-yes" data-graph-bounds="537,647,573,667">
+  <rect x="537.0" y="647.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="555.0" y="661.0" text-anchor="middle" class="arrow-label">是</text>
+  </g>
+  <g id="pin-no-label" data-graph-role="label" data-owner="pin-no" data-graph-bounds="230,244,266,264">
+  <rect x="230.0" y="244.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="248.0" y="258.0" text-anchor="middle" class="arrow-label">否</text>
+  </g>
+  <g id="lock-no-label" data-graph-role="label" data-owner="lock-no" data-graph-bounds="230,364,266,384">
+  <rect x="230.0" y="364.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="248.0" y="378.0" text-anchor="middle" class="arrow-label">否</text>
+  </g>
+  <g id="fail-no-label" data-graph-role="label" data-owner="fail-no" data-graph-bounds="230,484,266,504">
+  <rect x="230.0" y="484.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="248.0" y="498.0" text-anchor="middle" class="arrow-label">否</text>
+  </g>
+  <g id="break-no-label" data-graph-role="label" data-owner="break-no" data-graph-bounds="230,604,266,624">
+  <rect x="230.0" y="604.0" width="36.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="248.0" y="618.0" text-anchor="middle" class="arrow-label">否</text>
+  </g>
+  <g id="turn-tier-label" data-graph-role="label" data-owner="turn-tier" data-graph-bounds="199.96,764,267,784">
+  <rect x="199.96" y="764.0" width="67.03999999999999" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="233.48" y="778.0" text-anchor="middle" class="arrow-label">期望 tier</text>
+  </g>
+  <g id="d-mode-label" data-graph-role="label" data-owner="d-mode" data-graph-bounds="1193,973,1267,993">
+  <rect x="1193.0" y="973.0" width="74.0" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="1230.0" y="987.0" text-anchor="middle" class="arrow-label">选出的模型</text>
+  </g>
+  <g id="mode-auto-label" data-graph-role="label" data-owner="mode-auto" data-graph-bounds="1091.58,1061,1133.42,1081">
+  <rect x="1091.58" y="1061.0" width="41.839999999999996" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="1112.5" y="1075.0" text-anchor="middle" class="arrow-label">auto</text>
+  </g>
+  <g id="mode-observe-label" data-graph-role="label" data-owner="mode-observe" data-graph-bounds="756.14,1139,818.86,1159">
+  <rect x="756.14" y="1139.0" width="62.72" height="20" rx="6" fill="#ffffff" opacity="0.94"/>
+  <text x="787.5" y="1153.0" text-anchor="middle" class="arrow-label">observe</text>
+  </g>
+  <g id="legend" data-graph-role="legend">
+    <rect id="legend-zone" data-graph-role="reserved" data-reserved-kind="legend" x="38" y="1231" width="535.12" height="46" rx="10" fill="none" stroke="none"/>
+    <line data-graph-role="decoration" x1="48.0" y1="1245.0" x2="78.0" y2="1245.0" stroke="#2563eb" stroke-width="2.4" marker-end="url(#arrowC)"/>
+    <text data-graph-role="decoration" x="88.0" y="1249.0" class="legend">继续判断</text>
+    <line data-graph-role="decoration" x1="164.0" y1="1245.0" x2="194.0" y2="1245.0" stroke="#10b981" stroke-width="2.4" marker-end="url(#arrowB)"/>
+    <text data-graph-role="decoration" x="204.0" y="1249.0" class="legend">命中并返回</text>
+    <line data-graph-role="decoration" x1="292.0" y1="1245.0" x2="322.0" y2="1245.0" stroke="#ef4444" stroke-width="2.4" marker-end="url(#arrowG)"/>
+    <text data-graph-role="decoration" x="332.0" y="1249.0" class="legend">failover</text>
+    <line data-graph-role="decoration" x1="409.44" y1="1245.0" x2="439.44" y2="1245.0" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#arrowA)"/>
+    <text data-graph-role="decoration" x="449.44" y="1249.0" class="legend">assessor（可选）</text>
+  </g>
+</svg>

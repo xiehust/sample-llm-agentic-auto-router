@@ -1,0 +1,9 @@
+{
+  "app": "node src/app.ts",
+  "output": "cdk.out",
+  "context": {
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/core:validateSnapshotRemovalPolicy": true
+  }
+}

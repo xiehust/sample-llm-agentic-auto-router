@@ -1,0 +1,111 @@
+{
+  "capturedAt": "2026-11-04",
+  "region": "ap-southeast-1",
+  "call": "pricing:GetProducts (endpoint us-east-1) ServiceCode in ['AmazonBedrockFoundationModels', 'AmazonBedrock'], Filter regionCode=ap-southeast-1; on-demand standard rows only; usagetype region prefix stripped; USD per 1M tokens",
+  "rows": {
+    "Claude Fable 5": {
+      "cache_read_tokens_global_standard": 1.0,
+      "cache_write_tokens_1h_global_standard": 20.0,
+      "cache_write_tokens_global_standard": 12.5,
+      "input_tokens_global_standard": 10.0,
+      "output_tokens_global_standard": 50.0
+    },
+    "Claude Fable 5.1": {
+      "cache_read_tokens_global_standard": 0.25,
+      "cache_write_tokens_1h_global_standard": 20.0,
+      "cache_write_tokens_global_standard": 12.5,
+      "input_tokens_global_standard": 10.0,
+      "output_tokens_global_standard": 50.0
+    },
+    "Claude Haiku 4.5": {
+      "CacheReadInputTokenCount_Global": 0.1,
+      "CacheWrite1hInputTokenCount_Global": 2.0,
+      "CacheWriteInputTokenCount_Global": 1.25,
+      "InputTokenCount_Global": 1.0,
+      "OutputTokenCount_Global": 5.0
+    },
+    "Claude Haiku 5.5": {
+      "cache_read_tokens_global_standard": 0.01,
+      "cache_read_tokens_long_ctx_global_standard": 0.05,
+      "cache_write_tokens_1h_global_standard": 0.2,
+      "cache_write_tokens_1h_long_ctx_global_standard": 1.0,
+      "cache_write_tokens_global_standard": 0.125,
+      "cache_write_tokens_long_ctx_global_standard": 0.625,
+      "input_tokens_global_standard": 0.1,
+      "input_tokens_long_ctx_global_standard": 0.5,
+      "output_tokens_global_standard": 0.5,
+      "output_tokens_long_ctx_global_standard": 2.5
+    },
+    "Claude Opus 4.7": {
+      "cache_read_tokens_global_standard": 0.5,
+      "cache_write_tokens_1h_global_standard": 10.0,
+      "cache_write_tokens_global_standard": 6.25,
+      "input_tokens_global_standard": 5.0,
+      "output_tokens_global_standard": 25.0
+    },
+    "Claude Opus 4.8": {
+      "cache_read_tokens_global_standard": 0.5,
+      "cache_write_tokens_1h_global_standard": 10.0,
+      "cache_write_tokens_global_standard": 6.25,
+      "input_tokens_global_standard": 5.0,
+      "output_tokens_global_standard": 25.0
+    },
+    "Claude Opus 5": {
+      "cache_read_tokens_global_standard": 0.5,
+      "cache_write_tokens_1h_global_standard": 10.0,
+      "cache_write_tokens_global_standard": 6.25,
+      "input_tokens_global_standard": 5.0,
+      "output_tokens_global_standard": 25.0
+    },
+    "Claude Opus 5.5": {
+      "cache_read_tokens_global_standard": 0.2,
+      "cache_write_tokens_1h_global_standard": 8.0,
+      "cache_write_tokens_global_standard": 5.0,
+      "input_tokens_global_standard": 4.0,
+      "output_tokens_global_standard": 20.0
+    },
+    "Claude Sonnet 5": {
+      "cache_read_tokens_global_standard": 0.2,
+      "cache_read_tokens_standard": 0.22,
+      "cache_write_tokens_1h_global_standard": 4.0,
+      "cache_write_tokens_1h_standard": 4.4,
+      "cache_write_tokens_global_standard": 2.5,
+      "cache_write_tokens_standard": 2.75,
+      "input_tokens_global_standard": 2.0,
+      "input_tokens_standard": 2.2,
+      "output_tokens_global_standard": 10.0,
+      "output_tokens_standard": 11.0
+    },
+    "Claude Sonnet 5.5": {
+      "cache_read_tokens_global_standard": 0.1,
+      "cache_write_tokens_1h_global_standard": 4.0,
+      "cache_write_tokens_global_standard": 2.5,
+      "input_tokens_global_standard": 2.0,
+      "output_tokens_global_standard": 10.0
+    },
+    "Kimi K3": {
+      "moonshotai.kimi-k3-mantle-cache-read-tokens-global-standard": 0.3,
+      "moonshotai.kimi-k3-mantle-cache-read-tokens-standard": 0.33,
+      "moonshotai.kimi-k3-mantle-cache-write-tokens-30m-global-standard": 3.75,
+      "moonshotai.kimi-k3-mantle-cache-write-tokens-30m-standard": 4.125,
+      "moonshotai.kimi-k3-mantle-input-tokens-global-standard": 3.0,
+      "moonshotai.kimi-k3-mantle-input-tokens-standard": 3.3,
+      "moonshotai.kimi-k3-mantle-output-tokens-global-standard": 15.0,
+      "moonshotai.kimi-k3-mantle-output-tokens-standard": 16.5
+    },
+    "OpenAI GPT-6 Astra": {
+      "cache_read_tokens_global_standard": 1.0,
+      "cache_read_tokens_long_ctx_global_standard": 2.0,
+      "cache_write_tokens_30m_global_standard": 12.5,
+      "cache_write_tokens_30m_long_ctx_global_standard": 25.0,
+      "input_tokens_global_standard": 10.0,
+      "input_tokens_long_ctx_global_standard": 20.0,
+      "output_tokens_global_standard": 50.0,
+      "output_tokens_long_ctx_global_standard": 75.0
+    }
+  },
+  "fallback": {},
+  "missing": [
+    "Kimi K2.5"
+  ]
+}

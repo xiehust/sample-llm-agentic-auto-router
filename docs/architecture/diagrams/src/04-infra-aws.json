@@ -1,0 +1,314 @@
+{
+ "schema_version": 1,
+ "mode": "architecture",
+ "template_type": "architecture",
+ "style": 10,
+ "semantic_profile": "cloud-fabric",
+ "diagram_type": "deployment",
+ "platform_profile": "aws",
+ "deployment_mode": "REGION = DEPLOY PARAMETER",
+ "icon_manifest_version": "2026.07-neutral.1",
+ "quality_profile": "showcase",
+ "text_policy": "strict",
+ "width": 1680,
+ "height": 1010,
+ "title": "基础设施（AWS，单 Region）",
+ "subtitle": "Region 是部署参数（-c region）；router 只在无 IGW / 无 NAT 的私有子网里，经私有 REST API hop 被 gateway 调用",
+ "containers": [
+  {
+   "id": "clients",
+   "deployment_kind": "global",
+   "x": 30,
+   "y": 110,
+   "width": 1610,
+   "height": 136,
+   "label": "Agent 客户端（Internet）"
+  },
+  {
+   "id": "region",
+   "deployment_kind": "region",
+   "x": 30,
+   "y": 270,
+   "width": 1610,
+   "height": 620,
+   "label": "Region <region>"
+  },
+  {
+   "id": "vpc",
+   "deployment_kind": "network",
+   "parent": "region",
+   "x": 310,
+   "y": 480,
+   "width": 1120,
+   "height": 380,
+   "label": "VPC"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "client",
+   "kind": "cloud_service",
+   "deployment_kind": "edge",
+   "deployment_id": "clients",
+   "icon_id": "generic:traffic",
+   "provider": "SDK",
+   "x": 90,
+   "y": 152,
+   "width": 200,
+   "height": 72,
+   "label": "Agent 客户端",
+   "sublabel": "Claude Code / SDK"
+  },
+  {
+   "id": "cognito",
+   "kind": "cloud_service",
+   "deployment_kind": "identity",
+   "deployment_id": "region",
+   "icon_id": "generic:database",
+   "provider": "AWS",
+   "x": 90,
+   "y": 340,
+   "width": 200,
+   "height": 72,
+   "label": "Cognito user pool",
+   "sublabel": "client credentials"
+  },
+  {
+   "id": "gateway",
+   "kind": "cloud_service",
+   "deployment_kind": "gateway",
+   "deployment_id": "region",
+   "icon_id": "generic:gateway",
+   "provider": "AWS",
+   "x": 360,
+   "y": 340,
+   "width": 220,
+   "height": 72,
+   "label": "AgentCore Gateway",
+   "sublabel": "CUSTOM_JWT · role"
+  },
+  {
+   "id": "api",
+   "kind": "cloud_service",
+   "deployment_kind": "gateway",
+   "deployment_id": "region",
+   "icon_id": "generic:gateway",
+   "provider": "AWS",
+   "x": 620,
+   "y": 340,
+   "width": 220,
+   "height": 72,
+   "label": "私有 REST API",
+   "sublabel": "AWS_IAM · 资源策略"
+  },
+  {
+   "id": "bedrock",
+   "kind": "cloud_service",
+   "deployment_kind": "compute",
+   "deployment_id": "region",
+   "icon_id": "generic:compute",
+   "provider": "AWS",
+   "x": 1180,
+   "y": 340,
+   "width": 220,
+   "height": 72,
+   "label": "Bedrock runtime",
+   "sublabel": "inference profiles"
+  },
+  {
+   "id": "cw",
+   "kind": "cloud_service",
+   "deployment_kind": "observability",
+   "deployment_id": "region",
+   "icon_id": "generic:observability",
+   "provider": "AWS",
+   "x": 1455,
+   "y": 540,
+   "width": 165,
+   "height": 72,
+   "label": "CloudWatch",
+   "sublabel": "Logs · EMF"
+  },
+  {
+   "id": "pe",
+   "kind": "cloud_service",
+   "deployment_kind": "network",
+   "deployment_id": "vpc",
+   "icon_id": "generic:gateway",
+   "provider": "AWS",
+   "x": 360,
+   "y": 540,
+   "width": 220,
+   "height": 72,
+   "label": "托管私有端点",
+   "sublabel": "resource gateway ENI"
+  },
+  {
+   "id": "vpce",
+   "kind": "cloud_service",
+   "deployment_kind": "network",
+   "deployment_id": "vpc",
+   "icon_id": "generic:gateway",
+   "provider": "AWS",
+   "x": 620,
+   "y": 540,
+   "width": 220,
+   "height": 72,
+   "label": "execute-api VPCE",
+   "sublabel": "仅 gateway role"
+  },
+  {
+   "id": "nlb",
+   "kind": "cloud_service",
+   "deployment_kind": "network",
+   "deployment_id": "vpc",
+   "icon_id": "generic:gateway",
+   "provider": "AWS",
+   "x": 900,
+   "y": 540,
+   "width": 220,
+   "height": 72,
+   "label": "internal NLB",
+   "sublabel": "TCP 8080 · 无入站规则"
+  },
+  {
+   "id": "router",
+   "kind": "cloud_service",
+   "deployment_kind": "compute",
+   "deployment_id": "vpc",
+   "icon_id": "generic:compute",
+   "provider": "AWS",
+   "x": 900,
+   "y": 740,
+   "width": 220,
+   "height": 72,
+   "label": "ECS Fargate router",
+   "sublabel": "ARM64 · task role"
+  },
+  {
+   "id": "egress",
+   "kind": "cloud_service",
+   "deployment_kind": "network",
+   "deployment_id": "vpc",
+   "icon_id": "generic:stream",
+   "provider": "AWS",
+   "x": 1180,
+   "y": 740,
+   "width": 220,
+   "height": 72,
+   "label": "VPC endpoints（无 NAT）",
+   "sublabel": "bedrock · ECR · Logs · S3"
+  }
+ ],
+ "arrows": [
+  {
+   "id": "token",
+   "source": "client",
+   "target": "cognito",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "via": "取 token"
+  },
+  {
+   "id": "invoke",
+   "source": "client",
+   "target": "gateway",
+   "source_port": "right",
+   "target_port": "top",
+   "flow": "read",
+   "via": "HTTPS · JWT"
+  },
+  {
+   "id": "to-pe",
+   "source": "gateway",
+   "target": "pe",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "via": "SigV4 execute-api"
+  },
+  {
+   "id": "to-vpce",
+   "source": "pe",
+   "target": "vpce",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "to-api",
+   "source": "vpce",
+   "target": "api",
+   "source_port": "top",
+   "target_port": "bottom",
+   "flow": "read",
+   "via": "aws:SourceVpce"
+  },
+  {
+   "id": "vpc-link",
+   "source": "api",
+   "target": "nlb",
+   "source_port": "right",
+   "target_port": "top",
+   "flow": "read",
+   "via": "VPC link"
+  },
+  {
+   "id": "to-router",
+   "source": "nlb",
+   "target": "router",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read"
+  },
+  {
+   "id": "egress-out",
+   "source": "router",
+   "target": "egress",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "write"
+  },
+  {
+   "id": "to-bedrock",
+   "source": "egress",
+   "target": "bedrock",
+   "source_port": "top",
+   "target_port": "bottom",
+   "flow": "write",
+   "via": "SigV4 bedrock"
+  },
+  {
+   "id": "to-cw",
+   "source": "egress",
+   "target": "cw",
+   "source_port": "right",
+   "target_port": "bottom",
+   "flow": "async",
+   "via": "日志 + EMF",
+   "dashed": true
+  }
+ ],
+ "legend_orientation": "horizontal",
+ "legend_x": 48,
+ "legend_y": 930,
+ "legend_locked": true,
+ "legend": [
+  {
+   "flow": "read",
+   "label": "入站与 hop（逐跳鉴权）"
+  },
+  {
+   "flow": "write",
+   "label": "router 出站（仅 VPC 端点）"
+  },
+  {
+   "flow": "async",
+   "label": "可观测性"
+  }
+ ],
+ "footer": "Style 10 · Cloud Fabric · 占位符：<region> <account> <api-id>，不含任何真实 id",
+ "footer_x": 48,
+ "footer_y": 985
+}

@@ -1,0 +1,249 @@
+{
+  "capturedAt": "2026-11-04",
+  "region": "ap-southeast-1",
+  "note": "Filtered to anthropic/openai/moonshot/amazon.nova ids. Calls: bedrock:ListInferenceProfiles(typeEquals=SYSTEM_DEFINED, ACTIVE), bedrock:ListFoundationModels.",
+  "inferenceProfileIds": [
+    "apac.amazon.nova-lite-v1:0",
+    "apac.amazon.nova-micro-v1:0",
+    "apac.amazon.nova-pro-v1:0",
+    "apac.anthropic.claude-3-5-sonnet-20240620-v1:0",
+    "apac.anthropic.claude-3-5-sonnet-20241022-v2:0",
+    "apac.anthropic.claude-3-haiku-20240307-v1:0",
+    "apac.anthropic.claude-3-sonnet-20240229-v1:0",
+    "global.amazon.nova-2-lite-v1:0",
+    "global.anthropic.claude-fable-5",
+    "global.anthropic.claude-fable-5-1",
+    "global.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "global.anthropic.claude-haiku-5-5",
+    "global.anthropic.claude-opus-4-5-20251101-v1:0",
+    "global.anthropic.claude-opus-4-6-v1",
+    "global.anthropic.claude-opus-4-7",
+    "global.anthropic.claude-opus-4-8",
+    "global.anthropic.claude-opus-5",
+    "global.anthropic.claude-opus-5-5",
+    "global.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "global.anthropic.claude-sonnet-4-6",
+    "global.anthropic.claude-sonnet-5",
+    "global.anthropic.claude-sonnet-5-5",
+    "global.moonshotai.kimi-k3",
+    "global.openai.gpt-5.4",
+    "global.openai.gpt-5.5",
+    "global.openai.gpt-5.6-luna",
+    "global.openai.gpt-5.6-sol",
+    "global.openai.gpt-5.6-terra",
+    "global.openai.gpt-6-astra",
+    "global.openai.gpt-6-luna",
+    "global.openai.gpt-6-sol",
+    "global.openai.gpt-6.1-sol",
+    "global.openai.gpt-6.1-terra"
+  ],
+  "foundationModels": [
+    {
+      "modelId": "amazon.nova-2-lite-v1:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "amazon.nova-lite-v1:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "amazon.nova-micro-v1:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "amazon.nova-pro-v1:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-3-5-sonnet-20240620-v1:0",
+      "inferenceTypesSupported": [
+        "ON_DEMAND"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-3-haiku-20240307-v1:0",
+      "inferenceTypesSupported": [
+        "ON_DEMAND"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-3-sonnet-20240229-v1:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-3-sonnet-20240229-v1:0:200k",
+      "inferenceTypesSupported": []
+    },
+    {
+      "modelId": "anthropic.claude-3-sonnet-20240229-v1:0:28k",
+      "inferenceTypesSupported": []
+    },
+    {
+      "modelId": "anthropic.claude-fable-5",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-fable-5-1",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-haiku-4-5-20251001-v1:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-haiku-5-5",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-opus-4-5-20251101-v1:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-opus-4-6-v1",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-opus-4-7",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-opus-4-8",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-opus-5",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-opus-5-5",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-sonnet-4-6",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-sonnet-5",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE",
+        "ON_DEMAND"
+      ]
+    },
+    {
+      "modelId": "anthropic.claude-sonnet-5-5",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "moonshotai.kimi-k3",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-5.4",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-5.5",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-5.6-luna",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-5.6-sol",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-5.6-terra",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-6-astra",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-6-luna",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-6-sol",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-6.1-sol",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    },
+    {
+      "modelId": "openai.gpt-6.1-terra",
+      "inferenceTypesSupported": [
+        "INFERENCE_PROFILE"
+      ]
+    }
+  ]
+}

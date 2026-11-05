@@ -1,0 +1,30 @@
+[
+  {
+    "id": "explore-readonly",
+    "tier": "fast",
+    "enabled": true,
+    "auto": false,
+    "instruction": "Read-only exploration or lookup: find files, grep, list usages, summarise code, or answer where or what something is. No edits are requested and no bug has to be diagnosed."
+  },
+  {
+    "id": "mechanical-edit",
+    "tier": "fast",
+    "enabled": true,
+    "auto": false,
+    "instruction": "A fully specified mechanical change that the request itself commands: rename, apply a given diff, bump a version, fix a typo or an import, change a named value. Target and exact change are explicit. An issue or bug report that describes wrong behaviour and suggests or sketches a fix is NOT a specified change: the suggestion must still be verified and tested, so judge it as bounded-change or deep-investigation."
+  },
+  {
+    "id": "bounded-change",
+    "tier": "standard",
+    "enabled": true,
+    "auto": false,
+    "instruction": "Implement or fix a bounded feature or bug in known code with clear acceptance, typical pull-request-sized work. Includes a reproducible bug in one feature or function even when its exact cause is not yet located, and a bug report that points to the faulty code or suggests a fix."
+  },
+  {
+    "id": "deep-investigation",
+    "tier": "frontier",
+    "enabled": true,
+    "auto": false,
+    "instruction": "The difficulty is in the reasoning: a bug whose symptoms depend on the interaction of several components or conditions, or on subtle semantics (parsing, numerics, caching, query generation, type or import machinery), with the cause not located; concurrency, security or performance analysis; a fix that needs a decision about intended behaviour or API between alternatives; a large or cross-module change; or work that already failed twice."
+  }
+]

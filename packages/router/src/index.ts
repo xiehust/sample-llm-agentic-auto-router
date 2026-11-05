@@ -1,0 +1,13 @@
+// @auto-router/router: data plane behind AgentCore Gateway (task 11-04-router-dataplane-mvp).
+export { createRouter, modelList, type CardBuilder, type LogSlot, type Router, type RouterDeps } from './server.ts'
+export { ConfigError, DEFAULT_TIMEOUTS, loadConfig, type Timeouts, type ChatIncludeUsage, type Fault, type Hints, type HopAuth, type RouterConfig } from './config.ts'
+export { createInboundCheck, type InboundCheck, type InboundResult } from './inbound.ts'
+export { createBedrockPost, createSigV4Signer, forward, upstreamHeaders, type ForwardOptions, type Signer } from './forward.ts'
+export { BodyError, removeTopLevelKey, spliceTopLevel, topLevelMembers } from './body.ts'
+export { applyBodyHints, coreHeaders } from './hints.ts'
+export { routeOf, type Route } from './routes.ts'
+export { HEARTBEAT, IdleTimeoutError, relay, SseFramer, stripChatUsage, type RelayResult } from './stream.ts'
+export { betaVeto, DEFAULT_BETA_TABLE, parseBetas, rejectedBeta, type BetaTable, type PoolModel, type VetoContext } from './beta.ts'
+export { allowedModels, poolTiers } from './models.ts'
+export { failoverTargets, RETRYABLE_STATUS } from './failover.ts'
+export { emf, hopTokenOf, LOGGED_HEADERS, type HopToken, type LogSink, type RequestLog } from './account.ts'

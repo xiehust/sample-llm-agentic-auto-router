@@ -1,0 +1,30 @@
+[
+  {
+    "id": "explore-readonly",
+    "tier": "fast",
+    "enabled": true,
+    "auto": false,
+    "instruction": "Read-only exploration or lookup: find files, grep, list usages, summarise code, or answer where or what something is. No edits are requested."
+  },
+  {
+    "id": "mechanical-edit",
+    "tier": "fast",
+    "enabled": true,
+    "auto": false,
+    "instruction": "A fully specified mechanical change: rename, apply a given diff, bump a version, fix a typo or an import. Both the target and the change are explicit, so no diagnosis or design is needed."
+  },
+  {
+    "id": "bounded-change",
+    "tier": "standard",
+    "enabled": true,
+    "auto": false,
+    "instruction": "Implement or fix a bounded feature or bug in known code with clear acceptance, typical pull-request-sized work. Includes fixing a failing test or bug whose cause is not yet known but is likely local."
+  },
+  {
+    "id": "deep-investigation",
+    "tier": "frontier",
+    "enabled": true,
+    "auto": false,
+    "instruction": "An unclear root cause across modules; concurrency, security or performance analysis; architecture or design trade-offs; a large refactor; or work that has already failed twice."
+  }
+]

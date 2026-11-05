@@ -1,0 +1,306 @@
+{
+ "schema_version": 1,
+ "mode": "architecture",
+ "template_type": "architecture",
+ "style": 1,
+ "quality_profile": "showcase",
+ "text_policy": "strict",
+ "width": 1530,
+ "height": 760,
+ "title": "llm-auto-router 逻辑架构",
+ "subtitle": "AgentCore Gateway 做统一入口，自建 router 选模型并按字节转发到 Bedrock runtime",
+ "containers": [
+  {
+   "id": "edge",
+   "x": 30,
+   "y": 110,
+   "width": 1470,
+   "height": 138,
+   "label": "接入层：Agent 客户端 + AgentCore Gateway"
+  },
+  {
+   "id": "router",
+   "x": 30,
+   "y": 290,
+   "width": 1470,
+   "height": 150,
+   "label": "router 服务（ECS Fargate）：每个请求的处理管线"
+  },
+  {
+   "id": "backend",
+   "x": 30,
+   "y": 490,
+   "width": 1470,
+   "height": 150,
+   "label": "模型与离线评估"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "client",
+   "kind": "rect",
+   "x": 60,
+   "y": 146,
+   "width": 180,
+   "height": 76,
+   "label": "Agent 客户端",
+   "sublabel": "Claude Code · OpenAI SDK",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true,
+   "type_label": "AGENT"
+  },
+  {
+   "id": "gateway",
+   "kind": "double_rect",
+   "x": 360,
+   "y": 146,
+   "width": 180,
+   "height": 76,
+   "type_label": "CUSTOM_JWT",
+   "label": "AgentCore Gateway",
+   "sublabel": "/inference · rule auto*",
+   "fill": "#faf5ff",
+   "stroke": "#8b5cf6",
+   "flat": true
+  },
+  {
+   "id": "fallback",
+   "kind": "rect",
+   "x": 1260,
+   "y": 146,
+   "width": 180,
+   "height": 76,
+   "type_label": "FALLBACK",
+   "label": "bedrock target",
+   "sublabel": "固定模型",
+   "fill": "#fef2f2",
+   "stroke": "#dc2626",
+   "flat": true
+  },
+  {
+   "id": "summarize",
+   "kind": "rect",
+   "x": 360,
+   "y": 336,
+   "width": 180,
+   "height": 76,
+   "type_label": "core",
+   "label": "summarize",
+   "sublabel": "lineage · 前缀哈希 · 锁",
+   "fill": "#ffffff",
+   "stroke": "#cbd5e1",
+   "flat": true
+  },
+  {
+   "id": "decide",
+   "kind": "double_rect",
+   "x": 660,
+   "y": 336,
+   "width": 180,
+   "height": 76,
+   "type_label": "core",
+   "label": "decide",
+   "sublabel": "断点 · 成本门 · 迟滞",
+   "fill": "#faf5ff",
+   "stroke": "#8b5cf6",
+   "flat": true
+  },
+  {
+   "id": "forward",
+   "kind": "rect",
+   "x": 960,
+   "y": 336,
+   "width": 180,
+   "height": 76,
+   "type_label": "router",
+   "label": "forward",
+   "sublabel": "改 model 字段 · SigV4",
+   "fill": "#fff7ed",
+   "stroke": "#f97316",
+   "flat": true
+  },
+  {
+   "id": "record",
+   "kind": "rect",
+   "x": 1260,
+   "y": 336,
+   "width": 180,
+   "height": 76,
+   "type_label": "pricing + core",
+   "label": "record",
+   "sublabel": "usage · 成本 · 缓存状态",
+   "fill": "#f0fdf4",
+   "stroke": "#16a34a",
+   "flat": true
+  },
+  {
+   "id": "replay",
+   "kind": "rect",
+   "x": 60,
+   "y": 536,
+   "width": 180,
+   "height": 76,
+   "type_label": "replay（离线）",
+   "label": "replay 评估器",
+   "sublabel": "复用 core + pricing",
+   "fill": "#f0fdfa",
+   "stroke": "#14b8a6",
+   "flat": true
+  },
+  {
+   "id": "assessor",
+   "kind": "hexagon",
+   "x": 660,
+   "y": 536,
+   "width": 180,
+   "height": 76,
+   "type_label": "assessor",
+   "label": "tier assessor",
+   "sublabel": "observe 优先",
+   "fill": "#fff7ed",
+   "stroke": "#f97316",
+   "flat": true
+  },
+  {
+   "id": "bedrock",
+   "kind": "cylinder",
+   "x": 960,
+   "y": 536,
+   "width": 180,
+   "height": 76,
+   "label": "Bedrock runtime",
+   "sublabel": "/anthropic · /openai",
+   "fill": "#ecfdf5",
+   "stroke": "#10b981"
+  }
+ ],
+ "arrows": [
+  {
+   "id": "invoke",
+   "source": "client",
+   "target": "gateway",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read",
+   "label": "Bearer JWT"
+  },
+  {
+   "id": "to-router",
+   "source": "gateway",
+   "target": "summarize",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "label": "SigV4 execute-api"
+  },
+  {
+   "id": "fallback-route",
+   "source": "gateway",
+   "target": "fallback",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "feedback",
+   "label": "router 5XX 时回退",
+   "dashed": true
+  },
+  {
+   "id": "summary",
+   "source": "summarize",
+   "target": "decide",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read",
+   "label": "summary"
+  },
+  {
+   "id": "card",
+   "source": "decide",
+   "target": "assessor",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "async",
+   "label": "card → tier 意见"
+  },
+  {
+   "id": "decision",
+   "source": "decide",
+   "target": "forward",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read",
+   "label": "Decision"
+  },
+  {
+   "id": "invoke-model",
+   "source": "forward",
+   "target": "bedrock",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read",
+   "label": "SigV4 · SSE 流式"
+  },
+  {
+   "id": "usage",
+   "source": "forward",
+   "target": "record",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "write",
+   "label": "usage"
+  },
+  {
+   "id": "lite-model",
+   "source": "assessor",
+   "target": "bedrock",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "async",
+   "label": "GPT-6 Luna"
+  },
+  {
+   "id": "fallback-call",
+   "source": "fallback",
+   "target": "bedrock",
+   "source_port": "right",
+   "target_port": "right",
+   "flow": "feedback",
+   "dashed": true,
+   "route_points": [
+    [
+     1475,
+     184
+    ],
+    [
+     1475,
+     574
+    ]
+   ]
+  }
+ ],
+ "legend_orientation": "horizontal",
+ "legend_x": 48,
+ "legend_y": 670,
+ "legend_locked": true,
+ "legend": [
+  {
+   "flow": "read",
+   "label": "请求主路径"
+  },
+  {
+   "flow": "write",
+   "label": "用量回写"
+  },
+  {
+   "flow": "async",
+   "label": "assessor 调用"
+  },
+  {
+   "flow": "feedback",
+   "label": "gateway 回退"
+  }
+ ],
+ "footer": "packages: core · pricing · assessor · router · replay（离线） | Style 1 · Flat Icon",
+ "footer_x": 48,
+ "footer_y": 730
+}

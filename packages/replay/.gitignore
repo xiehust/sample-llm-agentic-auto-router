@@ -1,0 +1,3 @@
+# Trace data is large and untrusted; only the README is tracked.
+data/*
+!data/README.md
