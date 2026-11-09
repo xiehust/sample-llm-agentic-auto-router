@@ -29,7 +29,7 @@ frontier。评估要回答五个问题：
 | 判成 fast 的可信吗？ | **fast 精确率**（判成 fast 的里面金标确实是 fast 的比例） | 误判成 fast 会把需要推理的任务交给弱模型，直接损失质量。这是关键的安全指标 |
 | 能认出 frontier 任务吗？ | frontier 召回 | 认不出就会把难任务降级；反过来，误升级（standard → frontier）会白白花钱 |
 | 多少次能给出意见？ | 覆盖率（置信度 ≥ 阈值、给出 tier 的比例）、判对率（给出意见时判对的比例） | 无意见时决策回落到 pool 默认，安全但没有收益 |
-| 放得进请求路径吗？ | p50 / p95 延迟、超过 1.5 s 的比例、每次成本 | 生产超时默认 1.5 s，超时视为无意见 |
+| 放得进请求路径吗？ | p50 / p95 延迟、超过 1.5 s 的比例、每次成本 | 评估时生产超时默认 1.5 s（现为 5 s，见 [assessor 设计 §2.3](assessor-design.zh-CN.md#23-时间上限)），超时视为无意见 |
 | 多轮会话里稳定吗？ | 翻转率、误翻转率、降级后立即升回（振荡） | tier 来回切会破坏 prompt 缓存 |
 
 最后再回答一个问题：这些误差放到路由里，成本和质量会怎样？这一步用 replay 离线模拟。
@@ -240,8 +240,8 @@ replay（**合成数据**，core-cost，三个 pack 都用同一批 543 条的�
 
 离线数据已经到头了：在线预算基本用完，留出集也已经用过。下一步的依据应来自 observe 模式下的真实会话。
 
-1. **先补上 observe 的记录（前置条件）**。现在规则全部 `auto: false`，assessor 只在 basis 里的规则都开了 auto 时才返回 `tier`，所以决策对象里的 `assessment` 只有状态、置信度、延迟和成本，看不到"本来会给哪个 tier"。`proposedTier`、`basis`、`outcome` 只在 assessor 的 `audit` 里，而 `audit` 可能引用 prompt 文本，core 有意不带它，router 目前也不记录。要做的是：把这三个只含 id 和枚举的字段（不含任何文本）带进 `Decision.assessment` 或单独记一条日志。这是 core / router 的契约变更，需要评审。
-2. **在 observe 模式上线**。有了上一步，每个决策都能对齐：assessor 的意见、`wouldChoose`、实际服务的模型和后续结果。
+1. **observe 的记录（已完成）**。规则全部 `auto: false` 时，assessor 不把 `tier` 交给 core，决策对象里的 `assessment` 看不到"本来会给哪个 tier"。router 现在从 assessor 的结果里读出只含 id 和枚举的字段（`proposedTier`、`basis`、`outcome`），连同状态、置信度、延迟和成本写进请求日志的 `assessor` 对象，不含任何文本（见 [assessor 设计 §7.3](assessor-design.zh-CN.md#73-失败容忍和日志)）。
+2. **在 observe 模式上线**。有了这些记录，每个决策都能对齐：assessor 的意见、`wouldChoose`、实际服务的模型和后续结果。
 3. **建真实标注集**。抽样 observe 记录，由不写 pack 的人独立标 tier；按（规则，tier）分层抽样，保证 fast 预测有足够样本（目标每条 fast 规则至少 100–200 次预测）。标注数据要脱敏，只存结构化字段，不存 prompt 原文。
 4. **加结果信号作弱标签**：同一 lineage 后续是否失败重试、是否被用户打断、是否切到更高档、工具错误率。它们可以发现误判 fast 的候选，再由人确认。
 

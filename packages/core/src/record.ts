@@ -5,6 +5,7 @@ import type {
   CacheState, Decision, MissAttribution, PrefixRecord, RecordOutcome, RecordResult, RequestSummary, SessionState, StateStore,
 } from './types.ts'
 import { turnKeyOf } from './assess.ts'
+import { parseReason } from './reason.ts'
 import { blockSetOf, entryFrom, isRecordLive, recordsOf, TTL_MS, warmTokens, writeTtlFor } from './warmth.ts'
 
 export interface RecordContext {
@@ -13,11 +14,9 @@ export interface RecordContext {
   store: StateStore
 }
 
-/** Stable reason code of a decision ('observe-default: ' prefix removed). */
+/** Stable reason code of a decision (observe prefixes removed). */
 export function reasonCode(reason: string): string {
-  const r = reason.startsWith('observe-default: ') ? reason.slice('observe-default: '.length) : reason
-  const i = r.indexOf(':')
-  return i < 0 ? r : r.slice(0, i)
+  return parseReason(reason).code
 }
 
 export async function record(
@@ -80,6 +79,12 @@ export async function record(
   if (servedDiffers) result.servedDiffers = true
   const prev = state.current
   state.current = served
+  if (prev !== undefined && prev !== served) {
+    result.switchedFrom = { model: prev, warmTokens: warmTokens(pre, prev, s, at, { marginMs, minTokens: minTokensOf(prev), blocks }) }
+  }
+  // Observe projection (0d research §1.6): carried in state; an auto decision ends it (auto's current is the truth).
+  if (decision.projected) state.projected = decision.projected.model
+  else if (decision.mode === 'auto') delete state.projected
   if (prev !== undefined && prev !== served) {
     state.switches++
     state.lastSwitchTurn = state.turns

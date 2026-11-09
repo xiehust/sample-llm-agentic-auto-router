@@ -1,0 +1,1737 @@
+{
+ "schema": "cc-harbor-plan/v1",
+ "seed": 20261107,
+ "n_shards": 4,
+ "dataset": {
+  "name": "cc-deepswe",
+  "base": "deepswe",
+  "agent": "claude-code",
+  "repo": "datacurve-ai/deep-swe",
+  "version": "v1.1",
+  "commit": "0b9fabbb63b9104d678fe965e1632f2dd9eaa2ea",
+  "n_tasks": 112,
+  "dropped": [
+   "prometheus-transactional-reload-status"
+  ]
+ },
+ "arm_order": [
+  "A",
+  "C"
+ ],
+ "arms": {
+  "A": {
+   "client_model": "global.anthropic.claude-sonnet-5-5",
+   "main_model": "global.anthropic.claude-sonnet-5-5",
+   "hint": null,
+   "pack": null,
+   "worst_model": "global.anthropic.claude-sonnet-5-5",
+   "codex_ref": "A",
+   "planning_usd": {
+    "deepswe": 0.71,
+    "tb21": 0.2
+   }
+  },
+  "C": {
+   "client_model": "global.anthropic.claude-opus-5-5",
+   "main_model": "global.anthropic.claude-opus-5-5",
+   "hint": null,
+   "pack": null,
+   "worst_model": "global.anthropic.claude-opus-5-5",
+   "codex_ref": "C",
+   "planning_usd": {
+    "deepswe": 1.35,
+    "tb21": 0.37
+   }
+  }
+ },
+ "stratification": {
+  "shards": "the Codex plan's",
+  "blocks": "language × difficulty band; seeded stratified order"
+ },
+ "inputs": {
+  "codex_plan_sha256_b64": "aGm6jpYqWZre4-vTSG_EAOHk_9c-dlDyAYFbNt4wTKc",
+  "arms_sha256_b64": "jlgUp-dy9Hf8Zq_w5228OnabzaFEqdDS2wf7JcxdSQo",
+  "codex_attempts_sha256_b64": "rq0Ex3RZPpY8WJi5CKNKRLqbN8avGZr5t-4aq9dxgmE",
+  "drops_sha256_b64": "15QnXRZN6aiXrBQppw6USAaREqiCYwSUxu52SYNReJY"
+ },
+ "tasks": {
+  "abs-module-cache-flags": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "u0TzJ1_eGZu-XWcGYwpcYUDP5b62bknyw5H6VIvZdOY"
+  },
+  "abs-stepped-slices": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "aVOX2ZZKrH5J8mMZk3WlyClUmQnqy1eQ3DpdLlyod8U"
+  },
+  "actionlint-action-pinning-lint": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "oXHdxoSfgfFGwFtfojA0H7xpHia5DttNPYDv0nQUH2Y"
+  },
+  "adaptix-name-mapping-aliases": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "7APIvF_Yuk2GGI1LkmgcRFS7kDdqxK8f39pjU_kgGz8"
+  },
+  "aiomonitor-task-snapshots-diff": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "SSCDawA5tsAi8yAHFKbYEHpxJqOhNUoZxmN046q0Rd4"
+  },
+  "anko-default-function-arguments": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "qrvV3rKq0uggunWSiDzJzL56f3PIfgPqyQMWT-PQO9A"
+  },
+  "anko-typed-variable-bindings": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "EOZmYWzdsLddLbQHxciepLF6MoS1rXxJmjMFzJSDvNE"
+  },
+  "arcane-drift-detection-baselines": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "vaaYlOD9inr9pdyBFp0R24MFjngJnHiJCI8MQjodsKI"
+  },
+  "arktype-json-schema-refs-dependencies": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "apHnvQ_V0RVPd-hMaaYtJm4kVSyDlU3sDxjTRxtqgJw"
+  },
+  "awilix-async-container-initialization": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "BR94qffBZB36mjYtrPJqjqO0EA6q3iENsqdO8jBh_D0"
+  },
+  "bandit-incremental-cache-control": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "GAdjLZGRgt2Yx7qDmO-C-NCYKxJznAsgkyITCJNCSnU"
+  },
+  "bandit-interprocedural-taint-checks": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "6zixSCQm2UuARYmmexYyAnwO2XZ7QVJKq78kcqKsoGc"
+  },
+  "bandit-structured-nosec-directives": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "-RLK_VzFpSbhYUfZFRpN2fxu6hUa15Z639N84FcJwi0"
+  },
+  "boa-hierarchical-evaluation-cancellation": {
+   "language": "rust",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "AfY0D6nIdqBwfzpxoRloILLeiNCuKSt3eNWs00B9Has"
+  },
+  "cattrs-partial-structuring-recovery": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "bE8pB-6KlvmgVOVM-uhvokijfAYzfPmQ46EkAAoyuws"
+  },
+  "clack-async-autocomplete-options": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "l3xFPCxHAbHVjfQvfRGp-bFq6bV8fiUi-kXCvRT0RgM"
+  },
+  "claude-code-by-agents-recursive-delegation": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "X1sJI0Gp9lSsOyXGg4H2oOsCgoD2-8QAEAMifkcplZ0"
+  },
+  "cliffy-config-file-parsing": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "whZR16n9az2-VWLoBBU8UXdc8dTtES93UinRFWC5S6Q"
+  },
+  "csstree-shorthand-expansion-compression": {
+   "language": "javascript",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "Rh--Fe8q-ghPmI4iX6sb-v6wLX80EUtV4B_vvWbuMeY"
+  },
+  "dasel-html-document-format": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "4Xhgf8oayZIT8kSTq828l8Eljey70W7mYK3DXylThEM"
+  },
+  "dateutil-rfc5545-timezone-interop": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "CQjMniLUsLzZYFWY7qnU_kczMH2o7-hqBVwYFiUVeMY"
+  },
+  "drizzle-orm-window-function-builders": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "bhtDJ3giROAHAvIL0zkhpD2_t7YWExl6b09eg5u8NJs"
+  },
+  "dynamodb-toolbox-conditional-attribute-requirements": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "BnJgJjg6iUnbo-QOk5pgZHVMsMlAaJhatYms0AIaTuU"
+  },
+  "dynamodb-toolbox-lazy-recursive-schemas": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "nWRNCpj5qKmo7BPeYA7N9ZFMOqre0tN_jQ6g5IKNSFc"
+  },
+  "effect-sse-httpapi-streaming": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "UaEHFKzUD4-uaCPvDH99JNCwlyVoypqNBpDSX_BlZGQ"
+  },
+  "eicrud-keyset-pagination-cursor": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "sBDkie0S4lSGSKWbvU3i83v1QYyxV1XU6RXqv3dANpU"
+  },
+  "etree-xml-diff-patch": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "0vgKUlRv8MXBwFnNxpC7afqYyzp4LR4TxjPStFEEr9A"
+  },
+  "expr-try-catch-errors": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "EgbFQ1O7eYL0S-ZHPyvCg3-ygmzGdNGmcmEmSBYO3lQ"
+  },
+  "fastapi-deprecation-response-headers": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "sAtRe29mNYtzXAdk3-07kqaQeeNmuz7lxsKpxr8bdcg"
+  },
+  "fastapi-implicit-head-options": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "TUjORTEVRyhdetKB7P1SeKv3PTNVMFvOiLuInpmYD4k"
+  },
+  "fd-deterministic-multi-key-sorting": {
+   "language": "rust",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "he2S6Iwn5rnXic010FoXupLBzvvZPOpoAOJWiJ_fBxQ"
+  },
+  "geo-shapeindex-serialization": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "qVFArbBmtzK2m4SFOSV2z4ngzyKg1wKK1dnQjzfAjyk"
+  },
+  "go-critic-doc-link-checker": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "OMo_s5rEdoF4lWFc48-WLCI-V-DiNZtk0W8ZqkV7dH4"
+  },
+  "go-genai-streamed-function-args": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "Cl9hJLaPWTiuAxUHmnoufQqmLs445K04CkoYcDaWtTc"
+  },
+  "go-git-worktree-merge-conflicts": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "F6EFodjortX0XaBoINxloQSKOj9ajQ8tvXwj7nT5Trk"
+  },
+  "goreleaser-retry-publish-auditing": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "3t3NoA1mn5li7sTN1BhUmlTGrS5Rz1LLzSU2N-Xx2cE"
+  },
+  "gql-incremental-graphql-delivery": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "_wnNc9fYFZglvrAJw_EXcNd27QifwGObcy6mzUgDB5M"
+  },
+  "happy-dom-abort-pending-body-reads": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "j-1jr_yJhqqWu-8GqVoYTU8gcV2xTyjNE4147uH7RBw"
+  },
+  "happy-dom-deterministic-intersectionobserver": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "mlkJBsYO07rAj5YzHN1xn3gffnKlWm-oJkj5ZqyyVAk"
+  },
+  "helm-array-merge-strategies": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "zhEfKsxyN6fB52f8uHGpHM3up2e_uH9vIcBY77tTBiY"
+  },
+  "helm-unified-manifest-stream": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "JmCRblPBAmZbQp9QFz7ofa0hoxmk5q6mCQDiTUuLNAY"
+  },
+  "httpx-deterministic-cookie-store": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "YlE23VgjWAPrYiq9oYVf3E3HkLQBbOUcmrmHqAZ_C1o"
+  },
+  "httpx-multipart-response-parsing": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "fuAgnskoA1ucCsKJl8iGy--Bl1Z0KeHASTYxhW_a1eU"
+  },
+  "httpx-streaming-json-iteration": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "RTnX62vG44wgK3t6_fgIw_eqoGKDtYzJHx06pDczTmM"
+  },
+  "igel-persist-feature-schema": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "9r-tKRreMH25iXzE8n4AsBYE7KcKS9gDc1nHu1gHB0A"
+  },
+  "ink-grid-box-layout": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "x1Bk1qotOhNu9C1vViV9MvmS6rZjyvGCxNF63EpOGOg"
+  },
+  "ipython-session-bundle-replay": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "6vQbi_Gnll9tBQtrTDeZqRmHFGGinatvxoGFLrqaVBc"
+  },
+  "katex-multicolumn-array-spans": {
+   "language": "javascript",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "zQ2T_VLDdV2KtEt3CSU6yisx1u7c96M-FfhW5aNZdbY"
+  },
+  "kcp-go-multiplexed-kcp-streams": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "XpbWiCYmIZKfcvMzq9S0LDJO7vg47FJ6jBJ9YMrRpxw"
+  },
+  "kea-atomic-signal-selectors": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "40jybUaWQ8-L_VNenZ-GyMIPfnFprtpRUiOHSp3qJxw"
+  },
+  "kgateway-consistent-hash-policy": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "eZQCjo1qXeRor3qXuaTt6KDcWpKA6rrBhAaic16F_Wg"
+  },
+  "kombu-single-active-consumer-priority": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "kpHitLCm27yDo1ZYlD4skDe85BcAFEgbeYy9gLLi6_8"
+  },
+  "kombu-virtual-queue-dead-lettering": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "mJPiJzYr_h2ZNA7SDu0x9VLVQoGw3d8GgnbbQyfYcUg"
+  },
+  "koota-composite-trait-aspects": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "-hAf0xuGbHml0UGI5dGo6E2adwcD9MWsXJg-_0pZnuc"
+  },
+  "koota-deferred-mutation-buffer": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "BAA3inmXP5zOApZezfNRJPu7yadPyhCR1Zk8D-Hgaqo"
+  },
+  "koota-entity-snapshot-rollback": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "EURKuDWJTIKonc5yMmMtdMwuwVzCMEfARd-5MbItULE"
+  },
+  "koota-pair-relation-tracking": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "KZDGwNw8CHewCKkrIEJzlas7zFIGUeTV3P54SjtIaTU"
+  },
+  "koota-query-predicates": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "DzOMZQ7nTGp9dRei6i7f0SQMDiZn4qXeosmYj3DlT8c"
+  },
+  "kysely-window-grouping-helpers": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "ll8uCwfqn_UIxsrAcSyFPGsfv_ujGVXIvy5ij8oBPOU"
+  },
+  "langchain-request-coalescing": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "79YEGbWB224jwn1MI0s69rtL3ZdvpRDkDO0Jx-qq65g"
+  },
+  "mashumaro-flattened-dataclass-fields": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "qO5mV_tJ3lKRXyrkvV8A5evJK7d2pWxSgkjSm6Ric_w"
+  },
+  "meriyah-explicit-resource-declarations": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "HCRYV9icbE8NEpIr2D0KLu61Ynfi2cAQlKBCHaoq-QU"
+  },
+  "mnamer-daemon-watch-lifecycle": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "c7YCS3aPCvCheN5t56pZrEYMLslv4cp8yaw1JpwRiRY"
+  },
+  "mobly-grouped-test-barriers": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "hy0J8mKb0MsTbx5ehRkVWWQSZviEd-SMt8XJavhiVFo"
+  },
+  "narwhals-rolling-window-suite": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "0rEz1qOi1djS-UdNNPzTxc0viS38BTJqb0986xab2Lc"
+  },
+  "numba-stencil-boundary-modes": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "__7MKhmq8VnV5kdGHz2WhrQk6u3AlzpH5xe9ZIJy83s"
+  },
+  "obsidian-linter-auto-table-of-contents": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "5CsT44vGh5LIyisJjg_gi8uGsrzhLgoIF3AaImyXsZ4"
+  },
+  "obsidian-linter-link-format-conversion": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "UqMmyx1wiQnneDmLcZIODEP4bvUz8U8BqPXRF-LceVE"
+  },
+  "obsidian-linter-scoped-ignore-markers": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "z077JZDQN6sn9Uk7JEo_nIK1xszGkN7ZPyOt_XM05r8"
+  },
+  "ofetch-per-origin-circuit-breaker": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "fwFR_G9q_nkJbLXM5s0zB30Fw-djZekDlqgy0bwUZGA"
+  },
+  "onedump-dump-encryption-pipeline": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "XMQDAfHpPAvsbcal1N2Kkd0w33SJ_36g9KPrKAv00rI"
+  },
+  "opa-rego-rule-profiling": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "FYQDQSCwxZizQsVvGojJXKLX0WvmTi55DOIppgVaLCg"
+  },
+  "opa-template-string-reconstruction": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "Tn8wCoGjuj2nvrkqB7x7zlHG3qRst-i5FasLjb8cckA"
+  },
+  "optique-conditional-option-dependencies": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "If33JYkfLHOkRyMkLjl_0DM4AMIgn3b4PrjtLTV-wnM"
+  },
+  "oxvg-structural-selector-preservation": {
+   "language": "rust",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "BuAAu0w5e3L8v1I9lZI7c75jbo6zmLYIQqtPDizlfSM"
+  },
+  "participle-grammar-conflict-analysis": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "NFa2EIrH0-FON5r36SphtE0_iUeiEs3eLkB_NGq4RbY"
+  },
+  "pebble-durability-wait-apis": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "43i5yEyHtlqya39mh_3ruBJMQEZU8X7hgc2v_-YpEM4"
+  },
+  "pest-character-class-coalescing": {
+   "language": "rust",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "8n4yA4VgCD_8h9JVZO9pXM2k7hjotNgq43ZlWdaO0bA"
+  },
+  "prometheus-typed-label-sorting": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "7ntv4Z7oR3-KLtoUvzbaHro6tBpS5HWp9_URjiPksfE"
+  },
+  "psd-tools-blend-range-api": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "6SmFW57m0YdN8_mmKKi6YCQ8Brt8l9QKL2AobvXCiek"
+  },
+  "pwntools-tube-multiplexing": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "dF0jjdc-3KdZAWqDPaV8I2kB8UYUFqLUaETCv6kzoEg"
+  },
+  "python-statemachine-state-data-scoping": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "cINNFpvD0DuzYt9v_UGZX7tchav4zCtTxj8xViQj-Do"
+  },
+  "query-persist-restored-query-state": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "0_-1MlJmNj05J1D5brKtmkU6glK6bawtTL2VOLFtknY"
+  },
+  "quill-shared-toolbar-focus": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "Ad9bmRXWTgc5AMKgDaWnFjlhSzuqJPnV-DvUAXQAc6w"
+  },
+  "returns-validated-error-accumulation": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "thwEx2YbQBGFmkiJCB2qAymVitXdcxVfM-0HKBxuSoE"
+  },
+  "scc-bounded-memory-spilling": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "QN8tSfYsiZul3Qipm6nuPeCc6hUPa7aarHb0i1wPM7U"
+  },
+  "scriggo-method-declarations": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "f3HzjrdT9ypVtsPYnUsLpmEvvDhz-TYAknYkjyxTdm4"
+  },
+  "skrub-duration-encoding": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "NORTm0odrSN05bTxKSKVIkt-EALOB1T117R8adjh3C4"
+  },
+  "sql-formatter-bigquery-pipe-formatting": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "WqFRp_VpJ9PGnzvQPLh0MwNSujrk6qhPPfLaloYC53Q"
+  },
+  "sqlfmt-create-table-ddl-formatting": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "6RWDJmGiZmcPgr-aOz8MWJUlq4ItYlKs7N0NoMjJjfM"
+  },
+  "sqlite-utils-safe-import-checkpoints": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "jsYA87BnIGThk1kXdWUDNjKfRHP4qH6m1O9pfe15qUk"
+  },
+  "superjson-error-stack-serialization": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "yAhQKx9yBg4j46x4hbbt2PpJrWjy4XXwF9VgIiFFzTM"
+  },
+  "task-task-graph-export": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "MQZki1DGdctocpT3IlT_6NKeFL4NsSsuGaMxqhohn8Q"
+  },
+  "tengo-callable-instance-isolation": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "XZ2k8ZrK1UrFJidC7MaFbMx2PmkCcXqFjoN5v8Wg7ZA"
+  },
+  "tengo-destructuring-bindings": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "fyzTHyliaMvukcJ2q_BItuxr_HMFScuco2HTkdn-zyE"
+  },
+  "termenv-preserve-ansi-resets": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "jgypHau1obj8TOYr3DwayfFxGupuMn2A2Fk2H2c4JTM"
+  },
+  "testem-bail-on-test-failure": {
+   "language": "javascript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "nbm1HreWYGLH8Gm6i7eBKNqO_mBw3GpXMB_m5U4QppA"
+  },
+  "testem-per-launcher-reports": {
+   "language": "javascript",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "prAniKnGoQvHnlgrGT4kVZUsEv_kNURMiT5--wzGKsU"
+  },
+  "textual-kitty-key-phases": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "BHDSBf1_6yF3rYorF0HDXD7Rec3vlDDHgfM6uhQfmL0"
+  },
+  "textual-richlog-follow-state": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "CjEyAaKOZGsQoGbg8QnsjKCPAfZ2ZQNmxB8zZkTFcTk"
+  },
+  "tomlkit-toml-table-converters": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "MvrqlDk2qgFCIK4cmBRMwKiLKcRamhtTwCNFsQt4PEE"
+  },
+  "true-myth-iterable-collection-combinators": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "bxT9RtAk91zofzTpG73zz-3i-5bE3OiUj1q3Jpg0K44"
+  },
+  "ts-pattern-match-each": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "OhiUKQjY4kQeu5_BPaatbY6hDPTsySWGif0KHyKnvtI"
+  },
+  "updo-policy-alerting": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "9YSml2Ifuve9iy6CROsb5wyxUQMLAF_U6onk6KaM6a0"
+  },
+  "valibot-recursive-schema-composition": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "JzUsSs3FlFSi95HlxGwGPWp1GVu3v9D5mYg62zjF_k8"
+  },
+  "vitest-duration-sharding": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "X8NEF8oFCoWSkpeRh38LRMmaGpn81svVLZMmB2Gs3Is"
+  },
+  "vulture-persistent-analysis-cache": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "SQs8k_hhhaaQ5vpcTsSwjmTxk5cbdtK77AlHlVI0qeU"
+  },
+  "wasmi-trap-coredumps": {
+   "language": "rust",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "HhjbKkZrYikLtPvxtmU77YMCt640Wo24wbfZdwCSx84"
+  },
+  "wazero-multi-module-snapshots": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "bM5chX_LffX6HdhqMHXIfTYVQt_nGL-EYpv9K3WLEW0"
+  },
+  "yaegi-go-embed-directives": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "hsuEy2lU8YFmdMt9IGyztopD6tw6RcLrXoz9B_W0MbU"
+  },
+  "yjs-map-conflict-detection": {
+   "language": "javascript",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "78AWdnH2ZaccvJSplR_B6FQC46Hv0gwoVElgZ2amVCg"
+  },
+  "ytt-jsonpath-query-api": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "iYG0XdX-DPHDELTAICF_zNoyUQwS2Bk9M0sbNSjNtYE"
+  }
+ },
+ "passes": {
+  "pilot": {
+   "phase": "pilot",
+   "arms": [
+    "A",
+    "C"
+   ],
+   "rep": 1,
+   "note": "stage 1 first slice: calibration (cost, κ, timing, 429s, memory/OOM, helper share); outside the analysis",
+   "order": "given",
+   "cut": null,
+   "n_trials": 16,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "C",
+       "A"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "A",
+       "C"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "task-task-graph-export",
+      "arms": [
+       "A",
+       "C"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "C",
+       "A"
+      ]
+     }
+    ]
+   }
+  },
+  "main": {
+   "phase": "main",
+   "arms": [
+    "A",
+    "C"
+   ],
+   "rep": 1,
+   "note": "stage 1: all arms, rep 1; stratified, long tasks first",
+   "order": "stratified",
+   "cut": null,
+   "n_trials": 224,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "C",
+       "A"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "A",
+       "C"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "task-task-graph-export",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "A",
+       "C"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "koota-query-predicates",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "A",
+       "C"
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { loadCatalog, validateCatalog, type PriceCatalog } from '@auto-router/pricing'
 import type { Transport } from '../transport.ts'
 import { handItems, parseSwebench, sweSplit, trajectoryItems, type EvalItem } from './datasets.ts'
-import { isPackName, loadPack, packDirs } from '../pack.ts'
+import { defaultPackName, isPackName, loadPack, packDirs } from '../pack.ts'
 import { runEval, type EvalResult } from './harness.ts'
 import { buildReport, renderReport } from './report.ts'
 import { resampleHints } from './hints.ts'
@@ -97,7 +97,7 @@ async function cmdRun(flags: Record<string, string>, smoke: boolean): Promise<vo
   const models = (flags.models ?? 'luna,haiku').split(',').map(modelOf)
   const datasets = (flags.dataset ?? 'hand,swebench').split(',')
   let items = loadItems(datasets, flags.limit ? Number(flags.limit) : undefined, 1, splitOf(flags['swe-split']))
-  const packName = flags.pack ?? 'v2.1' // the library default (defaultPackDir)
+  const packName = flags.pack ?? defaultPackName
   if (!isPackName(packName)) throw new Error(`--pack must be one of ${Object.keys(packDirs).join('|')}`)
   const pack = loadPack(packDirs[packName])
   if (smoke) items = items.filter((it) => ['hl-001', 'hl-021', 'hl-036', 'hl-056', 'hl-079'].includes(it.id))

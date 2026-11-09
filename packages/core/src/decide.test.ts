@@ -324,18 +324,14 @@ describe('decide: pins (scenario 14)', () => {
 describe('decide: observe mode (scenario 15)', () => {
   const observe = testPolicy({ mode: 'observe', observeDefaults: { 'anthropic-messages': SONNET, 'openai-chat': SOL, 'openai-responses': SOL } })
 
-  it('serves the requested concrete model, fills wouldChoose, and state follows the served model', async () => {
+  it('a concrete model is a pin in observe mode too (design 0.3a): served as is, no evaluation, state follows it', async () => {
     const hz = new Harness(observe)
     const conv = new Conversation().push(userText(big(50_000)))
     const s1 = await hz.cc(conv.body(OPUS))
-    expect(s1.decision).toMatchObject({ mode: 'observe', action: 'initialize', model: OPUS, wouldChoose: SONNET, point: 'session-start' })
+    expect(s1.decision).toMatchObject({ mode: 'observe', action: 'pin', model: OPUS, point: 'pinned', reason: expect.stringMatching(/^pin: concrete model /) })
+    expect(s1.decision.wouldChoose).toBeUndefined()
+    expect(s1.decision.projected).toBeUndefined()
     expect((await hz.store.get(s1.summary.session.lineage))!.current).toBe(OPUS)
-    conv.push(assistantText('ok'), userText('go on'))
-    const s2 = await hz.cc(conv.body(OPUS), {}, { at: T0 + 10 * SEC })
-    // auto would weigh Opus→Sonnet against the real (Opus-warm) state; observe still serves Opus
-    expect(s2.decision).toMatchObject({ model: OPUS, wouldChoose: OPUS, action: 'retain', point: 'user-turn' })
-    expect(s2.decision.reason).toMatch(/^downgrade-rejected:cost: /)
-    expect(s2.decision.estimate).toBeDefined()
   })
 
   it('alias requests are served the observe default with an observe-default reason', async () => {
@@ -358,6 +354,6 @@ describe('decide: observe mode (scenario 15)', () => {
     const policy = testPolicy({ mode: 'observe', pools: { 'anthropic-messages': { defaultTier: 'standard', models: [{ model: SONNET }] } }, observeDefaults: { 'anthropic-messages': SONNET } })
     const engine = createEngine({ policy, catalog: fixtureCatalog, store: new InMemoryStateStore() })
     const s = summarize('openai-chat', { model: 'some-model', messages: [] }, {}, T0)
-    expect(await engine.decide(s)).toMatchObject({ action: 'pin', model: 'some-model', reason: expect.stringMatching(/^pin: no pool/) })
+    expect(await engine.decide(s)).toMatchObject({ action: 'pin', model: 'some-model', reason: expect.stringMatching(/^pin: concrete model /) })
   })
 })

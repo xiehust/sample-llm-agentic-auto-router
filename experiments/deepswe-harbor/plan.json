@@ -1,0 +1,8707 @@
+{
+ "schema": "deepswe-harbor-plan/v1",
+ "seed": 20261105,
+ "n_shards": 4,
+ "dataset": {
+  "repo": "datacurve-ai/deep-swe",
+  "version": "v1.1",
+  "commit": "0b9fabbb63b9104d678fe965e1632f2dd9eaa2ea",
+  "n_tasks": 113
+ },
+ "stratification": {
+  "language": true,
+  "difficulty": {
+   "models": [
+    "gpt-5-6-sol",
+    "gpt-5-6-luna",
+    "gpt-6-astra"
+   ],
+   "effort": "high",
+   "statistic": "mean over models of the scored pass share",
+   "bands": [
+    "hard",
+    "mid-hard",
+    "mid-easy",
+    "easy"
+   ]
+  }
+ },
+ "inputs": {
+  "tasks_json_sha256_b64": "uuln9kcpQ1ZMP8UjL7o8jgrEZcG-XM-d1IldTunfYkI",
+  "trials_json_sha256_b64": "MQy0KP6JFM_yG47csLFyVohO_KVWZr1tZkbSI8d9LOY"
+ },
+ "tasks": {
+  "abs-module-cache-flags": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "u0TzJ1_eGZu-XWcGYwpcYUDP5b62bknyw5H6VIvZdOY"
+  },
+  "abs-stepped-slices": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "aVOX2ZZKrH5J8mMZk3WlyClUmQnqy1eQ3DpdLlyod8U"
+  },
+  "actionlint-action-pinning-lint": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "oXHdxoSfgfFGwFtfojA0H7xpHia5DttNPYDv0nQUH2Y"
+  },
+  "adaptix-name-mapping-aliases": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "7APIvF_Yuk2GGI1LkmgcRFS7kDdqxK8f39pjU_kgGz8"
+  },
+  "aiomonitor-task-snapshots-diff": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "SSCDawA5tsAi8yAHFKbYEHpxJqOhNUoZxmN046q0Rd4"
+  },
+  "anko-default-function-arguments": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "qrvV3rKq0uggunWSiDzJzL56f3PIfgPqyQMWT-PQO9A"
+  },
+  "anko-typed-variable-bindings": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "EOZmYWzdsLddLbQHxciepLF6MoS1rXxJmjMFzJSDvNE"
+  },
+  "arcane-drift-detection-baselines": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "vaaYlOD9inr9pdyBFp0R24MFjngJnHiJCI8MQjodsKI"
+  },
+  "arktype-json-schema-refs-dependencies": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "apHnvQ_V0RVPd-hMaaYtJm4kVSyDlU3sDxjTRxtqgJw"
+  },
+  "awilix-async-container-initialization": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "BR94qffBZB36mjYtrPJqjqO0EA6q3iENsqdO8jBh_D0"
+  },
+  "bandit-incremental-cache-control": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "GAdjLZGRgt2Yx7qDmO-C-NCYKxJznAsgkyITCJNCSnU"
+  },
+  "bandit-interprocedural-taint-checks": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "6zixSCQm2UuARYmmexYyAnwO2XZ7QVJKq78kcqKsoGc"
+  },
+  "bandit-structured-nosec-directives": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "-RLK_VzFpSbhYUfZFRpN2fxu6hUa15Z639N84FcJwi0"
+  },
+  "boa-hierarchical-evaluation-cancellation": {
+   "language": "rust",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "AfY0D6nIdqBwfzpxoRloILLeiNCuKSt3eNWs00B9Has"
+  },
+  "cattrs-partial-structuring-recovery": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "bE8pB-6KlvmgVOVM-uhvokijfAYzfPmQ46EkAAoyuws"
+  },
+  "clack-async-autocomplete-options": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "l3xFPCxHAbHVjfQvfRGp-bFq6bV8fiUi-kXCvRT0RgM"
+  },
+  "claude-code-by-agents-recursive-delegation": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "X1sJI0Gp9lSsOyXGg4H2oOsCgoD2-8QAEAMifkcplZ0"
+  },
+  "cliffy-config-file-parsing": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "whZR16n9az2-VWLoBBU8UXdc8dTtES93UinRFWC5S6Q"
+  },
+  "csstree-shorthand-expansion-compression": {
+   "language": "javascript",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "Rh--Fe8q-ghPmI4iX6sb-v6wLX80EUtV4B_vvWbuMeY"
+  },
+  "dasel-html-document-format": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "4Xhgf8oayZIT8kSTq828l8Eljey70W7mYK3DXylThEM"
+  },
+  "dateutil-rfc5545-timezone-interop": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "CQjMniLUsLzZYFWY7qnU_kczMH2o7-hqBVwYFiUVeMY"
+  },
+  "drizzle-orm-window-function-builders": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "bhtDJ3giROAHAvIL0zkhpD2_t7YWExl6b09eg5u8NJs"
+  },
+  "dynamodb-toolbox-conditional-attribute-requirements": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "BnJgJjg6iUnbo-QOk5pgZHVMsMlAaJhatYms0AIaTuU"
+  },
+  "dynamodb-toolbox-lazy-recursive-schemas": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "nWRNCpj5qKmo7BPeYA7N9ZFMOqre0tN_jQ6g5IKNSFc"
+  },
+  "effect-sse-httpapi-streaming": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "UaEHFKzUD4-uaCPvDH99JNCwlyVoypqNBpDSX_BlZGQ"
+  },
+  "eicrud-keyset-pagination-cursor": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "sBDkie0S4lSGSKWbvU3i83v1QYyxV1XU6RXqv3dANpU"
+  },
+  "etree-xml-diff-patch": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "0vgKUlRv8MXBwFnNxpC7afqYyzp4LR4TxjPStFEEr9A"
+  },
+  "expr-try-catch-errors": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "EgbFQ1O7eYL0S-ZHPyvCg3-ygmzGdNGmcmEmSBYO3lQ"
+  },
+  "fastapi-deprecation-response-headers": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "sAtRe29mNYtzXAdk3-07kqaQeeNmuz7lxsKpxr8bdcg"
+  },
+  "fastapi-implicit-head-options": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "TUjORTEVRyhdetKB7P1SeKv3PTNVMFvOiLuInpmYD4k"
+  },
+  "fd-deterministic-multi-key-sorting": {
+   "language": "rust",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "he2S6Iwn5rnXic010FoXupLBzvvZPOpoAOJWiJ_fBxQ"
+  },
+  "geo-shapeindex-serialization": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "qVFArbBmtzK2m4SFOSV2z4ngzyKg1wKK1dnQjzfAjyk"
+  },
+  "go-critic-doc-link-checker": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "OMo_s5rEdoF4lWFc48-WLCI-V-DiNZtk0W8ZqkV7dH4"
+  },
+  "go-genai-streamed-function-args": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "Cl9hJLaPWTiuAxUHmnoufQqmLs445K04CkoYcDaWtTc"
+  },
+  "go-git-worktree-merge-conflicts": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "F6EFodjortX0XaBoINxloQSKOj9ajQ8tvXwj7nT5Trk"
+  },
+  "goreleaser-retry-publish-auditing": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "3t3NoA1mn5li7sTN1BhUmlTGrS5Rz1LLzSU2N-Xx2cE"
+  },
+  "gql-incremental-graphql-delivery": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "_wnNc9fYFZglvrAJw_EXcNd27QifwGObcy6mzUgDB5M"
+  },
+  "happy-dom-abort-pending-body-reads": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "j-1jr_yJhqqWu-8GqVoYTU8gcV2xTyjNE4147uH7RBw"
+  },
+  "happy-dom-deterministic-intersectionobserver": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "mlkJBsYO07rAj5YzHN1xn3gffnKlWm-oJkj5ZqyyVAk"
+  },
+  "helm-array-merge-strategies": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "zhEfKsxyN6fB52f8uHGpHM3up2e_uH9vIcBY77tTBiY"
+  },
+  "helm-unified-manifest-stream": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "JmCRblPBAmZbQp9QFz7ofa0hoxmk5q6mCQDiTUuLNAY"
+  },
+  "httpx-deterministic-cookie-store": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "YlE23VgjWAPrYiq9oYVf3E3HkLQBbOUcmrmHqAZ_C1o"
+  },
+  "httpx-multipart-response-parsing": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "fuAgnskoA1ucCsKJl8iGy--Bl1Z0KeHASTYxhW_a1eU"
+  },
+  "httpx-streaming-json-iteration": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "RTnX62vG44wgK3t6_fgIw_eqoGKDtYzJHx06pDczTmM"
+  },
+  "igel-persist-feature-schema": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "9r-tKRreMH25iXzE8n4AsBYE7KcKS9gDc1nHu1gHB0A"
+  },
+  "ink-grid-box-layout": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "x1Bk1qotOhNu9C1vViV9MvmS6rZjyvGCxNF63EpOGOg"
+  },
+  "ipython-session-bundle-replay": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "6vQbi_Gnll9tBQtrTDeZqRmHFGGinatvxoGFLrqaVBc"
+  },
+  "katex-multicolumn-array-spans": {
+   "language": "javascript",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "zQ2T_VLDdV2KtEt3CSU6yisx1u7c96M-FfhW5aNZdbY"
+  },
+  "kcp-go-multiplexed-kcp-streams": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "XpbWiCYmIZKfcvMzq9S0LDJO7vg47FJ6jBJ9YMrRpxw"
+  },
+  "kea-atomic-signal-selectors": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "40jybUaWQ8-L_VNenZ-GyMIPfnFprtpRUiOHSp3qJxw"
+  },
+  "kgateway-consistent-hash-policy": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "eZQCjo1qXeRor3qXuaTt6KDcWpKA6rrBhAaic16F_Wg"
+  },
+  "kombu-single-active-consumer-priority": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "kpHitLCm27yDo1ZYlD4skDe85BcAFEgbeYy9gLLi6_8"
+  },
+  "kombu-virtual-queue-dead-lettering": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "mJPiJzYr_h2ZNA7SDu0x9VLVQoGw3d8GgnbbQyfYcUg"
+  },
+  "koota-composite-trait-aspects": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "-hAf0xuGbHml0UGI5dGo6E2adwcD9MWsXJg-_0pZnuc"
+  },
+  "koota-deferred-mutation-buffer": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "BAA3inmXP5zOApZezfNRJPu7yadPyhCR1Zk8D-Hgaqo"
+  },
+  "koota-entity-snapshot-rollback": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "EURKuDWJTIKonc5yMmMtdMwuwVzCMEfARd-5MbItULE"
+  },
+  "koota-pair-relation-tracking": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "KZDGwNw8CHewCKkrIEJzlas7zFIGUeTV3P54SjtIaTU"
+  },
+  "koota-query-predicates": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "DzOMZQ7nTGp9dRei6i7f0SQMDiZn4qXeosmYj3DlT8c"
+  },
+  "kysely-window-grouping-helpers": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "ll8uCwfqn_UIxsrAcSyFPGsfv_ujGVXIvy5ij8oBPOU"
+  },
+  "langchain-request-coalescing": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "79YEGbWB224jwn1MI0s69rtL3ZdvpRDkDO0Jx-qq65g"
+  },
+  "mashumaro-flattened-dataclass-fields": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "qO5mV_tJ3lKRXyrkvV8A5evJK7d2pWxSgkjSm6Ric_w"
+  },
+  "meriyah-explicit-resource-declarations": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "HCRYV9icbE8NEpIr2D0KLu61Ynfi2cAQlKBCHaoq-QU"
+  },
+  "mnamer-daemon-watch-lifecycle": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "c7YCS3aPCvCheN5t56pZrEYMLslv4cp8yaw1JpwRiRY"
+  },
+  "mobly-grouped-test-barriers": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "hy0J8mKb0MsTbx5ehRkVWWQSZviEd-SMt8XJavhiVFo"
+  },
+  "narwhals-rolling-window-suite": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "0rEz1qOi1djS-UdNNPzTxc0viS38BTJqb0986xab2Lc"
+  },
+  "numba-stencil-boundary-modes": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "__7MKhmq8VnV5kdGHz2WhrQk6u3AlzpH5xe9ZIJy83s"
+  },
+  "obsidian-linter-auto-table-of-contents": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "5CsT44vGh5LIyisJjg_gi8uGsrzhLgoIF3AaImyXsZ4"
+  },
+  "obsidian-linter-link-format-conversion": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "UqMmyx1wiQnneDmLcZIODEP4bvUz8U8BqPXRF-LceVE"
+  },
+  "obsidian-linter-scoped-ignore-markers": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "z077JZDQN6sn9Uk7JEo_nIK1xszGkN7ZPyOt_XM05r8"
+  },
+  "ofetch-per-origin-circuit-breaker": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "fwFR_G9q_nkJbLXM5s0zB30Fw-djZekDlqgy0bwUZGA"
+  },
+  "onedump-dump-encryption-pipeline": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "XMQDAfHpPAvsbcal1N2Kkd0w33SJ_36g9KPrKAv00rI"
+  },
+  "opa-rego-rule-profiling": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "FYQDQSCwxZizQsVvGojJXKLX0WvmTi55DOIppgVaLCg"
+  },
+  "opa-template-string-reconstruction": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "Tn8wCoGjuj2nvrkqB7x7zlHG3qRst-i5FasLjb8cckA"
+  },
+  "optique-conditional-option-dependencies": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "If33JYkfLHOkRyMkLjl_0DM4AMIgn3b4PrjtLTV-wnM"
+  },
+  "oxvg-structural-selector-preservation": {
+   "language": "rust",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "BuAAu0w5e3L8v1I9lZI7c75jbo6zmLYIQqtPDizlfSM"
+  },
+  "participle-grammar-conflict-analysis": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "NFa2EIrH0-FON5r36SphtE0_iUeiEs3eLkB_NGq4RbY"
+  },
+  "pebble-durability-wait-apis": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "43i5yEyHtlqya39mh_3ruBJMQEZU8X7hgc2v_-YpEM4"
+  },
+  "pest-character-class-coalescing": {
+   "language": "rust",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "8n4yA4VgCD_8h9JVZO9pXM2k7hjotNgq43ZlWdaO0bA"
+  },
+  "prometheus-transactional-reload-status": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "F2fVHBzWC4tXuCPuyhx2_nLn5kLJ2J-6vH4gXwOsUr4"
+  },
+  "prometheus-typed-label-sorting": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "7ntv4Z7oR3-KLtoUvzbaHro6tBpS5HWp9_URjiPksfE"
+  },
+  "psd-tools-blend-range-api": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "6SmFW57m0YdN8_mmKKi6YCQ8Brt8l9QKL2AobvXCiek"
+  },
+  "pwntools-tube-multiplexing": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "dF0jjdc-3KdZAWqDPaV8I2kB8UYUFqLUaETCv6kzoEg"
+  },
+  "python-statemachine-state-data-scoping": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "cINNFpvD0DuzYt9v_UGZX7tchav4zCtTxj8xViQj-Do"
+  },
+  "query-persist-restored-query-state": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "0_-1MlJmNj05J1D5brKtmkU6glK6bawtTL2VOLFtknY"
+  },
+  "quill-shared-toolbar-focus": {
+   "language": "typescript",
+   "difficulty": "mid-hard",
+   "shard": 0,
+   "task_toml_sha256_b64": "Ad9bmRXWTgc5AMKgDaWnFjlhSzuqJPnV-DvUAXQAc6w"
+  },
+  "returns-validated-error-accumulation": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "thwEx2YbQBGFmkiJCB2qAymVitXdcxVfM-0HKBxuSoE"
+  },
+  "scc-bounded-memory-spilling": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "QN8tSfYsiZul3Qipm6nuPeCc6hUPa7aarHb0i1wPM7U"
+  },
+  "scriggo-method-declarations": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "f3HzjrdT9ypVtsPYnUsLpmEvvDhz-TYAknYkjyxTdm4"
+  },
+  "skrub-duration-encoding": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "NORTm0odrSN05bTxKSKVIkt-EALOB1T117R8adjh3C4"
+  },
+  "sql-formatter-bigquery-pipe-formatting": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "WqFRp_VpJ9PGnzvQPLh0MwNSujrk6qhPPfLaloYC53Q"
+  },
+  "sqlfmt-create-table-ddl-formatting": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "6RWDJmGiZmcPgr-aOz8MWJUlq4ItYlKs7N0NoMjJjfM"
+  },
+  "sqlite-utils-safe-import-checkpoints": {
+   "language": "python",
+   "difficulty": "easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "jsYA87BnIGThk1kXdWUDNjKfRHP4qH6m1O9pfe15qUk"
+  },
+  "superjson-error-stack-serialization": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "yAhQKx9yBg4j46x4hbbt2PpJrWjy4XXwF9VgIiFFzTM"
+  },
+  "task-task-graph-export": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "MQZki1DGdctocpT3IlT_6NKeFL4NsSsuGaMxqhohn8Q"
+  },
+  "tengo-callable-instance-isolation": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "XZ2k8ZrK1UrFJidC7MaFbMx2PmkCcXqFjoN5v8Wg7ZA"
+  },
+  "tengo-destructuring-bindings": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "fyzTHyliaMvukcJ2q_BItuxr_HMFScuco2HTkdn-zyE"
+  },
+  "termenv-preserve-ansi-resets": {
+   "language": "go",
+   "difficulty": "hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "jgypHau1obj8TOYr3DwayfFxGupuMn2A2Fk2H2c4JTM"
+  },
+  "testem-bail-on-test-failure": {
+   "language": "javascript",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "nbm1HreWYGLH8Gm6i7eBKNqO_mBw3GpXMB_m5U4QppA"
+  },
+  "testem-per-launcher-reports": {
+   "language": "javascript",
+   "difficulty": "easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "prAniKnGoQvHnlgrGT4kVZUsEv_kNURMiT5--wzGKsU"
+  },
+  "textual-kitty-key-phases": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "BHDSBf1_6yF3rYorF0HDXD7Rec3vlDDHgfM6uhQfmL0"
+  },
+  "textual-richlog-follow-state": {
+   "language": "python",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "CjEyAaKOZGsQoGbg8QnsjKCPAfZ2ZQNmxB8zZkTFcTk"
+  },
+  "tomlkit-toml-table-converters": {
+   "language": "python",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "MvrqlDk2qgFCIK4cmBRMwKiLKcRamhtTwCNFsQt4PEE"
+  },
+  "true-myth-iterable-collection-combinators": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 1,
+   "task_toml_sha256_b64": "bxT9RtAk91zofzTpG73zz-3i-5bE3OiUj1q3Jpg0K44"
+  },
+  "ts-pattern-match-each": {
+   "language": "typescript",
+   "difficulty": "hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "OhiUKQjY4kQeu5_BPaatbY6hDPTsySWGif0KHyKnvtI"
+  },
+  "updo-policy-alerting": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 1,
+   "task_toml_sha256_b64": "9YSml2Ifuve9iy6CROsb5wyxUQMLAF_U6onk6KaM6a0"
+  },
+  "valibot-recursive-schema-composition": {
+   "language": "typescript",
+   "difficulty": "easy",
+   "shard": 3,
+   "task_toml_sha256_b64": "JzUsSs3FlFSi95HlxGwGPWp1GVu3v9D5mYg62zjF_k8"
+  },
+  "vitest-duration-sharding": {
+   "language": "typescript",
+   "difficulty": "mid-easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "X8NEF8oFCoWSkpeRh38LRMmaGpn81svVLZMmB2Gs3Is"
+  },
+  "vulture-persistent-analysis-cache": {
+   "language": "python",
+   "difficulty": "hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "SQs8k_hhhaaQ5vpcTsSwjmTxk5cbdtK77AlHlVI0qeU"
+  },
+  "wasmi-trap-coredumps": {
+   "language": "rust",
+   "difficulty": "mid-hard",
+   "shard": 3,
+   "task_toml_sha256_b64": "HhjbKkZrYikLtPvxtmU77YMCt640Wo24wbfZdwCSx84"
+  },
+  "wazero-multi-module-snapshots": {
+   "language": "go",
+   "difficulty": "mid-hard",
+   "shard": 2,
+   "task_toml_sha256_b64": "bM5chX_LffX6HdhqMHXIfTYVQt_nGL-EYpv9K3WLEW0"
+  },
+  "yaegi-go-embed-directives": {
+   "language": "go",
+   "difficulty": "mid-easy",
+   "shard": 0,
+   "task_toml_sha256_b64": "hsuEy2lU8YFmdMt9IGyztopD6tw6RcLrXoz9B_W0MbU"
+  },
+  "yjs-map-conflict-detection": {
+   "language": "javascript",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "78AWdnH2ZaccvJSplR_B6FQC46Hv0gwoVElgZ2amVCg"
+  },
+  "ytt-jsonpath-query-api": {
+   "language": "go",
+   "difficulty": "easy",
+   "shard": 2,
+   "task_toml_sha256_b64": "iYG0XdX-DPHDELTAICF_zNoyUQwS2Bk9M0sbNSjNtYE"
+  }
+ },
+ "passes": {
+  "main": {
+   "phase": "main",
+   "arms": [
+    "A",
+    "F",
+    "C",
+    "B"
+   ],
+   "rep": 1,
+   "note": "all arms, rep 1 (design §7.6: blocks shuffled with seed + shard index)",
+   "order": "random",
+   "cut": null,
+   "n_trials": 452,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "task-task-graph-export",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "prometheus-transactional-reload-status",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "koota-query-predicates",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     }
+    ]
+   }
+  },
+  "rep2": {
+   "phase": "repeat",
+   "arms": [
+    "A",
+    "F",
+    "C",
+    "B"
+   ],
+   "rep": 2,
+   "note": "all arms, rep 2; C may be cut to a prefix at the §7.5 checkpoint",
+   "order": "stratified",
+   "cut": null,
+   "n_trials": 452,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "task-task-graph-export",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "koota-query-predicates",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "prometheus-transactional-reload-status",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     }
+    ]
+   }
+  },
+  "rep3": {
+   "phase": "repeat",
+   "arms": [
+    "A",
+    "B"
+   ],
+   "rep": 3,
+   "note": "A and B, rep 3; may be cut to a prefix at the §7.5 checkpoint",
+   "order": "stratified",
+   "cut": null,
+   "n_trials": 226,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "B",
+       "A"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "A",
+       "B"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "task-task-graph-export",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "A",
+       "B"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "prometheus-transactional-reload-status",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "koota-query-predicates",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "B",
+       "A"
+      ]
+     }
+    ]
+   }
+  },
+  "pilot": {
+   "phase": "pilot",
+   "arms": [
+    "A",
+    "F",
+    "C",
+    "B"
+   ],
+   "rep": 1,
+   "note": "P3 pilot: one task per runner, outside the analysis (§7.4)",
+   "order": "given",
+   "cut": null,
+   "n_trials": 16,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     }
+    ]
+   }
+  },
+  "pilot2": {
+   "phase": "pilot",
+   "arms": [
+    "A",
+    "F",
+    "C",
+    "B"
+   ],
+   "rep": 1,
+   "note": "P3 pilot re-run: the first pilot was cap-stopped by a hard cap below the proxy reserve (excluded, phase pilot)",
+   "order": "random",
+   "cut": null,
+   "n_trials": 16,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     }
+    ]
+   }
+  },
+  "rep4": {
+   "phase": "repeat",
+   "arms": [
+    "A",
+    "B"
+   ],
+   "rep": 4,
+   "note": "headroom extension (design §7.5.1)",
+   "order": "stratified",
+   "cut": null,
+   "n_trials": 226,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "A",
+       "B"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "B",
+       "A"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "task-task-graph-export",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "koota-query-predicates",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "prometheus-transactional-reload-status",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "A",
+       "B"
+      ]
+     }
+    ]
+   }
+  },
+  "rep3c": {
+   "phase": "repeat",
+   "arms": [
+    "C",
+    "F"
+   ],
+   "rep": 3,
+   "note": "headroom extension (design §7.5.1)",
+   "order": "stratified",
+   "cut": null,
+   "n_trials": 226,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "F",
+       "C"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "F",
+       "C"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "task-task-graph-export",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "koota-query-predicates",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "prometheus-transactional-reload-status",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "F",
+       "C"
+      ]
+     }
+    ]
+   }
+  },
+  "rep5": {
+   "phase": "repeat",
+   "arms": [
+    "A",
+    "B"
+   ],
+   "rep": 5,
+   "note": "headroom extension (design §7.5.1)",
+   "order": "stratified",
+   "cut": null,
+   "n_trials": 226,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "A",
+       "B"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "B",
+       "A"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "task-task-graph-export",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "B",
+       "A"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "koota-query-predicates",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "prometheus-transactional-reload-status",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "A",
+       "B"
+      ]
+     }
+    ]
+   }
+  },
+  "rep4c": {
+   "phase": "repeat",
+   "arms": [
+    "C",
+    "F"
+   ],
+   "rep": 4,
+   "note": "user budget increase to $8,000 (2026-11-06): C and F to 5 runs like A and B (design §11)",
+   "order": "stratified",
+   "cut": null,
+   "n_trials": 226,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "task-task-graph-export",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "prometheus-transactional-reload-status",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "koota-query-predicates",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "C",
+       "F"
+      ]
+     }
+    ]
+   }
+  },
+  "rep5c": {
+   "phase": "repeat",
+   "arms": [
+    "C",
+    "F"
+   ],
+   "rep": 5,
+   "note": "user budget increase to $8,000 (2026-11-06): C and F to 5 runs like A and B (design §11)",
+   "order": "stratified",
+   "cut": null,
+   "n_trials": 226,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "textual-richlog-follow-state",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "geo-shapeindex-serialization",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "sql-formatter-bigquery-pipe-formatting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "helm-unified-manifest-stream",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "python-statemachine-state-data-scoping",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "effect-sse-httpapi-streaming",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "httpx-streaming-json-iteration",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "testem-per-launcher-reports",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "ipython-session-bundle-replay",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "quill-shared-toolbar-focus",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "go-critic-doc-link-checker",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "yaegi-go-embed-directives",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "httpx-deterministic-cookie-store",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "arktype-json-schema-refs-dependencies",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "go-git-worktree-merge-conflicts",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "dynamodb-toolbox-conditional-attribute-requirements",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "igel-persist-feature-schema",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "fastapi-implicit-head-options",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "mobly-grouped-test-barriers",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "participle-grammar-conflict-analysis",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "prometheus-typed-label-sorting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "mashumaro-flattened-dataclass-fields",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "katex-multicolumn-array-spans",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "koota-pair-relation-tracking",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "oxvg-structural-selector-preservation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "koota-deferred-mutation-buffer",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "opa-template-string-reconstruction",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "claude-code-by-agents-recursive-delegation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "adaptix-name-mapping-aliases",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "ts-pattern-match-each",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "goreleaser-retry-publish-auditing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "gql-incremental-graphql-delivery",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "sqlite-utils-safe-import-checkpoints",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "drizzle-orm-window-function-builders",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "helm-array-merge-strategies",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "mnamer-daemon-watch-lifecycle",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "tengo-destructuring-bindings",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "updo-policy-alerting",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "obsidian-linter-link-format-conversion",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "obsidian-linter-scoped-ignore-markers",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "pest-character-class-coalescing",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "bandit-interprocedural-taint-checks",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "fastapi-deprecation-response-headers",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "ink-grid-box-layout",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "dasel-html-document-format",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "abs-module-cache-flags",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "kombu-virtual-queue-dead-lettering",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "returns-validated-error-accumulation",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "ofetch-per-origin-circuit-breaker",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "actionlint-action-pinning-lint",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "meriyah-explicit-resource-declarations",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "psd-tools-blend-range-api",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "true-myth-iterable-collection-combinators",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "etree-xml-diff-patch",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "csstree-shorthand-expansion-compression",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "optique-conditional-option-dependencies",
+      "arms": [
+       "F",
+       "C"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "termenv-preserve-ansi-resets",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "happy-dom-deterministic-intersectionobserver",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "yjs-map-conflict-detection",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "cattrs-partial-structuring-recovery",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "happy-dom-abort-pending-body-reads",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "go-genai-streamed-function-args",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "kcp-go-multiplexed-kcp-streams",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "textual-kitty-key-phases",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "fd-deterministic-multi-key-sorting",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "ytt-jsonpath-query-api",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "boa-hierarchical-evaluation-cancellation",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "vitest-duration-sharding",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "clack-async-autocomplete-options",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "bandit-incremental-cache-control",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "pwntools-tube-multiplexing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "anko-typed-variable-bindings",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "tengo-callable-instance-isolation",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "obsidian-linter-auto-table-of-contents",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "httpx-multipart-response-parsing",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "dynamodb-toolbox-lazy-recursive-schemas",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "wazero-multi-module-snapshots",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "skrub-duration-encoding",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "cliffy-config-file-parsing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "task-task-graph-export",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "superjson-error-stack-serialization",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "awilix-async-container-initialization",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "pebble-durability-wait-apis",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "dateutil-rfc5545-timezone-interop",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 29,
+      "task": "bandit-structured-nosec-directives",
+      "arms": [
+       "F",
+       "C"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "koota-entity-snapshot-rollback",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "wasmi-trap-coredumps",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "sqlfmt-create-table-ddl-formatting",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "valibot-recursive-schema-composition",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "arcane-drift-detection-baselines",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "eicrud-keyset-pagination-cursor",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "kysely-window-grouping-helpers",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "abs-stepped-slices",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "tomlkit-toml-table-converters",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "opa-rego-rule-profiling",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "koota-composite-trait-aspects",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "kombu-single-active-consumer-priority",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "narwhals-rolling-window-suite",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "koota-query-predicates",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "expr-try-catch-errors",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "vulture-persistent-analysis-cache",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "kgateway-consistent-hash-policy",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "aiomonitor-task-snapshots-diff",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "prometheus-transactional-reload-status",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "onedump-dump-encryption-pipeline",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "testem-bail-on-test-failure",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "query-persist-restored-query-state",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "scc-bounded-memory-spilling",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 24,
+      "task": "anko-default-function-arguments",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 25,
+      "task": "langchain-request-coalescing",
+      "arms": [
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 26,
+      "task": "numba-stencil-boundary-modes",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 27,
+      "task": "kea-atomic-signal-selectors",
+      "arms": [
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 28,
+      "task": "scriggo-method-declarations",
+      "arms": [
+       "F",
+       "C"
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

@@ -2,10 +2,10 @@ import { templateFamilyOf } from '@auto-router/core'
 import { costOf, findModel, loadCatalog, normalizeUsage, type ModelPrice } from '@auto-router/pricing'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { chatBody, messagesBody, output, responsesBody, summaryOf, toolUse } from './__fixtures__/fixtures.ts'
-import { createAssessor, precheck, scrub, type AssessorCallInfo, type AssessorConfig } from './assessor.ts'
+import { createAssessor, DEFAULT_TIMEOUT_MS, precheck, scrub, type AssessorCallInfo, type AssessorConfig } from './assessor.ts'
 import { buildCard, type TaskCard } from './card.ts'
 import type { AssessorResult } from './contract.ts'
-import { loadPack, renderPrompt, type Pack } from './pack.ts'
+import { loadPack, packDirs, renderPrompt, type Pack } from './pack.ts'
 import { fakeTransport, type FakeStep } from './transport.ts'
 
 const catalog = loadCatalog()
@@ -17,6 +17,8 @@ const signal = () => new AbortController().signal
 const card: TaskCard = buildCard(summaryOf('anthropic-messages'), { messages: [{ role: 'user', content: 'where is the session timeout set?' }] })
 const fastOut = output(['explore-readonly'])
 const deepOut = output(['deep-investigation'], { reasoning_depth: 'deep', scope: 'cross-module', specification: 'ambiguous' })
+// v2.1: `fact:deep` joins the frontier basis (v2.2, the default, no longer counts `deep` as a frontier fact).
+const v21 = loadPack(packDirs['v2.1'])
 
 const make = (steps: FakeStep[] | ((...a: never[]) => FakeStep), over: Partial<AssessorConfig> = {}) => {
   const transport = fakeTransport(steps as FakeStep[])
@@ -39,7 +41,7 @@ describe('valid results per adapter', () => {
   it('Luna on Responses (default): observe mode records the proposal, cost from costOf', async () => {
     const body = responsesBody(JSON.stringify(fastOut))
     const { transport, assessor } = make([{ body }])
-    expect(assessor.id).toBe('assessor/v2.1@global.openai.gpt-6-luna')
+    expect(assessor.id).toBe('assessor/v2.2@global.openai.gpt-6-luna')
     expect(assessor.dialect).toBe('openai-responses')
     const r = ok(await assessor.assess(card, signal()))
     expect(r.tier).toBeUndefined() // every rule is auto:false
@@ -73,7 +75,7 @@ describe('valid results per adapter', () => {
 
   it('Luna on Chat Completions', async () => {
     const body = chatBody(JSON.stringify(deepOut))
-    const { transport, assessor } = make([{ body }], { api: 'chat' })
+    const { transport, assessor } = make([{ body }], { api: 'chat', pack: v21 })
     const r = ok(await assessor.assess(card, signal()))
     expect(transport.calls[0]!.path).toBe('/openai/v1/chat/completions')
     expect(r.audit).toMatchObject({ dialect: 'openai-chat', proposedTier: 'frontier', basis: ['deep-investigation', 'fact:deep'] })
@@ -83,7 +85,7 @@ describe('valid results per adapter', () => {
   it('Haiku 5.5 on Messages with the forced tool', async () => {
     const body = messagesBody([toolUse(fastOut)])
     const { transport, assessor } = make([{ body }], { model: HAIKU })
-    expect(assessor.id).toBe('assessor/v2.1@global.anthropic.claude-haiku-5-5')
+    expect(assessor.id).toBe('assessor/v2.2@global.anthropic.claude-haiku-5-5')
     const r = ok(await assessor.assess(card, signal()))
     expect(transport.calls[0]!.path).toBe('/anthropic/v1/messages')
     const sent = JSON.parse(transport.calls[0]!.body) as { tool_choice: unknown; system: unknown[] }
@@ -155,16 +157,17 @@ describe('failures become unavailable, never exceptions', () => {
 })
 
 describe('timeout and abort', () => {
-  it('times out at 1.5 s by default and aborts the transport signal', async () => {
+  it('times out at DEFAULT_TIMEOUT_MS (5 s) by default and aborts the transport signal', async () => {
     vi.useFakeTimers()
     const { transport, assessor } = make([{ delayMs: 10_000, body: responsesBody(JSON.stringify(fastOut)) }], { now: () => Date.now() })
     const pending = assessor.assess(card, signal())
-    await vi.advanceTimersByTimeAsync(1499)
+    expect(DEFAULT_TIMEOUT_MS).toBe(5000)
+    await vi.advanceTimersByTimeAsync(DEFAULT_TIMEOUT_MS - 1)
     expect(transport.calls[0]!.signal.aborted).toBe(false)
     await vi.advanceTimersByTimeAsync(1)
     const r = unavailable(await pending)
-    expect(r.reason).toBe('timeout: no response within 1500 ms')
-    expect(r.latencyMs).toBe(1500)
+    expect(r.reason).toBe('timeout: no response within 5000 ms')
+    expect(r.latencyMs).toBe(5000)
     expect(transport.calls[0]!.signal.aborted).toBe(true)
   })
 
@@ -225,8 +228,8 @@ describe('precheck', () => {
 })
 
 describe('observe vs auto', () => {
-  const withAuto = (ids: string[]): Pack => {
-    const p = structuredClone(loadPack())
+  const withAuto = (ids: string[], base: Pack = loadPack()): Pack => {
+    const p = structuredClone(base)
     for (const r of p.rules) r.auto = ids.includes(r.id)
     return p
   }
@@ -242,9 +245,13 @@ describe('observe vs auto', () => {
 
   it('needs autoFacts for fact-based tiers', async () => {
     const body = responsesBody(JSON.stringify(deepOut))
-    const pack = withAuto(['deep-investigation'])
+    const pack = withAuto(['deep-investigation'], v21)
     expect(ok(await make([{ body }], { pack }).assessor.assess(card, signal())).tier).toBeUndefined()
     expect(ok(await make([{ body }], { pack, autoFacts: ['deep'] }).assessor.assess(card, signal())).tier).toBe('frontier')
+    // v2.2's mapping has no `deep` frontier fact: the rule alone is the basis, so no autoFacts are needed.
+    const r = ok(await make([{ body }], { pack: withAuto(['deep-investigation']) }).assessor.assess(card, signal()))
+    expect(r.tier).toBe('frontier')
+    expect(r.audit).toMatchObject({ basis: ['deep-investigation'] })
   })
 
   it('a rule edit changes the pack version reported in the audit', async () => {

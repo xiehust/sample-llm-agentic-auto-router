@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { loadCatalog } from '@auto-router/pricing'
 import { describe, expect, it } from 'vitest'
+import { validatePolicy } from '@auto-router/core'
 import { ConfigError, loadConfig } from './config.ts'
 import { TEST_GATEWAY_ARN, TEST_ROLE_ARN, TEST_VPCE, testPolicy } from './test-helpers.ts'
 
@@ -21,6 +22,19 @@ describe('loadConfig', () => {
     expect(c.maxBodyBytes).toBe(10 * 1024 * 1024)
     expect(c.timeouts).toEqual({ streamHeaderMs: 60_000, nonStreamHeaderMs: 600_000, idleMs: 240_000, heartbeatMs: 60_000, streamCapMs: 900_000 })
     expect(loadConfig({ ...base, ROUTER_SSE_HEARTBEAT_MS: '0' }).timeouts.heartbeatMs).toBe(0)
+  })
+
+  it('ROUTER_MODEL_UNIVERSE must cover the boot policy and exist in the catalog; ROUTER_CONFIG_BUCKET enables the S3 source', () => {
+    const models = ['global.openai.gpt-6-astra', 'global.openai.gpt-6.1-sol', 'global.openai.gpt-6-luna', 'global.anthropic.claude-opus-5-5',
+      'global.anthropic.claude-sonnet-5-5', 'global.anthropic.claude-haiku-5-5', 'jp.anthropic.claude-haiku-5-5']
+    expect(loadConfig(base).modelUniverse).toBeUndefined()
+    expect([...(loadConfig({ ...base, ROUTER_MODEL_UNIVERSE: models.join(' , ') }).modelUniverse ?? [])].sort()).toEqual([...models].sort())
+    expect(issues({ ...base, ROUTER_MODEL_UNIVERSE: models.slice(1).join(',') }).join()).toMatch(/must include .*gpt-6-astra/)
+    expect(issues({ ...base, ROUTER_MODEL_UNIVERSE: [...models, 'global.example.nope'].join(',') }).join()).toMatch(/'global.example.nope' is not in the ap-northeast-1 catalog/)
+    expect(loadConfig(base).configSource).toBeUndefined()
+    expect(loadConfig({ ...base, ROUTER_CONFIG_BUCKET: 'llmar-config-test' }).configSource).toEqual({ bucket: 'llmar-config-test', pollMs: 30_000 })
+    expect(issues({ ...base, ROUTER_CONFIG_BUCKET: 'Bad.Bucket' }).join()).toMatch(/ROUTER_CONFIG_BUCKET/)
+    expect(issues({ ...base, ROUTER_CONFIG_BUCKET: 'llmar-config-test', ROUTER_CONFIG_POLL_MS: '1000' }).join()).toMatch(/ROUTER_CONFIG_POLL_MS/)
   })
 
   it('refuses the test bypass on any non-loopback bind', () => {
@@ -107,5 +121,53 @@ describe('shipped default policy (config/policy.default.json)', () => {
     expect(c.policy.observeDefaults).toEqual({
       'anthropic-messages': 'global.anthropic.claude-sonnet-5-5', 'openai-chat': 'global.openai.gpt-6.1-sol', 'openai-responses': 'global.openai.gpt-6.1-sol',
     })
+  })
+})
+
+describe('experiment policy (config/policy.experiment.ap-southeast-1.json)', () => {
+  it('is the default policy in auto mode, validates against the ap-southeast-1 catalog, and leaves the assessor consult path open', async () => {
+    const read = (f: string) => JSON.parse(readFileSync(new URL(`../config/${f}`, import.meta.url), 'utf8')) as Record<string, unknown>
+    const raw = readFileSync(new URL('../config/policy.experiment.ap-southeast-1.json', import.meta.url), 'utf8')
+    const c = loadConfig({ ROUTER_POLICY_JSON: raw, ROUTER_REGION: 'ap-southeast-1' })
+    expect(c.catalog.region).toBe('ap-southeast-1')
+    expect(c.policy.mode).toBe('auto')
+    const resp = c.policy.pools['openai-responses']
+    expect(resp?.defaultTier).toBe('standard')
+    expect(resp?.models.map((m) => [m.model, m.tier])).toEqual([
+      ['global.openai.gpt-6-astra', 'frontier'], ['global.openai.gpt-6.1-sol', 'standard'], ['global.openai.gpt-6-luna', 'fast'],
+    ])
+    // The assessor is consulted only when the tier comes from the pool default: no rules, and `auto` stays 'default'.
+    expect(c.policy.rules).toEqual([])
+    expect(c.policy.aliases.auto).toBe('default')
+    // Only mode and version differ from the shipped default.
+    const { version: _v, mode: _m, ...rest } = read('policy.experiment.ap-southeast-1.json')
+    const { version: _dv, mode: _dm, ...base } = read('policy.default.json')
+    expect(rest).toEqual(base)
+    const { createEngine, InMemoryStateStore } = await import('@auto-router/core')
+    expect(() => createEngine({ policy: c.policy, catalog: c.catalog, store: new InMemoryStateStore() })).not.toThrow()
+  })
+})
+
+describe('Claude Code experiment policy (config/policy.experiment-cc.ap-southeast-1.json; task 11-07-claude-code-harbor-eval)', () => {
+  const read = (f: string) => JSON.parse(readFileSync(new URL(`../config/${f}`, import.meta.url), 'utf8')) as Record<string, unknown>
+  it('is the experiment policy plus sessionTier root (and its own version), and loads with the ap-southeast-1 catalog', async () => {
+    const { version: v, sessionTier, ...rest } = read('policy.experiment-cc.ap-southeast-1.json')
+    const { version: ev, ...exp } = read('policy.experiment.ap-southeast-1.json')
+    expect(sessionTier).toBe('root')
+    expect(rest).toEqual(exp)
+    expect(v).not.toBe(ev)
+    const c = loadConfig({ ROUTER_POLICY_JSON: JSON.stringify(read('policy.experiment-cc.ap-southeast-1.json')), ROUTER_REGION: 'ap-southeast-1' })
+    expect(c.policy.sessionTier).toBe('root')
+    expect(c.policy.pools['anthropic-messages']?.models.map((m) => m.model)).toEqual([
+      'global.anthropic.claude-opus-5-5', 'global.anthropic.claude-sonnet-5-5', 'global.anthropic.claude-haiku-5-5',
+    ])
+    const { createEngine, InMemoryStateStore } = await import('@auto-router/core')
+    expect(() => createEngine({ policy: c.policy, catalog: c.catalog, store: new InMemoryStateStore() })).not.toThrow()
+  })
+  it('every other shipped policy validates without a sessionTier key (byte-identical behaviour)', () => {
+    for (const f of ['policy.default.json', 'policy.experiment.ap-southeast-1.json', 'policy.example.ap-northeast-1.json']) {
+      expect('sessionTier' in read(f)).toBe(false)
+      expect('sessionTier' in validatePolicy(read(f))).toBe(false)
+    }
   })
 })

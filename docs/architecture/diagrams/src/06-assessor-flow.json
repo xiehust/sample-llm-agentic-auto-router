@@ -1,0 +1,308 @@
+{
+ "schema_version": 1,
+ "mode": "architecture",
+ "template_type": "architecture",
+ "style": 1,
+ "quality_profile": "showcase",
+ "text_policy": "strict",
+ "width": 1460,
+ "height": 900,
+ "title": "tier assessor：一次咨询的流程",
+ "subtitle": "core 决定何时咨询并限时，assessor 只给事实与规则判断，tier 由代码映射；失败一律回落基线",
+ "containers": [
+  {
+   "id": "core",
+   "x": 30,
+   "y": 110,
+   "width": 1400,
+   "height": 190,
+   "label": "core decide()：是否咨询（router 提供 card）"
+  },
+  {
+   "id": "asr",
+   "x": 30,
+   "y": 350,
+   "width": 1400,
+   "height": 190,
+   "label": "@auto-router/assessor：assess(card)"
+  },
+  {
+   "id": "use",
+   "x": 30,
+   "y": 600,
+   "width": 1400,
+   "height": 190,
+   "label": "core / router"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "c1",
+   "kind": "rect",
+   "x": 70,
+   "y": 170,
+   "width": 290,
+   "height": 96,
+   "type_label": "core · 1",
+   "label": "可咨询的时刻？",
+   "sublabel": "起点 / 断点 / 用户文本 turn",
+   "fill": "#f8fafc",
+   "stroke": "#94a3b8",
+   "flat": true
+  },
+  {
+   "id": "c2",
+   "kind": "rect",
+   "x": 415,
+   "y": 170,
+   "width": 290,
+   "height": 96,
+   "type_label": "core · 2",
+   "label": "期望 tier 来自默认？",
+   "sublabel": "hint、alias、rule 都没给 tier",
+   "fill": "#f8fafc",
+   "stroke": "#94a3b8",
+   "flat": true
+  },
+  {
+   "id": "c3",
+   "kind": "rect",
+   "x": 760,
+   "y": 170,
+   "width": 290,
+   "height": 96,
+   "type_label": "core · 3",
+   "label": "同一用户 turn 已有结果？",
+   "sublabel": "memo：命中则复用，不再调用",
+   "fill": "#f8fafc",
+   "stroke": "#94a3b8",
+   "flat": true
+  },
+  {
+   "id": "c4",
+   "kind": "rect",
+   "x": 1105,
+   "y": 170,
+   "width": 290,
+   "height": 96,
+   "type_label": "router",
+   "label": "构造 task card",
+   "sublabel": "buildCard：有界、清洗过的 JSON",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "p1",
+   "kind": "rect",
+   "x": 1105,
+   "y": 400,
+   "width": 290,
+   "height": 96,
+   "type_label": "assessor · 1",
+   "label": "precheck",
+   "sublabel": "无用户文本 / “ok” → 不调用模型",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "p2",
+   "kind": "rect",
+   "x": 760,
+   "y": 400,
+   "width": 290,
+   "height": 96,
+   "type_label": "assessor · 2",
+   "label": "渲染 prompt pack",
+   "sublabel": "指令 → 规则 → 示例 → card",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "p3",
+   "kind": "rect",
+   "x": 415,
+   "y": 400,
+   "width": 290,
+   "height": 96,
+   "type_label": "assessor · 3",
+   "label": "调用轻量模型",
+   "sublabel": "Luna · strict schema · 5 s 期限",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "p4",
+   "kind": "rect",
+   "x": 70,
+   "y": 400,
+   "width": 290,
+   "height": 96,
+   "type_label": "assessor · 4",
+   "label": "校验 + mapTier",
+   "sublabel": "事实 + 规则判断 → tier",
+   "fill": "#eff6ff",
+   "stroke": "#3b82f6",
+   "flat": true
+  },
+  {
+   "id": "k1",
+   "kind": "rect",
+   "x": 70,
+   "y": 660,
+   "width": 290,
+   "height": 96,
+   "type_label": "core · 4",
+   "label": "形成意见",
+   "sublabel": "有 tier 且 confidence ≥ 0.8",
+   "fill": "#f0fdf4",
+   "stroke": "#16a34a",
+   "flat": true
+  },
+  {
+   "id": "k2",
+   "kind": "rect",
+   "x": 415,
+   "y": 660,
+   "width": 290,
+   "height": 96,
+   "type_label": "core · 5",
+   "label": "降级保护",
+   "sublabel": "frontier 不会被拉低",
+   "fill": "#f0fdf4",
+   "stroke": "#16a34a",
+   "flat": true
+  },
+  {
+   "id": "k3",
+   "kind": "rect",
+   "x": 760,
+   "y": 660,
+   "width": 290,
+   "height": 96,
+   "type_label": "core · 6",
+   "label": "应用或只记录",
+   "sublabel": "auto 生效 / observe 只记录",
+   "fill": "#f0fdf4",
+   "stroke": "#16a34a",
+   "flat": true
+  },
+  {
+   "id": "k4",
+   "kind": "rect",
+   "x": 1105,
+   "y": 660,
+   "width": 290,
+   "height": 96,
+   "type_label": "router",
+   "label": "日志与指标",
+   "sublabel": "只记 code 与数字",
+   "fill": "#fff7ed",
+   "stroke": "#f97316",
+   "flat": true
+  }
+ ],
+ "arrows": [
+  {
+   "id": "e1",
+   "source": "c1",
+   "target": "c2",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "e2",
+   "source": "c2",
+   "target": "c3",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "e3",
+   "source": "c3",
+   "target": "c4",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "e4",
+   "source": "c4",
+   "target": "p1",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read"
+  },
+  {
+   "id": "e5",
+   "source": "p1",
+   "target": "p2",
+   "source_port": "left",
+   "target_port": "right",
+   "flow": "read"
+  },
+  {
+   "id": "e6",
+   "source": "p2",
+   "target": "p3",
+   "source_port": "left",
+   "target_port": "right",
+   "flow": "read"
+  },
+  {
+   "id": "e7",
+   "source": "p3",
+   "target": "p4",
+   "source_port": "left",
+   "target_port": "right",
+   "flow": "read"
+  },
+  {
+   "id": "e8",
+   "source": "p4",
+   "target": "k1",
+   "source_port": "bottom",
+   "target_port": "top",
+   "flow": "read"
+  },
+  {
+   "id": "e9",
+   "source": "k1",
+   "target": "k2",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "e10",
+   "source": "k2",
+   "target": "k3",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  },
+  {
+   "id": "e11",
+   "source": "k3",
+   "target": "k4",
+   "source_port": "right",
+   "target_port": "left",
+   "flow": "read"
+  }
+ ],
+ "legend_orientation": "horizontal",
+ "legend_x": 48,
+ "legend_y": 820,
+ "legend_locked": true,
+ "legend": [
+  {
+   "flow": "read",
+   "label": "一次咨询（任一步失败：无意见，决策回落到基线）"
+  }
+ ]
+}

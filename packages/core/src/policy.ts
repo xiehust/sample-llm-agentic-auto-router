@@ -58,6 +58,13 @@ export interface Policy {
   /** 'cost-gated' (default): §6 step 6. 'retain': user turns never switch (boundary-gated policy). */
   userTurn: 'cost-gated' | 'retain'
   observeDefaults?: Partial<Record<Dialect, string>>
+  /**
+   * Opt-in session-scoped tier (core design §13). Absent (every shipped config): today's per-lineage behaviour.
+   * 'root': the assessor is consulted only on the first decision of a session root's first auto lineage; every
+   * later auto decision under that root (other lineages, later break points) takes the tier of the root
+   * lineage's current model as its desired tier ('session-tier'), without consulting.
+   */
+  sessionTier?: 'root'
 }
 
 /** Input shape accepted by validatePolicy: everything except version and pools may be omitted. */
@@ -121,6 +128,7 @@ export function validatePolicy(input: unknown): Policy {
   if (mode !== 'observe' && mode !== 'auto') issues.push(`mode: must be 'observe' or 'auto'`)
   const userTurn = p.userTurn ?? 'cost-gated'
   if (userTurn !== 'cost-gated' && userTurn !== 'retain') issues.push(`userTurn: must be 'cost-gated' or 'retain'`)
+  if (p.sessionTier !== undefined && p.sessionTier !== 'root') issues.push(`sessionTier: must be 'root' (or absent)`)
 
   // aliases
   const aliases: Record<string, Tier | 'default'> = { ...DEFAULT_ALIASES }
@@ -285,6 +293,7 @@ export function validatePolicy(input: unknown): Policy {
     userTurn: userTurn as Policy['userTurn'],
   }
   if (observeDefaults) policy.observeDefaults = observeDefaults
+  if (p.sessionTier === 'root') policy.sessionTier = 'root'
   return policy
 }
 

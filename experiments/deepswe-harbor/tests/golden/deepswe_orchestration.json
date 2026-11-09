@@ -1,0 +1,1039 @@
+{
+ "classify_grid": "fXAwlSiALV50ss7z4vsBlz7iTzmNMW7T1zI8w6tTkX8",
+ "driver": {
+  "check_job_config": {
+   "nop": {
+    "agents": [
+     {
+      "name": "nop"
+     }
+    ],
+    "environment": {
+     "delete": true,
+     "import_path": "llmar_env:LlmarDockerEnvironment"
+    },
+    "job_name": "chk-nop-abc",
+    "jobs_dir": "/srv/runner/results/jobs",
+    "n_attempts": 1,
+    "n_concurrent_trials": 1,
+    "quiet": true,
+    "retry": {
+     "max_retries": 0
+    },
+    "tasks": [
+     {
+      "path": "/srv/runner/deep-swe/tasks/x"
+     }
+    ],
+    "verifier": {}
+   },
+   "oracle": {
+    "agents": [
+     {
+      "name": "oracle"
+     }
+    ],
+    "environment": {
+     "delete": true,
+     "import_path": "llmar_env:LlmarDockerEnvironment"
+    },
+    "job_name": "chk-oracle-abc",
+    "jobs_dir": "/srv/runner/results/jobs",
+    "n_attempts": 1,
+    "n_concurrent_trials": 1,
+    "quiet": true,
+    "retry": {
+     "max_retries": 0
+    },
+    "tasks": [
+     {
+      "path": "/srv/runner/deep-swe/tasks/x"
+     }
+    ],
+    "verifier": {}
+   }
+  },
+  "consts": {
+   "DEFAULT_CONCURRENCY": "6",
+   "DEFAULT_HARD_CAP": "1130.0",
+   "DEFAULT_SOFT_CAP": "1000.0",
+   "EXPORT_DIRS": "('jobs', 'attempts', 'checks', 'isolation')",
+   "EXPORT_FILES": "('attempts.jsonl', 'checks.jsonl', 'checks/summary.json', 'run-config.json', 'status.json', 'prepull.json', 'tasks.json', 'driver.log', 'host-metrics.jsonl', 'docker-events.jsonl', 'kernel-oom.jsonl', 'proxy/calls.jsonl', 'proxy/alerts.jsonl', 'proxy/proxy-state.json', 'proxy/cap-events.jsonl')",
+   "HARBOR_ENV_ALLOW": "('PATH', 'HOME', 'USER', 'LOGNAME', 'LANG', 'LC_ALL', 'LC_CTYPE', 'TZ', 'TMPDIR', 'DOCKER_HOST', 'DOCKER_CONFIG', 'XDG_CACHE_HOME', 'XDG_CONFIG_HOME', 'XDG_DATA_HOME')",
+   "LIGHT_ALWAYS": "('result.json', 'reward.json', 'reward.txt', 'config.json')",
+   "LIGHT_MAX_FILE": "1048576",
+   "MAX_CONCURRENCY": "6",
+   "MAX_CONSECUTIVE_HARNESS": "5",
+   "MAX_RERUNS": "2",
+   "MAX_REVERIFIES": "2",
+   "MIN_FREE_GB": "30.0",
+   "PART_CHARS": "20000",
+   "STOP_GRACE_S": "180",
+   "WALL_TIMEOUT_H": "5.0"
+  },
+  "harbor_argv": [
+   "harbor",
+   "run",
+   "--config",
+   "/w/attempts/x/job.json",
+   "--yes"
+  ],
+  "harbor_env": {
+   "DOCKER_HOST": "unix:///var/run/docker.sock",
+   "HARBOR_TELEMETRY": "0",
+   "HOME": "/root",
+   "LANG": "C",
+   "PATH": "/usr/bin",
+   "PYTHONPATH": "<HERE>"
+  },
+  "paths": {
+   "attempts": "/srv/runner/results/attempts",
+   "check_events": "/srv/runner/results/checks.jsonl",
+   "check_summary": "/srv/runner/results/checks/summary.json",
+   "checks": "/srv/runner/results/checks",
+   "docker_events": "/srv/runner/results/docker-events.jsonl",
+   "events": "/srv/runner/results/attempts.jsonl",
+   "exports": "/srv/runner/exports",
+   "jobs": "/srv/runner/results/jobs",
+   "kernel_oom": "/srv/runner/results/kernel-oom.jsonl",
+   "lock": "/srv/runner/results/driver.lock",
+   "log": "/srv/runner/results/driver.log",
+   "metrics": "/srv/runner/results/host-metrics.jsonl",
+   "prepull": "/srv/runner/results/prepull.json",
+   "proxy": "/srv/runner/results/proxy",
+   "results": "/srv/runner/results",
+   "run_config": "/srv/runner/results/run-config.json",
+   "status": "/srv/runner/results/status.json",
+   "stop": "/srv/runner/results/STOP",
+   "tasks": "/srv/runner/deep-swe/tasks",
+   "tasks_meta": "/srv/runner/results/tasks.json",
+   "work": "/srv/runner"
+  },
+  "regrade_argv": [
+   "harbor",
+   "jobs",
+   "regrade",
+   "/w/jobs/t",
+   "--task-path",
+   "/w/deep-swe/tasks/x",
+   "--jobs-dir",
+   "/w/jobs",
+   "--job-name",
+   "t-rv1-abcdef",
+   "--n-concurrent",
+   "1",
+   "--yes"
+  ],
+  "runner_env": {
+   "count": "4",
+   "index": "1",
+   "prepull": "('a:1', 'b:2')",
+   "proxy_addr": "172.17.0.1",
+   "proxy_port": "8088",
+   "region": "ap-southeast-1",
+   "results_prefix": "runs/1/",
+   "work_dir": "/srv/runner"
+  }
+ },
+ "fake_run": {
+  "check_event_keys": [
+   "at",
+   "check_id",
+   "ev",
+   "kind",
+   "task",
+   "trial_dir",
+   "verdict",
+   "wall_s"
+  ],
+  "checks_summary": {
+   "dropped": [
+    "task-003",
+    "task-004"
+   ],
+   "kinds": [
+    "oracle",
+    "nop"
+   ],
+   "reps": 1,
+   "runner": 0,
+   "tasks": {
+    "task-003": {
+     "drop": true,
+     "nop": {
+      "failed": 0,
+      "infra": 0,
+      "ok": 1,
+      "rewards": [
+       0.0
+      ]
+     },
+     "ok": false,
+     "oracle": {
+      "failed": 1,
+      "infra": 0,
+      "ok": 0,
+      "rewards": [
+       0.0
+      ]
+     },
+     "reason": "reference solution fails (expected pass)"
+    },
+    "task-004": {
+     "drop": true,
+     "nop": {
+      "failed": 1,
+      "infra": 0,
+      "ok": 0,
+      "rewards": [
+       1.0
+      ]
+     },
+     "ok": false,
+     "oracle": {
+      "failed": 0,
+      "infra": 0,
+      "ok": 1,
+      "rewards": [
+       1.0
+      ]
+     },
+     "reason": "unmodified base passes (expected fail)"
+    },
+    "task-005": {
+     "drop": false,
+     "nop": {
+      "failed": 0,
+      "infra": 0,
+      "ok": 1,
+      "rewards": [
+       0.0
+      ]
+     },
+     "ok": null,
+     "oracle": {
+      "failed": 0,
+      "infra": 3,
+      "ok": 0,
+      "rewards": []
+     },
+     "reason": null
+    },
+    "task-007": {
+     "drop": false,
+     "nop": {
+      "failed": 0,
+      "infra": 0,
+      "ok": 1,
+      "rewards": [
+       0.0
+      ]
+     },
+     "ok": true,
+     "oracle": {
+      "failed": 0,
+      "infra": 0,
+      "ok": 1,
+      "rewards": [
+       1.0
+      ]
+     },
+     "reason": null
+    }
+   },
+   "unresolved": [
+    "task-005"
+   ]
+  },
+  "classes": [
+   [
+    "main/task-007/B/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-007/A/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-007/C/r1",
+    "harness",
+    "rerun",
+    "environment: EnvironmentStartTimeoutError"
+   ],
+   [
+    "main/task-007/C/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-007/F/r1",
+    "verifier_infra",
+    "reverify",
+    "verifier: VerifierTimeoutError"
+   ],
+   [
+    "main/task-003/B/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-003/F/r1",
+    "verifier_infra",
+    "reverify",
+    "verifier: VerifierTimeoutError"
+   ],
+   [
+    "main/task-003/A/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-003/C/r1",
+    "harness",
+    "rerun",
+    "environment: EnvironmentStartTimeoutError"
+   ],
+   [
+    "main/task-003/C/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-005/C/r1",
+    "harness",
+    "rerun",
+    "environment: EnvironmentStartTimeoutError"
+   ],
+   [
+    "main/task-005/C/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-005/A/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-005/B/r1",
+    "agent",
+    "score",
+    "verified"
+   ],
+   [
+    "main/task-005/F/r1",
+    "verifier_infra",
+    "reverify",
+    "verifier: VerifierTimeoutError"
+   ]
+  ],
+  "event_keys": {
+   "end": [
+    "agent_s",
+    "at",
+    "classification",
+    "cleanup",
+    "ev",
+    "host",
+    "key",
+    "killed",
+    "patch_bytes",
+    "proxy",
+    "rc",
+    "trial_dir",
+    "trial_id",
+    "trial_name",
+    "verifier_s",
+    "wall_s"
+   ],
+   "final": [
+    "arm",
+    "at",
+    "attempts",
+    "block",
+    "class",
+    "ev",
+    "key",
+    "pass",
+    "phase",
+    "reason",
+    "rep",
+    "reruns",
+    "reverifies",
+    "score",
+    "status",
+    "task",
+    "trial_id"
+   ],
+   "pid": [
+    "at",
+    "ev",
+    "key",
+    "pid",
+    "trial_id"
+   ],
+   "reverify-end": [
+    "at",
+    "classification",
+    "ev",
+    "job_name",
+    "k",
+    "key",
+    "rc",
+    "trial_dir",
+    "trial_id",
+    "wall_s"
+   ],
+   "reverify-start": [
+    "at",
+    "ev",
+    "job_name",
+    "k",
+    "key",
+    "pid",
+    "trial_id"
+   ],
+   "run-end": [
+    "at",
+    "ev",
+    "progress",
+    "reason",
+    "state"
+   ],
+   "run-start": [
+    "at",
+    "concurrency",
+    "dropped",
+    "ev",
+    "max_blocks",
+    "orphans",
+    "passes",
+    "pid",
+    "plan_sha256",
+    "runner",
+    "soft_cap"
+   ],
+   "start": [
+    "arm",
+    "at",
+    "attempt",
+    "block",
+    "ev",
+    "job_dir",
+    "key",
+    "pass",
+    "phase",
+    "pid",
+    "plan_sha256",
+    "rep",
+    "rerun_of",
+    "runner",
+    "shard",
+    "task",
+    "trial_id"
+   ]
+  },
+  "export_manifest_keys": [
+   "all_files",
+   "base",
+   "blocked",
+   "created",
+   "export_id",
+   "files",
+   "findings",
+   "mode",
+   "parts",
+   "runner",
+   "scanner",
+   "schema",
+   "skipped",
+   "tar_bytes",
+   "tar_sha256",
+   "unchanged"
+  ],
+  "export_top_level": [
+   "attempts",
+   "attempts.jsonl",
+   "driver.log",
+   "jobs",
+   "status.json"
+  ],
+  "finals": [
+   [
+    "main/task-007/B/r1",
+    "scored",
+    1.0,
+    0
+   ],
+   [
+    "main/task-007/A/r1",
+    "scored",
+    1.0,
+    0
+   ],
+   [
+    "main/task-007/C/r1",
+    "scored",
+    1.0,
+    1
+   ],
+   [
+    "main/task-007/F/r1",
+    "scored",
+    1.0,
+    0
+   ],
+   [
+    "main/task-003/B/r1",
+    "scored",
+    1.0,
+    0
+   ],
+   [
+    "main/task-003/F/r1",
+    "scored",
+    1.0,
+    0
+   ],
+   [
+    "main/task-003/A/r1",
+    "scored",
+    1.0,
+    0
+   ],
+   [
+    "main/task-003/C/r1",
+    "scored",
+    1.0,
+    1
+   ],
+   [
+    "main/task-005/C/r1",
+    "scored",
+    1.0,
+    1
+   ],
+   [
+    "main/task-005/A/r1",
+    "scored",
+    1.0,
+    0
+   ],
+   [
+    "main/task-005/B/r1",
+    "scored",
+    1.0,
+    0
+   ],
+   [
+    "main/task-005/F/r1",
+    "scored",
+    1.0,
+    0
+   ]
+  ],
+  "launch_order": [
+   [
+    "task-007",
+    "B",
+    1
+   ],
+   [
+    "task-007",
+    "A",
+    1
+   ],
+   [
+    "task-007",
+    "C",
+    1
+   ],
+   [
+    "task-007",
+    "C",
+    2
+   ],
+   [
+    "task-007",
+    "F",
+    1
+   ],
+   [
+    "task-003",
+    "B",
+    1
+   ],
+   [
+    "task-003",
+    "F",
+    1
+   ],
+   [
+    "task-003",
+    "A",
+    1
+   ],
+   [
+    "task-003",
+    "C",
+    1
+   ],
+   [
+    "task-003",
+    "C",
+    2
+   ],
+   [
+    "task-005",
+    "C",
+    1
+   ],
+   [
+    "task-005",
+    "C",
+    2
+   ],
+   [
+    "task-005",
+    "A",
+    1
+   ],
+   [
+    "task-005",
+    "B",
+    1
+   ],
+   [
+    "task-005",
+    "F",
+    1
+   ]
+  ],
+  "status_keys": [
+   "concurrency",
+   "consecutive_harness",
+   "dropped_tasks",
+   "host",
+   "in_flight",
+   "passes",
+   "progress",
+   "reason",
+   "recent_errors",
+   "runner",
+   "schema",
+   "shard",
+   "soft_cap_usd",
+   "spend",
+   "state",
+   "token",
+   "updated"
+  ],
+  "status_progress": {
+   "attempts": 15,
+   "classes": {
+    "agent": 12,
+    "harness": 3
+   },
+   "ended_spend_usd": 15.0,
+   "passes": {
+    "main": {
+     "admitted": 3,
+     "blocks": 4,
+     "blocks_done": 3,
+     "excluded": 0,
+     "scored": 12,
+     "solved": 12,
+     "trials": 16
+    }
+   },
+   "reruns": 3,
+   "statuses": {
+    "200": 60
+   },
+   "throttled_429": 0
+  },
+  "status_spend_keys": [
+   "cap_usd",
+   "inflight",
+   "settled_usd",
+   "stopped"
+  ]
+ },
+ "fleet": {
+  "bodies": {
+   "check": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\nif systemctl is-active --quiet llmar-check; then echo \"llmar-check is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-check 2>/dev/null || true\nsystemd-run --unit=llmar-check --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=420 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin $WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py check --kind both --reps 1 --concurrency 6\nsleep 3; systemctl is-active llmar-check || { journalctl -u llmar-check -n 30 --no-pager -o cat; exit 1; }\n"
+   ],
+   "isolation": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\ndocker pull -q python:3.13-slim@sha256:09a17cad02668ae61ece136b4fd36ac3849e14f670ebedb637ea3e15580525bc >/dev/null\nif systemctl is-active --quiet llmar-isolation; then echo \"llmar-isolation is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-isolation 2>/dev/null || true\nsystemd-run --unit=llmar-isolation --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=300 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/sh -c \"$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/isolation.py run --where runner --env llmar --harbor harbor --region ap-southeast-1 --out $WORK_DIR/results/isolation; echo isolation-exit=\\$?\"\nsleep 3; systemctl is-active llmar-isolation || { journalctl -u llmar-isolation -n 30 --no-pager -o cat; exit 1; }\n"
+   ],
+   "isolation-show": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\njournalctl -u llmar-isolation --no-pager -o cat 2>/dev/null | tail -60 | cut -c1-240 || true\necho \"unit: $(systemctl is-active llmar-isolation 2>/dev/null || true)\"\n"
+   ],
+   "prepull": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\nif systemctl is-active --quiet llmar-prepull; then echo \"llmar-prepull is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-prepull 2>/dev/null || true\nsystemd-run --unit=llmar-prepull --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=420 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin $WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py prepull\nsleep 3; systemctl is-active llmar-prepull || { journalctl -u llmar-prepull -n 30 --no-pager -o cat; exit 1; }\n"
+   ],
+   "setup": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\ncd \"$WORK_DIR/repo/experiments/deepswe-harbor\" && \"$WORK_DIR/venv/bin/python\" cli.py stage-codex --arch x86_64 >/dev/null\n$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py fetch-tasks\n"
+   ],
+   "start": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\nif systemctl is-active --quiet llmar-driver; then echo \"llmar-driver is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-driver 2>/dev/null || true\nsystemd-run --unit=llmar-driver --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=420 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin $WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py run --gateway-url https://gw.example --region ap-southeast-1 --concurrency 6 --soft-cap 1000 --hard-cap 1130 --secret-id llmar-runner/client --pass main --pass rep2 --max-blocks 7\nsleep 3; systemctl is-active llmar-driver || { journalctl -u llmar-driver -n 30 --no-pager -o cat; exit 1; }\n"
+   ],
+   "start-pilot": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\nif systemctl is-active --quiet llmar-driver; then echo \"llmar-driver is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-driver 2>/dev/null || true\nsystemd-run --unit=llmar-driver --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=420 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin $WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py run --gateway-url https://gw.example --region ap-southeast-1 --concurrency 6 --soft-cap 35 --hard-cap 50 --secret-id llmar-runner/client --pass pilot --token-max-age-s 600\nsleep 3; systemctl is-active llmar-driver || { journalctl -u llmar-driver -n 30 --no-pager -o cat; exit 1; }\n"
+   ],
+   "status": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\n$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py status"
+   ],
+   "stop": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\n$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py stop"
+   ],
+   "stop-now": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\n$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py stop --now"
+   ],
+   "units": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\necho \"llmar-driver: $(systemctl is-active llmar-driver 2>/dev/null || true)\"; journalctl -u llmar-driver -n 3 --no-pager -o cat 2>/dev/null | cut -c1-200 || true\necho \"llmar-check: $(systemctl is-active llmar-check 2>/dev/null || true)\"; journalctl -u llmar-check -n 3 --no-pager -o cat 2>/dev/null | cut -c1-200 || true\necho \"llmar-prepull: $(systemctl is-active llmar-prepull 2>/dev/null || true)\"; journalctl -u llmar-prepull -n 3 --no-pager -o cat 2>/dev/null | cut -c1-200 || true\necho \"llmar-isolation: $(systemctl is-active llmar-isolation 2>/dev/null || true)\"; journalctl -u llmar-isolation -n 3 --no-pager -o cat 2>/dev/null | cut -c1-200 || true\n"
+   ],
+   "unstop": [
+    "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\n$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py unstop"
+   ]
+  },
+  "bootstrap": "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\n\nSHA=abababababababababababababababababababababababababababababababab\nT=/tmp/llmar-harbor.tgz\ntr -d '\\n' < \"$T.b64\" | base64 -d > \"$T\"\necho \"$SHA  $T\" | sha256sum -c - >/dev/null || { echo \"sha256 mismatch\" >&2; exit 1; }\nbad=$(tar -tvzf \"$T\" | awk '{print substr($1,1,1)}' | grep -v '^[-d]$' || true)\n[ -z \"$bad\" ] || { echo \"tarball contains links or special files\" >&2; exit 1; }\nif tar -tzf \"$T\" | grep -Ev '^(experiments/deepswe\\-harbor|experiments/codex\\-deepswe|packages/pricing/data)(/|$)' | grep -q .; then echo \"paths outside the packed roots\" >&2; exit 1; fi\nif tar -tzf \"$T\" | grep -Eq '(^/|(^|/)\\.\\.(/|$))'; then echo \"absolute or parent paths\" >&2; exit 1; fi\numask 077\nstage=$(mktemp -d \"$WORK_DIR/stage.XXXXXX\")\ntar -xzf \"$T\" -C \"$stage\" --no-same-owner --no-same-permissions\nfor r in experiments/deepswe-harbor experiments/codex-deepswe packages/pricing/data; do\n  mkdir -p \"$WORK_DIR/repo/$r\"\n  find \"$WORK_DIR/repo/$r\" -mindepth 1 -maxdepth 1 ! -name results ! -name data ! -name bin -exec rm -rf {} +\n  cp -a \"$stage/$r/.\" \"$WORK_DIR/repo/$r/\"\ndone\nrm -rf \"$stage\" \"$T.b64\"\nUV=\"${LLMAR_UV:-/usr/local/bin/uv}\"\n\"$UV\" venv --quiet --allow-existing --python \"$DRIVER_PYTHON\" \"$WORK_DIR/venv\"\n\"$UV\" pip sync --quiet --python \"$WORK_DIR/venv/bin/python\" --require-hashes \"$WORK_DIR/repo/experiments/deepswe-harbor/driver-requirements.txt\"\necho \"$SHA\" > \"$WORK_DIR/repo/.llmar-tarball-sha256\"\n\"$WORK_DIR/venv/bin/python\" -I \"$WORK_DIR/repo/experiments/deepswe-harbor/driver.py\" --help >/dev/null\necho \"ready ${SHA:0:12} runner $RUNNER_INDEX\"\n",
+  "consts": {
+   "BOOTSTRAP": "\nSHA={sha}\nT=/tmp/llmar-harbor.tgz\ntr -d '\\n' < \"$T.b64\" | base64 -d > \"$T\"\necho \"$SHA  $T\" | sha256sum -c - >/dev/null || {{ echo \"sha256 mismatch\" >&2; exit 1; }}\nbad=$(tar -tvzf \"$T\" | awk '{{print substr($1,1,1)}}' | grep -v '^[-d]$' || true)\n[ -z \"$bad\" ] || {{ echo \"tarball contains links or special files\" >&2; exit 1; }}\nif tar -tzf \"$T\" | grep -Ev '^({roots})(/|$)' | grep -q .; then echo \"paths outside the packed roots\" >&2; exit 1; fi\nif tar -tzf \"$T\" | grep -Eq '(^/|(^|/)\\.\\.(/|$))'; then echo \"absolute or parent paths\" >&2; exit 1; fi\numask 077\nstage=$(mktemp -d \"$WORK_DIR/stage.XXXXXX\")\ntar -xzf \"$T\" -C \"$stage\" --no-same-owner --no-same-permissions\nfor r in {roots_sp}; do\n  mkdir -p \"$WORK_DIR/repo/$r\"\n  find \"$WORK_DIR/repo/$r\" -mindepth 1 -maxdepth 1 ! -name results ! -name data ! -name bin -exec rm -rf {{}} +\n  cp -a \"$stage/$r/.\" \"$WORK_DIR/repo/$r/\"\ndone\nrm -rf \"$stage\" \"$T.b64\"\nUV=\"${{LLMAR_UV:-/usr/local/bin/uv}}\"\n\"$UV\" venv --quiet --allow-existing --python \"$DRIVER_PYTHON\" \"$WORK_DIR/venv\"\n\"$UV\" pip sync --quiet --python \"$WORK_DIR/venv/bin/python\" --require-hashes \"$WORK_DIR/repo/experiments/deepswe-harbor/driver-requirements.txt\"\necho \"$SHA\" > \"$WORK_DIR/repo/.llmar-tarball-sha256\"\n\"$WORK_DIR/venv/bin/python\" -I \"$WORK_DIR/repo/experiments/deepswe-harbor/driver.py\" --help >/dev/null\necho \"ready ${{SHA:0:12}} runner $RUNNER_INDEX\"\n",
+   "DRIVER": "$WORK_DIR/repo/experiments/deepswe-harbor/driver.py",
+   "ISOLATION": "$WORK_DIR/repo/experiments/deepswe-harbor/isolation.py",
+   "ISOLATION_SHOW": "journalctl -u llmar-isolation --no-pager -o cat 2>/dev/null | tail -60 | cut -c1-240 || true\necho \"unit: $(systemctl is-active llmar-isolation 2>/dev/null || true)\"\n",
+   "PREAMBLE": "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\n",
+   "PY": "$WORK_DIR/venv/bin/python",
+   "ROOTS": "('experiments/deepswe-harbor', 'experiments/codex-deepswe', 'packages/pricing/data')",
+   "SHIP_PART_CHARS": "40000",
+   "UNITS": "('llmar-driver', 'llmar-check', 'llmar-prepull', 'llmar-isolation')"
+  },
+  "dirs": {
+   "FLEET": "results/fleet",
+   "MERGED": "results/merged",
+   "PACK": "results/fleet/llmar-harbor.tar.gz",
+   "REQUIREMENTS": "driver-requirements.txt"
+  },
+  "driver_cmd": [
+   "$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py ",
+   "$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py status",
+   "$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py export --mode light --base 1-abcdef",
+   "$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py export-part --id 1-abcdef --part 0"
+  ],
+  "isolation_cmd": "/bin/sh -c \"$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/isolation.py run --where runner --env llmar --harbor harbor --region ap-southeast-1 --out $WORK_DIR/results/isolation; echo isolation-exit=\\$?\"",
+  "isolation_unit": "if systemctl is-active --quiet llmar-isolation; then echo \"llmar-isolation is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-isolation 2>/dev/null || true\nsystemd-run --unit=llmar-isolation --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=300 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/sh -c \"$WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/isolation.py run --where runner --env llmar --harbor harbor --region ap-southeast-1 --out $WORK_DIR/results/isolation; echo isolation-exit=\\$?\"\nsleep 3; systemctl is-active llmar-isolation || { journalctl -u llmar-isolation -n 30 --no-pager -o cat; exit 1; }\n",
+  "ship": [
+   "rm -f /tmp/llmar-harbor.tgz.b64 /tmp/llmar-harbor.tgz\n",
+   "cat >> /tmp/llmar-harbor.tgz.b64 <<'LLMAR_EOF'\naGVsbG8gd29ybGRoZWxsbyB3b3JsZGhlbGxvIHdvcmxkaGVsbG8gd29ybGRoZWxsbyB3b3JsZGhlbGxvIHdvcmxkaGVsbG8gd29ybGRoZWxsbyB3b3JsZGhlbGxvIHdvcmxkaGVsbG8gd29ybGQ=\nLLMAR_EOF\n",
+   "set -euo pipefail\nexport HOME=\"${HOME:-/root}\"\nset -a; . \"${LLMAR_ENV_FILE:-/etc/llmar-runner.env}\"; set +a\ncd \"$WORK_DIR\"\n\nSHA=abababababababababababababababababababababababababababababababab\nT=/tmp/llmar-harbor.tgz\ntr -d '\\n' < \"$T.b64\" | base64 -d > \"$T\"\necho \"$SHA  $T\" | sha256sum -c - >/dev/null || { echo \"sha256 mismatch\" >&2; exit 1; }\nbad=$(tar -tvzf \"$T\" | awk '{print substr($1,1,1)}' | grep -v '^[-d]$' || true)\n[ -z \"$bad\" ] || { echo \"tarball contains links or special files\" >&2; exit 1; }\nif tar -tzf \"$T\" | grep -Ev '^(experiments/deepswe\\-harbor|experiments/codex\\-deepswe|packages/pricing/data)(/|$)' | grep -q .; then echo \"paths outside the packed roots\" >&2; exit 1; fi\nif tar -tzf \"$T\" | grep -Eq '(^/|(^|/)\\.\\.(/|$))'; then echo \"absolute or parent paths\" >&2; exit 1; fi\numask 077\nstage=$(mktemp -d \"$WORK_DIR/stage.XXXXXX\")\ntar -xzf \"$T\" -C \"$stage\" --no-same-owner --no-same-permissions\nfor r in experiments/deepswe-harbor experiments/codex-deepswe packages/pricing/data; do\n  mkdir -p \"$WORK_DIR/repo/$r\"\n  find \"$WORK_DIR/repo/$r\" -mindepth 1 -maxdepth 1 ! -name results ! -name data ! -name bin -exec rm -rf {} +\n  cp -a \"$stage/$r/.\" \"$WORK_DIR/repo/$r/\"\ndone\nrm -rf \"$stage\" \"$T.b64\"\nUV=\"${LLMAR_UV:-/usr/local/bin/uv}\"\n\"$UV\" venv --quiet --allow-existing --python \"$DRIVER_PYTHON\" \"$WORK_DIR/venv\"\n\"$UV\" pip sync --quiet --python \"$WORK_DIR/venv/bin/python\" --require-hashes \"$WORK_DIR/repo/experiments/deepswe-harbor/driver-requirements.txt\"\necho \"$SHA\" > \"$WORK_DIR/repo/.llmar-tarball-sha256\"\n\"$WORK_DIR/venv/bin/python\" -I \"$WORK_DIR/repo/experiments/deepswe-harbor/driver.py\" --help >/dev/null\necho \"ready ${SHA:0:12} runner $RUNNER_INDEX\"\n"
+  ],
+  "start_args": [
+   "run",
+   "--gateway-url",
+   "https://gw.example",
+   "--region",
+   "ap-southeast-1",
+   "--concurrency",
+   "6",
+   "--soft-cap",
+   "1000",
+   "--hard-cap",
+   "1130",
+   "--secret-id",
+   "llmar-runner/client",
+   "--pass",
+   "main",
+   "--pass",
+   "rep2",
+   "--max-blocks",
+   "7",
+   "--change-concurrency",
+   "--unstop-cap",
+   "--token-max-age-s",
+   "600"
+  ],
+  "unit_cmd": {
+   "llmar-check": "if systemctl is-active --quiet llmar-check; then echo \"llmar-check is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-check 2>/dev/null || true\nsystemd-run --unit=llmar-check --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=420 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin $WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py check --kind both\nsleep 3; systemctl is-active llmar-check || { journalctl -u llmar-check -n 30 --no-pager -o cat; exit 1; }\n",
+   "llmar-driver": "if systemctl is-active --quiet llmar-driver; then echo \"llmar-driver is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-driver 2>/dev/null || true\nsystemd-run --unit=llmar-driver --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=420 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin $WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py check --kind both\nsleep 3; systemctl is-active llmar-driver || { journalctl -u llmar-driver -n 30 --no-pager -o cat; exit 1; }\n",
+   "llmar-prepull": "if systemctl is-active --quiet llmar-prepull; then echo \"llmar-prepull is already running\" >&2; exit 3; fi\nsystemctl reset-failed llmar-prepull 2>/dev/null || true\nsystemd-run --unit=llmar-prepull --collect --quiet --property=KillMode=mixed --property=TimeoutStopSec=420 --property=LimitCORE=0 --working-directory=\"$WORK_DIR\" --setenv=HOME=/root --setenv=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin $WORK_DIR/venv/bin/python -I $WORK_DIR/repo/experiments/deepswe-harbor/driver.py check --kind both\nsleep 3; systemctl is-active llmar-prepull || { journalctl -u llmar-prepull -n 30 --no-pager -o cat; exit 1; }\n"
+  }
+ },
+ "plan": {
+  "arm_order": [
+   "C",
+   "B",
+   "F",
+   "A"
+  ],
+  "block_order": [
+   "t2",
+   "t16",
+   "t11",
+   "t18",
+   "t19",
+   "t8",
+   "t6",
+   "t9",
+   "t4",
+   "t5",
+   "t7",
+   "t14",
+   "t13",
+   "t3",
+   "t17",
+   "t0",
+   "t15",
+   "t12",
+   "t10",
+   "t1"
+  ],
+  "n_trials": {
+   "main/0": 112,
+   "main/1": 112,
+   "main/2": 116,
+   "main/3": 112,
+   "pilot/0": 4,
+   "pilot/1": 4,
+   "pilot/2": 4,
+   "pilot/3": 4,
+   "pilot2/0": 4,
+   "pilot2/1": 4,
+   "pilot2/2": 4,
+   "pilot2/3": 4,
+   "rep2/0": 112,
+   "rep2/1": 112,
+   "rep2/2": 116,
+   "rep2/3": 112,
+   "rep3/0": 56,
+   "rep3/1": 56,
+   "rep3/2": 58,
+   "rep3/3": 56,
+   "rep3c/0": 56,
+   "rep3c/1": 56,
+   "rep3c/2": 58,
+   "rep3c/3": 56,
+   "rep4/0": 56,
+   "rep4/1": 56,
+   "rep4/2": 58,
+   "rep4/3": 56,
+   "rep4c/0": 56,
+   "rep4c/1": 56,
+   "rep4c/2": 58,
+   "rep4c/3": 56,
+   "rep5/0": 56,
+   "rep5/1": 56,
+   "rep5/2": 58,
+   "rep5/3": 56,
+   "rep5c/0": 56,
+   "rep5c/1": 56,
+   "rep5c/2": 58,
+   "rep5c/3": 56
+  },
+  "summary": {
+   "passes": {
+    "main": {
+     "arms": [
+      "A",
+      "F",
+      "C",
+      "B"
+     ],
+     "cut": null,
+     "order": "random",
+     "per_shard": {
+      "0": 28,
+      "1": 28,
+      "2": 29,
+      "3": 28
+     },
+     "phase": "main",
+     "rep": 1,
+     "trials": 452
+    },
+    "pilot": {
+     "arms": [
+      "A",
+      "F",
+      "C",
+      "B"
+     ],
+     "cut": null,
+     "order": "given",
+     "per_shard": {
+      "0": 1,
+      "1": 1,
+      "2": 1,
+      "3": 1
+     },
+     "phase": "pilot",
+     "rep": 1,
+     "trials": 16
+    },
+    "pilot2": {
+     "arms": [
+      "A",
+      "F",
+      "C",
+      "B"
+     ],
+     "cut": null,
+     "order": "random",
+     "per_shard": {
+      "0": 1,
+      "1": 1,
+      "2": 1,
+      "3": 1
+     },
+     "phase": "pilot",
+     "rep": 1,
+     "trials": 16
+    },
+    "rep2": {
+     "arms": [
+      "A",
+      "F",
+      "C",
+      "B"
+     ],
+     "cut": null,
+     "order": "stratified",
+     "per_shard": {
+      "0": 28,
+      "1": 28,
+      "2": 29,
+      "3": 28
+     },
+     "phase": "repeat",
+     "rep": 2,
+     "trials": 452
+    },
+    "rep3": {
+     "arms": [
+      "A",
+      "B"
+     ],
+     "cut": null,
+     "order": "stratified",
+     "per_shard": {
+      "0": 28,
+      "1": 28,
+      "2": 29,
+      "3": 28
+     },
+     "phase": "repeat",
+     "rep": 3,
+     "trials": 226
+    },
+    "rep3c": {
+     "arms": [
+      "C",
+      "F"
+     ],
+     "cut": null,
+     "order": "stratified",
+     "per_shard": {
+      "0": 28,
+      "1": 28,
+      "2": 29,
+      "3": 28
+     },
+     "phase": "repeat",
+     "rep": 3,
+     "trials": 226
+    },
+    "rep4": {
+     "arms": [
+      "A",
+      "B"
+     ],
+     "cut": null,
+     "order": "stratified",
+     "per_shard": {
+      "0": 28,
+      "1": 28,
+      "2": 29,
+      "3": 28
+     },
+     "phase": "repeat",
+     "rep": 4,
+     "trials": 226
+    },
+    "rep4c": {
+     "arms": [
+      "C",
+      "F"
+     ],
+     "cut": null,
+     "order": "stratified",
+     "per_shard": {
+      "0": 28,
+      "1": 28,
+      "2": 29,
+      "3": 28
+     },
+     "phase": "repeat",
+     "rep": 4,
+     "trials": 226
+    },
+    "rep5": {
+     "arms": [
+      "A",
+      "B"
+     ],
+     "cut": null,
+     "order": "stratified",
+     "per_shard": {
+      "0": 28,
+      "1": 28,
+      "2": 29,
+      "3": 28
+     },
+     "phase": "repeat",
+     "rep": 5,
+     "trials": 226
+    },
+    "rep5c": {
+     "arms": [
+      "C",
+      "F"
+     ],
+     "cut": null,
+     "order": "stratified",
+     "per_shard": {
+      "0": 28,
+      "1": 28,
+      "2": 29,
+      "3": 28
+     },
+     "phase": "repeat",
+     "rep": 5,
+     "trials": 226
+    }
+   },
+   "shards": {
+    "0": 28,
+    "1": 28,
+    "2": 29,
+    "3": 28
+   },
+   "tasks": 113
+  },
+  "synthetic_build": "1LIWeot0Xl-_WbwI_HsKMqmBZTsnEF4Wc6j71zKUohA",
+  "synthetic_detail": "LIiU9Ye0QM7ImxUmY1tIt017A7em2PmAdRrKoIrb4pM",
+  "task_strata": "LoAg77zBcW8ow9YQGMFxRC0e7J6XzShW0Ju_kXF5nho",
+  "trials_of": "SGgUNdgm5av3JDRXAFsLTLnBz_TmDGmfikurPhIX3dA",
+  "validate": []
+ }
+}

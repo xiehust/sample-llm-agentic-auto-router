@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["boto3>=1.40", "requests>=2.32"]
+# dependencies = ["boto3==1.43.126", "requests==2.34.2"]
 # ///
 """E2E runner for the deployed router (design §6, E0-E12). Read-only towards the router stack, except E0's own
 temporary probe stack (<prefix>-e2e-probe, tagged Purpose=mvp-e2e) which `e0-teardown` deletes.
@@ -31,6 +31,7 @@ import statistics
 import subprocess  # nosec B404 - used only for the fixed-argv SDK runner in sdk()
 import sys
 import time
+import uuid
 from typing import Any
 
 import boto3
@@ -581,7 +582,11 @@ def cmd_e5b(_: argparse.Namespace) -> dict[str, Any]:
     `autox` matches neither `auto` nor `auto:*`: the router must never see it."""
     led = Ledger('e5b')
     since = int(time.time() * 1000) - 5000
-    rs = {path: led.add(call(path, body_for(path, ALIAS, max_out=16))) for path in DIALECT_OF}
+    # A fresh session per call: without a session header the router keys the lineage on the prompt fingerprint, which
+    # the earlier checks' identical bodies already created, so the alias would land on a user turn instead of a start.
+    run = uuid.uuid4().hex[:8]
+    rs = {path: led.add(call(path, body_for(path, ALIAS, max_out=16), headers={'x-router-session': f'e5b-{run}-{i}'}))
+          for i, path in enumerate(DIALECT_OF)}
     bogus = call('/v1/messages', body_for('/v1/messages', 'auto:bogus'))
     autox = led.add(call('/v1/messages', body_for('/v1/messages', 'autox')))
     time.sleep(10)

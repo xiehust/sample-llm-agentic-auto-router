@@ -1,0 +1,4218 @@
+{
+ "schema": "tbench-harbor-plan/v1",
+ "seed": 20261106,
+ "n_shards": 4,
+ "dataset": {
+  "name": "tb21",
+  "repo": "harbor-framework/terminal-bench-2-1",
+  "version": "2.1",
+  "commit_b64": "ErdWVnnOUAYjC4IGZjU2c6Ez25M",
+  "n_tasks": 89
+ },
+ "stratification": {
+  "shards": "category groups ±1, then the §6.1 objective (seeded swaps)",
+  "blocks": "tier-pass tier × (easy+medium | hard), seeded stratified order; agent timeout ≥ 7200 s first"
+ },
+ "inputs": {
+  "strata_sha256_b64": "nbYo64UYQUuNi_7MaMHd1S8yg7v6FGVdwJq-kcgo2hU",
+  "cost_weights_sha256_b64": "NqFUrcwNgZChFNK6LPmRBnbJH4VTUp9U0n36EQUibXw",
+  "pins_sha256_b64": "h9izmEeGdKNa5pFCdkNEZTOyrRD2_P_kvpfX2xaCwmY"
+ },
+ "tasks": {
+  "adaptive-rejection-sampler": {
+   "group": "scientific-computing",
+   "category": "scientific-computing",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "vKojmZhc1XZmAYAlhGKJqyXhk64N2Pt_D_qyQQwk1N4",
+   "image": "alexgshaw/adaptive-rejection-sampler:20251031",
+   "image_digest_b64": "mFvtOehEi8lfE4tfdmtZADqVxL4XHJavjnZEgzjz3Y8",
+   "image_bytes": 29730813
+  },
+  "bn-fit-modify": {
+   "group": "scientific-computing",
+   "category": "scientific-computing",
+   "difficulty": "hard",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "tflkSXDBetndtGtyZve82Hx2HXfX5vVdfP5yhNX_Zuk",
+   "image": "alexgshaw/bn-fit-modify:20251031",
+   "image_digest_b64": "WusRym6AK4OBbJox8FWsnQKDCahTUJQAwuMTmsLYOA0",
+   "image_bytes": 262233812
+  },
+  "break-filter-js-from-html": {
+   "group": "security",
+   "category": "security",
+   "difficulty": "medium",
+   "agent_timeout_s": 1200,
+   "verifier_timeout_s": 1200,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "Z4AI0aT9Hm4bmzzJoychn-S0EKMer8UukJm7-UfupgA",
+   "image": "alexgshaw/break-filter-js-from-html:20251031",
+   "image_digest_b64": "17-0XkfPENLiHcUgI5IVSY9OupwastDNfWR5hd3bT6g",
+   "image_bytes": 382372720
+  },
+  "build-cython-ext": {
+   "group": "debugging",
+   "category": "debugging",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "NdxWF5DnPxPlmDeCisCGPAiT7ca3HULPfVhlbIQ63xI",
+   "image": "alexgshaw/build-cython-ext:20251031",
+   "image_digest_b64": "NhKjj624mpb3ShqVH7Cwr3NBmP0WBXHuq6ZAFZMjRZQ",
+   "image_bytes": 303220702
+  },
+  "build-pmars": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "Y_BEmydvCBmGdAyUHqk3IGizEKArBiweXjQA9XUkGJM",
+   "image": "alexgshaw/build-pmars:20251031",
+   "image_digest_b64": "V6gnBvdJHgstH_fpJ-l65TOYkt0JxHrEMpC0uh9avG8",
+   "image_bytes": 61141817
+  },
+  "build-pov-ray": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 12000,
+   "verifier_timeout_s": 12000,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "TwjatgL-Lp4vQgUcxq72hKiM8oIui0mbPKGeZwdZ_ds",
+   "image": "alexgshaw/build-pov-ray:20251031",
+   "image_digest_b64": "h0uvSTQeKFOhWpGE4wjH62Mul_Q0NZ_P8okcblyhs5s",
+   "image_bytes": 163065131
+  },
+  "caffe-cifar-10": {
+   "group": "other",
+   "category": "machine-learning",
+   "difficulty": "medium",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 1200,
+   "build_timeout_s": 600,
+   "cpus": 4,
+   "memory_mb": 8192,
+   "shard": 3,
+   "digest_b64": "ewBFEG19Wvck7-lrYQumT3iT9ciFKEAcVzxNR-OE4r8",
+   "image": "alexgshaw/caffe-cifar-10:20260403",
+   "image_digest_b64": "kpptYxtZLILg0PXUplzwPJRtxVTPybsJkW6CB259MhU",
+   "image_bytes": 213170891
+  },
+  "cancel-async-tasks": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "o9BI01ETbkgHBpbNqLt5Zg39dNsf6jttqIVZ8DMmmcE",
+   "image": "alexgshaw/cancel-async-tasks:20251031",
+   "image_digest_b64": "hMf65rJW3MVqNQeQ4qlxXu_H2tZiqdjopHI2Oqce8Y0",
+   "image_bytes": 44170311
+  },
+  "chess-best-move": {
+   "group": "other",
+   "category": "games",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "mrjks2dCgudR7a-9m1vVUf75lf1mAVhaLNsE_XDFINo",
+   "image": "alexgshaw/chess-best-move:20251031",
+   "image_digest_b64": "u0R_lNniqO2Hn4XIWlFLITt0GPn-Ef17JCigsOQ25kc",
+   "image_bytes": 240208882
+  },
+  "circuit-fibsqrt": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "m8_-EFS7MySapXipoqdPPIzKZrDLeqEygjPx0xgiquM",
+   "image": "alexgshaw/circuit-fibsqrt:20251031",
+   "image_digest_b64": "KXg0OfUp6u0hRVkvFa96IoEWFSiGA5KjgsglSJAwrjo",
+   "image_bytes": 149134534
+  },
+  "cobol-modernization": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "easy",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "4DqgOWXu5Iyfdy1Wb_m810H87qyWkxI_gqE_3Ua-DYg",
+   "image": "alexgshaw/cobol-modernization:20251031",
+   "image_digest_b64": "WTq53z2D93HpJ4iLLZQ2s4DN9-xNCvKp8IAtVB7eu6A",
+   "image_bytes": 162018196
+  },
+  "code-from-image": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 1200,
+   "verifier_timeout_s": 1200,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "7ykHuzANmzNSQQwqddv4MSeMGHwHMpg3GHDqnINSb3g",
+   "image": "alexgshaw/code-from-image:20251031",
+   "image_digest_b64": "K-nNt0btGMGysUBAMu-uCyI1obj8R57xdzDJVAnYn3Y",
+   "image_bytes": 44250761
+  },
+  "compile-compcert": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "medium",
+   "agent_timeout_s": 2400,
+   "verifier_timeout_s": 2400,
+   "build_timeout_s": 600,
+   "cpus": 2,
+   "memory_mb": 4096,
+   "shard": 1,
+   "digest_b64": "Ir3ipz1i-kb1q5b3EFYacujRqkJm8AhgWhfxdGIq14U",
+   "image": "alexgshaw/compile-compcert:20260403",
+   "image_digest_b64": "9gI2pP5Vu7PFcyEP4PzZFVH07pfEF0U81Jhb4HSzVBE",
+   "image_bytes": 29734076
+  },
+  "configure-git-webserver": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "49xxKs_s2xM4qIn4bJezdCLDd4NRJT-aykI26JX9s24",
+   "image": "alexgshaw/configure-git-webserver:20251031",
+   "image_digest_b64": "nkg4m5F_1GUN2h9kQGvXGYu_INwcaw5cTYGjwWNp-Iw",
+   "image_bytes": 72340339
+  },
+  "constraints-scheduling": {
+   "group": "other",
+   "category": "personal-assistant",
+   "difficulty": "medium",
+   "agent_timeout_s": 1200,
+   "verifier_timeout_s": 1200,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "kd1vh-HuUIMo1ar72Zpr0czEe8ImcbSqpAYL2kkt61M",
+   "image": "alexgshaw/constraints-scheduling:20251031",
+   "image_digest_b64": "VnzloYn40RrEYXkIduk0zHrzg5G6-Jp4-V9Nr8H-w7A",
+   "image_bytes": 49851797
+  },
+  "count-dataset-tokens": {
+   "group": "model-training",
+   "category": "model-training",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "zQV07IKB9ThUJWrMk3Au0UQUB8BCiEnh3U8n6GPGsIo",
+   "image": "alexgshaw/count-dataset-tokens:20251031",
+   "image_digest_b64": "nFE8S6NCvZW-UB9vXq3UgGorGHSch8JRYVglEAEwIy0",
+   "image_bytes": 44170313
+  },
+  "crack-7z-hash": {
+   "group": "security",
+   "category": "security",
+   "difficulty": "medium",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 0,
+   "digest_b64": "mcuyJp9r0RLTOH_QHLaQARj-St7T91qNZWWAqClqGuU",
+   "image": "alexgshaw/crack-7z-hash:20251031",
+   "image_digest_b64": "D0RTq9d0xaPT1-Zroo-uiOwuSa2jqZOzJOvBbDSGZtM",
+   "image_bytes": 355844987
+  },
+  "custom-memory-heap-crash": {
+   "group": "debugging",
+   "category": "debugging",
+   "difficulty": "medium",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "YeAh4DBMmBipviyRc8igk4zl0TbpXFQi4Jnx_bLcCA4",
+   "image": "alexgshaw/custom-memory-heap-crash:20251031",
+   "image_digest_b64": "GJXX1iQNX7Lsd01r_dEFfRcPjRmcFcWC5FhdPGOAJVc",
+   "image_bytes": 1267996644
+  },
+  "db-wal-recovery": {
+   "group": "file-operations",
+   "category": "file-operations",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "B-kZNRO_zgOLn52Eli7MhWg-7gpkLRTub7cQSwht2rQ",
+   "image": "alexgshaw/db-wal-recovery:20251031",
+   "image_digest_b64": "DjPqXsgjl10b1sN3g5XJ-UJR3Yj1cRRgV7_2rbfkWU4",
+   "image_bytes": 175274783
+  },
+  "distribution-search": {
+   "group": "other",
+   "category": "machine-learning",
+   "difficulty": "medium",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "h4fTAErE3Z148MFPW175SkrT5p2IKNfTW5-9eCimntE",
+   "image": "alexgshaw/distribution-search:20251031",
+   "image_digest_b64": "FEj3qhxggEiCUdADUOjpBHeFiYmxvsCszIZtezIgc4o",
+   "image_bytes": 181102188
+  },
+  "dna-assembly": {
+   "group": "scientific-computing",
+   "category": "scientific-computing",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "5BqOlNhgGZSbCNO1-IqF9tlDug_YXV4dXruVy49mIj8",
+   "image": "alexgshaw/dna-assembly:20251031",
+   "image_digest_b64": "0a32g18d2RIFunDkUsaZ0K6mAQEAOOVhfzcHFu-1BWk",
+   "image_bytes": 29726558
+  },
+  "dna-insert": {
+   "group": "scientific-computing",
+   "category": "scientific-computing",
+   "difficulty": "medium",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 1,
+   "digest_b64": "N_wCOXDjRkwazDH0PgSgtLlHWBMNNAeI8mHwB2TZ5TA",
+   "image": "alexgshaw/dna-insert:20251031",
+   "image_digest_b64": "Tdh2BpTjVd6F7PA2BctIfM2zMyL2r61RPSkggpuqM7I",
+   "image_bytes": 29726372
+  },
+  "extract-elf": {
+   "group": "file-operations",
+   "category": "file-operations",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "HvMdVmvk_jRZ1TaGIa5-96MbI-9nVzfkc7vEPIx7P84",
+   "image": "alexgshaw/extract-elf:20251031",
+   "image_digest_b64": "aTLkyzGEZDB-rNSX743GF-r1UbapAjH4FewLkRiVz-0",
+   "image_bytes": 347387674
+  },
+  "extract-moves-from-video": {
+   "group": "file-operations",
+   "category": "file-operations",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "Fo4rkWhRG4-NMrFpf0cDsIYmID55Sa05Zlj0vvfe5m4",
+   "image": "alexgshaw/extract-moves-from-video:20260403",
+   "image_digest_b64": "dO-HN1zitjMsqf4BgOtUG2TPTvQYjt1bG-IsJy5aW0s",
+   "image_bytes": 41699034
+  },
+  "feal-differential-cryptanalysis": {
+   "group": "mathematics",
+   "category": "mathematics",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "jqVplfzEP7lPDk4VrbEt0og2vz6cdmssx654p86QNB8",
+   "image": "alexgshaw/feal-differential-cryptanalysis:20251031",
+   "image_digest_b64": "vqk7r-nqtgHKWHKfVzWhP4M59SBVMi0c-EDjdCtUooc",
+   "image_bytes": 51637810
+  },
+  "feal-linear-cryptanalysis": {
+   "group": "mathematics",
+   "category": "mathematics",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "DzI0xf3oX53GENlM_v1MiSr7dcnlcfIfGP7maXK2czI",
+   "image": "alexgshaw/feal-linear-cryptanalysis:20251031",
+   "image_digest_b64": "6nh0moQixiKNJsh1P0WQamot8ImQZ2S348Pifo9xjuc",
+   "image_bytes": 150829240
+  },
+  "filter-js-from-html": {
+   "group": "security",
+   "category": "security",
+   "difficulty": "medium",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 8192,
+   "shard": 1,
+   "digest_b64": "LRSWtvxirezNunpW9Lwk5e8mWEBDTSARI07SC2wkB1k",
+   "image": "alexgshaw/filter-js-from-html:20251031",
+   "image_digest_b64": "kqzaDxJLmIA2pvQmzgvEf6wZ9e_p_F5uo-pSzLB10KQ",
+   "image_bytes": 377969043
+  },
+  "financial-document-processor": {
+   "group": "data-processing",
+   "category": "data-processing",
+   "difficulty": "medium",
+   "agent_timeout_s": 1200,
+   "verifier_timeout_s": 1200,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 0,
+   "digest_b64": "Y9xDoV2exAFhMBbpEU0ak-yGDupjstsCq_6AYN7qMPs",
+   "image": "alexgshaw/financial-document-processor:20251031",
+   "image_digest_b64": "72yc-q8UzdIAFjAIoYjVuqn2JvO_uNPn1vMMCFGOYlE",
+   "image_bytes": 51792038
+  },
+  "fix-code-vulnerability": {
+   "group": "security",
+   "category": "security",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "0xNIqha1M6FfATQg5NlybcUp5ghq3H1tSAZ9IswY_nE",
+   "image": "alexgshaw/fix-code-vulnerability:20251031",
+   "image_digest_b64": "ysMlJSmR-CNxOy0EQVApcpAd14K9Z_ZsA9mx5BDaxcA",
+   "image_bytes": 190693613
+  },
+  "fix-git": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "easy",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "FpSLmA352W3mFqIF9azKHF05Xeg_9Pj_q8r6y5Miby4",
+   "image": "alexgshaw/fix-git:20260403",
+   "image_digest_b64": "OJucgkdhDCxb4ICxrABCkAfCxpv1f38mx58PdbotXHQ",
+   "image_bytes": 155751566
+  },
+  "fix-ocaml-gc": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "IDHz1SJLiR_kQ6MVJrVp63Vr4viLZjywJUSK-cT5fiw",
+   "image": "alexgshaw/fix-ocaml-gc:20251031",
+   "image_digest_b64": "ZqHiKTB2ye8noRhhGzCJpihP30Z_1GdVktDM59EeWws",
+   "image_bytes": 765428222
+  },
+  "gcode-to-text": {
+   "group": "file-operations",
+   "category": "file-operations",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "fdKvBIIOceyrqWvEk8v_oWMX6WgWxsgAM4XANK32wjs",
+   "image": "alexgshaw/gcode-to-text:20251031",
+   "image_digest_b64": "CXnvQMaj6MTnq1tsJSTHRiWoR5nhXNRd2Y3Pg7Ee_U0",
+   "image_bytes": 45042821
+  },
+  "git-leak-recovery": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "IqnsENvUzYuZR3tw4ZRBA3dcpB3pueACXsSJjNF70zQ",
+   "image": "alexgshaw/git-leak-recovery:20251031",
+   "image_digest_b64": "YhYOUipCOLi81SJBHql7WyAPgR5YmdNJR-ZoCb735YY",
+   "image_bytes": 95726751
+  },
+  "git-multibranch": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "d1mpKjc8ln3TFTWXW62GWUEGRAJWc_5iOFRE_SYFxfo",
+   "image": "alexgshaw/git-multibranch:20251031",
+   "image_digest_b64": "W8RJkhwTgpX23djcopdzGf7izlI4EdvlbOxMpmM4X7U",
+   "image_bytes": 222132884
+  },
+  "gpt2-codegolf": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 8192,
+   "shard": 2,
+   "digest_b64": "_kKvjpxaqSfDtoCs0I5DAyyECI-p13CwPOY9vGb-pOc",
+   "image": "alexgshaw/gpt2-codegolf:20251031",
+   "image_digest_b64": "U3570msC21x2EjBRX6CdwF-JQDxnN_va5LV5PrwscGY",
+   "image_bytes": 614181458
+  },
+  "headless-terminal": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "IDlThx69rk778WOvlJmEk2jateIZtw1Efl7pcBrTgtk",
+   "image": "alexgshaw/headless-terminal:20251031",
+   "image_digest_b64": "634glnK_bO8nhfr9nhNQmxBibDJ7zCs39b9AyoPq86o",
+   "image_bytes": 62283396
+  },
+  "hf-model-inference": {
+   "group": "data-science",
+   "category": "data-science",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "ATcPN-YShvkg38oeRxSWZA68yNBuHMSNh0x5BxXb1K0",
+   "image": "alexgshaw/hf-model-inference:20260430",
+   "image_digest_b64": "DvR1rr2oq7jL86HZeu6KxLCcqXIFUOJaSkakeTDNO60",
+   "image_bytes": 328586798
+  },
+  "install-windows-3.11": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "hard",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 2,
+   "memory_mb": 4096,
+   "shard": 3,
+   "digest_b64": "HxNhsAEuGtJAVOfPwDmClFnoqwYxs1c9m5NJm_azVj4",
+   "image": "alexgshaw/install-windows-3.11:20251031",
+   "image_digest_b64": "xmlQlzFu-IEKvOBUXjR-ZTVK751R1Pf2YsMkLnQvaj4",
+   "image_bytes": 573377926
+  },
+  "kv-store-grpc": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "lzxdTBEftho0RFeTbxw2QArNLZ5EOJ57MZWG_iOnowc",
+   "image": "alexgshaw/kv-store-grpc:20251031",
+   "image_digest_b64": "M5lACADcsgdjTapCvBsFLoMeKFzJ0iHupmxHvA_Hl5E",
+   "image_bytes": 44170306
+  },
+  "large-scale-text-editing": {
+   "group": "file-operations",
+   "category": "file-operations",
+   "difficulty": "medium",
+   "agent_timeout_s": 1200,
+   "verifier_timeout_s": 1200,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "Hxzdw98V5FL-LTxpKPax5bUzCnrmfKs3Og0InqfTNKI",
+   "image": "alexgshaw/large-scale-text-editing:20251031",
+   "image_digest_b64": "cZrco_E4giBUbOahVe7lbv88T-MYGDEAMgYGohD2tZw",
+   "image_bytes": 73314990
+  },
+  "largest-eigenval": {
+   "group": "mathematics",
+   "category": "mathematics",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "G28Xw0TSPpdDW6P6k0ANFB9rt3Y-0gFPq0GIMJg3kbM",
+   "image": "alexgshaw/largest-eigenval:20251031",
+   "image_digest_b64": "y54-OwnQeD87vP7sjXe8MtN5EgT7K-ZlCxm-T7wIKy4",
+   "image_bytes": 84692874
+  },
+  "llm-inference-batching-scheduler": {
+   "group": "other",
+   "category": "machine-learning",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "o79HWJEY2uxRJP42ibRDmALIBbL07Z1AKkiuc8ov6mc",
+   "image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+   "image_digest_b64": "GeeapJvk5V3Myh3elmUV6-aFIxS2AQvLkjCvtIuZZ3Q",
+   "image_bytes": 44187057
+  },
+  "log-summary-date-ranges": {
+   "group": "data-processing",
+   "category": "data-processing",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "J7B0ovEP_3YG4Jbzq9jc7UGK2P2g9T2IrL5Hfy2c6vY",
+   "image": "alexgshaw/log-summary-date-ranges:20251031",
+   "image_digest_b64": "y-trqQXC_sKU8WzV4W4-p_LgTTisJITVGhHeJiqn3FE",
+   "image_bytes": 44864168
+  },
+  "mailman": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "medium",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "gxs-0AgHFTljwF-RWZRD5IOQmVIdHVbbgRxVR6soDb4",
+   "image": "alexgshaw/mailman:20251031",
+   "image_digest_b64": "BPrHPbfitPSdQ_CfvCJmqU1wEx8H76E5PTcKvAWfQJQ",
+   "image_bytes": 161826137
+  },
+  "make-doom-for-mips": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "LYPdPe6ODwVeCZc5NM8NfjFpqc2QcEy6XIlAsXC-lJg",
+   "image": "alexgshaw/make-doom-for-mips:20251031",
+   "image_digest_b64": "gKlFnxuUtpLqg0b2jmuGT2xNmE-99v_WitMyMIMAwuw",
+   "image_bytes": 189551835
+  },
+  "make-mips-interpreter": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "QaVdoKvsXXsyoMIyH4sY6EAAyoB0rmLGh01u1KOhzTw",
+   "image": "alexgshaw/make-mips-interpreter:20251031",
+   "image_digest_b64": "CC_IghsxfzD9-_jQjVKIdM4zHAPoCDrvBAbUjN1xMqI",
+   "image_bytes": 518972908
+  },
+  "mcmc-sampling-stan": {
+   "group": "data-science",
+   "category": "data-science",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 4,
+   "memory_mb": 8192,
+   "shard": 0,
+   "digest_b64": "RDzSuU7Xl5RHk-l6VlJ6XcD4rUD3jtQY_hsuNnzyJUY",
+   "image": "alexgshaw/mcmc-sampling-stan:20251031",
+   "image_digest_b64": "Bz_DajNHtPa0O9bpgzlULEHtUxx3Gvi-5AuhDwDPq68",
+   "image_bytes": 237650708
+  },
+  "merge-diff-arc-agi-task": {
+   "group": "debugging",
+   "category": "debugging",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 3,
+   "digest_b64": "aqtlEaU0TOh2mCk7sc5MxR2aRfGtnwwHXSqDGXs2cn0",
+   "image": "alexgshaw/merge-diff-arc-agi-task:20251031",
+   "image_digest_b64": "v8KiNfLO6mT_sf_FUpwqzr9XC_9h82aPDlZp71cMF9Q",
+   "image_bytes": 29727342
+  },
+  "model-extraction-relu-logits": {
+   "group": "mathematics",
+   "category": "mathematics",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "GuUEWtaLXTTDOYthIGagfEoIttwzDSiGjsQCHhfJSxc",
+   "image": "alexgshaw/model-extraction-relu-logits:20251031",
+   "image_digest_b64": "Uv4fCJ84ZQ8Nwi11Me5uAevVJt4bNJqqLsszHcqfq84",
+   "image_bytes": 83697187
+  },
+  "modernize-scientific-stack": {
+   "group": "scientific-computing",
+   "category": "scientific-computing",
+   "difficulty": "medium",
+   "agent_timeout_s": 600,
+   "verifier_timeout_s": 600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "Z6mVKspn35xwUQrPYvrqM2ZEoOnTefOq-d958UyPyxI",
+   "image": "alexgshaw/modernize-scientific-stack:20251031",
+   "image_digest_b64": "ZOac7hO_awuQFuc1tRiRvOmWpg8eLRoAW_EslJ4iHXE",
+   "image_bytes": 346669154
+  },
+  "mteb-leaderboard": {
+   "group": "data-science",
+   "category": "data-science",
+   "difficulty": "medium",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 8192,
+   "shard": 0,
+   "digest_b64": "SE9tcAigW1uGQPxmGKOEuMlEfNdvhUFsillQKNKb_5w",
+   "image": "alexgshaw/mteb-leaderboard:20260430",
+   "image_digest_b64": "qFOPSIL_Ey4KIKdb4__8BxZDGKdCWtGaa0v1JoEH_rQ",
+   "image_bytes": 663822188
+  },
+  "mteb-retrieve": {
+   "group": "data-science",
+   "category": "data-science",
+   "difficulty": "medium",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "-nx3ffbtiYeiuxRLS3OhIAk1u-pp2gOiqqHciqm9nck",
+   "image": "alexgshaw/mteb-retrieve:20260430",
+   "image_digest_b64": "Qb3CKi67mwQ7HBIoPjg8jewqjxg7yZymgDd7ZmzHw7Q",
+   "image_bytes": 628646174
+  },
+  "multi-source-data-merger": {
+   "group": "data-processing",
+   "category": "data-processing",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "cDZ8OHMuG-2nsimWikjWAkInfC-k25EznD8GTEwjDUk",
+   "image": "alexgshaw/multi-source-data-merger:20251031",
+   "image_digest_b64": "izJ4IHj_c4OhtOXTzsyozih-MPULtMDl2wCaGAZOZm4",
+   "image_bytes": 220878130
+  },
+  "nginx-request-logging": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "nRuL69mJ6gvICAw7FZSABoyvGDxf1hOFhosldLIG4Jc",
+   "image": "alexgshaw/nginx-request-logging:20251031",
+   "image_digest_b64": "aT5kQxoNv0WVLouRopjVT9YCR-UBxmI_uPo-vAf8PT0",
+   "image_bytes": 67283990
+  },
+  "openssl-selfsigned-cert": {
+   "group": "security",
+   "category": "security",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "1K-ivSqboUINuNbP3kL_20hzri2VXDUBTo2pRETIMwI",
+   "image": "alexgshaw/openssl-selfsigned-cert:20251031",
+   "image_digest_b64": "TJSKTmMK8kNa4KGRCPwIFKlGrC-imlEkaeD8d7OMjBI",
+   "image_bytes": 44171586
+  },
+  "overfull-hbox": {
+   "group": "debugging",
+   "category": "debugging",
+   "difficulty": "easy",
+   "agent_timeout_s": 750,
+   "verifier_timeout_s": 360,
+   "build_timeout_s": 600,
+   "cpus": 2,
+   "memory_mb": 4096,
+   "shard": 0,
+   "digest_b64": "PDsW5LLeX-qQypjbJCsVWmhD-cxN_QC-NHmYWjS6tPc",
+   "image": "alexgshaw/overfull-hbox:20260403",
+   "image_digest_b64": "fcqVK7ZzYZSnNrURCUX0iELq-oVR4kRo8d3e7Q2u55k",
+   "image_bytes": 131845668
+  },
+  "password-recovery": {
+   "group": "security",
+   "category": "security",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "m1xr3ODPA_B1sh9qevUDC4Jc4H17FrN2EPOWQherhKQ",
+   "image": "alexgshaw/password-recovery:20251031",
+   "image_digest_b64": "FfzYS_OwYnDuFIIRzG2mWZsT7C9BrB0IlM91wiJYcu4",
+   "image_bytes": 62187744
+  },
+  "path-tracing": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "z1YJTIgaSIsn6fIEpjin547X1V4S3DBkEIyTNXGQMUw",
+   "image": "alexgshaw/path-tracing:20251031",
+   "image_digest_b64": "S0RyUQLNYn36iVGRpaMNFtrjxWI7tD2mRZ95E122tII",
+   "image_bytes": 399388687
+  },
+  "path-tracing-reverse": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "A1iA1-9VVLIX5Tp1zl6H5DGTt6RMMK0XImpqsQ_BGmw",
+   "image": "alexgshaw/path-tracing-reverse:20251031",
+   "image_digest_b64": "eRHkJHnY9tivEki8UkQqDvvFoz4-z1Nf3CDSUqLGQUI",
+   "image_bytes": 170982554
+  },
+  "polyglot-c-py": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "JVcMys9j9XOiUuqiqcYu6LVfWqIozIA7W-s53W2K_rc",
+   "image": "alexgshaw/polyglot-c-py:20251031",
+   "image_digest_b64": "Dxw7eBbXDPVVFXP9au73aJPyrjAAviQZmXtocbXZh-0",
+   "image_bytes": 148542455
+  },
+  "polyglot-rust-c": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "oz3HLiJ40iVRPAckq-LkU5ZT1e5-TCqQui1nZYa6nz0",
+   "image": "alexgshaw/polyglot-rust-c:20251031",
+   "image_digest_b64": "O6hPDhOKS2XljFP5IKD8hSVx5kApAcO9u4dunatubF4",
+   "image_bytes": 271243309
+  },
+  "portfolio-optimization": {
+   "group": "other",
+   "category": "optimization",
+   "difficulty": "medium",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 0,
+   "digest_b64": "0RL4lFYA8Y7Ee7vnaTXcBZUxc8w9CjdaeqJxKwkVhOQ",
+   "image": "alexgshaw/portfolio-optimization:20251031",
+   "image_digest_b64": "k0Yds87Gl8MVhZQaO5OHwTmElaof8K7irHUscjC1Dvg",
+   "image_bytes": 196458307
+  },
+  "protein-assembly": {
+   "group": "scientific-computing",
+   "category": "scientific-computing",
+   "difficulty": "hard",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 0,
+   "digest_b64": "xJHUWsziNOGqHUTcxneMVfz4denrJUuN065e9YEZYhs",
+   "image": "alexgshaw/protein-assembly:20260403",
+   "image_digest_b64": "YCxGeua2Yac0Qblg2fpxMPBo9MYEHTfvhjJhFzPYP0o",
+   "image_bytes": 44242085
+  },
+  "prove-plus-comm": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "easy",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "1a4lcg3x981hnthAjNpLh7eaPYsP9PGRniyW6VRzOcI",
+   "image": "alexgshaw/prove-plus-comm:20251031",
+   "image_digest_b64": "4mdB0BaBqdob7v-Le3tl_iuSG4sSKjBqNweoHr0FH3M",
+   "image_bytes": 491451958
+  },
+  "pypi-server": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "Gh4FQvWOLTNi_sF6m7uYZncX2aSj6aTIQT0xUKT6D_E",
+   "image": "alexgshaw/pypi-server:20251031",
+   "image_digest_b64": "0YuzD0fH3Ko6zbwxrHQTyY6tyi6hZUC704Dy8GO5UnY",
+   "image_bytes": 83724050
+  },
+  "pytorch-model-cli": {
+   "group": "model-training",
+   "category": "model-training",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "bxFUTcyBo4DcRhGQKWH1UgJZxGLZ_OtBNBnWarmpbHk",
+   "image": "alexgshaw/pytorch-model-cli:20251031",
+   "image_digest_b64": "yZaIS1-1-ywMB9Z9osT5dPJx8HI07SjhqGgkA3XFemc",
+   "image_bytes": 44348036
+  },
+  "pytorch-model-recovery": {
+   "group": "model-training",
+   "category": "model-training",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "LmKIQc_5MpCRkXI5jlc-eU80yV2TgrdCWt3kNkAi3sw",
+   "image": "alexgshaw/pytorch-model-recovery:20260430",
+   "image_digest_b64": "fCu1KFHO8lvcOTnkc0ltJfvxH9DLerWLzzzvy3Uc3A4",
+   "image_bytes": 269658192
+  },
+  "qemu-alpine-ssh": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 0,
+   "digest_b64": "YLcFCw4KpRZBIIz2V2Z0PTQOWVddssTS-GKCQIRsKig",
+   "image": "alexgshaw/qemu-alpine-ssh:20251031",
+   "image_digest_b64": "VB6CFKjE-qe1VlMbiZ1F2iEEj6LKbdMo2MtsTP-o6WQ",
+   "image_bytes": 1308552152
+  },
+  "qemu-startup": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 1,
+   "digest_b64": "jlgmN0fafcaIrUcGiPtyglxLosHEBEP6D1KWNkW72Zk",
+   "image": "alexgshaw/qemu-startup:20251031",
+   "image_digest_b64": "GmZuBJ21U8XnE4MLH13hlTIQq3yZIS0Aa7TkbLxrbQQ",
+   "image_bytes": 1308552149
+  },
+  "query-optimize": {
+   "group": "data-science",
+   "category": "data-science",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "FpSW6mhDy0A7CGATJnW696oN8KyLhiIQaOJ9hjlSYPQ",
+   "image": "alexgshaw/query-optimize:20251031",
+   "image_digest_b64": "KN59qHAE6rWym9Xq8YI1ebxbc8zqS4A0mlYjGFdw2hQ",
+   "image_bytes": 120493174
+  },
+  "raman-fitting": {
+   "group": "scientific-computing",
+   "category": "scientific-computing",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "l8pAJTMrIHOdpVPKsGWPLq2SXRtbO5t2ZNyetef76rc",
+   "image": "alexgshaw/raman-fitting:20251031",
+   "image_digest_b64": "QB-pXV1JH0Skc-2p0sUpMPlWXMiJx5bqvLbiD-wmhS4",
+   "image_bytes": 44211364
+  },
+  "regex-chess": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "52PgrByXWQga8KSoK6UbjPmuVIWpPeO75C19NEWXvXg",
+   "image": "alexgshaw/regex-chess:20251031",
+   "image_digest_b64": "47bWHS05MPu9xfe_CRp_i39hJeGVHvin2-Flse9ilCw",
+   "image_bytes": 55623799
+  },
+  "regex-log": {
+   "group": "data-processing",
+   "category": "data-processing",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "gCwWz9Ey5sRXUpy4ZL5adXwbI7bK3Ffy0BmDywEQKSo",
+   "image": "alexgshaw/regex-log:20251031",
+   "image_digest_b64": "kBAbLoFTI6jaIFKKFDm-vEB-uXYcnGij1VdzCFbIeOk",
+   "image_bytes": 29724779
+  },
+  "reshard-c4-data": {
+   "group": "data-science",
+   "category": "data-science",
+   "difficulty": "medium",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "pAK7_t5z3QQWjWl96bkUYCb2nhTIzTM7apH8h-ROzUs",
+   "image": "alexgshaw/reshard-c4-data:20251031",
+   "image_digest_b64": "ktIJ5wR4Xhetaz90DoE91yvHrDOYLOQ10ZernYkOrCo",
+   "image_bytes": 1432504651
+  },
+  "rstan-to-pystan": {
+   "group": "data-science",
+   "category": "data-science",
+   "difficulty": "medium",
+   "agent_timeout_s": 1800,
+   "verifier_timeout_s": 1800,
+   "build_timeout_s": 600,
+   "cpus": 4,
+   "memory_mb": 8192,
+   "shard": 2,
+   "digest_b64": "WS8V91dR88SZnD0FCH8viypNuq7b-tWjCuVAWLgLkl8",
+   "image": "alexgshaw/rstan-to-pystan:20251031",
+   "image_digest_b64": "sj1Ig5QIUkMmCVwVraQUXHcrh2Rs8pkCL_H1jJe6upE",
+   "image_bytes": 50934770
+  },
+  "sam-cell-seg": {
+   "group": "data-science",
+   "category": "data-science",
+   "difficulty": "hard",
+   "agent_timeout_s": 7200,
+   "verifier_timeout_s": 7200,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 3,
+   "digest_b64": "N8GCuR3xi5wuotztpHQwu9WF54gMVvyi8ZdZB84N-M4",
+   "image": "alexgshaw/sam-cell-seg:20251031",
+   "image_digest_b64": "12ve7xnYET9AlAEyScmC7Kk-YuRhMEhIRiabLTeIedA",
+   "image_bytes": 411500531
+  },
+  "sanitize-git-repo": {
+   "group": "security",
+   "category": "security",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "c8lKIevjcLroQ62-6qqemRN0hnsYSDqvVsfNRw3N3qc",
+   "image": "alexgshaw/sanitize-git-repo:20251031",
+   "image_digest_b64": "S1I02luw1n87C_jbQKKIPAelIZ9itkwr-f8ayEzQ9nI",
+   "image_bytes": 202934847
+  },
+  "schemelike-metacircular-eval": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 2400,
+   "verifier_timeout_s": 2400,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 3,
+   "digest_b64": "WBMMIWbDEVJ23IWS81jjJv8tgeqFLj2IY2yC_R3_V-Y",
+   "image": "alexgshaw/schemelike-metacircular-eval:20251031",
+   "image_digest_b64": "tIW-OL-A1WwaTNnalbv37BKdwD9nhrhsBSVRipb20ds",
+   "image_bytes": 44186554
+  },
+  "sparql-university": {
+   "group": "other",
+   "category": "data-querying",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "Aq7KZ7bFsNLXLJGrRxvrUd7W9C8Nw97FgOINSJ8JqGc",
+   "image": "alexgshaw/sparql-university:20251031",
+   "image_digest_b64": "kvpDBOURZ_n7RGYUTroz75Jyp98Kwcq5_DmGvM0atwg",
+   "image_bytes": 29726762
+  },
+  "sqlite-db-truncate": {
+   "group": "debugging",
+   "category": "debugging",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "lW8Di0ecw7m0k1U7V6YKj_QVRSY4bDkUwLmek-Grboc",
+   "image": "alexgshaw/sqlite-db-truncate:20251031",
+   "image_digest_b64": "qrrJPJO9HzEOam-4k5EddzUCbtGEkcchM8kZagkJLKQ",
+   "image_bytes": 44170791
+  },
+  "sqlite-with-gcov": {
+   "group": "system-administration",
+   "category": "system-administration",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "n5vVf7-fSDHpAxdV6Drqa51g0rLVTooS1Iz_Tco8Ix0",
+   "image": "alexgshaw/sqlite-with-gcov:20251031",
+   "image_digest_b64": "-YaCCwDHTOddtyiHGdNk3zE_3nx5F76m62NSoIQxqJ8",
+   "image_bytes": 42277820
+  },
+  "torch-pipeline-parallelism": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 8192,
+   "shard": 3,
+   "digest_b64": "22BTN8dJqHLOp7W0E0KbORW7TD7-D3h18MRs6BvYxPs",
+   "image": "alexgshaw/torch-pipeline-parallelism:20251031",
+   "image_digest_b64": "PLeznYbxcEsg5miFHaCwizSzJwwB1YPxNtZRkJhKjRs",
+   "image_bytes": 29724796
+  },
+  "torch-tensor-parallelism": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 8192,
+   "shard": 1,
+   "digest_b64": "8yznSlrrZjhIAkereZ_kYSe77mMazdCSGw85TsSbNoQ",
+   "image": "alexgshaw/torch-tensor-parallelism:20251031",
+   "image_digest_b64": "xQrBaeEUZfQbSXSf6H5Eh_JNMaDDnAkGzTJCzFSZxpA",
+   "image_bytes": 29724794
+  },
+  "train-fasttext": {
+   "group": "model-training",
+   "category": "model-training",
+   "difficulty": "hard",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 4096,
+   "shard": 1,
+   "digest_b64": "Rg_AgYlx7INUWnaAUme2VFkSj61S5owmoZmg10Aiuts",
+   "image": "alexgshaw/train-fasttext:20251031",
+   "image_digest_b64": "PHfalhfn-ld94Ervc_sawxFL4y1__vcmCcg5KdhCsVc",
+   "image_bytes": 509015273
+  },
+  "tune-mjcf": {
+   "group": "scientific-computing",
+   "category": "scientific-computing",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "faD9O5BmJN-e_4gpzNTxnLsbqWdBG21k2SuFsvP737A",
+   "image": "alexgshaw/tune-mjcf:20251031",
+   "image_digest_b64": "VsGXc52y23lWI4RYH8ydPXHmwXG_BSEEsafuAoLnw88",
+   "image_bytes": 80261544
+  },
+  "video-processing": {
+   "group": "other",
+   "category": "video-processing",
+   "difficulty": "hard",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "0_AuF3tJ5XaLbOZwn8SuPvLODN7LY7CfybB_nT3bcgM",
+   "image": "alexgshaw/video-processing:20251031",
+   "image_digest_b64": "osDznjqwTmesbknK2RZ7sNmHur4yURdowBqgxpBah18",
+   "image_bytes": 311876553
+  },
+  "vulnerable-secret": {
+   "group": "security",
+   "category": "security",
+   "difficulty": "medium",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 2,
+   "digest_b64": "1236niVkh8VUKQW4khVvaUE3ru94Thq_P0HhWoyUbqw",
+   "image": "alexgshaw/vulnerable-secret:20251031",
+   "image_digest_b64": "Yeu0BFTdEDqi9-ca1tr9kc8rMB5rsH5p1bRyQS0e4Vs",
+   "image_bytes": 133929796
+  },
+  "winning-avg-corewars": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "medium",
+   "agent_timeout_s": 3600,
+   "verifier_timeout_s": 3600,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 1,
+   "digest_b64": "qfLGMPt9ZW6W86Qq3mAKiry1AGMdFT1i1c6y3wc7wlY",
+   "image": "alexgshaw/winning-avg-corewars:20251031",
+   "image_digest_b64": "rXprHFOu1Z4QkWxpKqfirgAEKkKDGHQwruHj559y1cY",
+   "image_bytes": 293669326
+  },
+  "write-compressor": {
+   "group": "software-engineering",
+   "category": "software-engineering",
+   "difficulty": "hard",
+   "agent_timeout_s": 900,
+   "verifier_timeout_s": 900,
+   "build_timeout_s": 600,
+   "cpus": 1,
+   "memory_mb": 2048,
+   "shard": 0,
+   "digest_b64": "2d3ZqOkl4sVms3skksv5la_s7-WIdOQEPveNfzyJLH4",
+   "image": "alexgshaw/write-compressor:20251031",
+   "image_digest_b64": "Nhjh-KmXtDfAnNPbqsc2cFgJwF9vEvWEtlciF1lw6-E",
+   "image_bytes": 291926155
+  }
+ },
+ "passes": {
+  "pilot": {
+   "phase": "pilot",
+   "arms": [
+    "A",
+    "F",
+    "C",
+    "B"
+   ],
+   "rep": 1,
+   "note": "2 tasks per shard (0d): an 8-slot load test, frontier-tier pick 2; outside the analysis",
+   "order": "given",
+   "cut": null,
+   "n_trials": 32,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "pypi-server",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "overfull-hbox",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "query-optimize",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "make-mips-interpreter",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "nginx-request-logging",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "adaptive-rejection-sampler",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "chess-best-move",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "path-tracing-reverse",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     }
+    ]
+   }
+  },
+  "main": {
+   "phase": "main",
+   "arms": [
+    "A",
+    "F",
+    "C",
+    "B"
+   ],
+   "rep": 1,
+   "note": "all arms, rep 1; stratified (tier × easy+medium/hard), long tasks first",
+   "order": "stratified",
+   "cut": null,
+   "first": [
+    "build-pov-ray",
+    "sam-cell-seg"
+   ],
+   "n_trials": 356,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "financial-document-processor",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "video-processing",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "cobol-modernization",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "protein-assembly",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "qemu-alpine-ssh",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "largest-eigenval",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "portfolio-optimization",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "mcmc-sampling-stan",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "password-recovery",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "large-scale-text-editing",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "mteb-leaderboard",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "mailman",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "crack-7z-hash",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "polyglot-rust-c",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "fix-ocaml-gc",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "overfull-hbox",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "build-pmars",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "pypi-server",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "write-compressor",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "path-tracing",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "tune-mjcf",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "pytorch-model-recovery",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "constraints-scheduling",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "fix-code-vulnerability",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "winning-avg-corewars",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "train-fasttext",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "db-wal-recovery",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "custom-memory-heap-crash",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "llm-inference-batching-scheduler",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "prove-plus-comm",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "compile-compcert",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "filter-js-from-html",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "make-mips-interpreter",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "dna-assembly",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "sqlite-db-truncate",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "dna-insert",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "mteb-retrieve",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "feal-linear-cryptanalysis",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "query-optimize",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "regex-log",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "torch-tensor-parallelism",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "circuit-fibsqrt",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "git-leak-recovery",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "qemu-startup",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "build-pov-ray",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "multi-source-data-merger",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "model-extraction-relu-logits",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "sparql-university",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "distribution-search",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "adaptive-rejection-sampler",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "fix-git",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "regex-chess",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "sqlite-with-gcov",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "kv-store-grpc",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "cancel-async-tasks",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "build-cython-ext",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "raman-fitting",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "configure-git-webserver",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "nginx-request-logging",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "pytorch-model-cli",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "rstan-to-pystan",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "polyglot-c-py",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "extract-moves-from-video",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "gpt2-codegolf",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "reshard-c4-data",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "openssl-selfsigned-cert",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "vulnerable-secret",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "sam-cell-seg",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "chess-best-move",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "merge-diff-arc-agi-task",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "path-tracing-reverse",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "git-multibranch",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "hf-model-inference",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "bn-fit-modify",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "headless-terminal",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "log-summary-date-ranges",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "break-filter-js-from-html",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "count-dataset-tokens",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "torch-pipeline-parallelism",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "modernize-scientific-stack",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "extract-elf",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "sanitize-git-repo",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "make-doom-for-mips",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "gcode-to-text",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "feal-differential-cryptanalysis",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "code-from-image",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "caffe-cifar-10",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "schemelike-metacircular-eval",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "install-windows-3.11",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     }
+    ]
+   }
+  },
+  "rep2": {
+   "phase": "repeat",
+   "arms": [
+    "A",
+    "F",
+    "C",
+    "B"
+   ],
+   "rep": 2,
+   "note": "all arms, rep 2; stratified, long tasks first",
+   "order": "stratified",
+   "cut": null,
+   "first": [
+    "build-pov-ray",
+    "sam-cell-seg"
+   ],
+   "n_trials": 356,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "path-tracing",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "qemu-alpine-ssh",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "cobol-modernization",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "mcmc-sampling-stan",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "largest-eigenval",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "mteb-leaderboard",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "protein-assembly",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "build-pmars",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "pypi-server",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "write-compressor",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "overfull-hbox",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "fix-ocaml-gc",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "mailman",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "crack-7z-hash",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "video-processing",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "portfolio-optimization",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "password-recovery",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "large-scale-text-editing",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "financial-document-processor",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "tune-mjcf",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "polyglot-rust-c",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "pytorch-model-recovery",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "dna-insert",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "llm-inference-batching-scheduler",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "git-leak-recovery",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "prove-plus-comm",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "train-fasttext",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "regex-log",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "make-mips-interpreter",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "compile-compcert",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "query-optimize",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "custom-memory-heap-crash",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "feal-linear-cryptanalysis",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "qemu-startup",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "dna-assembly",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "mteb-retrieve",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "fix-code-vulnerability",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "constraints-scheduling",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "sqlite-db-truncate",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "db-wal-recovery",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "torch-tensor-parallelism",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "circuit-fibsqrt",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "winning-avg-corewars",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "filter-js-from-html",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "build-pov-ray",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "gpt2-codegolf",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "raman-fitting",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "sqlite-with-gcov",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "build-cython-ext",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "cancel-async-tasks",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "polyglot-c-py",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "model-extraction-relu-logits",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "reshard-c4-data",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "fix-git",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "rstan-to-pystan",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "distribution-search",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "extract-moves-from-video",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "configure-git-webserver",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "openssl-selfsigned-cert",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "multi-source-data-merger",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "vulnerable-secret",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "kv-store-grpc",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "regex-chess",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "nginx-request-logging",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "sparql-university",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "adaptive-rejection-sampler",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "pytorch-model-cli",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "sam-cell-seg",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "merge-diff-arc-agi-task",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "sanitize-git-repo",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "hf-model-inference",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "make-doom-for-mips",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "headless-terminal",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "modernize-scientific-stack",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "git-multibranch",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "log-summary-date-ranges",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "path-tracing-reverse",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "torch-pipeline-parallelism",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "chess-best-move",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "break-filter-js-from-html",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "extract-elf",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "caffe-cifar-10",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "install-windows-3.11",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "feal-differential-cryptanalysis",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "gcode-to-text",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "schemelike-metacircular-eval",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "count-dataset-tokens",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "bn-fit-modify",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "code-from-image",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     }
+    ]
+   }
+  },
+  "rep3": {
+   "phase": "repeat",
+   "arms": [
+    "A",
+    "F",
+    "C",
+    "B"
+   ],
+   "rep": 3,
+   "note": "all arms, rep 3; stratified, long tasks first",
+   "order": "stratified",
+   "cut": null,
+   "first": [
+    "build-pov-ray",
+    "sam-cell-seg"
+   ],
+   "n_trials": 356,
+   "shards": {
+    "0": [
+     {
+      "block": 1,
+      "task": "qemu-alpine-ssh",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "largest-eigenval",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "video-processing",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "fix-ocaml-gc",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "large-scale-text-editing",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "pytorch-model-recovery",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "write-compressor",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "build-pmars",
+      "arms": [
+       "B",
+       "C",
+       "A",
+       "F"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "path-tracing",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "mailman",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "portfolio-optimization",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "pypi-server",
+      "arms": [
+       "B",
+       "C",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "mcmc-sampling-stan",
+      "arms": [
+       "A",
+       "F",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "mteb-leaderboard",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "protein-assembly",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "cobol-modernization",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "tune-mjcf",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "crack-7z-hash",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "polyglot-rust-c",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "financial-document-processor",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "password-recovery",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "overfull-hbox",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "1": [
+     {
+      "block": 1,
+      "task": "filter-js-from-html",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "compile-compcert",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "custom-memory-heap-crash",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "dna-assembly",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "make-mips-interpreter",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "constraints-scheduling",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "dna-insert",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "circuit-fibsqrt",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "db-wal-recovery",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "winning-avg-corewars",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "sqlite-db-truncate",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "train-fasttext",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "mteb-retrieve",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "fix-code-vulnerability",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "regex-log",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "qemu-startup",
+      "arms": [
+       "F",
+       "A",
+       "B",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "llm-inference-batching-scheduler",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "git-leak-recovery",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "torch-tensor-parallelism",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "prove-plus-comm",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "query-optimize",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "feal-linear-cryptanalysis",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     }
+    ],
+    "2": [
+     {
+      "block": 1,
+      "task": "build-pov-ray",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "openssl-selfsigned-cert",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "cancel-async-tasks",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "build-cython-ext",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "model-extraction-relu-logits",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "raman-fitting",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "distribution-search",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "kv-store-grpc",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "vulnerable-secret",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "gpt2-codegolf",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "polyglot-c-py",
+      "arms": [
+       "A",
+       "C",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "extract-moves-from-video",
+      "arms": [
+       "C",
+       "F",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "pytorch-model-cli",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "fix-git",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "adaptive-rejection-sampler",
+      "arms": [
+       "A",
+       "F",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "regex-chess",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "reshard-c4-data",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "nginx-request-logging",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "sparql-university",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "multi-source-data-merger",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "rstan-to-pystan",
+      "arms": [
+       "F",
+       "A",
+       "C",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "configure-git-webserver",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 23,
+      "task": "sqlite-with-gcov",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "block": 1,
+      "task": "sam-cell-seg",
+      "arms": [
+       "B",
+       "F",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 2,
+      "task": "chess-best-move",
+      "arms": [
+       "A",
+       "C",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 3,
+      "task": "bn-fit-modify",
+      "arms": [
+       "C",
+       "A",
+       "B",
+       "F"
+      ]
+     },
+     {
+      "block": 4,
+      "task": "extract-elf",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 5,
+      "task": "break-filter-js-from-html",
+      "arms": [
+       "B",
+       "A",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 6,
+      "task": "path-tracing-reverse",
+      "arms": [
+       "F",
+       "C",
+       "B",
+       "A"
+      ]
+     },
+     {
+      "block": 7,
+      "task": "caffe-cifar-10",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 8,
+      "task": "hf-model-inference",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 9,
+      "task": "torch-pipeline-parallelism",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 10,
+      "task": "headless-terminal",
+      "arms": [
+       "B",
+       "A",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 11,
+      "task": "git-multibranch",
+      "arms": [
+       "C",
+       "B",
+       "F",
+       "A"
+      ]
+     },
+     {
+      "block": 12,
+      "task": "log-summary-date-ranges",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 13,
+      "task": "feal-differential-cryptanalysis",
+      "arms": [
+       "A",
+       "B",
+       "C",
+       "F"
+      ]
+     },
+     {
+      "block": 14,
+      "task": "install-windows-3.11",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 15,
+      "task": "merge-diff-arc-agi-task",
+      "arms": [
+       "C",
+       "F",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 16,
+      "task": "schemelike-metacircular-eval",
+      "arms": [
+       "C",
+       "A",
+       "F",
+       "B"
+      ]
+     },
+     {
+      "block": 17,
+      "task": "modernize-scientific-stack",
+      "arms": [
+       "F",
+       "B",
+       "A",
+       "C"
+      ]
+     },
+     {
+      "block": 18,
+      "task": "gcode-to-text",
+      "arms": [
+       "B",
+       "F",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 19,
+      "task": "make-doom-for-mips",
+      "arms": [
+       "A",
+       "B",
+       "F",
+       "C"
+      ]
+     },
+     {
+      "block": 20,
+      "task": "count-dataset-tokens",
+      "arms": [
+       "F",
+       "B",
+       "C",
+       "A"
+      ]
+     },
+     {
+      "block": 21,
+      "task": "sanitize-git-repo",
+      "arms": [
+       "F",
+       "C",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "block": 22,
+      "task": "code-from-image",
+      "arms": [
+       "C",
+       "B",
+       "A",
+       "F"
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

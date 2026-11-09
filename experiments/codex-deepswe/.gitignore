@@ -1,0 +1,6 @@
+# Raw outputs, downloaded data and binaries stay local (design §8).
+results/
+data/
+bin/
+.ruff_cache/
+__pycache__/

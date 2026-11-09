@@ -1,0 +1,3 @@
+# Calls, scores and the ledger stay local (they are joined to task ids and outcomes).
+results/
+__pycache__/

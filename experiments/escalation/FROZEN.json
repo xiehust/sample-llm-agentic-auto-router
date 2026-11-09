@@ -1,0 +1,39 @@
+{
+  "schema": "escalation-frozen/v1",
+  "rules_sha256": "beb1960e67cd8324bdbb661ea67d52d30f40b2a9d2f2f7daa52cb0b1e4facde5",
+  "signals_py_sha256": "b1a64cea6b0374e925cba6d905968081d7a71da078b523ed2f932297569ad5a9",
+  "simulate_py_sha256": "1df2a9039913e65e44397ecbb5d406b5871550555d2eb7446aa6719422965ac8",
+  "split_sha256": "daac972f3906fe2308c71922e9ad2e7e2ff1d27ccbe7f4b75d4d75922948aa2a",
+  "benches": {
+    "deepswe": {
+      "extract_sha256": "1896d131d4a3e1cb5f9d922b4c0a58aadfb34166c00e00c6190d6ae273e23280",
+      "kq": {
+        "SA": {
+          "0.75": 51,
+          "0.9": 63
+        },
+        "FS": {
+          "0.5": 72
+        }
+      },
+      "constants": {
+        "R8_spend": 0.20135
+      }
+    },
+    "tbench": {
+      "extract_sha256": "57262a4c8ff013ba60c422351302e74545dadcf99b1aa8d30e9ae89506a5f6a6",
+      "kq": {
+        "SA": {
+          "0.75": 27,
+          "0.9": 49
+        },
+        "FS": {
+          "0.5": 13
+        }
+      },
+      "constants": {
+        "R8_spend": 0.021877
+      }
+    }
+  }
+}

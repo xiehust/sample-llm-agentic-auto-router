@@ -6,6 +6,12 @@ import { checkPolicyAgainstCatalog, validatePolicy, type Policy } from '@auto-ro
 import { loadCatalog, validateCatalog, type PriceCatalog } from '@auto-router/pricing'
 import { SettingsError, type Settings } from './settings.ts'
 
+/** Shipped assessor prompt packs (one directory per pack name). */
+export const ASSESSOR_PACKS_DIR = new URL('../../packages/assessor/prompts/assessor/', import.meta.url).pathname
+/** The router's default assessor model and pack (packages/router/src/config.ts ASSESSOR_DEFAULTS). */
+export const ASSESSOR_DEFAULT_MODEL = 'global.openai.gpt-6-luna'
+export const ASSESSOR_DEFAULT_PACK = 'v2.2'
+
 /** The router's shipped default policy (global profiles only). Deployments pass their own with -c policyFile=. */
 export const DEFAULT_POLICY_FILE = new URL('../../packages/router/config/policy.default.json', import.meta.url).pathname
 
@@ -39,8 +45,34 @@ export function deployModels(s: Settings, read: (p: string) => string = (p) => r
   if (issues.length || !policy || !catalog) throw new SettingsError(issues)
   const resp = policy.pools['openai-responses']
   const routerResponsesModels = resp ? [...new Set(resp.models.flatMap((e) => [e.model, ...(e.failover ?? [])]).concat(policy.observeDefaults?.['openai-responses'] ?? []))].sort() : []
+  if (s.assessor) checkAssessor(s.assessor, catalog, allowedModels(policy, catalog), routerResponsesModels, read, issues)
+  if (issues.length) throw new SettingsError(issues)
   return { policy, catalog, routerModels: allowedModels(policy, catalog), fallbackModels: [...new Set(Object.values(FALLBACK))].sort(),
     routerResponsesModels, fallbackResponsesModels: [FALLBACK.openai] }
+}
+
+/**
+ * The assessor calls its model with the router's task role, so it needs no grant of its own: its model must be one of
+ * the router's models, and an OpenAI-shape model (the assessor uses Responses when the model supports it) must be
+ * among the Responses pool models, which also carry the default-project statement. Auto mode with autoRules 'pack'
+ * needs a pack with at least one enabled auto rule (the router refuses it at boot otherwise).
+ */
+function checkAssessor(a: NonNullable<Settings['assessor']>, catalog: PriceCatalog, routerModels: string[], responsesModels: string[],
+  read: (p: string) => string, issues: string[]): void {
+  const model = a.model ?? ASSESSOR_DEFAULT_MODEL
+  const price = catalog.models.find((m) => m.modelId === model)
+  if (!price) issues.push(`assessorModel '${model}' is not in the ${catalog.region} catalog`)
+  else if (!routerModels.includes(model)) issues.push(`assessorModel '${model}' is not one of the router's policy models (the task role may invoke only those; no extra grant is made)`)
+  else if (!price.dialects.includes('anthropic-messages') && price.dialects.includes('openai-responses') && !responsesModels.includes(model)) {
+    issues.push(`assessorModel '${model}' calls the Responses API but is not in the policy's openai-responses pool (no default-project grant)`)
+  }
+  const pack = a.pack ?? ASSESSOR_DEFAULT_PACK
+  let rules: unknown
+  try { rules = JSON.parse(read(`${ASSESSOR_PACKS_DIR}${pack}/rules.json`)) } catch { issues.push(`assessorPack '${pack}': no shipped pack with that name`); return }
+  const anyAuto = Array.isArray(rules) && rules.some((r) => typeof r === 'object' && r !== null && (r as Record<string, unknown>).enabled === true && (r as Record<string, unknown>).auto === true)
+  if (a.mode === 'auto' && (a.autoRules ?? 'pack') === 'pack' && !anyAuto) {
+    issues.push(`assessorMode=auto: every rule of pack ${pack} is auto:false, so with assessorAutoRules=pack the assessor could never act; use -c assessorAutoRules=all (experiment) or assessorMode=observe`)
+  }
 }
 
 /** Same set as the router's allowedModels: catalog ∩ (pool models ∪ failover profiles ∪ observe defaults). */

@@ -109,7 +109,7 @@ export async function runEval(o: RunOptions): Promise<RunSummary> {
       const audit = res.status === 'ok' ? res.audit : {}
       const usage = info?.usage
       const at0 = res.status === 'ok' && Array.isArray(audit.ruleAssessments) && audit.facts
-        ? mapTier({ rule_assessments: audit.ruleAssessments, task_facts: audit.facts, confidence: res.confidence, reason: 'x' } as Assessment, pack.rules, { threshold: 0 }).proposedTier
+        ? mapTier({ rule_assessments: audit.ruleAssessments, task_facts: audit.facts, confidence: res.confidence, reason: 'x' } as Assessment, pack.rules, { threshold: 0, ...(pack.mapping ? { mapping: pack.mapping } : {}) }).proposedTier
         : undefined
       const r: EvalResult = scrub({
         itemId: item.id, dataset: item.dataset, category: item.category, gold: item.gold, model: o.model, variant: o.variant ?? 'default',

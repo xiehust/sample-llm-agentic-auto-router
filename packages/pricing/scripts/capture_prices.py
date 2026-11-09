@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["boto3>=1.40"]
+# dependencies = ["boto3==1.43.126"]
 # ///
 """Capture the inputs for one region's price catalog (read-only AWS calls only).
 

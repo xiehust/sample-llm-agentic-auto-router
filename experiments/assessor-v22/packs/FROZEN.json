@@ -1,0 +1,44 @@
+{
+ "v2.2-D": {
+  "pack": "v2.2-D",
+  "packVersion": "assessor/v2.2-D+e2183dce2cb9",
+  "frozen": "2026-11-07T03:38:26+00:00",
+  "tuned_on": "deepswe tune split only (67 tasks); no TB label opened",
+  "source_candidate": "d1a (same prompt and mapping; tune calls under label d1a)",
+  "files": {
+   "examples.json": "9c9616c5546d9ad8e9c19386f54a071ce2b1671d902e1abb9cdb5d3ab86d9b8a",
+   "instructions.md": "6527f4831d649ff2956ab18579038e1ed751ea48d08f37328f657d9e849fba28",
+   "pack.json": "838e7b945b4067aa6735a3c49831b7747f2d21c179666a0b482d9279efe7be12",
+   "rules.json": "bd1b56fa6a9943ff46a94a13100fd5ed038c704d2868511ffc50a14f9a658444"
+  }
+ },
+ "v2.2-T": {
+  "pack": "v2.2-T",
+  "packVersion": "assessor/v2.2-T+08a4a9507f32",
+  "frozen": "2026-11-07T03:46:10+00:00",
+  "tuned_on": "TB-tune split only (50 tasks), from v2.1; the only candidate tried (t1)",
+  "source_candidate": "t1 (same prompt and mapping; tune calls under label t1)",
+  "files": {
+   "examples.json": "ad7de7d841ec16a5fe91c2d28941b3af75fbb815185f00483756107a88c0def4",
+   "instructions.md": "6527f4831d649ff2956ab18579038e1ed751ea48d08f37328f657d9e849fba28",
+   "pack.json": "4eb10eef0c12b9a586ba294522388eb77f14f7a74fc3f8f5768249f3ca8413ba",
+   "rules.json": "796fefe479361b646966d79790cb62f6d15a5088104c794a2854965b4d5332dc"
+  }
+ },
+ "v2.2": {
+  "pack": "v2.2 (release candidate; packages/assessor/prompts/assessor/v2.2)",
+  "packVersion": "assessor/v2.2+08a4a9507f32",
+  "frozen": "2026-11-07T03:51:13+00:00",
+  "tuned_on": "DeepSWE-tune + TB-tune; prompt and mapping identical to v2.2-T (known-procedure stays quiet on DeepSWE-tune: 0 fast calls; nothing added)",
+  "tune_calls": {
+   "deepswe": "t1-dsw",
+   "tb21": "t1"
+  },
+  "files": {
+   "examples.json": "ad7de7d841ec16a5fe91c2d28941b3af75fbb815185f00483756107a88c0def4",
+   "instructions.md": "6527f4831d649ff2956ab18579038e1ed751ea48d08f37328f657d9e849fba28",
+   "pack.json": "b025ecdc6f2bae1883f138e09af27049e1f2cc53d1ee35ea1d5935a1ef69a694",
+   "rules.json": "796fefe479361b646966d79790cb62f6d15a5088104c794a2854965b4d5332dc"
+  }
+ }
+}

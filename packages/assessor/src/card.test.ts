@@ -1,7 +1,7 @@
 import { templateFamilyOf } from '@auto-router/core'
 import { describe, expect, it } from 'vitest'
 import { summaryOf } from './__fixtures__/fixtures.ts'
-import { buildCard, CARD_LIMITS, cut, isTaskCard, sanitize, taskCardIssue, type TaskCard } from './card.ts'
+import { buildCard, CARD_LIMITS, cut, isTaskCard, sanitize, stripSystemReminders, taskCardIssue, type TaskCard } from './card.ts'
 import { cardJson } from './pack.ts'
 
 const anthropicConversation = {
@@ -237,5 +237,145 @@ describe('isTaskCard', () => {
     expect(isTaskCard(good)).toBe(true)
     expect(isTaskCard(mutate(good))).toBe(false)
     expect(taskCardIssue(mutate(good))).toBeTypeOf('string')
+  })
+})
+
+describe('buildCard: client-injected context messages (Codex)', () => {
+  const ENV = '<environment_context>\n  <cwd>/testbed</cwd>\n  <approval_policy>never</approval_policy>\n  <sandbox_mode>danger-full-access</sandbox_mode>\n  <shell>bash</shell>\n</environment_context>'
+  const PROMPT = 'Fix the off-by-one in pagination so the last page is not dropped.'
+  const codexFirst = {
+    model: 'auto', instructions: 'You are Codex, a coding agent.', store: false, tools: [{ type: 'function', name: 'shell' }],
+    input: [
+      { type: 'message', role: 'developer', content: [{ type: 'input_text', text: 'Sandbox notes.' }] },
+      { type: 'message', role: 'user', content: [{ type: 'input_text', text: '<user_instructions>\nRun tests with pytest.\n</user_instructions>' }] },
+      { type: 'message', role: 'user', content: [{ type: 'input_text', text: ENV }] },
+      { type: 'message', role: 'user', content: [{ type: 'input_text', text: PROMPT }] },
+    ],
+  }
+  it('a Codex-shaped first request is turn 0 with the prompt as latestUser and no firstUser', () => {
+    const c = buildCard(summaryOf('openai-responses'), codexFirst)
+    expect(c.latestUser.text).toBe(PROMPT)
+    expect(c.stats.turnIndex).toBe(0)
+    expect(c.firstUser).toBeUndefined()
+    expect(isTaskCard(c)).toBe(true)
+  })
+  it('the same holds for Chat and Messages bodies', () => {
+    const chat = buildCard(summaryOf('openai-chat'), { messages: [{ role: 'system', content: 's' }, { role: 'user', content: ENV }, { role: 'user', content: PROMPT }] })
+    const msgs = buildCard(summaryOf('anthropic-messages'), { messages: [{ role: 'user', content: [{ type: 'text', text: ENV }] }, { role: 'user', content: PROMPT }] })
+    for (const c of [chat, msgs]) { expect(c.latestUser.text).toBe(PROMPT); expect(c.stats.turnIndex).toBe(0); expect(c.firstUser).toBeUndefined() }
+  })
+  it('a later turn still sees the real first prompt as firstUser', () => {
+    const body = { ...codexFirst, input: [...codexFirst.input,
+      { type: 'message', role: 'assistant', content: [{ type: 'output_text', text: 'Done.' }] },
+      { type: 'message', role: 'user', content: [{ type: 'input_text', text: 'Now add a regression test.' }] }] }
+    const c = buildCard(summaryOf('openai-responses'), body)
+    expect(c.stats.turnIndex).toBe(1)
+    expect(c.firstUser?.text).toBe(PROMPT)
+  })
+  it('only a message that is exactly one context block is skipped', () => {
+    for (const text of [`${ENV}\nPlease fix the bug.`, `Note: ${ENV}`, `${ENV}\n${ENV}`, '<environment_context>a</environment_context><user_instructions>b</user_instructions>']) {
+      const c = buildCard(summaryOf('openai-responses'), { input: [{ role: 'user', content: text }, { role: 'user', content: PROMPT }] })
+      expect(c.stats.turnIndex, text).toBe(1)
+    }
+    // A context block with an image attached is user content.
+    const img = buildCard(summaryOf('openai-responses'), { input: [
+      { role: 'user', content: [{ type: 'input_text', text: ENV }, { type: 'input_image', image_url: 'data:image/png;base64,AA' }] },
+      { role: 'user', content: PROMPT }] })
+    expect(img.stats.turnIndex).toBe(1)
+  })
+})
+
+describe('buildCard: client-injected <system-reminder> context (Claude Code)', () => {
+  // Synthetic, Claude-Code-shaped first main-loop request: reminder blocks next to the prompt in one user message.
+  const R = (inner: string) => `<system-reminder>\n${inner}\n</system-reminder>`
+  const CONTEXT = R('As you answer the user\'s questions, you can use the following context:\n# currentDate\nToday\'s date is 2026-01-01.\n# claudeMd\n' + 'Project notes. '.repeat(200))
+  const TAIL = R('The task tools list is empty.')
+  const PROMPT = 'Fix the off-by-one in pagination so the last page is not dropped.'
+  const first = (prompt: string, extra: unknown[] = []) => ({
+    model: 'auto', system: [{ type: 'text', text: 'You are a coding agent CLI.' }], tools: [{ name: 'Bash', input_schema: {} }],
+    messages: [{ role: 'user', content: [{ type: 'text', text: CONTEXT }, { type: 'text', text: prompt }, { type: 'text', text: TAIL }, ...extra] }],
+  })
+
+  it('the prompt is latestUser at turn 0; reminder blocks are dropped', () => {
+    const c = buildCard(summaryOf('anthropic-messages'), first(PROMPT))
+    expect(c.latestUser).toEqual({ text: PROMPT, images: 0 })
+    expect(c.stats.turnIndex).toBe(0)
+    expect(c.firstUser).toBeUndefined()
+    expect(isTaskCard(c)).toBe(true)
+  })
+
+  it('a DeepSWE-sized instruction keeps its full text within the 4,000-char cut', () => {
+    const long = `${'The handler drops the trailing page when the total is a multiple of the page size. '.repeat(46)}End.`
+    expect(long.length).toBeLessThanOrEqual(CARD_LIMITS.latestUserChars)
+    expect(CONTEXT.length + long.length).toBeGreaterThan(CARD_LIMITS.latestUserChars) // without the filter it would be cut
+    const c = buildCard(summaryOf('anthropic-messages'), first(long))
+    expect(c.latestUser.text).toBe(long)
+    expect(c.latestUser.chars).toBeUndefined()
+    // A longer one is cut on its own length, not on the reminders'.
+    const longer = long.repeat(2)
+    const d = buildCard(summaryOf('anthropic-messages'), first(longer))
+    expect(d.latestUser.chars).toBe(longer.length)
+    expect(d.latestUser.text.startsWith(long.slice(0, 100))).toBe(true)
+  })
+
+  it('reminders joined with the prompt in one block (or string content) are stripped at the edges', () => {
+    const joined = { messages: [{ role: 'user', content: [{ type: 'text', text: `${CONTEXT}\n\n${PROMPT}\n${TAIL}` }] }] }
+    const str = { messages: [{ role: 'user', content: `${CONTEXT}${PROMPT}${TAIL}` }] }
+    for (const b of [joined, str]) expect(buildCard(summaryOf('anthropic-messages'), b).latestUser.text).toBe(PROMPT)
+  })
+
+  it('a reminder-only user message is not a user turn; a later real prompt stays latestUser', () => {
+    const body = { messages: [{ role: 'user', content: [{ type: 'text', text: CONTEXT }] }, { role: 'user', content: PROMPT }] }
+    const c = buildCard(summaryOf('anthropic-messages'), body)
+    expect(c.stats.turnIndex).toBe(0)
+    expect(c.firstUser).toBeUndefined()
+    expect(c.latestUser.text).toBe(PROMPT)
+    // With an image it is user content.
+    const img = buildCard(summaryOf('anthropic-messages'), { messages: [
+      { role: 'user', content: [{ type: 'text', text: CONTEXT }, { type: 'image', source: { type: 'base64', media_type: 'image/png', data: 'AA' } }] },
+      { role: 'user', content: PROMPT }] })
+    expect(img.stats.turnIndex).toBe(1)
+  })
+
+  it('only complete elements at the edges are removed', () => {
+    expect(stripSystemReminders(`Before ${R('x')} after`)).toBe(`Before ${R('x')} after`) // middle: kept
+    expect(stripSystemReminders(`${R('a')}${R('b')} prompt ${R('c')}`)).toBe('prompt')
+    const nested = `<system-reminder>a <system-reminder>b</system-reminder> c</system-reminder> prompt`
+    expect(stripSystemReminders(nested)).toBe(nested) // nested open tag: left alone
+    expect(stripSystemReminders('<system-reminder>unclosed prompt')).toBe('<system-reminder>unclosed prompt')
+    expect(stripSystemReminders(`prompt </system-reminder>${R('t')}`)).toBe('prompt </system-reminder>')
+    // Another dialect's text is never touched.
+    const r = buildCard(summaryOf('openai-responses'), { input: [{ role: 'user', content: `${CONTEXT}${PROMPT}` }] })
+    expect(r.latestUser.text.startsWith('<system-reminder>')).toBe(true)
+  })
+
+  it('a system-role message after the prompt (Claude Code 2.1 environment block) is system text, not a turn', () => {
+    const longSystem = [{ type: 'text', text: 'You are a coding agent CLI. '.repeat(30) }]
+    const base = { ...first(PROMPT), system: longSystem }
+    const body = { ...base, messages: [...base.messages, { role: 'system', content: [{ type: 'text', text: '# Environment\nPrimary working directory: /app' }] }] }
+    const c = buildCard(summaryOf('anthropic-messages'), body)
+    expect(c.latestUser).toEqual({ text: PROMPT, images: 0 })
+    expect(c.firstUser).toBeUndefined()
+    expect(c.stats.turnIndex).toBe(0)
+    // Appended after the request's own system blocks, so a head that fits in them (Claude Code: 5.6k chars) is unchanged.
+    // (`chars`, the full system length, grows by the appended text.)
+    const head = (x: TaskCard) => ('systemHead' in x.role ? x.role.systemHead : undefined)
+    expect(head(c)).toBe(head(buildCard(summaryOf('anthropic-messages'), base)))
+    // Between turns it does not count as a step either.
+    const later = buildCard(summaryOf('anthropic-messages'), { messages: [
+      { role: 'user', content: PROMPT }, { role: 'system', content: 'env' }, { role: 'assistant', content: [{ type: 'text', text: 'ok' }] },
+      { role: 'user', content: 'Now add a test.' }, { role: 'system', content: 'env' }] })
+    expect(later).toMatchObject({ latestUser: { text: 'Now add a test.' }, firstUser: { text: PROMPT }, stats: { turnIndex: 1 } })
+  })
+
+  it('tool-result steps keep their kind and error count when reminders ride along', () => {
+    const body = { messages: [
+      { role: 'user', content: PROMPT },
+      { role: 'assistant', content: [{ type: 'tool_use', id: 'a', name: 'Bash', input: {} }] },
+      { role: 'user', content: [{ type: 'tool_result', tool_use_id: 'a', content: 'boom', is_error: true }, { type: 'text', text: TAIL }] },
+    ] }
+    const c = buildCard(summaryOf('anthropic-messages'), body)
+    expect(c.stats).toMatchObject({ turnIndex: 0, prevTurnToolCalls: 1, prevTurnToolErrors: 1 })
+    expect(c.latestUser.text).toBe('') // the latest message is a tool result
   })
 })

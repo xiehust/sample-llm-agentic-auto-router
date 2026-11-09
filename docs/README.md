@@ -11,6 +11,7 @@ Start here:
 | [tasks/11-04-llm-auto-router/prd.md](tasks/11-04-llm-auto-router/prd.md) | Requirements, user decisions and the child-task map |
 | [tasks/11-04-llm-auto-router/design.md](tasks/11-04-llm-auto-router/design.md) | Topology, package contracts, decision logic, spike outcomes |
 | [tasks/11-04-gateway-frontdoor-spike/research/spike-findings.md](tasks/11-04-gateway-frontdoor-spike/research/spike-findings.md) | AgentCore Gateway front-door spike results (V0–V8) |
+| [architecture/assessor-design.zh-CN.md](architecture/assessor-design.zh-CN.md) | LLM tier assessor design: consult points, task card, prompt pack, tier mapping, router wiring, live findings (Chinese) |
 | [architecture/assessor-eval.zh-CN.md](architecture/assessor-eval.zh-CN.md) | LLM tier assessor evaluation: datasets, method, pack v1 → v2 → v2.1 results, conclusions, next steps (Chinese) |
 | [tasks/11-04-llm-auto-router/research/](tasks/11-04-llm-auto-router/research/) | Research: provider caching (A, A2), router landscape (B), cache-aware routing (C), LLM tier assessor (D) |
 

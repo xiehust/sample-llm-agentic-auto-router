@@ -1,0 +1,59 @@
+{
+  "schema": "escalation-rules/v1",
+  "note": "Pre-listed rule family (design §7.2 rule 2), fixed before any signal-outcome association was computed. A rule fires at the first request k (1-based) whose pre-request state satisfies any of its conditions, at most once. Router signals (k, prompt_tokens, spend_usd, compactions) come from the proxy call log and cover every run; body signals come from the rollout (signals.py) and never fire for a run without one. 'ge_kq' = the given quantile of the source arm's calls per run on the tune split of the same benchmark; 'ge_const' = a named constant. Both are resolved by `simulate.py freeze` from outcome-free data and recorded in FROZEN.json.",
+  "escalations": {
+    "SA": {
+      "source": "A",
+      "target": "C",
+      "rules": {
+        "SA1": {"any": [{"signal": "consec_nonzero", "ge": 3}]},
+        "SA2": {"any": [{"signal": "consec_nonzero", "ge": 5}]},
+        "SA3": {"any": [{"signal": "test_fail", "ge": 3}]},
+        "SA4": {"any": [{"signal": "consec_test_fail", "ge": 2}]},
+        "SA5": {"any": [{"signal": "k", "ge_kq": 0.75}]},
+        "SA6": {"any": [{"signal": "k", "ge_kq": 0.90}]},
+        "SA7": {"any": [{"signal": "prompt_tokens", "ge": 100000}]},
+        "SA8": {"any": [{"signal": "repeat_cmd", "ge": 5}]}
+      }
+    },
+    "FS": {
+      "source": "F",
+      "target": "A",
+      "rules": {
+        "FS1": {"any": [{"signal": "compactions", "ge": 1}]},
+        "FS2": {"any": [{"signal": "compactions", "ge": 1}, {"signal": "consec_nonzero", "ge": 3}]},
+        "FS3": {"any": [{"signal": "compactions", "ge": 1}, {"signal": "test_fail", "ge": 3}]},
+        "FS4": {"any": [{"signal": "k", "ge_kq": 0.50}]},
+        "FS5": {"any": [{"signal": "prompt_tokens", "ge": 100000}]},
+        "FS6": {"any": [{"signal": "repeat_cmd", "ge": 5}]},
+        "FS7": {"any": [{"signal": "consec_nonzero", "ge": 3}]},
+        "FS8": {"any": [{"signal": "spend_usd", "ge_const": "R8_spend"}]}
+      }
+    }
+  },
+  "constants": {
+    "R8_spend": "2 × the median per-run ledger cost of the source arm (F) over its tune-split runs, per benchmark"
+  },
+  "router_compaction": "compactions = the number of calls j < k whose prompt is below 0.6 × the largest prompt since the previous detected compaction (core's compaction:shrink rule, policy.compaction.shrinkRatio 0.6)",
+  "selection": {
+    "split": "experiments/assessor-v22/heldout/split.jsonl (sha256 daac972f3906fe2308c71922e9ad2e7e2ff1d27ccbe7f4b75d4d75922948aa2a); select on tune, gate once on heldout",
+    "SA": "maximise M2 ΔR vs pinned Sol (A) subject to fire rate ≤ 0.25 on Sol-resolved runs; ties → lower overall fire rate",
+    "FS": "maximise M2 ΔR vs pinned Sol (A) subject to the gate (high) cost ratio vs pinned Sol ≤ 0.60; ties → lower overall fire rate",
+    "basis": "DeepSWE: resolved. TB: primary (§7.7, a lookup-flagged resolved run counts as unresolved); as-graded as the sensitivity"
+  },
+  "late_fire": "a run that fires with less than 15% of its agent timeout left (timeout − seconds from its first call to call k) keeps its own outcome under M1, M2 and M2_self",
+  "scenarios": {
+    "M0": "y",
+    "M1": "p_T(t)",
+    "M2": "y + (1 − y)·p_T(t)",
+    "M2_self": "y + (1 − y)·p_S^{−j}(t), leave-one-out over the other source runs of the task"
+  },
+  "costs": {
+    "high (gate)": "π + u_k + c_T(t)",
+    "splice": "π + u_k + output_k at target price + Σ_{i>k} usage_i repriced at target prices",
+    "tail": "π + u_k + mean over the target's runs of task t of Σ_{i>k} their call costs (0 past their end)",
+    "π": "Σ_{i<k} call cost, scaled to the run's ledger total",
+    "u_k": "prompt tokens of request k × the target's 30m cache-write price (a cold switch, nothing read from cache)"
+  },
+  "bootstrap": {"unit": "task", "seed": 20261107, "n_boot": 10000, "n_boot_tune": 2000, "auc_n_boot": 500}
+}

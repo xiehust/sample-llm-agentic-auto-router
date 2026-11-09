@@ -25,7 +25,7 @@ describe('contract with @auto-router/core', () => {
     const a = createAssessor({ transport: fakeTransport([{ body: {} }]), catalog: loadCatalog() })
     expectTypeOf(a).toExtend<TierAssessor>()
     expectTypeOf<Extract<AssessorResult, { status: 'ok' }>['costUsd']>().toEqualTypeOf<number | undefined>()
-    expect(asCore(a).id).toBe('assessor/v2.1@global.openai.gpt-6-luna')
+    expect(asCore(a).id).toBe('assessor/v2.2@global.openai.gpt-6-luna')
     expect([resultIsCore, fromCoreCtx, ctxIsBuildCtx, extras, extrasFitDecide].every((f) => typeof f === 'function')).toBe(true)
   })
 })

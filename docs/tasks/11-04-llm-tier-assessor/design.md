@@ -52,7 +52,7 @@ core.decide (session-start | subagent-start | user-turn, nothing deterministic d
        precheck(card)              → ok, no tier, skipped=<reason>       (no call, $0)
        renderPrompt(pack, card)    → stable system prefix + card message
        adapter.buildRequest(...)   → {path, body}
-       transport(req, AbortSignal.any([signal, timeout(1.5 s)]))
+       transport(req, AbortSignal.any([signal, timeout(timeoutMs, default 5 s)]))
        adapter.parse(body)         → raw JSON + usage   (refusal / incomplete / no tool call → invalid)
        validateAssessment(raw)     → invalid → unavailable
        mapTier(...)                → proposedTier | no opinion
@@ -233,7 +233,7 @@ Notes:
 ## 9. Integration contract (R7, owned by 0d)
 
 - What the assessor package exports: `createAssessor(config) → TierAssessor`, `buildCard`, `loadPack`, `defaultPackDir` and the types.
-- `config` = `{ model = 'global.openai.gpt-6-luna', transport, catalog, pack?, api?, reasoningEffort?, threshold = 0.8, timeoutMs = 1500, autoFacts = [], cache = true, roleLabels? }`. `id` = `assessor/v1@<model>`.
+- `config` = `{ model = 'global.openai.gpt-6-luna', transport, catalog, pack?, api?, reasoningEffort?, threshold = 0.8, timeoutMs = 5000, autoFacts = [], cache = true, roleLabels? }`. `id` = `assessor/v1@<model>`.
 - Core's side, per parent §3:
   - consult the assessor at session start, sub-agent start and user turns, after hint, alias and rules;
   - cache the result per (lineage, user turn);
@@ -369,3 +369,15 @@ Saved per item: `{itemId, model, status, proposedTier, tier, gold, confidence, b
   - Every rule stays `auto:false`; `assessorMode` stays `observe`.
   - Old v1 eval result files keep their variant label `default`.
   - §4's layout, which describes `prompts/assessor/v1/`, applies to every pack directory.
+
+## 14. Default timeout raised to 5 s (2026-11-05)
+
+- `DEFAULT_TIMEOUT_MS` (assessor), `ASSESSOR_DEFAULTS.timeoutMs` (core) and the router's `ROUTER_ASSESSOR_TIMEOUT_MS`
+  default are now 5000 ms (were 1500). Core's hard bound in the router stays `timeoutMs + ASSESSOR_GRACE_MS` (100 ms).
+- Reason: Codex-sized cards (session-start cards from a coding agent's real first request, median ≈ 6.5K estimated
+  prompt tokens) answered at p50 1.53 s / p95 2.06 s / max 2.9 s in the 500-task tier pass, so 1500 ms timed out
+  about 60% of consultations. Such agents consult almost only at session start, so the longer bound is paid at most
+  once per task.
+- The eval's "share over 1.5 s" metric (`over1500ms`, report column `>1.5 s`) stays as recorded: it describes the
+  budget the eval measured against.
+

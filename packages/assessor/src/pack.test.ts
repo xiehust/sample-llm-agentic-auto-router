@@ -11,7 +11,7 @@ const clone = (p: Pack): Pack => structuredClone(p)
 
 describe('default pack', () => {
   it('has the four starter rules in observe mode', () => {
-    expect(pack.id).toBe('assessor/v2.1')
+    expect(pack.id).toBe('assessor/v2.2')
     expect(pack.rules.map((r) => [r.id, r.tier, r.enabled, r.auto])).toEqual([
       ['explore-readonly', 'fast', true, false],
       ['mechanical-edit', 'fast', true, false],
@@ -32,7 +32,7 @@ describe('default pack', () => {
     for (const e of pack.examples) {
       const v = validateAssessment(e.output, pack.rules)
       expect(v.ok).toBe(true)
-      if (v.ok) expect(mapTier(v.value, pack.rules).proposedTier).toBe(e.tier)
+      if (v.ok) expect(mapTier(v.value, pack.rules, { mapping: pack.mapping }).proposedTier).toBe(e.tier)
     }
   })
 
@@ -68,7 +68,7 @@ describe('renderPrompt', () => {
     const a = renderPrompt(pack, card)
     const b = renderPrompt(loadPack(), structuredClone(card))
     expect(b).toEqual(a)
-    expect(a.packVersion).toMatch(/^assessor\/v2\.1\+[0-9a-f]{12}$/)
+    expect(a.packVersion).toMatch(/^assessor\/v2\.2\+[0-9a-f]{12}$/)
     // The card does not change the version.
     expect(renderPrompt(pack, { ...card, latestUser: { text: 'other', images: 0 } }).packVersion).toBe(a.packVersion)
   })

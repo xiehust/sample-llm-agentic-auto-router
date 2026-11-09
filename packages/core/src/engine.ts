@@ -18,7 +18,7 @@ export interface EngineOptions {
   assessor?: TierAssessor
   /** Default 'observe' (consult and audit, never change the decision). */
   assessorMode?: AssessorMode
-  /** Default 1500; must be > 0. */
+  /** Hard bound on one consultation. Default 5000 (ASSESSOR_DEFAULTS.timeoutMs); must be > 0. */
   assessorTimeoutMs?: number
   /** Default 0.8; must be in [0, 1]. */
   assessorMinConfidence?: number
@@ -36,6 +36,9 @@ export interface EngineOptions {
 export function createEngine(opts: EngineOptions): Engine {
   const policy = validatePolicy(opts.policy)
   checkPolicyAgainstCatalog(policy, opts.catalog)
+  if (policy.sessionTier === 'root' && (typeof opts.store.noteRoot !== 'function' || typeof opts.store.rootLineage !== 'function')) {
+    throw new TypeError("createEngine: policy.sessionTier 'root' needs a store with noteRoot() and rootLineage()")
+  }
   const catalog: ReadonlyMap<string, ModelPrice> = new Map(opts.catalog.models.map((m) => [m.modelId, m]))
   const now = opts.now ?? Date.now
   const assessor = assessorConfig(opts)

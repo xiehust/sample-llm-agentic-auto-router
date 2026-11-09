@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["boto3>=1.40", "requests>=2.32"]
+# dependencies = ["boto3==1.43.126", "requests==2.34.2"]
 # ///
 """V9 spike: AgentCore Gateway -> VPC Lattice service (AWS_IAM) -> Fargate echo stub (ap-northeast-1).
 

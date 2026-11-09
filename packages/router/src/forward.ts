@@ -30,8 +30,9 @@ class NodeSha256 {
 }
 
 /** Task-role credentials through the default provider chain (ECS container endpoint in the task), with refresh. */
-export function createSigV4Signer(region: string, credentials = defaultProvider()): Signer {
-  const sig = new SignatureV4({ service: 'bedrock', region, credentials, sha256: NodeSha256 })
+export function createSigV4Signer(region: string, credentials = defaultProvider(), service: 'bedrock' | 's3' = 'bedrock'): Signer {
+  // S3 signs the path as is (no double URI escaping); its payload hash travels in x-amz-content-sha256.
+  const sig = new SignatureV4({ service, region, credentials, sha256: NodeSha256, ...(service === 's3' ? { uriEscapePath: false } : {}) })
   return {
     async sign({ method, url, headers, body }) {
       const req = new HttpRequest({

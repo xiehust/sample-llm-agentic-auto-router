@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["botocore>=1.40"]
+# dependencies = ["botocore==1.43.126"]
 # ///
 """Capture real Bedrock usage fixtures for @auto-router/pricing (makes billed Bedrock calls).
 

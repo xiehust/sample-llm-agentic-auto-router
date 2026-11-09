@@ -6,7 +6,7 @@ import type { AssessedTurn, RequestSummary, SessionState, TierAssessor } from '.
 
 export type AssessorMode = 'off' | 'observe' | 'auto'
 
-export const ASSESSOR_DEFAULTS = { mode: 'observe', timeoutMs: 1500, minConfidence: 0.8, downgradeFrom: ['standard'] } as const
+export const ASSESSOR_DEFAULTS = { mode: 'observe', timeoutMs: 5000, minConfidence: 0.8, downgradeFrom: ['standard'] } as const
 
 /** Most in-engine memo entries (decide-before-record races, concurrent retries); oldest evicted first. */
 export const ASSESS_MEMO_MAX = 1024

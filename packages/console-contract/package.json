@@ -1,0 +1,13 @@
+{
+  "name": "@auto-router/console-contract",
+  "version": "0.0.0",
+  "license": "MIT-0",
+  "private": true,
+  "type": "module",
+  "description": "Console API contract (design v1 §2.4): request/response types, error codes and query helpers shared by console-api and console-web.",
+  "exports": { ".": { "types": "./src/index.ts", "default": "./src/index.ts" } },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  }
+}

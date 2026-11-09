@@ -28,6 +28,8 @@ infra/cdk.context.json
 # Spike state and raw results name the account
 spikes/*/state.json
 spikes/*/results/
+# Console E2E results (masked check outcomes; state and secrets live outside the repo)
+experiments/console-e2e/results/
 
 # Local Trellis tooling (not published)
 /AGENTS.md

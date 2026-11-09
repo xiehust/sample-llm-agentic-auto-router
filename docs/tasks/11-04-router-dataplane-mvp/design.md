@@ -263,6 +263,10 @@ See `infra/README.md`.
   - Both cases log, price and record the partial usage.
   - EMF adds the dimension sets `{StatusClass}`, `{StatusClass, Reason}` (reason code, bounded) and `{MissReason}`.
 - **Assessor seam.** `RouterDeps.card(summary, body, ctx)` receives core's CardContext from `extras.card(ctx)` (core 04d54a2).
+- **Assessor wiring (2026-11-05).** `ROUTER_ASSESSOR_MODE=off|observe|auto` (default off), with `_MODEL`, `_THRESHOLD`,
+  `_PACK`, `_TIMEOUT_MS` (default 5000; 1500 until 2026-11-05) and `_AUTO_RULES=pack|all`. `createRouterAssessor` uses
+  the data-plane signer and upstream; core's hard bound is the timeout + `ASSESSOR_GRACE_MS` (100 ms). Infra context keys
+  `assessorMode`, `assessorModel`, `assessorThreshold`, `assessorPack`, `assessorTimeoutMs`, `assessorAutoRules`.
 - **0d review fixes (2026-11-04).**
   - Beta table: a deny list. Observe mode only annotates `wouldChoose`; auto mode moves only to the same tier or higher.
   - Concrete ids: allowlisted to catalog ∩ (pools ∪ failover ∪ observe defaults); infra grants exactly these.

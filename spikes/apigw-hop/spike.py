@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["boto3>=1.40", "requests>=2.32"]
+# dependencies = ["boto3==1.43.126", "requests==2.34.2"]
 # ///
 """V9d spike: AgentCore Gateway -> private REST API (AWS_IAM, execute-api VPC endpoint) -> VPC link -> internal NLB
 -> Fargate echo stub (ap-northeast-1). Fallback (d) after V9 option (a) failed (research/v9-findings.md).

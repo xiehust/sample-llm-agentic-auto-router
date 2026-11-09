@@ -17,6 +17,8 @@ RUN pnpm install --frozen-lockfile --prod --filter @auto-router/router...
 COPY packages/pricing/src packages/pricing/src
 COPY packages/core/src packages/core/src
 COPY packages/assessor/src packages/assessor/src
+# Prompt packs: read at boot when ROUTER_ASSESSOR_MODE is not off.
+COPY packages/assessor/prompts packages/assessor/prompts
 COPY packages/router/src packages/router/src
 COPY packages/router/config packages/router/config
 RUN find packages -name '*.test.ts' -delete \

@@ -61,13 +61,54 @@ interface Msg {
   images: number
   toolCalls: number
   toolErrors: number
+  /** Anthropic user message whose text was only `<system-reminder>` elements (client context, not a user turn). */
+  reminderOnly?: boolean
 }
 
 interface Extracted { messages: Msg[]; system: string; tools: string[] }
 
+/**
+ * Client-injected context sent as a user message (Codex: `<environment_context>` with cwd/shell/sandbox, and
+ * `<user_instructions>` from AGENTS.md). Not something the user asked: a message whose whole text is exactly one
+ * such block (no images) is not a user turn, so it is neither firstUser nor counted in turnIndex.
+ */
+const CLIENT_CONTEXT = /^<(environment_context|user_instructions)>([\s\S]*)<\/\1>$/
+export function isClientContext(text: string): boolean {
+  const m = CLIENT_CONTEXT.exec(text.trim())
+  return m !== null && !(m[2] as string).includes(`<${m[1]}>`) && !(m[2] as string).includes(`</${m[1]}>`)
+}
+
+/**
+ * Client-injected context inside an Anthropic user message (Claude Code: `<system-reminder>` text blocks with the
+ * date, CLAUDE.md / memory and reminders, sent next to the user's prompt in the same message). Complete
+ * `<system-reminder>…</system-reminder>` elements are removed from the start and the end of a text, never from the
+ * middle; an element with a nested open or close tag is left alone, and so is everything after it.
+ */
+const SR_OPEN = '<system-reminder>'
+const SR_CLOSE = '</system-reminder>'
+export function stripSystemReminders(text: string): string {
+  let t = text.trim()
+  for (;;) {
+    if (t.startsWith(SR_OPEN)) {
+      const end = t.indexOf(SR_CLOSE)
+      if (end < 0 || t.slice(SR_OPEN.length, end).includes(SR_OPEN)) break
+      t = t.slice(end + SR_CLOSE.length).trim()
+    } else if (t.endsWith(SR_CLOSE)) {
+      const start = t.lastIndexOf(SR_OPEN)
+      if (start < 0 || t.slice(start + SR_OPEN.length, t.length - SR_CLOSE.length).includes(SR_CLOSE)) break
+      t = t.slice(0, start).trim()
+    } else break
+  }
+  return t
+}
+
 export function buildCard(summary: RequestSummary, body: unknown, ctx: CardBuildContext = {}): TaskCard {
   const b = isObj(body) ? body : {}
-  const ex = summary.dialect === 'anthropic-messages' ? fromAnthropic(b) : summary.dialect === 'openai-chat' ? fromChat(b) : fromResponses(b)
+  const raw = summary.dialect === 'anthropic-messages' ? fromAnthropic(b) : summary.dialect === 'openai-chat' ? fromChat(b) : fromResponses(b)
+  const ex: Extracted = {
+    ...raw,
+    messages: raw.messages.filter((m) => !(m.kind === 'user-text' && m.images === 0 && (m.reminderOnly === true || isClientContext(m.text)))),
+  }
 
   const userIdx: number[] = []
   ex.messages.forEach((m, i) => { if (m.kind === 'user-text') userIdx.push(i) })
@@ -170,9 +211,14 @@ const A_IMAGES = new Set(['image', 'document'])
 
 function fromAnthropic(b: Obj): Extracted {
   const messages: Msg[] = []
+  // Claude Code 2.1.x sends its environment block as a `system`-role message after the prompt: system text, as in
+  // Chat's system/developer roles, not a conversation step (else the prompt would stop being the latest user turn).
+  const extraSystem: string[] = []
   for (const m of arr(b.messages)) {
     if (!isObj(m)) { messages.push(msg('other')); continue }
-    if (m.role === 'assistant') {
+    if (m.role === 'system') {
+      extraSystem.push(textOf(m.content, A_TEXT))
+    } else if (m.role === 'assistant') {
       messages.push(msg('assistant', { toolCalls: countTypes(m.content, new Set(['tool_use'])) }))
     } else if (m.role === 'user') {
       const blocks = arr(m.content)
@@ -181,11 +227,31 @@ function fromAnthropic(b: Obj): Extracted {
       if (results.length > 0) {
         messages.push(msg('tool-result', { toolErrors: results.filter((p) => isObj(p) && p.is_error === true).length }))
       } else {
-        messages.push(msg('user-text', { text: textOf(m.content, A_TEXT), images: countTypes(m.content, A_IMAGES) }))
+        const text = anthropicUserText(m.content)
+        const images = countTypes(m.content, A_IMAGES)
+        messages.push(msg('user-text', text.reminderOnly ? { text: '', images, reminderOnly: true } : { text: text.text, images }))
       }
     } else messages.push(msg('other'))
   }
-  return { messages, system: textOf(b.system, A_TEXT), tools: names(b.tools, (t) => t.name) }
+  return { messages, system: joinTexts([textOf(b.system, A_TEXT), ...extraSystem]), tools: names(b.tools, (t) => t.name) }
+}
+
+/** User text without `<system-reminder>` elements at the edges of each text block (see stripSystemReminders). */
+function anthropicUserText(content: unknown): { text: string; reminderOnly: boolean } {
+  if (typeof content === 'string') {
+    const t = stripSystemReminders(content)
+    return { text: t, reminderOnly: t === '' && content.trim() !== '' }
+  }
+  const parts: string[] = []
+  let removed = false
+  for (const p of arr(content)) {
+    if (!isObj(p) || typeof p.type !== 'string' || !A_TEXT.has(p.type) || typeof p.text !== 'string') continue
+    const t = stripSystemReminders(p.text)
+    if (t !== p.text.trim()) removed = true
+    parts.push(t)
+  }
+  const text = joinTexts(parts)
+  return { text, reminderOnly: removed && text === '' }
 }
 
 // ---------- OpenAI Chat Completions ----------

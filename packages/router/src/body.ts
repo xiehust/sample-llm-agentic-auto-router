@@ -137,3 +137,30 @@ export function removeTopLevelKey(text: string, key: string, ifValue: string): s
   else if (prev) start = prev.valueEnd          // last member: drop `,"key":v`
   return Buffer.concat([b.subarray(0, start), b.subarray(end)]).toString('utf8')
 }
+
+/**
+ * Renames top-level `from` to `to`: only the key's bytes change (the value bytes and every other byte stay as sent).
+ * Returns the input itself when `from` is absent. The caller ensures `to` is not already present.
+ */
+export function renameTopLevel(b: Buffer, from: string, to: string): Buffer {
+  const { span } = only(b, from)
+  if (!span) return b
+  const keyEnd = skipString(b, span.keyStart)
+  return Buffer.concat([b.subarray(0, span.keyStart), Buffer.from(JSON.stringify(to), 'utf8'), b.subarray(keyEnd)])
+}
+
+/** Removes top-level `key` and one adjoining comma; every other byte unchanged. Returns the input itself when absent. */
+export function deleteTopLevel(b: Buffer, key: string): Buffer {
+  const { members } = topLevelMembers(b)
+  if (members.filter((m) => m.key === key).length > 1) throw new BodyError(400, `invalid request: duplicate top-level "${key}"`)
+  const idx = members.findIndex((m) => m.key === key)
+  const m = members[idx]
+  if (!m) return b
+  let start = m.keyStart
+  let end = m.valueEnd
+  const next = members[idx + 1]
+  const prev = members[idx - 1]
+  if (next) end = next.keyStart        // drop `"key":v,` up to the next member
+  else if (prev) start = prev.valueEnd // last member: drop `,"key":v`
+  return Buffer.concat([b.subarray(0, start), b.subarray(end)])
+}

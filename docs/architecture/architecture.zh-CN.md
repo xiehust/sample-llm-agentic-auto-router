@@ -53,7 +53,7 @@ Agent 的一次任务往往包含几十到上百次模型调用，而且每次�
 | Anthropic / OpenAI 第一方端点 | 只转发到 Bedrock runtime |
 | Advisory API（只给建议不转发） | 后续阶段 |
 | Responses 的 `GET` / `DELETE` | 不在 MVP 内（需要单独的 HTTP passthrough target） |
-| 多租户隔离与按用户计费 | inference target 路径上 router 只能看到网关角色（§9.1） |
+| 多租户隔离 | router 已能识别调用方并按调用方统计（§9.1），但会话状态、策略和网关仍由所有调用方共用 |
 
 ## 3. 核心设计原则
 
@@ -70,7 +70,7 @@ Agent 的一次任务往往包含几十到上百次模型调用，而且每次�
 
 ![逻辑架构](diagrams/01-system-architecture.png)
 
-*图 1：逻辑架构（[SVG](diagrams/01-system-architecture.svg)）。* Agent 客户端带着 Cognito 签发的 JWT 调用 AgentCore Gateway 的 `/inference` 路径。网关校验 JWT，按 model 规则（`auto` / `auto:*`）把请求交给 router target，并用自己的角色做 SigV4（service `execute-api`）。router 内部是一条固定管线：`summarize` 从请求里抽取 lineage、前缀哈希链和锁信息；`decide` 结合会话缓存状态做决策，必要时咨询 tier assessor；`forward` 只改写 `model` 字段，用 task role 做 SigV4 后调用 Bedrock runtime，并把 SSE 原样回传；`record` 用响应里的 usage 计算成本、更新每个模型的缓存状态。router 返回 5XX 时，网关的 fallback 规则绕过 router，直接用固定模型调用 Bedrock。replay 评估器离线复用 core 和 pricing，对历史 trace 重放不同策略。
+*图 1：逻辑架构（[SVG](diagrams/01-system-architecture.svg)）。* Agent 客户端带着 Cognito 签发的 access token 调用 AgentCore Gateway 的 `/inference` 路径，token 同时放在 `Authorization` 和 `x-api-key` 里。网关校验 `Authorization` 里的 JWT，用兜底规则把所有请求交给 router target，并用自己的角色做 SigV4（service `execute-api`）。router 先校验 `x-api-key` 里的 token，记录调用方（§9.1）。router 内部是一条固定管线：`summarize` 从请求里抽取 lineage、前缀哈希链和锁信息；`decide` 结合会话缓存状态做决策，必要时咨询 tier assessor；`forward` 只改写 `model` 字段，用 task role 做 SigV4 后调用 Bedrock runtime，并把 SSE 原样回传；`record` 用响应里的 usage 计算成本、更新每个模型的缓存状态。router 返回 5XX 时，网关的 fallback 规则绕过 router，直接用固定模型调用 Bedrock。replay 评估器离线复用 core 和 pricing，对历史 trace 重放不同策略。可选的管理控制台（§9.2）管理成员、策略和评估器，并从 router 日志统计用量、成本和节省。
 
 ### 4.1 代码包
 
@@ -142,18 +142,19 @@ V9d 验证结果（hop 形态，router 位置为 echo stub，无 Bedrock 调用�
 
 ### 5.3 网关 fallback
 
-只有一条规则（`auto` / `auto:*`）和一条回退链。不能每条路径一条规则，因为 GatewayRule 的 `MatchPathPattern` 只能匹配一个路径段，没法区分 `/v1/messages` 和 `/v1/chat/completions`。
+只有一条兜底规则（优先级最低，匹配所有模型名，身份识别验证实验 S7 已确认）和一条回退链。不能每条路径一条规则，因为 GatewayRule 的 `MatchPathPattern` 只能匹配一个路径段，没法区分 `/v1/messages` 和 `/v1/chat/completions`。
 
 | 跳 | 目标 | 触发条件 |
 |---|---|---|
-| 主路由 | router target | model 是 `auto` / `auto:*` |
+| 主路由 | router target | 所有请求（具体模型 id 在 router 里按指定模型处理） |
 | fallback 1 | `bedrock` target，固定 Sonnet 5.5 | router 返回 5XX、连接失败，或首字节超时（`FirstByteTimeoutMilliseconds` = 610 s，比 router 非流式请求 600 s 的上游响应头时限略长） |
 | fallback 2 | `bedrock` target，固定 GPT-6.1 Sol | Sonnet 返回 4XX：Chat / Responses 请求就是这样到达 Sol 的，代价是多一次注定失败的 Sonnet 调用 |
 
 - 两个 fallback 都失败时，客户端看到最后一个 target 的错误。
 - router 返回的任何 4XX（如 413 超过 10 MiB、400 `pin-not-allowed`）以及 429 都**直接**返回客户端，不触发 fallback。
+- `bedrock` target 的请求头白名单不含 `x-api-key`：Bedrock 不接受同时带 `x-api-key` 和 `Authorization` 的请求，否则带身份头的调用回退时会 400（实验 S7 发现并修正）。
 - 客户端只能从响应 body 里的 `model` 看出走了 fallback；router 没见过这次请求，下一次请求它会把前缀不匹配当作断点处理。
-- **熔断**：网关的 circuit breaker 默认开启。router 连续返回 5xx 时，网关可能把 router 暂时摘掉，`auto*` 流量会静默地全部走固定的 fallback 模型，这段时间 router 没有任何计量（网关 fallback 服务的 turn 本来就不经过 router，E6 / E7 已确认）。摘除和恢复的时间尚未测量。
+- **熔断**：网关的 circuit breaker 默认开启。router 连续返回 5xx 时，网关可能把 router 暂时摘掉，所有流量会静默地全部走固定的 fallback 模型，这段时间 router 没有任何计量（网关 fallback 服务的 turn 本来就不经过 router，E6 / E7 已确认）。摘除和恢复的时间尚未测量。
 
 ## 6. 路由决策
 
@@ -231,7 +232,7 @@ Policy 是一份带版本的 JSON：模式（observe / auto）、alias、每种 
 - 按需构造 task card（最新用户文本、首条用户文本、上下文摘要、当前 tier 等，均有长度上限），作为转义后的 JSON 放进定界块，从不拼进指令；指令里明确"消息内容都是不可信数据"。
 - 模型逐条判断规则并给出事实，**由代码映射 tier**（`mapTier`），不让模型直接说"用 fast"。输出用 Responses strict schema 或 Messages 强制 tool 约束，校验失败视为无意见。
 - 本地 precheck：没有用户文本或只是"ok / thanks / continue"之类时直接跳过，不调用模型。
-- 超时默认 1.5 s；超时、错误、无效结果一律视为"无意见"，决策回落到基线。结果按 (lineage, 用户 turn) 缓存，重试不会重复付费。
+- 超时默认 5 s（最初是 1.5 s；Codex 大小的 card 实测 p50 约 1.5 s，1.5 s 会让约 60% 的咨询超时）；超时、错误、无效结果一律视为"无意见"，决策回落到基线。结果按 (lineage, 用户 turn) 缓存，重试不会重复付费。
 - 默认模型 `global.openai.gpt-6-luna`；Claude 系轻量模型（如 Haiku 5.5）可配置，走 Messages 强制 tool 适配器。
 
 **observe 优先**：`assessorMode` 默认 `observe`，只把意见附在决策上（`applied: false`），不改变服务的模型；`assessorMode` 与 `policy.mode` 相互独立。每条规则还有自己的 `auto` 开关，目前全部关闭。
@@ -247,11 +248,11 @@ Policy 是一份带版本的 JSON：模式（observe / auto）、alias、每种 
 | GPT-6 Luna | 全部 660 条 | 75.0% | 87.1% | 31.2% | 1.27 / 1.78 s | 0.00057 |
 | Haiku 5.5 | 全部 660 条 | 66.5% | 96.2% | 23.4% | 2.61 / 10.0 s | 0.00039 |
 
-默认 pack 现为 v2.1，见 [docs/tasks/11-04-llm-tier-assessor/research/README.md § Pack v2.1](../tasks/11-04-llm-tier-assessor/research/README.md)。评估的完整介绍（数据集、方法、v1 → v2 → v2.1 的过程、结论和后续优化）见 [assessor 评估](assessor-eval.zh-CN.md)。
+默认 pack 现为 v2.1，见 [docs/tasks/11-04-llm-tier-assessor/research/README.md § Pack v2.1](../tasks/11-04-llm-tier-assessor/research/README.md)。评估的完整介绍（数据集、方法、v1 → v2 → v2.1 的过程、结论和后续优化）见 [assessor 评估](assessor-eval.zh-CN.md)。assessor 的设计和运行方式（咨询时机、task card、prompt pack、tier 映射、router 接入、线上观察）见 [assessor 设计](assessor-design.zh-CN.md)。
 
 结论：
 
-- **Luna 是默认**：延迟能放进 1.5 s 预算（约 10% 超时）；Haiku 精确率更高，但每次调用都超过 1.5 s，只适合更长预算或异步模式。
+- **Luna 是默认**：延迟能放进评估时的 1.5 s 预算（约 10% 超时；默认期限现为 5 s）；Haiku 精确率更高，但每次调用都超过 1.5 s，只适合更长预算或异步模式。
 - **只在 fast 边界可信**：两种模型都识别不出 SWE-bench 里 1 小时以上的任务（只看 issue 文本看不出难度），因此有 frontier 降级保护；frontier 升级主要靠显式信号（多次失败、深度排查类措辞）。
 - **提示注入影响很小**：4 次注入尝试，Luna 4/4 判对、Haiku 3/4，因为 tier 来自事实和规则判断，而不是模型的直接指令。
 - **稳定性**：约 80% 的 tier 翻转发生在任务真的变了的 turn 上；非边界 turn 上的误翻转约 6–8%；没有观察到降级后下一轮立即升回的振荡。
@@ -288,7 +289,9 @@ Policy 是一份带版本的 JSON：模式（observe / auto）、alias、每种 
 
 | 环节 | 机制 |
 |---|---|
-| 客户端 → 网关 | `CUSTOM_JWT`：Cognito user pool（client credentials，scope `<prefix>/invoke`，不开放自助注册）。token 由 Cognito 签发而不是我们自己生成；client secret 由 Cognito 生成，不作为 stack 输出。Claude Code 用 `apiKeyHelper` 取 token，OpenAI SDK 把 token 当 `api_key` 用 |
+| 客户端 → 网关 | `CUSTOM_JWT`，只校验 scope `<prefix>/invoke`：成员用自己的账号经 `cli` app client 登录（auth code + PKCE），服务客户端用 client credentials；不开放自助注册。token 由 Cognito 签发而不是我们自己生成；client secret 由 Cognito 生成，不作为 stack 输出 |
+| 调用方身份 | 同一个 token 也放在 `x-api-key` 里，由 router 在进程内校验并记录调用方；会话头和提示头从不作为身份依据（§9.1） |
+| 控制台 | CloudFront + 私有 S3（OAC）+ HTTP API（JWT 授权方，scope `<prefix>/console`）；默认不开启 MFA（生产环境应开启 TOTP MFA）；每个 API 路由在服务端按角色授权（§9.2） |
 | 网关 → router | 网关角色 SigV4（`iamCredentialProvider {service: execute-api}`）→ 私有 REST API（AWS_IAM）。resource policy：只允许网关角色经本 VPCE 调用，显式 Deny 其他端点和其他 principal（同账号下仅靠身份策略的 Allow 就能进来，所以必须有显式 Deny）。VPCE 的安全组只放行网关 resource gateway 的安全组 |
 | router 自身 | `apigw-iam` hop 校验 fail-closed（§5.2）；没有生产代码里的测试旁路；本地测试旁路只在绑定 loopback 时允许 |
 | 网络 | router 在私有子网，无 IGW、无 NAT；NLB 安全组没有入站规则（只有 VPC link 流量能进）；router 安全组只放行 NLB 的 8080；出站只经 VPC endpoint |
@@ -298,9 +301,22 @@ Policy 是一份带版本的 JSON：模式（observe / auto）、alias、每种 
 | 日志卫生 | 从不记录 body、prompt、原始 session id，以及除 `anthropic-version`、`anthropic-beta`、`openai-beta`、`content-type` 之外的任何头值；有回归测试断言 `authorization`、`x-amz-security-token`、`x-api-key`、`cookie` 永不出现；lineage 只记哈希前缀；assessor 的 audit 可能引用 prompt，不进入决策对象 |
 | 部署顺序 | 先以 `routerDesiredCount=0` 部署，验证匿名 / 错误 token / 直连 API / 直连 NLB 和 task 全部被拒（E0），再扩到 1 |
 
-### 9.1 身份与隔离的已知限制
+### 9.1 调用方身份
 
-在 inference target 路径上，router 只能看到网关角色，会话头是客户端自己声明的。客户端可能和别人的 lineage 撞车或污染它；但状态里只有哈希、计数和模型 id，没有内容，影响仅限路由质量和成本归属。MVP 因此不支持按租户路由或计费；router 会丢弃客户端发来的 `x-router-tenant`。后续选项：注入已验证 `sub` 的 interceptor、HTTP target 上的 JWT 透传，或每个租户一个网关。
+- **做法。** 客户端把同一个 Cognito access token 发两次：`Authorization: Bearer` 给网关校验，`x-api-key` 给 router 校验。网关只认 `Authorization`，`x-api-key` 原样转发（身份识别验证实验 S1/S2）。router 在进程内校验 `x-api-key` 的 JWT：RS256 签名（公钥来自 user pool 的 JWKS，由 `jwks-sync` 每小时写到配置桶，router 不访问互联网）、签发方、`token_use=access`、有效期和 scope `<prefix>/invoke`。调用方记为 `principal`（成员是 `sub`，服务客户端是 client id），日志里只有 id，没有用户名和邮箱。
+- **模式。** `off`（不读这个头）、`observe`（校验并记录；缺失或无效时照常服务，记为未归属）、`require`（缺失或无效返回 401）。`observe` 下，拦截、预算和档位上限对每个带有效 `x-api-key` 的调用都生效，不带的调用照常服务、不归属，也不受约束；只有 `require` 下才对所有人生效。
+- **拦截和预算。** 控制台写拦截名单和调用方名单（组和档位上限），router 每 30 秒轮询，约 35 秒内生效。用量导入写预算拦截名单：它在 CloudWatch Logs 分批送达日志后才运行（通常不到 3 分钟），再加上 router 的 30 秒轮询，所以预算拦截在几分钟内生效，这段时间内的请求照常通过，支出可能略微超出预算。被拦截返回 403 `identity-blocked`，预算用完返回 429 `budget-exceeded`。都是 4xx，所以不会触发网关回退；router 从不为此返回 5xx，否则回退会绕过 router。
+- **为什么不是自造认证。** 网关仍然负责认证；router 只是用 user pool 公开的密钥校验一个标准的 Cognito JWT，用于归属、拦截和预算。要冒用别人，必须持有对方的有效 token，而这本来就等于完全冒充。
+- **剩余限制。** 会话头仍由客户端自行声明：同一个会话 id 可能被别人撞上或污染 lineage，但状态里只有哈希、计数和模型 id，影响仅限路由质量。router 出错时由网关回退服务的调用不经过 router，不归属、不计量，也不受拦截和预算约束。
+
+### 9.2 管理控制台
+
+- **拓扑。** 单独的 stack（`<prefix>-console`），在 router stack 之后部署、之前删除，通过 SSM 参数读取 router 的值，不用 stack export。浏览器 → CloudFront：`/*` 经 OAC 读私有 S3（只有网页，没有数据），`/api/*` 同源转到 HTTP API（JWT 授权方：user pool、console app client、scope `<prefix>/console`）→ console-api Lambda。每个路由都在服务端按角色授权；成员只能读自己的记录，访问别人的 id 返回 404。
+- **登录。** Cognito 托管登录（auth code + PKCE），不开放自助注册。默认不开启 MFA，生产环境应在 user pool 上强制开启 TOTP MFA（见 infra/README.md 的 Production hardening 一节）。成员的命令行 `llmar` 用 `cli` app client（127.0.0.1 回调），refresh token 30 天，access token 30 分钟。
+- **运行时配置。** 策略和评估器设置组成一份带版本的配置文档。控制台先用和 router 相同的校验逻辑（`validatePolicy`、`checkPolicyAgainstCatalog`、评估器设置校验、允许的模型列表）校验，再发布到配置桶；router 每 30 秒轮询，约 1 分钟内生效。router 收到的文档只要本身有效就接受，否则保留旧版本并记录 `kind: "config"` 的拒绝日志。换配置时进行中的 lineage 保持当前模型，直到下一个缓存断点（硬锁不会被打破）；控制台在启用前显示 `policySwapEffects` 的影响列表。允许的模型列表之外的模型需要 CDK 部署（task role 的授权跟着它走）。
+- **用量导入。** router 日志组的订阅过滤器（`kind` 为 model、error、rejected、config）把日志交给 usage-ingest Lambda，写入 DynamoDB：每个请求一条记录（保留 90 天，可调），以及按 UTC 日期的汇总（保留 400 天），按请求 id 幂等。导入的失败进入 SQS 死信队列并告警。
+- **节省的口径。** 和一个从不切换的固定基线比较（默认是请求自己的档位）：`N = B − A − X = R − S − X`，`R = B − A*`，`S = A − A*`；负数照实显示；未计量调用和因档位上限的强制降档单独列出。所有数字都是目录价，假设用量相同，不衡量质量（见 Harbor 结论总结）。
+- **不保存内容。** 记录和汇总里只有 id、代码、token 数和成本，没有提示词、card 或输出文本。
 
 ## 10. 部署与参数
 
@@ -321,6 +337,11 @@ Policy 是一份带版本的 JSON：模式（observe / auto）、alias、每种 
 | `catalogFile` | 内置目录 | 自行采集的其他 Region 目录 |
 | `routerDesiredCount` | `0` | 先 0，跑完 E0 再改成 1 |
 | `throttle` | `20,40` | API Gateway stage 限流（rps，burst）；账号和 Region 级配额是共享的 |
+| `identityMode` | `observe` | router 身份识别模式的部署默认值（`off` / `observe` / `require`），控制台的配置版本可以覆盖 |
+| `cliRedirectPorts` | `52817,52818,52819` | `cli` app client 上登记的 `llmar login` 回调端口（只在 127.0.0.1） |
+| `codexOauthPort` | `52820` | 为 Codex 自己的登录（`gateway_oauth`）登记的回调端口 |
+| `cliRefreshDays` | `30` | `cli` client 的 refresh token 有效期，即成员 `llmar` 登录的有效天数 |
+| `console` 等 | — | 控制台 stack 的参数（`console`、`consoleBundle`、`ingest`、`adminEmail`、`recordRetentionDays` 等）见 [infra/README.md](../../infra/README.md#console-inputs) |
 | `S3PrefixListId`（stack 参数） | — | 该 Region 的 `com.amazonaws.<region>.s3` 托管前缀列表，用于镜像层下载 |
 
 示例：
@@ -354,7 +375,7 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 
 ## 11. 可观测性
 
-**每个请求一行 JSON 日志**：`reqId`、dialect、请求的模型（已知 id 或 alias，否则记 `other` 加长度）、决策（action、point、mode、model、wouldChoose、reason、policyVersion、estimate）、实际服务的模型、status、是否流式、归一化 usage、成本拆分、命中率、miss 归因、`overheadMs`、`upstreamTtfbMs`、`durationMs`、body 字节数、已应用的 hint、failover、`hopToken`、lineage 哈希前缀。保留 7 天。
+**每个请求一行 JSON 日志**：`reqId`、dialect、请求的模型（已知 id 或 alias，否则记 `other` 加长度）、决策（action、point、mode、model、wouldChoose、reason、policyVersion、estimate）、实际服务的模型、status、是否流式、归一化 usage、成本拆分、命中率、miss 归因、`overheadMs`、`upstreamTtfbMs`、`durationMs`、body 字节数、已应用的 hint、failover、`hopToken`、lineage 哈希前缀；加上身份识别后还有 `principal`（类型和 id）、`identity`（verified / missing / invalid:<code>）、`configVersion`、`catalogVersion`、切换行上的 `switchedFrom`、观察模式下的 `decision.projected`，以及断流时的 `usageMissing` 和 `costBoundUsd`。router 每次启用或拒绝配置都写一行 `kind: "config"`。每个 router 任务还每 5 分钟写一行状态，报告它的配置版本和签名密钥是否已加载；控制台据此判断能否切到 `require`（要求 15 分钟内的状态行）。保留 7 天；控制台的用量导入从这里读取（§9.2）。
 
 **EMF 指标**（namespace `LlmAutoRouter`，刻意保持低基数）：
 
@@ -378,14 +399,14 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 | 请求上限 10 MiB | API Gateway REST 的 payload 上限（网关本身可以 ≥ 12 MB）；超出返回 413，是 4XX，**不触发** fallback | router 的 `ROUTER_MAX_BODY_BYTES` 也是 10 MiB；写进文档 |
 | 流总时长 15 分钟 | 单个响应流约 901 s 处被干净地切断，客户端看不到错误事件 | 硬上限：router 把它记为 `stream-duration-cap`（499）；长的 agent turn 应当流式返回，并控制在 15 分钟以内 |
 | 静默 5 分钟会断流 | 上游静默超过 300 s，流被干净关闭 | 已实现：上游静默期间每 60 s 写 SSE comment 心跳；上游静默 240 s 视为上游已死，记为 `mid-stream`。E10 验证：心跳让流撑过 330 s 的停顿，并能穿过 AgentCore 到达客户端 |
-| 只能看到网关角色 | 会话头由客户端声明，不能按租户隔离或计费 | §9.1 |
+| 调用方身份 | 已解决：router 校验 `x-api-key` 里的 token 并按调用方统计；会话头仍由客户端声明 | §9.1 |
 | 单 task 内存状态 | MVP 只跑一个 task；多个 task 时状态按 task 分裂，缓存跟踪退化为接近指纹；重启丢状态（下一次请求视为断点） | 外部存储（DynamoDB / ElastiCache）是后续工作 |
 | `anthropic-beta` | Bedrock 会校验 beta 值；切到不支持某个 beta 的模型会 400 | beta deny list：已知被拒的 beta 会否决切换；未知 beta 放行，由 Bedrock 校验 |
 | 网关 fallback 不能按 API 选模型 | `MatchPathPattern` 只能匹配一个路径段 | 单规则回退链：Sonnet 5.5，遇 4XX 再改用 GPT-6.1 Sol；Chat / Responses 的回退因此多一次注定失败的调用（§5.3） |
-| 网关 fallback 的 turn 不可见（E6 / E7 已确认） | 网关 fallback 服务的 turn 根本到不了 router，router 的成本、日志和会话状态里都没有它们 | 用网关的 fallback / circuit breaker 指标加 Bedrock invocation 指标来核算；对比 router 的 `Requests` 与网关侧流量 |
+| 网关 fallback 的 turn 不可见（E6 / E7 已确认） | 网关 fallback 服务的 turn 根本到不了 router，router 的成本、日志和会话状态里都没有它们，也不归属、不受拦截和预算约束 | 网关不提供 fallback 指标；控制台用 router 5xx、不健康的 router 目标和任务数作为间接迹象；对比 router 的 `Requests` 与网关侧流量 |
 | 网关熔断 | router 连续 5xx 后可能被网关摘掉，`auto*` 流量静默地走 fallback，同样没有 router 计量 | 摘除和恢复的时间尚未测量（§14）；监控方式同上 |
 | 跨 profile 的 Responses 链 | 已存储的 response 能否跨 profile 读取尚未验证 | `previous_response_id` 链上从不换 profile |
-| 部分流的计价 | 在 `message_delta` 或最后的 usage chunk 之前断流，输出 token 未知、按 0 计（价格是下限）；中途 502 后不做缓存记账（热度估计偏悲观） | 已在 router README 里说明 |
+| 部分流的计价 | 在 `message_delta` 或最后的 usage chunk 之前断流，没有实测用量；中途 502 后不做缓存记账（热度估计偏悲观） | router 记 `usageMissing` 和近似上限 `costBoundUsd`（提示按每 4 个字符 1 个 token 估算，对中日韩文本可能偏低；没有输出上限时只含输入）；控制台把它们作为未计量调用单独显示，不计入节省 |
 | Responses `GET` / `DELETE` | `/inference` 上不可路由 | 不在 MVP 内；需要时加 HTTP passthrough target |
 | `auto:*` 作为 target 的模型 glob | 未测试（E2E 只用了 `auto`） | 待验证 |
 | 价格数据缺口 | 有的 Region 缺某些 SKU（例如 Tokyo 没有 Sonnet 5.5 SKU）；除 GPT-6 Astra 外的 GPT 价格来自模型卡；GPT-5.5 / 5.4 没有公开的 global 价格，被排除 | 在 `priceSource` 和 `excluded` 中记录 |
@@ -466,13 +487,28 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 
 确认的限制：网关 fallback 服务的 turn 不会经过 router，所以不在 router 的成本、日志和状态里（§12）。
 
+### 13.6 身份识别与管理控制台的端到端验证
+
+2026-11-08 在 `ap-southeast-1` 部署 router stack 和控制台 stack 后执行，身份识别模式为默认的 `observe`。整次测试由 router 计量的 Bedrock 花费不到 $0.01；测试账号和数据随后都已删除。
+
+| 项 | 内容 | 结果 |
+|---|---|---|
+| 网关 | 匿名和无效 token 返回 401；client credentials 和成员 token 在三种接口上都能服务；router 记录已验证的调用方；具体模型 id 经 router 按指定模型服务 | 通过 |
+| 控制台 API | 41 个 `/api` 路由在匿名和伪造 bearer 下都返回 401（经 CloudFront 和直连都测了）；成员访问管理员路由返回 403，访问别人的记录返回 404；控制台 token 到网关返回 403 | 通过 |
+| 网页 | 安全响应头齐全；直接访问站点桶返回 403，经 CloudFront 返回 200；`localStorage` 里没有 token；中英文页面；退出和“在所有设备上退出”都会撤销 token | 通过 |
+| 成员路径 | 邀请 → `llmar configure` → 无界面主机上 `llmar login`（127.0.0.1 回调）→ 三种接口、Claude Code（`apiKeyHelper`）和 Codex（`auth.command` 加 `x-api-key`）调用；5 个测试请求约 10 秒内全部归属到该成员；用量导入的死信队列为空 | 通过 |
+| 运行时修改 | 配置修改最多 32 秒到达 router，并能回滚；`require` 只有在所有运行中的任务都报告已加载签名密钥后才允许 | 通过 |
+| 拦截和预算 | `require` 下不带 `x-api-key` 返回 401 `identity-missing`；停用后 16 秒返回 403 `identity-blocked`，启用后 32 秒恢复；硬性预算 23 秒后返回 429 `budget-exceeded`，取消后 45 秒恢复（预算时间包含用量导入，一般要按几分钟估计） | 通过 |
+
+部署中发现并已修正的问题见 [infra/README.md](../../infra/README.md#deploy-notes-and-troubleshooting)。
+
 ## 14. 路线图与待办
 
 | 项 | 状态 |
 |---|---|
 | 整体部署后的 E2E（E0–E12，§13.5） | 已完成；E6 部分通过，待复测（harness 已修正，下次部署时重跑） |
 | 外部状态存储（DynamoDB / ElastiCache），支持多个 task | 后续 |
-| Assessor prompt pack v2（收紧 `mechanical-edit`），重测后再打开 fast 边界规则的 auto | 完成：v2.1 为默认 pack；fast 边界规则开启 auto 要等真实会话的 observe 数据（先要把 assessor 的 `proposedTier` / `basis` 记录下来，见 [assessor 评估 §8](assessor-eval.zh-CN.md#8-后续怎么优化)） |
+| Assessor prompt pack v2（收紧 `mechanical-edit`），重测后再打开 fast 边界规则的 auto | 完成：v2.1 为默认 pack；fast 边界规则开启 auto 要等真实会话的 observe 数据（router 已记录 `proposedTier` / `basis` / `outcome`，见 [assessor 设计 §7.3](assessor-design.zh-CN.md#73-失败容忍和日志)） |
 | 网关熔断：router 连续 5xx 后被摘掉、流量静默走 fallback 的行为和恢复时间（E7 只验证了回退链） | 待测量 |
 | `auto:*` 作为 target 模型 glob | 待验证 |
 | 成本估计加入"切回原模型的重写"项 | 后续（需要先有 replay 数据） |
@@ -488,4 +524,4 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 
 ### 附：图的源文件
 
-`diagrams/src/` 下是图的源文件：01、03、04、05 是 fireworks-tech-graph 的 JSON 输入（`fireworks.py render architecture <json> <svg>`）；02 是时序图，由 `02-request-flow.py` 直接生成 SVG（生成器没有 lifeline 布局）。所有 SVG 都通过了 `fireworks.py check`（xml、markers、collisions、geometry、composition）。PNG 由 Chromium 以 2× 导出。
+`diagrams/src/` 下是图的源文件：01、03、04、05、06（assessor 设计文档里的流程图）是 fireworks-tech-graph 的 JSON 输入（`fireworks.py render architecture <json> <svg>`）；02 是时序图，由 `02-request-flow.py` 直接生成 SVG（生成器没有 lifeline 布局）。所有 SVG 都通过了 `fireworks.py check`（xml、markers、collisions、geometry、composition）。PNG 由 Chromium 以 2× 导出。

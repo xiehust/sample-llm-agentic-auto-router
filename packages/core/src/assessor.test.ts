@@ -4,7 +4,7 @@ import { fixtureCatalog, HAIKU, OPUS, SOL, SONNET } from './__fixtures__/catalog
 import {
   assistantText, assistantThinking, assistantToolUse, Conversation, EXPLORE_SYSTEM, filler, Harness, MIN, SEC, T0, testPolicy, toolResult, userText,
 } from './__fixtures__/traces.ts'
-import { ASSESS_MEMO_MAX, assessorConfig, remember } from './assess.ts'
+import { ASSESS_MEMO_MAX, ASSESSOR_DEFAULTS, assessorConfig, remember } from './assess.ts'
 import { createEngine } from './engine.ts'
 import type { Policy, Tier } from './policy.ts'
 import { InMemoryStateStore } from './store-memory.ts'
@@ -33,6 +33,16 @@ const ok = (tier: Tier | undefined, confidence = 0.9, latencyMs = 12): Impl => a
 function cardSpy(): { extras: DecideExtras; cards: CardContext[] } {
   const cards: CardContext[] = []
   return { cards, extras: { card: (ctx) => { cards.push(ctx); return { ctx } } } }
+}
+
+/** As if a gate-forced move had put the lineage on `current`, away from `from` (see gate.test.ts forcedState). */
+async function forceGate(hz: Harness, lineage: string, current: string, from: string): Promise<void> {
+  const st = (await hz.store.get(lineage))!
+  const warm = Object.values(st.perModel)[0]!
+  st.current = current
+  st.perModel[current] = { ...warm, model: current }
+  st.gateForced = { from, atMs: T0 }
+  await hz.store.put(st)
 }
 
 function setup(impl: Impl, o: { policy?: Policy; mode?: 'off' | 'observe' | 'auto'; timeoutMs?: number; minConfidence?: number; downgradeFrom?: Tier[] } = {}) {
@@ -111,12 +121,13 @@ describe('assessor: consultation outcomes at session start', () => {
       signal.addEventListener('abort', () => reject(signal.reason))
     }))
     const p = hz.cc(new Conversation().push(userText('hi')).body())
-    await vi.advanceTimersByTimeAsync(1499)
+    expect(ASSESSOR_DEFAULTS.timeoutMs).toBe(5000)
+    await vi.advanceTimersByTimeAsync(ASSESSOR_DEFAULTS.timeoutMs - 1)
     expect(assessor.signals[0]?.aborted).toBe(false)
     await vi.advanceTimersByTimeAsync(1)
     const { decision } = await p
     expect(assessor.signals[0]?.aborted).toBe(true)
-    expect(decision).toMatchObject({ model: SONNET, assessment: { status: 'timeout', latencyMs: 1500, applied: false } })
+    expect(decision).toMatchObject({ model: SONNET, assessment: { status: 'timeout', latencyMs: 5000, applied: false } })
     expect(vi.getTimerCount()).toBe(0)
   })
 
@@ -166,13 +177,16 @@ describe('assessor: modes', () => {
     expect(assessor.calls).toBe(0)
   })
 
-  it('policy observe: the opinion feeds wouldChoose, the client model is served', async () => {
+  it('policy observe: the opinion feeds wouldChoose, the observe default is served; a concrete model is a pin (no consultation)', async () => {
     const policy = testPolicy({ mode: 'observe', observeDefaults: { 'anthropic-messages': SONNET, 'openai-chat': SOL, 'openai-responses': SOL } })
-    const { hz } = setup(ok('frontier'), { policy })
+    const { hz, assessor } = setup(ok('frontier'), { policy })
     const { decision } = await hz.cc(new Conversation({ model: SONNET }).push(userText('hi')).body())
-    expect(decision).toMatchObject({ mode: 'observe', model: SONNET, wouldChoose: OPUS, assessment: { applied: true } })
+    expect(decision).toMatchObject({ mode: 'observe', action: 'pin', model: SONNET })
+    expect(decision.wouldChoose).toBeUndefined()
+    expect(decision.assessment).toBeUndefined()
+    expect(assessor.calls).toBe(0)
     const alias = (await hz.step('anthropic-messages', new Conversation().push(userText('x')).body(), { 'x-session-id': 'o2' })).decision
-    expect(alias).toMatchObject({ model: SONNET, wouldChoose: OPUS })
+    expect(alias).toMatchObject({ model: SONNET, wouldChoose: OPUS, assessment: { applied: true }, projected: { model: OPUS, switch: false } })
     expect(alias.reason).toMatch(/^observe-default: session-start: tier=frontier via assessor\(0\.90\)/)
   })
 })
@@ -408,14 +422,93 @@ describe('assessor: tier changes mid-session (auto)', () => {
     expect(m).toMatchObject({ action: 'retain', model: OPUS, assessment: { tier: 'fast', applied: false } })
     expect(m.reason).toMatch(/^downgrade-rejected:min-turns: \(1 < 2\) frontier→fast /)
 
-    // userTurn 'retain': user turns never switch, whatever the opinion.
+    // userTurn 'retain': user turns never switch, whatever the opinion (and are not consulted, see below).
     const ret = setup(ok('standard'), { policy: testPolicy({ userTurn: 'retain' }) })
     const c3 = new Conversation().push(userText('a'))
     await ret.hz.cc(c3.body())
     c3.push(assistantText('x'), userText('hard'))
     ret.assessor.impl = ok('frontier')
     const r = (await ret.hz.cc(c3.body(), {}, { at: T0 + 10 * SEC })).decision
-    expect(r).toMatchObject({ action: 'retain', model: SONNET, reason: expect.stringMatching(/^retain: boundary-gated/), assessment: { applied: false } })
+    expect(r).toMatchObject({ action: 'retain', model: SONNET, reason: expect.stringMatching(/^retain: boundary-gated/) })
+  })
+})
+
+describe("assessor: userTurn 'retain' consults only where the opinion can act", () => {
+  const retain = () => testPolicy({ userTurn: 'retain' })
+
+  it('a plain user turn is not consulted (no call, no card, no assessment); the session start still is', async () => {
+    const { hz, assessor, cards } = setup(ok('frontier'), { policy: retain() })
+    const conv = new Conversation().push(userText('a'))
+    const start = (await hz.cc(conv.body())).decision
+    expect(start).toMatchObject({ point: 'session-start', model: OPUS, assessment: { tier: 'frontier', applied: true } })
+    expect(assessor.calls).toBe(1)
+    conv.push(assistantText('x'), userText('b'))
+    const turn = (await hz.cc(conv.body(), {}, { at: T0 + 10 * SEC })).decision
+    expect(turn).toMatchObject({ action: 'retain', model: OPUS, point: 'user-turn', reason: expect.stringMatching(/^retain: boundary-gated/) })
+    expect(turn.assessment).toBeUndefined()
+    expect(assessor.calls).toBe(1)
+    expect(cards).toHaveLength(1)
+  })
+
+  it('a break point (idle-expired) is still consulted and applied', async () => {
+    const { hz, assessor } = setup(ok('standard'), { policy: retain() })
+    const conv = new Conversation().push(userText('a'))
+    await hz.cc(conv.body())
+    conv.push(assistantText('x'), userText('back'))
+    assessor.impl = ok('fast')
+    const { decision } = await hz.cc(conv.body(), {}, { at: T0 + 30 * MIN })
+    expect(decision).toMatchObject({ point: 'idle-expired', model: HAIKU, action: 'switch', assessment: { applied: true } })
+    expect(assessor.calls).toBe(2)
+  })
+
+  it('a forced move (current model outside the pool) is consulted: the opinion picks the target', async () => {
+    const { hz, assessor } = setup(ok('frontier'), { policy: retain() })
+    const conv = new Conversation().push(userText('hi'))
+    await hz.cc(conv.body(), { 'x-router-pin': 'm-pinned' })
+    expect(assessor.calls).toBe(0) // pins skip it
+    conv.push(assistantText('a'), userText('b'))
+    const d = (await hz.cc(conv.body(), {}, { at: T0 + 10 * SEC })).decision
+    expect(d).toMatchObject({ action: 'switch', model: OPUS, point: 'user-turn', reason: expect.stringMatching(/^ineligible: m-pinned → /), assessment: { tier: 'frontier' } })
+    expect(assessor.calls).toBe(1)
+  })
+
+  it('a gate-forced lineage is consulted, so it recovers to the tier the assessor chose', async () => {
+    const { hz, assessor } = setup(ok('fast'), { policy: testPolicy({ userTurn: 'retain', horizon: { calls: 1 } }) })
+    const conv = new Conversation().push(userText('small'))
+    const s = await hz.cc(conv.body())
+    expect(s.decision).toMatchObject({ point: 'session-start', model: HAIKU, assessment: { applied: true } })
+    // as if a later gate-forced move had put the lineage on Sonnet (see gate.test.ts forcedState)
+    const st = (await hz.store.get(s.summary.session.lineage))!
+    st.current = SONNET
+    st.perModel[SONNET] = { ...st.perModel[HAIKU]!, model: SONNET }
+    st.gateForced = { from: HAIKU, atMs: T0 }
+    await hz.store.put(st)
+    conv.push(assistantText('a'), userText('b'))
+    const d = (await hz.cc(conv.body(), {}, { at: T0 + 10 * SEC })).decision
+    expect(d).toMatchObject({ action: 'switch', model: HAIKU, point: 'user-turn', reason: expect.stringMatching(/^gate-recover: /), assessment: { tier: 'fast' } })
+    expect(assessor.calls).toBe(2)
+  })
+
+  it('a gate-forced lineage is not consulted while the gate fallback holds it (nothing passes the gate)', async () => {
+    const { hz, assessor } = setup(ok('standard'), { policy: testPolicy({ userTurn: 'retain' }) })
+    const conv = new Conversation().push(userText('small'))
+    const s = await hz.cc(conv.body())
+    await forceGate(hz, s.summary.session.lineage, SONNET, HAIKU)
+    // ~950K tokens: above the 0.9 headroom of every model, inside Sonnet's 1M window → gate-fallback:current
+    conv.push(assistantText('a'), userText(filler(950_000)))
+    const d = (await hz.cc(conv.body(), {}, { at: T0 + 10 * SEC })).decision
+    expect(d).toMatchObject({ action: 'retain', model: SONNET, point: 'user-turn', reason: expect.stringMatching(/^retain: boundary-gated; .*gate-fallback:current$/) })
+    expect(d.assessment).toBeUndefined()
+    expect(assessor.calls).toBe(1)
+  })
+
+  it("userTurn 'cost-gated' (the default) still consults every user-text turn", async () => {
+    const { hz, assessor } = setup(ok('standard'))
+    const conv = new Conversation().push(userText('a'))
+    await hz.cc(conv.body())
+    conv.push(assistantText('x'), userText('b'))
+    expect((await hz.cc(conv.body(), {}, { at: T0 + 10 * SEC })).decision.assessment).toMatchObject({ status: 'ok' })
+    expect(assessor.calls).toBe(2)
   })
 })
 
@@ -493,6 +586,58 @@ describe('assessor: downgrade guard (assessorDowngradeFrom, default [standard])'
     const a = (await audit.hz.cc(new Conversation().push(userText('hi')).body())).decision
     expect(a).toMatchObject({ model: OPUS, assessment: { guard: 'assessor-downgrade-guarded', applied: false } })
     expect(a.reason).not.toMatch(/guarded/)
+  })
+
+  it('a gate-forced lineage is judged from the model it was forced off, not the forced model', async () => {
+    // standard forced up to frontier: a standard opinion is no downgrade (recovers), a fast one meets the guard
+    // with from = standard (allowed), so neither is clamped to frontier. Recovery restores at most standard: the
+    // fast downgrade waits for a later user turn and its gates.
+    for (const tier of ['standard', 'fast'] as const) {
+      const { hz, assessor } = setup(ok('standard'))
+      const conv = new Conversation().push(userText('small'))
+      const s = await hz.cc(conv.body())
+      await forceGate(hz, s.summary.session.lineage, OPUS, SONNET)
+      assessor.impl = ok(tier)
+      conv.push(assistantText('a'), userText('b'))
+      const d = (await hz.cc(conv.body(), {}, { at: T0 + 10 * SEC })).decision
+      expect(d).toMatchObject({ action: 'switch', model: SONNET, point: 'user-turn', reason: expect.stringMatching(/^gate-recover: /), assessment: { tier } })
+      expect(d.assessment?.guard).toBeUndefined()
+      expect(d.reason.includes('the downgrade waits for the usual gates')).toBe(tier === 'fast')
+      expect((await hz.store.get(s.summary.session.lineage))!.gateForced).toBeUndefined()
+      if (tier === 'fast') {
+        // the next user turn is an ordinary downgrade decision: the count gate (min-turns after the recovery switch)
+        conv.push(assistantText('c'), userText('d'))
+        const next = (await hz.cc(conv.body(), {}, { at: T0 + 20 * SEC })).decision
+        expect(next).toMatchObject({ action: 'retain', model: SONNET, reason: expect.stringMatching(/^downgrade-rejected:/) })
+      }
+    }
+    // frontier forced down to standard: a standard opinion is a downgrade from frontier → guarded, the lineage
+    // recovers to frontier instead of the gate move silently becoming a downgrade
+    const { hz, assessor } = setup(ok('frontier'))
+    const conv = new Conversation().push(userText('small'))
+    const s = await hz.cc(conv.body())
+    expect(s.decision.model).toBe(OPUS)
+    await forceGate(hz, s.summary.session.lineage, SONNET, OPUS)
+    assessor.impl = ok('standard')
+    conv.push(assistantText('a'), userText('b'))
+    const d = (await hz.cc(conv.body(), {}, { at: T0 + 10 * SEC })).decision
+    expect(d).toMatchObject({ action: 'switch', model: OPUS, reason: expect.stringMatching(/^gate-recover: .*assessor-downgrade-guarded frontier→standard$/),
+      assessment: { tier: 'standard', guard: 'assessor-downgrade-guarded', applied: false } })
+  })
+
+  it("userTurn 'retain': a held recovery restores the from tier; the next plain user turn retains (boundary-gated)", async () => {
+    const { hz, assessor } = setup(ok('standard'), { policy: testPolicy({ userTurn: 'retain' }) })
+    const conv = new Conversation().push(userText('small'))
+    const s = await hz.cc(conv.body())
+    await forceGate(hz, s.summary.session.lineage, OPUS, SONNET)
+    assessor.impl = ok('fast')
+    conv.push(assistantText('a'), userText('b'))
+    const d = (await hz.cc(conv.body(), {}, { at: T0 + 10 * SEC })).decision
+    expect(d).toMatchObject({ action: 'switch', model: SONNET, reason: expect.stringMatching(/^gate-recover: .*\(desired fast: the downgrade waits for the usual gates\)/) })
+    conv.push(assistantText('c'), userText('d'))
+    const next = (await hz.cc(conv.body(), {}, { at: T0 + 20 * SEC })).decision
+    expect(next).toMatchObject({ action: 'retain', model: SONNET, reason: expect.stringMatching(/^retain: boundary-gated/) })
+    expect(next.assessment).toBeUndefined() // plain retained user turn: not consulted
   })
 
   it('rejects a bad assessorDowngradeFrom', () => {

@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["boto3>=1.40", "requests>=2.32"]
+# dependencies = ["boto3==1.43.126", "requests==2.34.2"]
 # ///
 """AgentCore Gateway front-door spike (ap-northeast-1).
 

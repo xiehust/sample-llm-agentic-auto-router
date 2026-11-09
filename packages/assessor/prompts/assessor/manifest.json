@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "default": "v2.2",
+  "packs": [
+    {
+      "name": "v1",
+      "id": "assessor/v1",
+      "packVersion": "assessor/v1+ee49d3c06e8d",
+      "card": "card/v1",
+      "output": "assessment/v1",
+      "mapping": {
+        "frontierFacts": [
+          "deep",
+          "prior-failures"
+        ],
+        "priorFailuresMin": 2,
+        "standardFacts": [
+          "multi-file-edit"
+        ],
+        "fastSpecifications": [
+          "fully-specified"
+        ],
+        "fastDepths": [
+          "lookup",
+          "routine"
+        ],
+        "fastBeatsStandard": false
+      },
+      "mappingSource": "default",
+      "rules": [
+        {
+          "id": "explore-readonly",
+          "tier": "fast",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Read-only exploration or lookup: find files, grep, list usages, summarise code, or answer where or what something is. No edits are requested."
+        },
+        {
+          "id": "mechanical-edit",
+          "tier": "fast",
+          "enabled": true,
+          "auto": false,
+          "instruction": "A fully specified mechanical change: rename, apply a given diff, bump a version, fix a typo or an import. Both the target and the change are explicit, so no diagnosis or design is needed."
+        },
+        {
+          "id": "bounded-change",
+          "tier": "standard",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Implement or fix a bounded feature or bug in known code with clear acceptance, typical pull-request-sized work. Includes fixing a failing test or bug whose cause is not yet known but is likely local."
+        },
+        {
+          "id": "deep-investigation",
+          "tier": "frontier",
+          "enabled": true,
+          "auto": false,
+          "instruction": "An unclear root cause across modules; concurrency, security or performance analysis; architecture or design trade-offs; a large refactor; or work that has already failed twice."
+        }
+      ],
+      "autoCapable": false,
+      "examples": {
+        "count": 10,
+        "byTier": {
+          "fast": 4,
+          "standard": 3,
+          "frontier": 3
+        }
+      },
+      "systemChars": 14922
+    },
+    {
+      "name": "v2",
+      "id": "assessor/v2",
+      "packVersion": "assessor/v2+3893290b1a13",
+      "card": "card/v1",
+      "output": "assessment/v1",
+      "mapping": {
+        "frontierFacts": [
+          "deep",
+          "prior-failures"
+        ],
+        "priorFailuresMin": 2,
+        "standardFacts": [
+          "multi-file-edit"
+        ],
+        "fastSpecifications": [
+          "fully-specified"
+        ],
+        "fastDepths": [
+          "lookup",
+          "routine"
+        ],
+        "fastBeatsStandard": false
+      },
+      "mappingSource": "default",
+      "rules": [
+        {
+          "id": "explore-readonly",
+          "tier": "fast",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Read-only exploration or lookup: find files, grep, list usages, summarise code, or answer where or what something is. No edits are requested and no bug has to be diagnosed."
+        },
+        {
+          "id": "mechanical-edit",
+          "tier": "fast",
+          "enabled": true,
+          "auto": false,
+          "instruction": "A fully specified mechanical change that the request itself commands: rename, apply a given diff, bump a version, fix a typo or an import, change a named value. Target and exact change are explicit. An issue or bug report that describes wrong behaviour and suggests or sketches a fix is NOT a specified change: the suggestion must still be verified and tested, so judge it as bounded-change or deep-investigation."
+        },
+        {
+          "id": "bounded-change",
+          "tier": "standard",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Implement or fix a bounded feature or bug in known code with clear acceptance, typical pull-request-sized work. Includes a reproducible bug in one feature or function even when its exact cause is not yet located, and a bug report that points to the faulty code or suggests a fix."
+        },
+        {
+          "id": "deep-investigation",
+          "tier": "frontier",
+          "enabled": true,
+          "auto": false,
+          "instruction": "The difficulty is in the reasoning: a bug whose symptoms depend on the interaction of several components or conditions, or on subtle semantics (parsing, numerics, caching, query generation, type or import machinery), with the cause not located; concurrency, security or performance analysis; a fix that needs a decision about intended behaviour or API between alternatives; a large or cross-module change; or work that already failed twice."
+        }
+      ],
+      "autoCapable": false,
+      "examples": {
+        "count": 13,
+        "byTier": {
+          "fast": 4,
+          "standard": 4,
+          "frontier": 5
+        }
+      },
+      "systemChars": 19973
+    },
+    {
+      "name": "v2.1",
+      "id": "assessor/v2.1",
+      "packVersion": "assessor/v2.1+2696c56a9c6c",
+      "card": "card/v1",
+      "output": "assessment/v1",
+      "mapping": {
+        "frontierFacts": [
+          "deep",
+          "prior-failures"
+        ],
+        "priorFailuresMin": 2,
+        "standardFacts": [
+          "multi-file-edit"
+        ],
+        "fastSpecifications": [
+          "fully-specified"
+        ],
+        "fastDepths": [
+          "lookup",
+          "routine"
+        ],
+        "fastBeatsStandard": false
+      },
+      "mappingSource": "default",
+      "rules": [
+        {
+          "id": "explore-readonly",
+          "tier": "fast",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Read-only exploration or lookup: find files, grep, list usages, summarise code, or answer where or what something is. No edits are requested and no bug has to be diagnosed."
+        },
+        {
+          "id": "mechanical-edit",
+          "tier": "fast",
+          "enabled": true,
+          "auto": false,
+          "instruction": "A fully specified mechanical change that the request itself commands: rename, apply a given diff, bump a version, fix a typo or an import, change a named value. Target and exact change are explicit. An issue or bug report that describes wrong behaviour and suggests or sketches a fix is NOT a specified change: the suggestion must still be verified and tested, so judge it as bounded-change or deep-investigation."
+        },
+        {
+          "id": "bounded-change",
+          "tier": "standard",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Implement or fix a bounded feature or bug in known code with clear acceptance, typical pull-request-sized work. Includes fixing a failing test or bug whose cause is not yet known but is likely local, and a bug report that points to the faulty code or suggests a fix."
+        },
+        {
+          "id": "deep-investigation",
+          "tier": "frontier",
+          "enabled": true,
+          "auto": false,
+          "instruction": "An unclear root cause across modules; concurrency, security or performance analysis; architecture or design trade-offs; a large refactor; or work that has already failed twice."
+        }
+      ],
+      "autoCapable": false,
+      "examples": {
+        "count": 11,
+        "byTier": {
+          "fast": 4,
+          "standard": 4,
+          "frontier": 3
+        }
+      },
+      "systemChars": 16458
+    },
+    {
+      "name": "v2.2",
+      "id": "assessor/v2.2",
+      "packVersion": "assessor/v2.2+e2183dce2cb9",
+      "card": "card/v1",
+      "output": "assessment/v1",
+      "mapping": {
+        "frontierFacts": [
+          "prior-failures"
+        ],
+        "priorFailuresMin": 2,
+        "standardFacts": [
+          "multi-file-edit"
+        ],
+        "fastSpecifications": [
+          "fully-specified"
+        ],
+        "fastDepths": [
+          "lookup",
+          "routine"
+        ],
+        "fastBeatsStandard": false
+      },
+      "mappingSource": "pack",
+      "rules": [
+        {
+          "id": "explore-readonly",
+          "tier": "fast",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Read-only exploration or lookup: find files, grep, list usages, summarise code, or answer where or what something is. No edits are requested and no bug has to be diagnosed."
+        },
+        {
+          "id": "mechanical-edit",
+          "tier": "fast",
+          "enabled": true,
+          "auto": false,
+          "instruction": "A fully specified mechanical change that the request itself commands: rename, apply a given diff, bump a version, fix a typo or an import, change a named value. Target and exact change are explicit. An issue or bug report that describes wrong behaviour and suggests or sketches a fix is NOT a specified change: the suggestion must still be verified and tested, so judge it as bounded-change or deep-investigation."
+        },
+        {
+          "id": "bounded-change",
+          "tier": "standard",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Implement or fix a bounded feature or bug in known code with clear acceptance, typical pull-request-sized work. Includes fixing a failing test or bug whose cause is not yet known but is likely local, and a bug report that points to the faulty code or suggests a fix."
+        },
+        {
+          "id": "deep-investigation",
+          "tier": "frontier",
+          "enabled": true,
+          "auto": false,
+          "instruction": "Open-ended design or architecture work with no defined deliverable yet (choose an approach, plan a migration), or work that has already failed twice. A bug, failing test or feature with a stated expected behaviour is not this rule, however many files or how much analysis it needs: judge it as bounded-change."
+        }
+      ],
+      "autoCapable": false,
+      "examples": {
+        "count": 11,
+        "byTier": {
+          "fast": 4,
+          "standard": 5,
+          "frontier": 2
+        }
+      },
+      "systemChars": 16579
+    }
+  ]
+}
