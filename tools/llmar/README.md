@@ -75,6 +75,8 @@ Endpoints must be `https`, or plain `http` to a loopback host (tests only).
 - Every write is atomic (temp file, then `os.replace`).
 - `credentials-<profile>.lock` is a `flock` taken shared to read and exclusive to refresh, so 20 parallel
   `llmar token` calls make one refresh.
+- `credentials-<profile>.served` (0600) records when the cached token was last handed out, with a short hash of it
+  (never the token). It is how `llmar` recognises a retry; `logout` removes it.
 - Credentials are bound to the token endpoint and client id they came from. If the settings change, `token`
   exits 2 instead of sending the refresh token to the new endpoint.
 
@@ -94,8 +96,13 @@ user profile's default ACL, and the lock is an exclusive `msvcrt` lock.
 | 4 | bad settings, unsafe permissions, or bad usage (usage errors never exit 2) |
 
 Clients should cache the token for at most 4 minutes (Claude Code `CLAUDE_CODE_API_KEY_HELPER_TTL_MS=240000`,
-Codex `refresh_interval_ms = 240000`). Then they never hold a token with less than about 1 minute left. Both
-clients also re-run the helper after a 401.
+Codex `refresh_interval_ms = 240000`). Then they never hold a token with less than about 1 minute left.
+
+Clients also re-run the helper when a request is refused: Codex after a 401, Claude Code after a 401 or 403 (the
+AgentCore gateway answers an expired token with 403 `insufficient_scope`). Claude Code can also keep using a
+cached token past its TTL while it refreshes in the background. So a request for the same token again within
+`REASK_S` (60 s), for a token older than that, counts as a retry: `llmar` refreshes instead of serving it again. A
+token younger than 60 s is always served from the cache, so this adds at most one refresh a minute.
 
 ## Security notes
 

@@ -312,7 +312,7 @@ Policy 是一份带版本的 JSON：模式（observe / auto）、alias、每种 
 ### 9.2 管理控制台
 
 - **拓扑。** 单独的 stack（`<prefix>-console`），在 router stack 之后部署、之前删除，通过 SSM 参数读取 router 的值，不用 stack export。浏览器 → CloudFront：`/*` 经 OAC 读私有 S3（只有网页，没有数据），`/api/*` 同源转到 HTTP API（JWT 授权方：user pool、console app client、scope `<prefix>/console`）→ console-api Lambda。每个路由都在服务端按角色授权；成员只能读自己的记录，访问别人的 id 返回 404。
-- **登录。** Cognito 托管登录（auth code + PKCE），不开放自助注册。默认不开启 MFA，生产环境应在 user pool 上强制开启 TOTP MFA（见 infra/README.md 的 Production hardening 一节）。成员的命令行 `llmar` 用 `cli` app client（127.0.0.1 回调），refresh token 30 天，access token 30 分钟。
+- **登录。** Cognito 托管登录（auth code + PKCE），不开放自助注册。默认不开启 MFA，生产环境应在 user pool 上强制开启 TOTP MFA（见 infra/README.md 的 Production hardening 一节）。成员的命令行 `llmar` 用 `cli` app client（127.0.0.1 回调），refresh token 30 天，access token 60 分钟。
 - **运行时配置。** 策略和评估器设置组成一份带版本的配置文档。控制台先用和 router 相同的校验逻辑（`validatePolicy`、`checkPolicyAgainstCatalog`、评估器设置校验、允许的模型列表）校验，再发布到配置桶；router 每 30 秒轮询，约 1 分钟内生效。router 收到的文档只要本身有效就接受，否则保留旧版本并记录 `kind: "config"` 的拒绝日志。换配置时进行中的 lineage 保持当前模型，直到下一个缓存断点（硬锁不会被打破）；控制台在启用前显示 `policySwapEffects` 的影响列表。允许的模型列表之外的模型需要 CDK 部署（task role 的授权跟着它走）。
 - **用量导入。** router 日志组的订阅过滤器（`kind` 为 model、error、rejected、config）把日志交给 usage-ingest Lambda，写入 DynamoDB：每个请求一条记录（保留 90 天，可调），以及按 UTC 日期的汇总（保留 400 天），按请求 id 幂等。导入的失败进入 SQS 死信队列并告警。
 - **节省的口径。** 和一个从不切换的固定基线比较（默认是请求自己的档位）：`N = B − A − X = R − S − X`，`R = B − A*`，`S = A − A*`；负数照实显示；未计量调用和因档位上限的强制降档单独列出。所有数字都是目录价，假设用量相同，不衡量质量（见 Harbor 结论总结）。

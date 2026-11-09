@@ -417,6 +417,36 @@ def test_token_concurrent_callers_refresh_once(signed_in):
     assert len({o[0] for o in outs}) == 1 and outs[0][0].strip() == env.creds()['accessToken']
 
 
+def test_token_reask_of_an_old_token_refreshes_once(signed_in):
+    # Claude Code re-runs its helper right after a 401/403 (the gateway answers an expired token with 403): a token
+    # handed out under REASK_S ago and older than that is refreshed, once; the fresh one is then served from cache.
+    env = signed_in
+    env.expire_in(1500)  # fresh by the clock (1500 s left), obtained 300 s ago
+    first = env.run('token')
+    assert first.returncode == 0 and env.idp.counts['refresh'] == 0
+    retry = env.run('token')
+    assert retry.returncode == 0 and retry.stdout != first.stdout and retry.stdout.strip() == env.creds()['accessToken']
+    assert env.idp.counts['refresh'] == 1
+    again = env.run('token')
+    assert again.returncode == 0 and again.stdout == retry.stdout and env.idp.counts['refresh'] == 1
+    served = env.cfg / 'credentials-default.served'
+    assert oct(served.stat().st_mode & 0o777) == '0o600' and retry.stdout.strip() not in served.read_text()
+    env.assert_no_secret(first.stderr, retry.stderr, again.stderr)
+    assert env.run('logout').returncode == 0 and not served.exists()
+
+
+def test_token_spaced_or_other_token_requests_use_the_cache(signed_in):
+    env = signed_in
+    env.expire_in(1500)
+    served = env.cfg / 'credentials-default.served'
+    first = env.run('token')
+    stamp = json.loads(served.read_text())
+    served.write_text(json.dumps({**stamp, 'at': time.time() - llmar.REASK_S - 1}))  # last handed out over a minute ago
+    assert env.run('token').stdout == first.stdout and env.idp.counts['refresh'] == 0
+    served.write_text(json.dumps({**stamp, 'at': time.time(), 'tag': 'another-token'}))  # a different token was retried
+    assert env.run('token').stdout == first.stdout and env.idp.counts['refresh'] == 0
+
+
 def test_token_refuses_readable_credentials(signed_in):
     env = signed_in
     os.chmod(env.cfg / 'credentials-default.json', 0o644)

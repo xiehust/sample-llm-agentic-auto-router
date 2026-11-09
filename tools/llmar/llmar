@@ -49,6 +49,7 @@ except ImportError:  # Windows
 VERSION = '0.1.0'
 EXIT_OK, EXIT_LOGIN, EXIT_IDP, EXIT_CONFIG = 0, 2, 3, 4
 MARGIN_S = 300            # refresh this long before expiry; client caches (Claude Code TTL, Codex interval) are 240 s
+REASK_S = 60              # the same token asked for again this soon was likely refused upstream: refresh (once a minute at most)
 HTTP_TIMEOUT_S = 10       # under Codex's auth timeout_ms (15 000 in the docs)
 LOGIN_TIMEOUT_S = 300
 SCHEMA = 1
@@ -274,6 +275,10 @@ def lock_path(profile: str) -> str:
     return os.path.join(config_dir(), f'credentials-{profile}.lock')
 
 
+def served_path(profile: str) -> str:
+    return os.path.join(config_dir(), f'credentials-{profile}.served')
+
+
 # ---------------------------------------------------------------- tokens and HTTP
 
 def b64url(b: bytes) -> str:
@@ -383,6 +388,33 @@ def bound_to(c: Dict[str, Any], s: Dict[str, Any]) -> bool:
     return c.get('tokenEndpoint') == s['tokenEndpoint'] and c.get('clientId') == s['clientId']
 
 
+def token_tag(c: Dict[str, Any]) -> str:
+    return hashlib.sha256(str(c.get('accessToken', '')).encode()).hexdigest()[:16]
+
+
+def reasked(profile: str, c: Dict[str, Any], now: float) -> bool:
+    """The token we handed out less than REASK_S ago is asked for again, and it is older than that: the client is
+    retrying because the server refused it (Claude Code re-runs its helper after a 401/403; the AgentCore gateway
+    answers an expired token with 403 insufficient_scope). Serving it again would fail the same way, so refresh. A token
+    younger than REASK_S is never refreshed this way, which bounds these refreshes to one a minute."""
+    if now - float(c.get('obtainedAt', now)) < REASK_S:
+        return False
+    try:
+        last = read_private(served_path(profile))
+    except CliError:
+        return False
+    return bool(last) and last.get('tag') == token_tag(c) and 0 <= now - float(last.get('at', 0)) < REASK_S
+
+
+def served(profile: str, c: Dict[str, Any]) -> Dict[str, Any]:
+    """Records when this token was handed out (best effort: a failure here never fails the token request)."""
+    try:
+        write_private(served_path(profile), {'at': time.time(), 'tag': token_tag(c)})
+    except (OSError, CliError):
+        pass
+    return c
+
+
 def get_token(profile: str) -> Dict[str, Any]:
     s = load_settings(profile)
     path = creds_path(profile)
@@ -390,16 +422,16 @@ def get_token(profile: str) -> Dict[str, Any]:
         c = read_private(path)
     if c and c.get('accessToken') and not bound_to(c, s):
         raise CliError(EXIT_LOGIN, 'the settings changed since sign-in: run llmar login')
-    if fresh(c, time.time()):
-        return c  # type: ignore[return-value]
+    if fresh(c, time.time()) and not reasked(profile, c, time.time()):  # type: ignore[arg-type]
+        return served(profile, c)  # type: ignore[arg-type]
     with Lock(lock_path(profile), exclusive=True):
         c = read_private(path)  # another process may have refreshed while we waited
         if not c or not c.get('refreshToken'):
             raise CliError(EXIT_LOGIN, 'not signed in: run llmar login')
         if not bound_to(c, s):
             raise CliError(EXIT_LOGIN, 'the settings changed since sign-in: run llmar login')
-        if fresh(c, time.time()):
-            return c
+        if fresh(c, time.time()) and not reasked(profile, c, time.time()):
+            return served(profile, c)  # another process refreshed it meanwhile, or nobody is retrying
         try:
             resp = post_form(c['tokenEndpoint'], {'grant_type': 'refresh_token', 'client_id': c['clientId'],
                                                   'refresh_token': c['refreshToken']})
@@ -414,12 +446,12 @@ def get_token(profile: str) -> Dict[str, Any]:
                                        'keeps failing, your account may be disabled; contact your admin)') from None
             if c.get('accessToken') and float(c.get('expiresAt', 0)) - time.time() > 30:
                 say(f'{e}; using the cached token (valid {int(float(c["expiresAt"]) - time.time())} s more)')
-                return c
+                return served(profile, c)
             raise
         c.update(token_fields(resp, need_refresh=False))  # no refresh_token in the reply: rotation is off, keep ours
         c['refreshCount'] = int(c.get('refreshCount', 0)) + 1
         write_private(path, c)
-        return c
+        return served(profile, c)
 
 
 # ---------------------------------------------------------------- login
@@ -633,6 +665,8 @@ def logout(profile: str) -> int:
                 say(f'{e}: the refresh token could not be revoked and stays valid until it expires')
                 rc = EXIT_IDP
         os.unlink(path)
+        if os.path.exists(served_path(profile)):
+            os.unlink(served_path(profile))
     say(f'signed out (profile {profile})')
     return rc
 

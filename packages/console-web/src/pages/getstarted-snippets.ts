@@ -103,6 +103,8 @@ export const credentialsStoreLine = 'credentials_store = "file"'
 export const configParentFix = 'chmod g-w ~/.config'
 export const claudeEnvCheck = "env | grep -E 'CLAUDE_CODE_USE_BEDROCK|ANTHROPIC_API_KEY|ANTHROPIC_BASE_URL'"
 export const unsetApiKey = 'unset ANTHROPIC_API_KEY'
+/** Checks the llmar sign-in without printing the token (exit 2 and a message on stderr when llmar login is needed). */
+export const tokenCheck = 'llmar-token > /dev/null && echo "llmar: signed in"'
 export const sshForward = (cliPort: number | undefined, codexPort: number | undefined) =>
   `ssh -L ${cliPort ?? 52817}:127.0.0.1:${cliPort ?? 52817} -L ${codexPort ?? 52820}:127.0.0.1:${codexPort ?? 52820} <host>`
 

@@ -28,5 +28,7 @@
   "ext.getStarted.faq.claudeApiKey.q": "Claude Code 警告 “Both apiKeyHelper and ANTHROPIC_API_KEY set”",
   "ext.getStarted.faq.claudeApiKey.a": "环境里的 ANTHROPIC_API_KEY 会取代 apiKeyHelper，router 就拿不到你的 llmar token。使用 router 时请取消它，并从设置文件里删除：",
   "ext.getStarted.faq.claudeModel.q": "Claude Code 提示 “Model \"auto\" isn't recognized · context assumed to be 200k tokens”",
-  "ext.getStarted.faq.claudeModel.a": "Claude Code 不认识 router 的别名 auto，于是假定上下文窗口只有 200K，到 200K 就压缩对话。router 的 Claude 模型都是 1M 窗口。在 router 设置的 env 里保留下面这一行（上面的配置片段里已经有），然后重启 Claude Code。只有管理员把你限制在窗口更小的模型上时，才需要改成更小的值。"
+  "ext.getStarted.faq.claudeModel.a": "Claude Code 不认识 router 的别名 auto，于是假定上下文窗口只有 200K，到 200K 就压缩对话。router 的 Claude 模型都是 1M 窗口。在 router 设置的 env 里保留下面这一行（上面的配置片段里已经有），然后重启 Claude Code。只有管理员把你限制在窗口更小的模型上时，才需要改成更小的值。",
+  "ext.getStarted.faq.expired403.q": "Claude Code 会话中途出现 “Please run /login · API Error: 403 insufficient_scope”",
+  "ext.getStarted.faq.expired403.a": "这不是权限问题，也不需要登录 Anthropic 账号：网关对已过期的 access token 返回 403 insufficient_scope。不要运行 /login，直接重发提示即可：同一个 token 被马上再次索取时，llmar 会换发新 token。如果反复出现，运行下面的命令看 llmar 是否需要重新登录，并用 date -u 确认本机时钟正确："
 }

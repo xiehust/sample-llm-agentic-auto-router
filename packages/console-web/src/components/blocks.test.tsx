@@ -37,5 +37,7 @@ describe('snippet placeholders', () => {
     // Claude Code assumes 200K for 'auto' and compacts there unless told the window.
     expect(JSON.parse(S.claudeCode(v)).env.CLAUDE_CODE_MAX_CONTEXT_TOKENS).toBe('1000000')
     expect(JSON.parse(`{${S.claudeContextLine}}`)).toEqual({ CLAUDE_CODE_MAX_CONTEXT_TOKENS: '1000000' })
+    // The 403 FAQ check never prints the token.
+    expect(S.tokenCheck).toMatch(/^llmar-token > \/dev\/null && /)
   })
 })

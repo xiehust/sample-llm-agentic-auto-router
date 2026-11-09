@@ -23,6 +23,12 @@ export interface Settings {
   tags: Record<string, string>
   policyFile: string
   catalogFile?: string
+  /**
+   * allowedModelUniverse: the models the router task role may invoke, so the console can put them in a policy.
+   * 'policy' (default) = the policy file's models; 'catalog' = every model in the region catalog; a list = the policy
+   * file's models plus these ids. Catalog membership is checked in deployModels.
+   */
+  modelUniverse: 'policy' | 'catalog' | readonly string[]
   desiredCount: number
   /** API Gateway stage throttling for the router API (account- and Region-wide quotas are shared). */
   throttle: { rate: number; burst: number }
@@ -106,6 +112,7 @@ export function resolveCommon(str: (k: string) => string | undefined, env: NodeJ
 
 /**
  * Router stack context keys: the common ones (resolveCommon), azIds (comma list), policyFile, catalogFile,
+ * allowedModelUniverse (policy | catalog | comma list of model ids, default policy),
  * routerDesiredCount, throttle ('<rate>,<burst>'), e2eFault, e2eIdleTimeoutMs, identity (identityMode, cliRedirectPorts,
  * codexOauthPort, cliRefreshDays), and the tier assessor: assessorMode
  * (off | observe | auto, default off), assessorModel, assessorThreshold, assessorPack, assessorTimeoutMs,
@@ -136,6 +143,7 @@ export function resolveSettings(node: Ctx, env: NodeJS.ProcessEnv, defaultPolicy
 
   const assessor = assessorDeploy(str, issues)
   const identity = identityDeploy(str, issues)
+  const modelUniverse = modelUniverseDeploy(str('allowedModelUniverse'), issues)
 
   if (issues.length) throw new SettingsError(issues)
   const catalogFile = str('catalogFile')
@@ -143,6 +151,7 @@ export function resolveSettings(node: Ctx, env: NodeJS.ProcessEnv, defaultPolicy
     region, account, azIds: [azIds[0] as string, azIds[1] as string], prefix, tags,
     policyFile: str('policyFile') ?? env.ROUTER_POLICY_FILE ?? defaultPolicyFile,
     ...(catalogFile ? { catalogFile } : {}),
+    modelUniverse,
     desiredCount,
     throttle: { rate: rate as number, burst: burst as number },
     ...(e2eFault || e2eIdle ? { e2e: { ...(e2eFault ? { fault: e2eFault } : {}), ...(e2eIdle ? { idleTimeoutMs: Number(e2eIdle) } : {}) } } : {}),
@@ -170,6 +179,21 @@ function identityDeploy(str: (k: string) => string | undefined, issues: string[]
   return { mode: mode as Settings['identity']['mode'], cliRedirectPorts: [...new Set(cliRedirectPorts)], codexOauthPort, cliRefreshDays: days }
 }
 
+const MODEL_ID_RE = /^[a-z0-9][a-z0-9.:-]{2,127}$/
+
+/** allowedModelUniverse: policy (default) | catalog | <model id>,<model id>,... (formats only; catalog checked later). */
+function modelUniverseDeploy(raw: string | undefined, issues: string[]): Settings['modelUniverse'] {
+  const v = raw?.trim() ?? 'policy'
+  if (v === 'policy' || v === 'catalog') return v
+  const ids = [...new Set(v.split(',').map((s) => s.trim()).filter(Boolean))]
+  const bad = ids.filter((id) => !MODEL_ID_RE.test(id))
+  if (!ids.length || bad.length) {
+    issues.push(`allowedModelUniverse: 'policy' | 'catalog' | comma list of model ids${bad.length ? ` ('${bad.join("', '")}' is not a model id)` : ''}`)
+    return 'policy'
+  }
+  return ids
+}
+
 /** Assessor context keys: formats only here; the model and pack are checked against policy and files in deployModels. */
 function assessorDeploy(str: (k: string) => string | undefined, issues: string[]): AssessorDeploy | undefined {
   const mode = str('assessorMode') ?? 'off'
@@ -181,7 +205,7 @@ function assessorDeploy(str: (k: string) => string | undefined, issues: string[]
   if (mode !== 'observe' && mode !== 'auto') { issues.push(`assessorMode: 'off' | 'observe' | 'auto', got '${mode}'`); return undefined }
   const out: AssessorDeploy = { mode }
   const model = str('assessorModel')
-  if (model !== undefined) { if (/^[a-z0-9][a-z0-9.:-]{2,127}$/.test(model)) out.model = model; else issues.push(`assessorModel: '${model}' is not a model id`) }
+  if (model !== undefined) { if (MODEL_ID_RE.test(model)) out.model = model; else issues.push(`assessorModel: '${model}' is not a model id`) }
   const threshold = str('assessorThreshold')
   if (threshold !== undefined) { const n = Number(threshold); if (Number.isFinite(n) && n >= 0 && n <= 1) out.threshold = threshold; else issues.push('assessorThreshold: number in [0, 1] required') }
   const pack = str('assessorPack')

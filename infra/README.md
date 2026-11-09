@@ -40,6 +40,7 @@ Nothing about a particular deployment is built into the code. These are all CDK 
 | `tags` | `{"Project":"llm-auto-router","Purpose":"mvp"}` | A JSON object merged over the defaults, e.g. `-c tags='{"Owner":"team-x"}'`. |
 | `policyFile` | `packages/router/config/policy.default.json` | Validated against the Region catalog at synth, and again by the router at boot. |
 | `catalogFile` | bundled catalog | A catalog you captured for another Region (see `packages/pricing/README.md`). It is passed to the router. |
+| `allowedModelUniverse` | `policy` | Models the router may invoke, and so the models an admin can put in a console policy. `policy` is the policy file's models; `catalog` is every model in the Region catalog; a comma list adds those catalog model ids to the policy file's models. The task role's grants, `ROUTER_MODEL_UNIVERSE` and the console's allowed list all follow it. Pass the same value on every router deploy: after a narrower one, requests that the active console policy routes to a dropped model fail with 400 `pin-not-allowed`, so remove those models from the policy first. Redeploy the console after the router, since it reads the list at deploy. |
 | `routerDesiredCount` | `0` | Deploy at 0, run the anonymous-denial checks (E0), then redeploy with 1. |
 | `throttle` | `20,40` | API stage throttling `<rate>,<burst>`. API Gateway and Bedrock quotas are shared by everything in the account and Region, so size this to leave room for other workloads. |
 | `identityMode` | `observe` | Deploy default for the router's identity mode (`off`, `observe`, `require`). The console can override it per config version. |
@@ -59,11 +60,11 @@ The `S3PrefixListId` stack parameter is the Region's `com.amazonaws.<region>.s3`
 
 ## IAM
 
-- **Task role.** `bedrock:InvokeModel*` on exactly the router's allowed models: the policy's pool models, failover profiles and observe defaults. It follows the documented cross-Region inference pattern:
+- **Task role.** `bedrock:InvokeModel*` on exactly the router's allowed models: the policy's pool models, failover profiles and observe defaults, plus the models `allowedModelUniverse` adds. It follows the documented cross-Region inference pattern:
   - global profiles: the profile in the deploy Region, the foundation model in that Region, and `arn:aws:bedrock:::foundation-model/<id>` with `aws:RequestedRegion = unspecified`, all tied to the profile ARNs;
   - geographic profiles: the foundation model in any destination Region of the profile.
   There are no wildcard model ARNs for global profiles.
-  - **Responses also needs the default project.** The Bedrock User Guide (Responses API, "Using the Responses API on the bedrock-runtime endpoint" > Permissions) says creating a response authorizes `bedrock:InvokeModel` on the account's default project, in addition to the inference target. So the stack grants `bedrock:InvokeModel` on `arn:aws:bedrock:<region>:<account>:project/*`, limited with `bedrock:ModelArn` to the Responses pool's inference profiles.
+  - **Responses also needs the default project.** The Bedrock User Guide (Responses API, "Using the Responses API on the bedrock-runtime endpoint" > Permissions) says creating a response authorizes `bedrock:InvokeModel` on the account's default project, in addition to the inference target. So the stack grants `bedrock:InvokeModel` on `arn:aws:bedrock:<region>:<account>:project/*`, limited with `bedrock:ModelArn` to the inference profiles of the allowed models that serve Responses (with the default universe, the Responses pool's models).
   - The gateway role gets the same grant for GPT-6.1 Sol, the Responses fallback.
   - Stored-response management (`GetInvoke`/`CancelInvoke`/`DeleteInvoke`) is not granted.
 - **Endpoint policies.** The bedrock-runtime endpoint admits only the task role, for `bedrock:InvokeModel*`. The execute-api endpoint admits only the gateway role, for `execute-api:Invoke`.
@@ -229,6 +230,13 @@ Found and fixed in the first live deploy; listed so you recognise them:
   config bucket. The console shows each value's source; if it cannot read that file, it says so and does not guess.
 - **`require` needs fresh router state lines.** Each router task reports its state every 5 minutes. The console
   refuses `require` unless every running task reported within 15 minutes with its signing keys loaded.
+- **The gateway answers an expired access token with 403, not 401.** The body is `insufficient_scope` ("The request
+  requires higher privileges than provided by the access token"), and Claude Code shows it as "Please run /login".
+  The `AWS/Bedrock-AgentCore` metric `InboundAuthorizationFailure` tells the causes apart by `ExceptionType`:
+  `InvalidInboundTokenException` (401: missing or malformed token), `ForbiddenAccessInboundTokenException` (403:
+  valid token without the invoke scope, such as an ID token) and `UnauthorizedInboundTokenException` (403: expired
+  token). `llmar` refreshes when a client asks again for the same token right away (see
+  [tools/llmar/README.md](../tools/llmar/README.md)).
 - **Ingest failures** go to the dead-letter queue (`IngestDlqUrl`, with an alarm). Replay them after the fix as
   described in [packages/usage-ingest/README.md](../packages/usage-ingest/README.md#failures-and-replay).
 

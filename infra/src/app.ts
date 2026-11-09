@@ -1,6 +1,7 @@
 // CDK app (Node 24 runs this file directly; types are stripped). Every deployment value is a deploy input:
 //   npx cdk synth -c region=<aws-region> -c account=<account-id> [-c azIds=<id>,<id>] [-c prefix=<unique-prefix>]
 //                 [-c tags='{"Owner":"<team>"}'] [-c policyFile=<path>] [-c catalogFile=<path>]
+//                 [-c allowedModelUniverse=policy|catalog|<model-id>,...]
 //                 [-c routerDesiredCount=0] [-c throttle=20,40]
 //                 [-c console=true [-c adminEmail=<e-mail>] [-c consoleBundle=true] [-c ingest=true]]
 // Bring the router up with -c routerDesiredCount=1 only after the anonymous-denial checks (E0) pass.
