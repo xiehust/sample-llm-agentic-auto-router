@@ -1,0 +1,416 @@
+{
+ "dataset": "deepswe",
+ "exclude": [],
+ "majority": false,
+ "n_boot": 10000,
+ "n_tasks": 45,
+ "packs": {
+  "null": {
+   "M1_vs_Sol": {
+    "cost": 32.65553499999999,
+    "cost_ratio_vs_A": 1.0,
+    "cost_ratio_vs_A_ci": [
+     1.0,
+     1.0
+    ],
+    "dR_vs_A": 0.0,
+    "dR_vs_A_ci": [
+     0.0,
+     0.0
+    ],
+    "rate": 0.7866666666666666,
+    "reading": "point + CIs only"
+   },
+   "M2_vs_pinned": {
+    "C": {
+     "cost_ratio": 0.1609333419488961,
+     "cost_ratio_ci": [
+      0.15118131487328038,
+      0.16974576900318686
+     ],
+     "dR": -0.02222222222222222,
+     "dR_ci": [
+      -0.06222222222222222,
+      0.017777777777777778
+     ]
+    },
+    "F": {
+     "cost_ratio": 5.5475655649330395,
+     "cost_ratio_ci": [
+      5.06167321630125,
+      6.121930987949305
+     ],
+     "dR": 0.18222222222222223,
+     "dR_ci": [
+      0.07555555555555556,
+      0.29333333333333333
+     ]
+    }
+   },
+   "M3_fast": {
+    "fast_calls": 0,
+    "fast_coverage": 0.0,
+    "fast_loss_pp": null,
+    "fast_precision": null,
+    "fast_precision_ci": null
+   },
+   "M4_agreement": {
+    "accuracy": 0.4222222222222222,
+    "confusion": {
+     "fast": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 22
+     },
+     "frontier": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 4
+     },
+     "standard": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 19
+     }
+    },
+    "fast_safe_agreement": 0.4666666666666667,
+    "kappa": 0.0
+   },
+   "call_share": {
+    "fast": 0.0,
+    "frontier": 0.0,
+    "standard": 1.0
+   },
+   "calls_per_task": 1
+  },
+  "v21": {
+   "M1_vs_Sol": {
+    "cost": 145.66972666666672,
+    "cost_ratio_vs_A": 4.460797431941224,
+    "cost_ratio_vs_A_ci": [
+     3.659898748642156,
+     5.232529502362876
+    ],
+    "dR_vs_A": 0.0014814814814814825,
+    "dR_vs_A_ci": [
+     -0.028148148148148148,
+     0.029629629629629634
+    ],
+    "rate": 0.7881481481481482,
+    "reading": "point + CIs only"
+   },
+   "M2_vs_pinned": {
+    "C": {
+     "cost_ratio": 0.7178910384793546,
+     "cost_ratio_ci": [
+      0.6057370221467113,
+      0.8154915305789204
+     ],
+     "dR": -0.02074074074074074,
+     "dR_ci": [
+      -0.04444444444444444,
+      -0.004444444444444444
+     ]
+    },
+    "F": {
+     "cost_ratio": 24.746566225578867,
+     "cost_ratio_ci": [
+      20.51695708019791,
+      28.863931581444454
+     ],
+     "dR": 0.1837037037037037,
+     "dR_ci": [
+      0.07555555555555556,
+      0.29333333333333333
+     ]
+    }
+   },
+   "M3_fast": {
+    "fast_calls": 0,
+    "fast_coverage": 0.0,
+    "fast_loss_pp": null,
+    "fast_precision": null,
+    "fast_precision_ci": null
+   },
+   "M4_agreement": {
+    "accuracy": 0.21481481481481482,
+    "confusion": {
+     "fast": {
+      "fast": 0,
+      "frontier": 39,
+      "standard": 27
+     },
+     "frontier": {
+      "fast": 0,
+      "frontier": 7,
+      "standard": 5
+     },
+     "standard": {
+      "fast": 0,
+      "frontier": 35,
+      "standard": 22
+     }
+    },
+    "fast_safe_agreement": 0.4666666666666667,
+    "kappa": -0.009523809523809502
+   },
+   "call_share": {
+    "fast": 0.0,
+    "frontier": 0.6,
+    "standard": 0.4
+   },
+   "calls_per_task": 3
+  },
+  "v22": {
+   "M1_vs_Sol": {
+    "cost": 38.237791266666655,
+    "cost_ratio_vs_A": 1.1709436475827655,
+    "cost_ratio_vs_A_ci": [
+     1.0,
+     1.441885018112094
+    ],
+    "dR_vs_A": 0.0,
+    "dR_vs_A_ci": [
+     0.0,
+     0.0
+    ],
+    "rate": 0.7866666666666666,
+    "reading": "point + CIs only"
+   },
+   "M2_vs_pinned": {
+    "C": {
+     "cost_ratio": 0.1884438744393249,
+     "cost_ratio_ci": [
+      0.15598398645914682,
+      0.23615750236248595
+     ],
+     "dR": -0.02222222222222222,
+     "dR_ci": [
+      -0.06222222222222222,
+      0.017777777777777778
+     ]
+    },
+    "F": {
+     "cost_ratio": 6.495886657807238,
+     "cost_ratio_ci": [
+      5.314710846843982,
+      8.183581408864042
+     ],
+     "dR": 0.18222222222222223,
+     "dR_ci": [
+      0.07555555555555556,
+      0.29333333333333333
+     ]
+    }
+   },
+   "M3_fast": {
+    "fast_calls": 0,
+    "fast_coverage": 0.0,
+    "fast_loss_pp": null,
+    "fast_precision": null,
+    "fast_precision_ci": null
+   },
+   "M4_agreement": {
+    "accuracy": 0.4222222222222222,
+    "confusion": {
+     "fast": {
+      "fast": 0,
+      "frontier": 5,
+      "standard": 61
+     },
+     "frontier": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 12
+     },
+     "standard": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 57
+     }
+    },
+    "fast_safe_agreement": 0.4666666666666667,
+    "kappa": 0.02092050209205021
+   },
+   "call_share": {
+    "fast": 0.0,
+    "frontier": 0.037037037037037035,
+    "standard": 0.9629629629629629
+   },
+   "calls_per_task": 3
+  },
+  "v22D": {
+   "M1_vs_Sol": {
+    "cost": 32.65553499999999,
+    "cost_ratio_vs_A": 1.0,
+    "cost_ratio_vs_A_ci": [
+     1.0,
+     1.0
+    ],
+    "dR_vs_A": 0.0,
+    "dR_vs_A_ci": [
+     0.0,
+     0.0
+    ],
+    "rate": 0.7866666666666666,
+    "reading": "point + CIs only"
+   },
+   "M2_vs_pinned": {
+    "C": {
+     "cost_ratio": 0.1609333419488961,
+     "cost_ratio_ci": [
+      0.15118131487328038,
+      0.16974576900318686
+     ],
+     "dR": -0.02222222222222222,
+     "dR_ci": [
+      -0.06222222222222222,
+      0.017777777777777778
+     ]
+    },
+    "F": {
+     "cost_ratio": 5.5475655649330395,
+     "cost_ratio_ci": [
+      5.06167321630125,
+      6.121930987949305
+     ],
+     "dR": 0.18222222222222223,
+     "dR_ci": [
+      0.07555555555555556,
+      0.29333333333333333
+     ]
+    }
+   },
+   "M3_fast": {
+    "fast_calls": 0,
+    "fast_coverage": 0.0,
+    "fast_loss_pp": null,
+    "fast_precision": null,
+    "fast_precision_ci": null
+   },
+   "M4_agreement": {
+    "accuracy": 0.4222222222222222,
+    "confusion": {
+     "fast": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 66
+     },
+     "frontier": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 12
+     },
+     "standard": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 57
+     }
+    },
+    "fast_safe_agreement": 0.4666666666666667,
+    "kappa": 0.0
+   },
+   "call_share": {
+    "fast": 0.0,
+    "frontier": 0.0,
+    "standard": 1.0
+   },
+   "calls_per_task": 3
+  },
+  "v22T": {
+   "M1_vs_Sol": {
+    "cost": 35.67782979999999,
+    "cost_ratio_vs_A": 1.0925507666617618,
+    "cost_ratio_vs_A_ci": [
+     1.0,
+     1.2318840604781005
+    ],
+    "dR_vs_A": -0.0014814814814814812,
+    "dR_vs_A_ci": [
+     -0.004444444444444444,
+     0.0
+    ],
+    "rate": 0.7851851851851852,
+    "reading": "point + CIs only"
+   },
+   "M2_vs_pinned": {
+    "C": {
+     "cost_ratio": 0.17582784612770594,
+     "cost_ratio_ci": [
+      0.15603926698073906,
+      0.20177929303831368
+     ],
+     "dR": -0.023703703703703703,
+     "dR_ci": [
+      -0.0637037037037037,
+      0.014814814814814815
+     ]
+    },
+    "F": {
+     "cost_ratio": 6.060997011073982,
+     "cost_ratio_ci": [
+      5.255896535901911,
+      7.121573211149726
+     ],
+     "dR": 0.18074074074074073,
+     "dR_ci": [
+      0.07407407407407407,
+      0.2903703703703704
+     ]
+    }
+   },
+   "M3_fast": {
+    "fast_calls": 0,
+    "fast_coverage": 0.0,
+    "fast_loss_pp": null,
+    "fast_precision": null,
+    "fast_precision_ci": null
+   },
+   "M4_agreement": {
+    "accuracy": 0.4148148148148148,
+    "confusion": {
+     "fast": {
+      "fast": 0,
+      "frontier": 1,
+      "standard": 65
+     },
+     "frontier": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 12
+     },
+     "standard": {
+      "fast": 0,
+      "frontier": 1,
+      "standard": 56
+     }
+    },
+    "fast_safe_agreement": 0.4666666666666667,
+    "kappa": -0.0042372881355932585
+   },
+   "call_share": {
+    "fast": 0.0,
+    "frontier": 0.014814814814814815,
+    "standard": 0.9851851851851852
+   },
+   "calls_per_task": 3
+  }
+ },
+ "pinned": {
+  "A": {
+   "cost": 32.65553499999999,
+   "rate": 0.7866666666666666
+  },
+  "C": {
+   "cost": 202.91342120000004,
+   "rate": 0.8088888888888889
+  },
+  "F": {
+   "cost": 5.886462200000002,
+   "rate": 0.6044444444444445
+  }
+ },
+ "seed": 20261107,
+ "split": "heldout",
+ "tb_basis": "graded"
+}

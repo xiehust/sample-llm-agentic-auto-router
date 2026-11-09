@@ -1,0 +1,24 @@
+{
+ "id": "assessor/v2.2-T",
+ "card": "card/v1",
+ "output": "assessment/v1",
+ "mapping": {
+  "frontierFacts": [
+   "prior-failures"
+  ],
+  "priorFailuresMin": 2,
+  "standardFacts": [
+   "multi-file-edit"
+  ],
+  "fastSpecifications": [
+   "fully-specified",
+   "partially"
+  ],
+  "fastDepths": [
+   "lookup",
+   "routine",
+   "deep"
+  ],
+  "fastBeatsStandard": true
+ }
+}

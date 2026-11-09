@@ -1,0 +1,2388 @@
+{
+  "schemaVersion": 1,
+  "note": "Draft by 73 (2026-11-08) for the admin console. Keys are the contract (router/core codes); labels and descriptions are draft copy for 4f to edit. Lookup order: groups[group].codes[key], then patterns (first match, {1}.. = capture groups), then fallback. Render every value as text, never as HTML. Rule text is not here: it comes from the pack archive by packVersion (research note §2.4).",
+  "locales": [
+    "en",
+    "zh-CN"
+  ],
+  "tones": [
+    "neutral",
+    "positive",
+    "notice",
+    "warning",
+    "error"
+  ],
+  "fallback": {
+    "label": {
+      "en": "Unrecognized code: {code}",
+      "zh-CN": "未识别的代码：{code}"
+    },
+    "desc": {
+      "en": "Not in this console's code table (newer router, or a sanitized value). Shown as logged.",
+      "zh-CN": "不在控制台代码表中（router 版本更新或值已被清洗）。按日志原样显示。"
+    },
+    "tone": "notice"
+  },
+  "groups": {
+    "decision.action": {
+      "label": {
+        "en": "Action",
+        "zh-CN": "动作"
+      },
+      "codes": {
+        "initialize": {
+          "label": {
+            "en": "Initialize",
+            "zh-CN": "初始选择"
+          },
+          "desc": {
+            "en": "First served decision of this lineage: a model was chosen with no current model.",
+            "zh-CN": "该会话链的首个决策：在没有当前模型时选定模型。"
+          },
+          "tone": "neutral"
+        },
+        "retain": {
+          "label": {
+            "en": "Retain",
+            "zh-CN": "保持"
+          },
+          "desc": {
+            "en": "Stayed on the lineage's current model.",
+            "zh-CN": "继续使用该会话链的当前模型。"
+          },
+          "tone": "neutral"
+        },
+        "switch": {
+          "label": {
+            "en": "Switch",
+            "zh-CN": "切换"
+          },
+          "desc": {
+            "en": "Moved the lineage to a different model (the new model starts with a cold prompt cache).",
+            "zh-CN": "将会话链切换到另一个模型（新模型的提示缓存从零开始）。"
+          },
+          "tone": "notice"
+        },
+        "pin": {
+          "label": {
+            "en": "Pinned",
+            "zh-CN": "指定"
+          },
+          "desc": {
+            "en": "The client fixed the model (concrete model id or x-router-pin); the router did not choose.",
+            "zh-CN": "客户端指定了模型（具体模型 ID 或 x-router-pin），router 未做选择。"
+          },
+          "tone": "neutral"
+        }
+      }
+    },
+    "decision.point": {
+      "label": {
+        "en": "Decision point",
+        "zh-CN": "决策点"
+      },
+      "codes": {
+        "pinned": {
+          "label": {
+            "en": "Pinned",
+            "zh-CN": "指定模型"
+          },
+          "desc": {
+            "en": "No routing decision: the model was fixed by the request.",
+            "zh-CN": "无路由决策：模型由请求指定。"
+          },
+          "tone": "neutral"
+        },
+        "hard-lock-tool-loop": {
+          "label": {
+            "en": "Locked: tool loop",
+            "zh-CN": "锁定：工具循环"
+          },
+          "desc": {
+            "en": "The request returns a tool result inside an agent loop; switching here would break the loop, so the model is kept.",
+            "zh-CN": "请求处于工具调用循环中（返回工具结果），此处切换会打断循环，因此保持模型。"
+          },
+          "tone": "neutral"
+        },
+        "hard-lock-response-chain": {
+          "label": {
+            "en": "Locked: response chain",
+            "zh-CN": "锁定：响应链"
+          },
+          "desc": {
+            "en": "The request continues a stored response (previous_response_id), which only the same model can read.",
+            "zh-CN": "请求延续已存储的响应（previous_response_id），只有同一模型能读取。"
+          },
+          "tone": "neutral"
+        },
+        "hard-lock-state": {
+          "label": {
+            "en": "Locked: non-portable state",
+            "zh-CN": "锁定：不可迁移状态"
+          },
+          "desc": {
+            "en": "The history carries provider-specific state (e.g. thinking signatures) that no eligible other model accepts.",
+            "zh-CN": "对话历史含有特定提供方的状态（如 thinking 签名），其他可选模型无法接受。"
+          },
+          "tone": "neutral"
+        },
+        "session-start": {
+          "label": {
+            "en": "Session start",
+            "zh-CN": "会话开始"
+          },
+          "desc": {
+            "en": "First request of a new session: a free break point (no cache to lose).",
+            "zh-CN": "新会话的第一个请求：免费决策点（没有可丢失的缓存）。"
+          },
+          "tone": "neutral"
+        },
+        "subagent-start": {
+          "label": {
+            "en": "Sub-agent start",
+            "zh-CN": "子 agent 开始"
+          },
+          "desc": {
+            "en": "First request of a sub-agent lineage under a known session: a free break point.",
+            "zh-CN": "已知会话下子 agent 会话链的第一个请求：免费决策点。"
+          },
+          "tone": "neutral"
+        },
+        "task-start": {
+          "label": {
+            "en": "Task start",
+            "zh-CN": "任务开始"
+          },
+          "desc": {
+            "en": "The client marked a new task (x-router-boundary: task-start): a free break point.",
+            "zh-CN": "客户端标记了新任务（x-router-boundary: task-start）：免费决策点。"
+          },
+          "tone": "neutral"
+        },
+        "idle-expired": {
+          "label": {
+            "en": "Cache expired (idle)",
+            "zh-CN": "缓存过期（空闲）"
+          },
+          "desc": {
+            "en": "The lineage was idle past its prompt-cache TTL, so its cache is cold anyway: a free break point.",
+            "zh-CN": "会话链空闲超过提示缓存 TTL，缓存已失效：免费决策点。"
+          },
+          "tone": "neutral"
+        },
+        "compaction": {
+          "label": {
+            "en": "Compaction",
+            "zh-CN": "上下文压缩"
+          },
+          "desc": {
+            "en": "The conversation was compacted (hint, or the prompt shrank sharply), so the cached prefix is gone: a free break point.",
+            "zh-CN": "对话已被压缩（客户端提示或提示长度骤减），缓存前缀已失效：免费决策点。"
+          },
+          "tone": "neutral"
+        },
+        "prefix-reset": {
+          "label": {
+            "en": "Prefix reset",
+            "zh-CN": "前缀重置"
+          },
+          "desc": {
+            "en": "Nothing of the cached prefix is warm any more (the prompt changed at the start): a free break point.",
+            "zh-CN": "缓存前缀已全部失效（提示开头已改变）：免费决策点。"
+          },
+          "tone": "neutral"
+        },
+        "user-turn": {
+          "label": {
+            "en": "User turn",
+            "zh-CN": "用户新 turn"
+          },
+          "desc": {
+            "en": "A new user message on a warm lineage: a switch would lose the cache, so it must pay for itself (or is an upgrade).",
+            "zh-CN": "缓存仍有效的会话链上的新用户消息：切换会丢失缓存，必须划算（升级除外）。"
+          },
+          "tone": "neutral"
+        },
+        "failover": {
+          "label": {
+            "en": "Failover",
+            "zh-CN": "故障切换"
+          },
+          "desc": {
+            "en": "The model this lineage would use failed recently (429/5xx); another profile or a same-tier sibling was chosen.",
+            "zh-CN": "该会话链应使用的模型近期失败（429/5xx），改用其他 inference profile 或同档位的模型。"
+          },
+          "tone": "warning"
+        }
+      }
+    },
+    "decision.mode": {
+      "label": {
+        "en": "Routing mode",
+        "zh-CN": "路由模式"
+      },
+      "codes": {
+        "observe": {
+          "label": {
+            "en": "Observe",
+            "zh-CN": "观察"
+          },
+          "desc": {
+            "en": "The router served what the client asked for (or the observe default for aliases) and only recorded what auto would choose.",
+            "zh-CN": "router 按客户端请求（别名则按观察默认模型）提供服务，只记录自动模式会选择什么。"
+          },
+          "tone": "neutral"
+        },
+        "auto": {
+          "label": {
+            "en": "Auto",
+            "zh-CN": "自动"
+          },
+          "desc": {
+            "en": "The router chose the served model.",
+            "zh-CN": "由 router 选择实际服务的模型。"
+          },
+          "tone": "neutral"
+        }
+      }
+    },
+    "decision.reason": {
+      "label": {
+        "en": "Reason",
+        "zh-CN": "原因"
+      },
+      "note": "Key = parseReason(reason).key (research note §3.1): code, or code:variant. The full reason text is shown below the label.",
+      "codes": {
+        "pin:hint": {
+          "label": {
+            "en": "Pinned by x-router-pin",
+            "zh-CN": "由 x-router-pin 指定"
+          },
+          "desc": {
+            "en": "The client sent x-router-pin with a model the policy allows.",
+            "zh-CN": "客户端通过 x-router-pin 指定了策略允许的模型。"
+          },
+          "tone": "neutral"
+        },
+        "pin:concrete": {
+          "label": {
+            "en": "Pinned: concrete model",
+            "zh-CN": "指定：具体模型"
+          },
+          "desc": {
+            "en": "Auto mode, and the client requested a concrete model id instead of an alias.",
+            "zh-CN": "自动模式下客户端请求了具体模型 ID 而非别名。"
+          },
+          "tone": "neutral"
+        },
+        "pin:no-pool": {
+          "label": {
+            "en": "Pinned: no pool for dialect",
+            "zh-CN": "指定：该接口无模型池"
+          },
+          "desc": {
+            "en": "The policy has no model pool for this API dialect, so the requested model is used.",
+            "zh-CN": "策略中没有该 接口的模型池，因此使用请求的模型。"
+          },
+          "tone": "notice"
+        },
+        "session-start": {
+          "label": {
+            "en": "Chosen at session start",
+            "zh-CN": "会话开始时选择"
+          },
+          "desc": {
+            "en": "Tier and model picked at the session's first request.",
+            "zh-CN": "在会话首个请求时选定档位与模型。"
+          },
+          "tone": "neutral"
+        },
+        "subagent-start": {
+          "label": {
+            "en": "Chosen at sub-agent start",
+            "zh-CN": "子 agent 开始时选择"
+          },
+          "desc": {
+            "en": "A new lineage under a known session root (detected by the router).",
+            "zh-CN": "已知会话根下的新会话链（由 router 识别）。"
+          },
+          "tone": "neutral"
+        },
+        "subagent-start:hint": {
+          "label": {
+            "en": "Chosen at sub-agent start (hint)",
+            "zh-CN": "子 agent 开始时选择（客户端提示）"
+          },
+          "desc": {
+            "en": "The client marked a sub-agent start (x-router-boundary).",
+            "zh-CN": "客户端通过 x-router-boundary 标记子 agent 开始。"
+          },
+          "tone": "neutral"
+        },
+        "task-start": {
+          "label": {
+            "en": "Chosen at task start",
+            "zh-CN": "任务开始时选择"
+          },
+          "desc": {
+            "en": "The client marked a new task; full decision without switch cost.",
+            "zh-CN": "客户端标记新任务；完整决策，无切换成本。"
+          },
+          "tone": "neutral"
+        },
+        "compaction:hint": {
+          "label": {
+            "en": "Chosen after compaction (hint)",
+            "zh-CN": "压缩后选择（客户端提示）"
+          },
+          "desc": {
+            "en": "The client marked a compaction; the old cache is lost anyway.",
+            "zh-CN": "客户端标记了上下文压缩；旧缓存已无用。"
+          },
+          "tone": "neutral"
+        },
+        "compaction:shrink": {
+          "label": {
+            "en": "Chosen after compaction (prompt shrank)",
+            "zh-CN": "压缩后选择（提示缩短）"
+          },
+          "desc": {
+            "en": "The prompt shrank far below the cached size, so the router treated it as a compaction.",
+            "zh-CN": "提示长度远小于已缓存长度，router 视为上下文压缩。"
+          },
+          "tone": "neutral"
+        },
+        "idle-expired": {
+          "label": {
+            "en": "Chosen after idle expiry",
+            "zh-CN": "空闲过期后选择"
+          },
+          "desc": {
+            "en": "The cache TTL passed while the lineage was idle; full decision without switch cost.",
+            "zh-CN": "会话链空闲期间缓存 TTL 已过；完整决策，无切换成本。"
+          },
+          "tone": "neutral"
+        },
+        "prefix-reset": {
+          "label": {
+            "en": "Chosen after prefix reset",
+            "zh-CN": "前缀重置后选择"
+          },
+          "desc": {
+            "en": "No part of the cached prefix was reusable; full decision without switch cost.",
+            "zh-CN": "缓存前缀已无可复用部分；完整决策，无切换成本。"
+          },
+          "tone": "neutral"
+        },
+        "gate-forced": {
+          "label": {
+            "en": "Forced by context size",
+            "zh-CN": "因上下文长度被迫切换"
+          },
+          "desc": {
+            "en": "The prompt no longer fits the current or desired model's context window (with headroom), so the router moved to a model that fits.",
+            "zh-CN": "提示已超出当前或目标模型的上下文窗口（含余量），router 改用能容纳的模型。"
+          },
+          "tone": "warning"
+        },
+        "gate-recover": {
+          "label": {
+            "en": "Recovered after context gate",
+            "zh-CN": "上下文限制解除后恢复"
+          },
+          "desc": {
+            "en": "The lineage had been forced off its tier by context size; the desired tier fits again, so it moved back.",
+            "zh-CN": "会话链曾因上下文长度被迫离开原档位；现在目标档位重新可容纳，已切回。"
+          },
+          "tone": "neutral"
+        },
+        "ineligible": {
+          "label": {
+            "en": "Current model not eligible",
+            "zh-CN": "当前模型不可用"
+          },
+          "desc": {
+            "en": "The current model is not in the pool (e.g. policy changed or an earlier pin), so the lineage moved into the pool.",
+            "zh-CN": "当前模型不在模型池中（如策略变更或先前指定），会话链移入模型池。"
+          },
+          "tone": "notice"
+        },
+        "chain-state-missing": {
+          "label": {
+            "en": "Response chain without router state",
+            "zh-CN": "响应链缺少路由状态"
+          },
+          "desc": {
+            "en": "previous_response_id arrived but the router has no state for it (e.g. after a restart); the dialect default tier is used.",
+            "zh-CN": "收到 previous_response_id 但 router 没有其状态（如重启后），使用该接口的默认档位。"
+          },
+          "tone": "warning"
+        },
+        "hard-lock": {
+          "label": {
+            "en": "Locked (no switch possible)",
+            "zh-CN": "锁定（无法切换）"
+          },
+          "desc": {
+            "en": "Tool loop, response chain or non-portable state: see the decision point.",
+            "zh-CN": "工具循环、响应链或不可迁移状态：见决策点。"
+          },
+          "tone": "neutral"
+        },
+        "retain:prefill": {
+          "label": {
+            "en": "Retained: assistant prefill",
+            "zh-CN": "保持：助手预填充"
+          },
+          "desc": {
+            "en": "The request continues an assistant message; it stays on the same model.",
+            "zh-CN": "请求续写助手消息，保持同一模型。"
+          },
+          "tone": "neutral"
+        },
+        "retain:boundary-gated": {
+          "label": {
+            "en": "Retained: switches only at break points",
+            "zh-CN": "保持：仅在决策点切换"
+          },
+          "desc": {
+            "en": "The policy (userTurn: retain) switches only at free break points, not on user turns.",
+            "zh-CN": "策略（userTurn: retain）只在免费决策点切换，不在用户新 turn 切换。"
+          },
+          "tone": "neutral"
+        },
+        "retain:same-tier": {
+          "label": {
+            "en": "Retained: already on the desired tier",
+            "zh-CN": "保持：已在目标档位"
+          },
+          "desc": {
+            "en": "The desired tier equals the current model's tier.",
+            "zh-CN": "目标档位与当前模型档位相同。"
+          },
+          "tone": "neutral"
+        },
+        "retain:no-higher-tier": {
+          "label": {
+            "en": "Retained: no higher tier available",
+            "zh-CN": "保持：无更高档位可用"
+          },
+          "desc": {
+            "en": "An upgrade was wanted but no eligible model of a higher tier exists.",
+            "zh-CN": "需要升级，但没有可用的更高档位模型。"
+          },
+          "tone": "notice"
+        },
+        "retain:no-lower-tier": {
+          "label": {
+            "en": "Retained: no lower tier available",
+            "zh-CN": "保持：无更低档位可用"
+          },
+          "desc": {
+            "en": "A downgrade was wanted but no eligible model of a lower tier exists.",
+            "zh-CN": "需要降级，但没有可用的更低档位模型。"
+          },
+          "tone": "neutral"
+        },
+        "upgrade": {
+          "label": {
+            "en": "Upgraded",
+            "zh-CN": "升级"
+          },
+          "desc": {
+            "en": "Moved to a higher tier on a user turn; upgrades are quality-driven and not cost-gated. The source says why.",
+            "zh-CN": "在用户新 turn 升级到更高档位；升级以质量为准，不做成本门。来源说明原因。"
+          },
+          "tone": "notice"
+        },
+        "downgrade": {
+          "label": {
+            "en": "Downgraded (pays off)",
+            "zh-CN": "降级（划算）"
+          },
+          "desc": {
+            "en": "Moved to a cheaper tier on a user turn because the estimated saving over the horizon beats the cold-cache cost with margin.",
+            "zh-CN": "在用户新 turn 降级到更便宜的档位：预计在评估窗口内的节省超过缓存失效成本并留有余量。"
+          },
+          "tone": "positive"
+        },
+        "downgrade-rejected:min-turns": {
+          "label": {
+            "en": "Downgrade held: too soon after a switch",
+            "zh-CN": "暂缓降级：距上次切换太近"
+          },
+          "desc": {
+            "en": "Hysteresis: fewer turns since the last switch than the policy minimum.",
+            "zh-CN": "滞后保护：距上次切换的轮次少于策略最小值。"
+          },
+          "tone": "neutral"
+        },
+        "downgrade-rejected:max-switches": {
+          "label": {
+            "en": "Downgrade held: switch limit reached",
+            "zh-CN": "暂缓降级：已达切换上限"
+          },
+          "desc": {
+            "en": "This lineage already made the policy's maximum number of cost-driven switches.",
+            "zh-CN": "该会话链的成本驱动切换次数已达策略上限。"
+          },
+          "tone": "neutral"
+        },
+        "downgrade-rejected:cost": {
+          "label": {
+            "en": "Downgrade held: saving too small",
+            "zh-CN": "暂缓降级：节省不足"
+          },
+          "desc": {
+            "en": "Losing the warm cache would cost about as much as the cheaper model saves (see the estimate).",
+            "zh-CN": "丢失有效缓存的成本与便宜模型节省的费用相当（见估算）。"
+          },
+          "tone": "neutral"
+        },
+        "failover:profile": {
+          "label": {
+            "en": "Failover: other inference profile",
+            "zh-CN": "故障切换：其他 inference profile"
+          },
+          "desc": {
+            "en": "Same model through another inference profile (separate quota) after a 429.",
+            "zh-CN": "429 后通过另一 inference profile（独立配额）使用同一模型。"
+          },
+          "tone": "warning"
+        },
+        "failover:sibling": {
+          "label": {
+            "en": "Failover: same-tier model",
+            "zh-CN": "故障切换：同档位模型"
+          },
+          "desc": {
+            "en": "Every profile of the model failed (or the status does not rotate profiles); a same-tier sibling was chosen.",
+            "zh-CN": "该模型所有 inference profile 均失败（或该状态不轮换配置），改用同档位模型。"
+          },
+          "tone": "warning"
+        },
+        "failover:exhausted": {
+          "label": {
+            "en": "Failover exhausted",
+            "zh-CN": "故障切换已用尽"
+          },
+          "desc": {
+            "en": "No alternative was possible (locked, or no sibling); the model was kept and the gateway fallback may serve the request.",
+            "zh-CN": "无可用替代（锁定或无同档位模型），保持原模型，网关回退可能接管请求。"
+          },
+          "tone": "error"
+        },
+        "failover-cross-model": {
+          "label": {
+            "en": "Failover inside a tool loop",
+            "zh-CN": "工具循环内的故障切换"
+          },
+          "desc": {
+            "en": "All profiles failed during a tool loop with portable history, so a same-tier sibling took over mid-loop.",
+            "zh-CN": "工具循环中所有 inference profile 失败且历史可迁移，由同档位模型在循环中接管。"
+          },
+          "tone": "warning"
+        },
+        "failover-chain-locked": {
+          "label": {
+            "en": "Failover blocked by response chain",
+            "zh-CN": "响应链阻止故障切换"
+          },
+          "desc": {
+            "en": "The model failed, but a previous_response_id chain must stay on the exact same profile.",
+            "zh-CN": "模型失败，但 previous_response_id 响应链必须保持在同一 inference profile。"
+          },
+          "tone": "warning"
+        },
+        "beta-incompatible": {
+          "label": {
+            "en": "Changed for a beta feature",
+            "zh-CN": "因 beta 功能调整"
+          },
+          "desc": {
+            "en": "The chosen model rejects an anthropic-beta the client sent, so the router picked a compatible model.",
+            "zh-CN": "所选模型不支持客户端发送的 anthropic-beta，router 改选兼容的模型。"
+          },
+          "tone": "notice"
+        },
+        "access-cap": {
+          "label": {
+            "en": "Limited by tier cap",
+            "zh-CN": "受档位上限限制"
+          },
+          "desc": {
+            "en": "The caller's tier limit (access cap) removed higher-tier models from the choice; this is not a routing saving.",
+            "zh-CN": "调用方的档位上限移除了更高档位的模型；这不计为路由节省。"
+          },
+          "tone": "notice"
+        }
+      }
+    },
+    "decision.flag": {
+      "label": {
+        "en": "Notes",
+        "zh-CN": "附注"
+      },
+      "codes": {
+        "observe-default": {
+          "label": {
+            "en": "Observe default served",
+            "zh-CN": "按观察默认模型提供"
+          },
+          "desc": {
+            "en": "Observe mode with an alias: the policy's observe default was served; the reason describes what auto would do.",
+            "zh-CN": "观察模式下请求别名：提供策略的观察默认模型；原因描述的是自动模式的选择。"
+          },
+          "tone": "neutral"
+        },
+        "gate-fallback": {
+          "label": {
+            "en": "Context gate fallback",
+            "zh-CN": "上下文门控回退"
+          },
+          "desc": {
+            "en": "No model fits within the headroom; the largest window was used.",
+            "zh-CN": "没有模型能在余量内容纳该提示，使用窗口最大的模型。"
+          },
+          "tone": "warning"
+        },
+        "gate-fallback:current": {
+          "label": {
+            "en": "Context gate fallback: current model",
+            "zh-CN": "上下文门控回退：当前模型"
+          },
+          "desc": {
+            "en": "No model fits within the headroom; the current model still fits physically and was kept.",
+            "zh-CN": "没有模型能在余量内容纳该提示；当前模型仍能实际容纳，因此保持。"
+          },
+          "tone": "warning"
+        },
+        "gate-fallback:cheapest": {
+          "label": {
+            "en": "Context gate fallback: cheapest that fits",
+            "zh-CN": "上下文门控回退：可容纳的最便宜模型"
+          },
+          "desc": {
+            "en": "No model fits within the headroom; the cheapest model that physically fits was used.",
+            "zh-CN": "没有模型能在余量内容纳该提示，使用能实际容纳的最便宜模型。"
+          },
+          "tone": "warning"
+        },
+        "assessor-downgrade-guarded": {
+          "label": {
+            "en": "Assessor downgrade blocked",
+            "zh-CN": "已阻止评估器降级"
+          },
+          "desc": {
+            "en": "The assessor proposed a downgrade from a tier it may not downgrade from (default: only standard→fast); the lineage keeps its tier.",
+            "zh-CN": "评估器建议从不允许降级的档位降级（默认仅允许 standard→fast），会话链保持原档位。"
+          },
+          "tone": "notice"
+        },
+        "would-choose-beta-incompatible": {
+          "label": {
+            "en": "Projection adjusted for a beta feature",
+            "zh-CN": "预测已按 beta 功能调整"
+          },
+          "desc": {
+            "en": "Observe mode: the model auto would choose rejects a beta the client sent, so wouldChoose names a compatible model.",
+            "zh-CN": "观察模式：自动模式会选择的模型不支持客户端的 beta，wouldChoose 改为兼容模型。"
+          },
+          "tone": "neutral"
+        }
+      }
+    },
+    "decision.source": {
+      "label": {
+        "en": "Tier source",
+        "zh-CN": "档位来源"
+      },
+      "note": "The 'via <source>' part of break-point and forced-move reasons, and the <source> of 'upgrade:<source>'. First match wins in this order: hint, alias, rule, session tier, assessor, default.",
+      "codes": {
+        "hint": {
+          "label": {
+            "en": "Client tier hint",
+            "zh-CN": "客户端档位提示"
+          },
+          "desc": {
+            "en": "The client sent x-router-hint with a tier.",
+            "zh-CN": "客户端通过 x-router-hint 指定档位。"
+          },
+          "tone": "neutral"
+        },
+        "alias": {
+          "label": {
+            "en": "Model alias",
+            "zh-CN": "模型别名"
+          },
+          "desc": {
+            "en": "The requested alias maps to a tier in the policy.",
+            "zh-CN": "请求的别名在策略中对应一个档位。"
+          },
+          "tone": "neutral"
+        },
+        "session-tier": {
+          "label": {
+            "en": "Session tier",
+            "zh-CN": "会话档位"
+          },
+          "desc": {
+            "en": "Session-scoped tier: this lineage follows the tier of the session's root lineage.",
+            "zh-CN": "会话级档位：该会话链沿用会话根会话链的档位。"
+          },
+          "tone": "neutral"
+        },
+        "session-tier:pending": {
+          "label": {
+            "en": "Session tier (not decided yet)",
+            "zh-CN": "会话档位（尚未确定）"
+          },
+          "desc": {
+            "en": "The root lineage has no model yet, so the pool default tier is used for now.",
+            "zh-CN": "根会话链尚未选定模型，暂用模型池默认档位。"
+          },
+          "tone": "neutral"
+        },
+        "default": {
+          "label": {
+            "en": "Pool default",
+            "zh-CN": "模型池默认"
+          },
+          "desc": {
+            "en": "Nothing else applied: the dialect pool's default tier.",
+            "zh-CN": "无其他依据：使用该接口模型池的默认档位。"
+          },
+          "tone": "neutral"
+        }
+      }
+    },
+    "decision.field": {
+      "label": {
+        "en": "Decision fields",
+        "zh-CN": "决策字段"
+      },
+      "codes": {
+        "model": {
+          "label": {
+            "en": "Decided model",
+            "zh-CN": "决策模型"
+          },
+          "desc": {
+            "en": "The model the decision named (servedModel can differ after an in-request failover).",
+            "zh-CN": "决策指定的模型（请求内故障切换后，实际服务模型可能不同）。"
+          },
+          "tone": "neutral"
+        },
+        "wouldChoose": {
+          "label": {
+            "en": "Auto would choose",
+            "zh-CN": "自动模式将选择"
+          },
+          "desc": {
+            "en": "Observe mode only: the model auto mode would have served. Used for the 'projected if auto' savings view.",
+            "zh-CN": "仅观察模式：自动模式会提供的模型。用于“若启用自动”的节省预测。"
+          },
+          "tone": "neutral"
+        },
+        "estimate.stayUsd": {
+          "label": {
+            "en": "Est. cost if staying",
+            "zh-CN": "保持的估算成本"
+          },
+          "desc": {
+            "en": "List-price estimate over the horizon on the current model, with its warm cache.",
+            "zh-CN": "在当前模型上（缓存有效）评估窗口内的标价估算成本。"
+          },
+          "tone": "neutral"
+        },
+        "estimate.switchUsd": {
+          "label": {
+            "en": "Est. cost if switching",
+            "zh-CN": "切换的估算成本"
+          },
+          "desc": {
+            "en": "List-price estimate over the horizon on the target model, starting with a cold cache.",
+            "zh-CN": "在目标模型上（缓存从零开始）评估窗口内的标价估算成本。"
+          },
+          "tone": "neutral"
+        },
+        "estimate.horizonCalls": {
+          "label": {
+            "en": "Horizon (calls)",
+            "zh-CN": "评估窗口（调用数）"
+          },
+          "desc": {
+            "en": "How many future calls the estimate covers (policy horizon).",
+            "zh-CN": "估算覆盖的后续调用次数（策略 horizon）。"
+          },
+          "tone": "neutral"
+        },
+        "policyVersion": {
+          "label": {
+            "en": "Policy version",
+            "zh-CN": "策略版本"
+          },
+          "desc": {
+            "en": "Version of the routing policy that made the decision.",
+            "zh-CN": "做出该决策的路由策略版本。"
+          },
+          "tone": "neutral"
+        },
+        "family": {
+          "label": {
+            "en": "Template family",
+            "zh-CN": "模板族"
+          },
+          "desc": {
+            "en": "Hash label of the client's tools and system prompt (identifies the client/agent kind, never the text).",
+            "zh-CN": "客户端工具与系统提示的哈希标签（识别客户端/代理类型，不含原文）。"
+          },
+          "tone": "neutral"
+        },
+        "est": {
+          "label": {
+            "en": "Est. prompt tokens",
+            "zh-CN": "估算提示词元数"
+          },
+          "desc": {
+            "en": "The router's prompt size estimate at decision time (chars/4).",
+            "zh-CN": "决策时 router 估算的提示长度（字符数/4）。"
+          },
+          "tone": "neutral"
+        }
+      }
+    },
+    "miss.reason": {
+      "label": {
+        "en": "Cache miss",
+        "zh-CN": "缓存未命中"
+      },
+      "codes": {
+        "model_changed": {
+          "label": {
+            "en": "Model changed",
+            "zh-CN": "模型已变更"
+          },
+          "desc": {
+            "en": "A different model served than the one holding the cache (switch, failover or gateway fallback).",
+            "zh-CN": "实际服务的模型不是持有缓存的模型（切换、故障切换或网关回退）。"
+          },
+          "tone": "notice"
+        },
+        "ttl_expired": {
+          "label": {
+            "en": "Cache TTL expired",
+            "zh-CN": "缓存 TTL 已过期"
+          },
+          "desc": {
+            "en": "The cached prefix was last touched near or past its TTL.",
+            "zh-CN": "缓存前缀上次使用时已接近或超过其 TTL。"
+          },
+          "tone": "notice"
+        },
+        "prefix_changed": {
+          "label": {
+            "en": "Prompt prefix changed",
+            "zh-CN": "提示前缀已改变"
+          },
+          "desc": {
+            "en": "The client changed earlier parts of the prompt (tools, system or history), so the cache did not match.",
+            "zh-CN": "客户端修改了提示的前部（工具、系统提示或历史），缓存无法匹配。"
+          },
+          "tone": "notice"
+        },
+        "unknown": {
+          "label": {
+            "en": "Unexplained miss",
+            "zh-CN": "原因不明的未命中"
+          },
+          "desc": {
+            "en": "Fewer cached tokens were read than expected and none of the known causes applies (often provider-side eviction).",
+            "zh-CN": "读取的缓存词元少于预期，且不属于已知原因（常见于提供方驱逐缓存）。"
+          },
+          "tone": "notice"
+        },
+        "expectedTokens": {
+          "label": {
+            "en": "Expected cached tokens",
+            "zh-CN": "预期缓存词元"
+          },
+          "desc": {
+            "en": "Tokens the router expected to be read from cache.",
+            "zh-CN": "router 预期从缓存读取的词元数。"
+          },
+          "tone": "neutral"
+        },
+        "readTokens": {
+          "label": {
+            "en": "Cached tokens read",
+            "zh-CN": "实际读取的缓存词元"
+          },
+          "desc": {
+            "en": "Tokens actually read from cache (usage).",
+            "zh-CN": "实际从缓存读取的词元数（usage）。"
+          },
+          "tone": "neutral"
+        }
+      }
+    },
+    "assessor.status": {
+      "label": {
+        "en": "Assessor status",
+        "zh-CN": "评估器状态"
+      },
+      "codes": {
+        "ok": {
+          "label": {
+            "en": "Answered",
+            "zh-CN": "已回答"
+          },
+          "desc": {
+            "en": "The assessor returned a valid assessment (which may still be 'no opinion', see outcome).",
+            "zh-CN": "评估器返回了有效评估（仍可能是“无意见”，见结果）。"
+          },
+          "tone": "neutral"
+        },
+        "unavailable": {
+          "label": {
+            "en": "Unavailable",
+            "zh-CN": "不可用"
+          },
+          "desc": {
+            "en": "The assessor could not answer (its own timeout, HTTP error, refusal, unparsable output); the decision used the usual tier.",
+            "zh-CN": "评估器无法回答（自身超时、HTTP 错误、拒答、输出无法解析），决策使用常规档位。"
+          },
+          "tone": "warning"
+        },
+        "timeout": {
+          "label": {
+            "en": "Timed out (router bound)",
+            "zh-CN": "超时（router 上限）"
+          },
+          "desc": {
+            "en": "Core's hard bound (assessor timeout + 100 ms) was hit; the decision went ahead without an opinion.",
+            "zh-CN": "达到核心的硬性上限（评估器超时 + 100 毫秒），决策在无意见的情况下继续。"
+          },
+          "tone": "warning"
+        },
+        "error": {
+          "label": {
+            "en": "Error",
+            "zh-CN": "错误"
+          },
+          "desc": {
+            "en": "Building the card or the assessor call threw; no opinion.",
+            "zh-CN": "构建任务卡或调用评估器时抛出异常；无意见。"
+          },
+          "tone": "error"
+        },
+        "invalid": {
+          "label": {
+            "en": "Invalid result",
+            "zh-CN": "结果无效"
+          },
+          "desc": {
+            "en": "The assessor returned a malformed result (e.g. unknown tier); ignored.",
+            "zh-CN": "评估器返回了格式错误的结果（如未知档位），已忽略。"
+          },
+          "tone": "error"
+        }
+      }
+    },
+    "assessor.outcome": {
+      "label": {
+        "en": "Assessor outcome",
+        "zh-CN": "评估结果"
+      },
+      "codes": {
+        "fast": {
+          "label": {
+            "en": "Proposed fast",
+            "zh-CN": "建议 fast"
+          },
+          "desc": {
+            "en": "A fast rule matched and the task is fully specified and shallow.",
+            "zh-CN": "命中 fast 规则，且任务定义完整、推理浅。"
+          },
+          "tone": "neutral"
+        },
+        "standard": {
+          "label": {
+            "en": "Proposed standard",
+            "zh-CN": "建议 standard"
+          },
+          "desc": {
+            "en": "A standard rule matched, or the multi-file-edit fact applied.",
+            "zh-CN": "命中 standard 规则，或适用多文件编辑事实。"
+          },
+          "tone": "neutral"
+        },
+        "frontier": {
+          "label": {
+            "en": "Proposed frontier",
+            "zh-CN": "建议 frontier"
+          },
+          "desc": {
+            "en": "A frontier rule matched, or a frontier fact (per the pack's mapping) applied.",
+            "zh-CN": "命中 frontier 规则，或适用 frontier 事实（依提示词包映射）。"
+          },
+          "tone": "neutral"
+        },
+        "low-confidence": {
+          "label": {
+            "en": "No opinion: low confidence",
+            "zh-CN": "无意见：置信度低"
+          },
+          "desc": {
+            "en": "The assessor's confidence was below the threshold.",
+            "zh-CN": "评估器置信度低于阈值。"
+          },
+          "tone": "neutral"
+        },
+        "conflict": {
+          "label": {
+            "en": "No opinion: conflicting rules",
+            "zh-CN": "无意见：规则冲突"
+          },
+          "desc": {
+            "en": "Both a fast and a frontier rule matched.",
+            "zh-CN": "同时命中 fast 与 frontier 规则。"
+          },
+          "tone": "neutral"
+        },
+        "fast-unsettled": {
+          "label": {
+            "en": "No opinion: fast not settled",
+            "zh-CN": "无意见：fast 未确认"
+          },
+          "desc": {
+            "en": "A fast rule matched, but the task is not fully specified or needs deeper reasoning than the pack allows for fast.",
+            "zh-CN": "命中 fast 规则，但任务定义不完整或推理深度超出提示词包对 fast 的要求。"
+          },
+          "tone": "neutral"
+        },
+        "no-rule": {
+          "label": {
+            "en": "No opinion: no rule matched",
+            "zh-CN": "无意见：未命中规则"
+          },
+          "desc": {
+            "en": "No enabled rule and no fact signal applied.",
+            "zh-CN": "没有命中任何启用规则或事实信号。"
+          },
+          "tone": "neutral"
+        },
+        "skipped:no-user-text": {
+          "label": {
+            "en": "Skipped: no user text",
+            "zh-CN": "跳过：无用户文本"
+          },
+          "desc": {
+            "en": "The latest user message has no text; no model call, no cost.",
+            "zh-CN": "最新用户消息没有文本；未调用模型，无费用。"
+          },
+          "tone": "neutral"
+        },
+        "skipped:trivial-followup": {
+          "label": {
+            "en": "Skipped: acknowledgement",
+            "zh-CN": "跳过：简单确认"
+          },
+          "desc": {
+            "en": "A short follow-up such as 'ok, continue'; no model call, no cost.",
+            "zh-CN": "类似“好的，继续”的简短跟进；未调用模型，无费用。"
+          },
+          "tone": "neutral"
+        },
+        "unavailable:timeout": {
+          "label": {
+            "en": "Unavailable: assessor timeout",
+            "zh-CN": "不可用：评估器超时"
+          },
+          "desc": {
+            "en": "No response within the configured timeoutMs.",
+            "zh-CN": "在配置的 timeoutMs 内没有响应。"
+          },
+          "tone": "warning"
+        },
+        "unavailable:transport": {
+          "label": {
+            "en": "Unavailable: network",
+            "zh-CN": "不可用：网络"
+          },
+          "desc": {
+            "en": "The call to Bedrock failed before a response.",
+            "zh-CN": "调用 Bedrock 时在收到响应前失败。"
+          },
+          "tone": "warning"
+        },
+        "unavailable:parse": {
+          "label": {
+            "en": "Unavailable: unreadable output",
+            "zh-CN": "不可用：输出无法读取"
+          },
+          "desc": {
+            "en": "The model's response was not the expected JSON.",
+            "zh-CN": "模型响应不是预期的 JSON。"
+          },
+          "tone": "warning"
+        },
+        "unavailable:invalid": {
+          "label": {
+            "en": "Unavailable: output failed validation",
+            "zh-CN": "不可用：输出未通过校验"
+          },
+          "desc": {
+            "en": "The JSON did not satisfy the assessment contract (rules, facts, bounds). Billed.",
+            "zh-CN": "JSON 不符合评估契约（规则、事实、取值范围）。已计费。"
+          },
+          "tone": "warning"
+        },
+        "unavailable:refusal": {
+          "label": {
+            "en": "Unavailable: model refused",
+            "zh-CN": "不可用：模型拒答"
+          },
+          "desc": {
+            "en": "The assessor model refused to answer.",
+            "zh-CN": "评估模型拒绝回答。"
+          },
+          "tone": "warning"
+        },
+        "unavailable:incomplete": {
+          "label": {
+            "en": "Unavailable: output truncated",
+            "zh-CN": "不可用：输出被截断"
+          },
+          "desc": {
+            "en": "The output hit its token cap before finishing.",
+            "zh-CN": "输出在完成前达到词元上限。"
+          },
+          "tone": "warning"
+        },
+        "unavailable:card-invalid": {
+          "label": {
+            "en": "Unavailable: card invalid",
+            "zh-CN": "不可用：任务卡无效"
+          },
+          "desc": {
+            "en": "The router built a task card that failed validation (router bug); no call made.",
+            "zh-CN": "router 构建的任务卡未通过校验（router 缺陷），未调用。"
+          },
+          "tone": "error"
+        },
+        "unavailable:aborted": {
+          "label": {
+            "en": "Unavailable: aborted",
+            "zh-CN": "不可用：已中止"
+          },
+          "desc": {
+            "en": "The request was aborted (client gone or core's bound) before the assessor finished.",
+            "zh-CN": "评估器完成前请求被中止（客户端断开或达到核心上限）。"
+          },
+          "tone": "neutral"
+        },
+        "unavailable:internal": {
+          "label": {
+            "en": "Unavailable: internal error",
+            "zh-CN": "不可用：内部错误"
+          },
+          "desc": {
+            "en": "Unexpected error inside the assessor (bug).",
+            "zh-CN": "评估器内部意外错误（缺陷）。"
+          },
+          "tone": "error"
+        },
+        "timeout": {
+          "label": {
+            "en": "Router bound hit",
+            "zh-CN": "达到 router 上限"
+          },
+          "desc": {
+            "en": "Core gave up after timeoutMs + 100 ms.",
+            "zh-CN": "核心在 timeoutMs + 100 毫秒后放弃。"
+          },
+          "tone": "warning"
+        },
+        "error": {
+          "label": {
+            "en": "Error",
+            "zh-CN": "错误"
+          },
+          "desc": {
+            "en": "Card thunk or assess() threw.",
+            "zh-CN": "任务卡构建或 assess() 抛出异常。"
+          },
+          "tone": "error"
+        },
+        "invalid": {
+          "label": {
+            "en": "Invalid result",
+            "zh-CN": "结果无效"
+          },
+          "desc": {
+            "en": "Malformed result from the assessor.",
+            "zh-CN": "评估器返回的结果格式错误。"
+          },
+          "tone": "error"
+        }
+      }
+    },
+    "assessor.basis": {
+      "label": {
+        "en": "Basis",
+        "zh-CN": "依据"
+      },
+      "note": "Entries that are rule ids resolve through the pack archive by packVersion (rule tier + instruction text + the title from ruleTitles). The codes below are pack-independent.",
+      "codes": {
+        "fact:deep": {
+          "label": {
+            "en": "Fact: deep reasoning",
+            "zh-CN": "事实：需要深度推理"
+          },
+          "desc": {
+            "en": "The assessor judged reasoning_depth = deep; supports frontier only in packs whose mapping lists it (v1–v2.1; not v2.2).",
+            "zh-CN": "评估器判定 reasoning_depth = deep；仅在映射包含该事实的提示词包中支持 frontier（v1–v2.1，v2.2 不包含）。"
+          },
+          "tone": "neutral"
+        },
+        "fact:prior-failures": {
+          "label": {
+            "en": "Fact: repeated failure",
+            "zh-CN": "事实：多次失败"
+          },
+          "desc": {
+            "en": "The conversation shows at least priorFailuresMin (default 2) failed attempts; supports frontier.",
+            "zh-CN": "对话显示至少 priorFailuresMin（默认 2）次失败尝试；支持 frontier。"
+          },
+          "tone": "neutral"
+        },
+        "fact:multi-file-edit": {
+          "label": {
+            "en": "Fact: multi-file edit",
+            "zh-CN": "事实：多文件修改"
+          },
+          "desc": {
+            "en": "The task edits code across files or modules and no fast rule matched; supports standard.",
+            "zh-CN": "任务需跨文件或模块修改代码，且未命中 fast 规则；支持 standard。"
+          },
+          "tone": "neutral"
+        },
+        "low-confidence": {
+          "label": {
+            "en": "Low confidence",
+            "zh-CN": "置信度低"
+          },
+          "desc": {
+            "en": "No-opinion code: confidence below threshold.",
+            "zh-CN": "无意见代码：置信度低于阈值。"
+          },
+          "tone": "neutral"
+        },
+        "conflict:fast+frontier": {
+          "label": {
+            "en": "Fast and frontier both matched",
+            "zh-CN": "fast 与 frontier 同时命中"
+          },
+          "desc": {
+            "en": "No-opinion code: contradictory rule matches.",
+            "zh-CN": "无意见代码：规则命中相互矛盾。"
+          },
+          "tone": "neutral"
+        },
+        "fast-unsettled": {
+          "label": {
+            "en": "Fast not settled",
+            "zh-CN": "fast 未确认"
+          },
+          "desc": {
+            "en": "No-opinion code: fast matched without the required specification/depth.",
+            "zh-CN": "无意见代码：命中 fast 但不满足定义完整度/推理深度要求。"
+          },
+          "tone": "neutral"
+        },
+        "no-rule": {
+          "label": {
+            "en": "No rule matched",
+            "zh-CN": "未命中规则"
+          },
+          "desc": {
+            "en": "No-opinion code.",
+            "zh-CN": "无意见代码。"
+          },
+          "tone": "neutral"
+        },
+        "other": {
+          "label": {
+            "en": "Sanitized value",
+            "zh-CN": "已清洗的值"
+          },
+          "desc": {
+            "en": "The router replaced a value that was not a plain code.",
+            "zh-CN": "router 替换了非标准代码的值。"
+          },
+          "tone": "notice"
+        }
+      }
+    },
+    "assessor.guard": {
+      "label": {
+        "en": "Guard",
+        "zh-CN": "保护"
+      },
+      "codes": {
+        "assessor-downgrade-guarded": {
+          "label": {
+            "en": "Downgrade blocked",
+            "zh-CN": "已阻止降级"
+          },
+          "desc": {
+            "en": "The opinion was a downgrade from a tier the engine does not let the assessor downgrade from (default: only standard); clamped to the current tier, not applied.",
+            "zh-CN": "该意见是从引擎不允许评估器降级的档位降级（默认仅 standard 可降），已钳制为当前档位，未应用。"
+          },
+          "tone": "notice"
+        }
+      }
+    },
+    "assessor.mode": {
+      "label": {
+        "en": "Assessor mode",
+        "zh-CN": "评估器模式"
+      },
+      "codes": {
+        "off": {
+          "label": {
+            "en": "Off",
+            "zh-CN": "关闭"
+          },
+          "desc": {
+            "en": "No consultations, no cost, no added latency.",
+            "zh-CN": "不咨询评估器，无费用，无额外延迟。"
+          },
+          "tone": "neutral"
+        },
+        "observe": {
+          "label": {
+            "en": "Observe",
+            "zh-CN": "观察"
+          },
+          "desc": {
+            "en": "Consulted and logged; never changes the decision. Costs one assessor call per consulted turn and adds its latency.",
+            "zh-CN": "咨询并记录，从不改变决策。每个被咨询的轮次产生一次评估器调用费用并增加其延迟。"
+          },
+          "tone": "neutral"
+        },
+        "auto": {
+          "label": {
+            "en": "Auto",
+            "zh-CN": "自动"
+          },
+          "desc": {
+            "en": "An auto-eligible opinion becomes the desired tier (after hint, alias, rules); upgrades apply at once, downgrades pass the usual cost gates.",
+            "zh-CN": "可自动生效的意见成为目标档位（优先级低于提示、别名、规则）；升级立即生效，降级须通过常规成本门。"
+          },
+          "tone": "notice"
+        }
+      }
+    },
+    "assessor.autoRules": {
+      "label": {
+        "en": "Auto-eligible rules",
+        "zh-CN": "可自动生效的规则"
+      },
+      "codes": {
+        "pack": {
+          "label": {
+            "en": "Pack flags",
+            "zh-CN": "按提示词包标记"
+          },
+          "desc": {
+            "en": "Only rules marked auto in the pack may act (shipped packs v2.1/v2.2: none, so auto mode changes nothing).",
+            "zh-CN": "仅提示词包中标记为 auto 的规则可生效（已发布的 v2.1/v2.2 没有，因此自动模式不改变任何决策）。"
+          },
+          "tone": "neutral"
+        },
+        "all": {
+          "label": {
+            "en": "All rules and facts (experiment)",
+            "zh-CN": "全部规则与事实（实验）"
+          },
+          "desc": {
+            "en": "Every enabled rule and fact signal may act, whatever the pack's flags. Experiment switch.",
+            "zh-CN": "无论提示词包标记如何，所有启用规则与事实信号均可生效。实验开关。"
+          },
+          "tone": "warning"
+        }
+      }
+    },
+    "assessor.field": {
+      "label": {
+        "en": "Assessor fields",
+        "zh-CN": "评估器字段"
+      },
+      "codes": {
+        "proposedTier": {
+          "label": {
+            "en": "Proposed tier",
+            "zh-CN": "建议档位"
+          },
+          "desc": {
+            "en": "What the pack's mapping proposed, whether or not it was allowed to act.",
+            "zh-CN": "提示词包映射给出的档位，无论是否允许生效。"
+          },
+          "tone": "neutral"
+        },
+        "tier": {
+          "label": {
+            "en": "Opinion seen by the router",
+            "zh-CN": "router 采纳的意见"
+          },
+          "desc": {
+            "en": "The tier passed to the routing engine; absent when no opinion or the basis is not auto-eligible.",
+            "zh-CN": "传给 core 的档位；无意见或依据不可自动生效时为空。"
+          },
+          "tone": "neutral"
+        },
+        "confidence": {
+          "label": {
+            "en": "Confidence",
+            "zh-CN": "置信度"
+          },
+          "desc": {
+            "en": "The assessor's self-reported confidence (0–1); 0 for skipped turns.",
+            "zh-CN": "评估器自报置信度（0–1）；跳过的轮次为 0。"
+          },
+          "tone": "neutral"
+        },
+        "applied": {
+          "label": {
+            "en": "Applied",
+            "zh-CN": "已应用"
+          },
+          "desc": {
+            "en": "True only when the opinion changed the chosen model (auto mode).",
+            "zh-CN": "仅当意见改变了所选模型时为真（自动模式）。"
+          },
+          "tone": "neutral"
+        },
+        "cached": {
+          "label": {
+            "en": "Reused",
+            "zh-CN": "复用"
+          },
+          "desc": {
+            "en": "Same user turn as an earlier consultation (retry or parallel call): no new call, no cost.",
+            "zh-CN": "与先前咨询属于同一用户新 turn（重试或并发调用）：无新调用，无费用。"
+          },
+          "tone": "neutral"
+        },
+        "called": {
+          "label": {
+            "en": "Model called",
+            "zh-CN": "已调用模型"
+          },
+          "desc": {
+            "en": "False for skipped turns and failures before the call.",
+            "zh-CN": "跳过的轮次及调用前失败时为假。"
+          },
+          "tone": "neutral"
+        },
+        "latencyMs": {
+          "label": {
+            "en": "Assessor latency",
+            "zh-CN": "评估器延迟"
+          },
+          "desc": {
+            "en": "Time the decision waited for the assessor (part of decideMs).",
+            "zh-CN": "决策等待评估器的时间（计入 decideMs）。"
+          },
+          "tone": "neutral"
+        },
+        "costUsd": {
+          "label": {
+            "en": "Assessor cost",
+            "zh-CN": "评估器费用"
+          },
+          "desc": {
+            "en": "List-price cost of this consultation, including billed invalid outputs.",
+            "zh-CN": "本次咨询的标价费用，包括已计费的无效输出。"
+          },
+          "tone": "neutral"
+        },
+        "packVersion": {
+          "label": {
+            "en": "Pack version",
+            "zh-CN": "提示词包版本"
+          },
+          "desc": {
+            "en": "Exact pack content (id + hash) the consultation used; resolves rule text.",
+            "zh-CN": "本次咨询使用的提示词包确切内容（ID + 哈希），用于解析规则文本。"
+          },
+          "tone": "neutral"
+        }
+      }
+    },
+    "request.reason": {
+      "label": {
+        "en": "Request outcome",
+        "zh-CN": "请求结果"
+      },
+      "note": "Top-level RequestLog.reason (rejections and errors), not the routing reason.",
+      "codes": {
+        "not-found": {
+          "label": {
+            "en": "Unknown route",
+            "zh-CN": "未知路径"
+          },
+          "desc": {
+            "en": "404: path not served by the router.",
+            "zh-CN": "404：router 不提供该路径。"
+          },
+          "tone": "notice"
+        },
+        "models": {
+          "label": {
+            "en": "Model list",
+            "zh-CN": "模型列表"
+          },
+          "desc": {
+            "en": "GET models: alias list returned.",
+            "zh-CN": "GET models：返回别名列表。"
+          },
+          "tone": "neutral"
+        },
+        "hop-auth-unconfigured": {
+          "label": {
+            "en": "Hop auth not configured",
+            "zh-CN": "跳转认证未配置"
+          },
+          "desc": {
+            "en": "403: the router refuses all model requests until hop auth is configured (fail-closed).",
+            "zh-CN": "403：未配置跳转认证前 router 拒绝所有模型请求（失败即关闭）。"
+          },
+          "tone": "error"
+        },
+        "principal-not-gateway": {
+          "label": {
+            "en": "Caller is not the gateway",
+            "zh-CN": "调用方不是网关"
+          },
+          "desc": {
+            "en": "403: the hop caller is not the configured gateway role.",
+            "zh-CN": "403：跳转调用方不是配置的网关角色。"
+          },
+          "tone": "error"
+        },
+        "source-account-mismatch": {
+          "label": {
+            "en": "Source account mismatch",
+            "zh-CN": "来源账户不匹配"
+          },
+          "desc": {
+            "en": "403: the hop came from an unexpected account.",
+            "zh-CN": "403：跳转请求来自非预期账户。"
+          },
+          "tone": "error"
+        },
+        "body-too-large": {
+          "label": {
+            "en": "Body too large",
+            "zh-CN": "请求体过大"
+          },
+          "desc": {
+            "en": "413: request body over the router limit.",
+            "zh-CN": "413：请求体超过 router 限制。"
+          },
+          "tone": "notice"
+        },
+        "invalid-json": {
+          "label": {
+            "en": "Invalid JSON",
+            "zh-CN": "JSON 无效"
+          },
+          "desc": {
+            "en": "400: request body is not valid JSON.",
+            "zh-CN": "400：请求体不是有效 JSON。"
+          },
+          "tone": "notice"
+        },
+        "pin-not-allowed": {
+          "label": {
+            "en": "Model not allowed",
+            "zh-CN": "模型不允许"
+          },
+          "desc": {
+            "en": "400: requested or pinned model is not one of the policy's models.",
+            "zh-CN": "400：请求或指定的模型不在策略模型中。"
+          },
+          "tone": "notice"
+        },
+        "decide-failed": {
+          "label": {
+            "en": "No eligible model",
+            "zh-CN": "无可用模型"
+          },
+          "desc": {
+            "en": "503: the engine could not choose a model; the gateway fallback serves the request.",
+            "zh-CN": "503：引擎无法选择模型；由网关回退处理请求。"
+          },
+          "tone": "error"
+        },
+        "client-aborted": {
+          "label": {
+            "en": "Client aborted",
+            "zh-CN": "客户端中止"
+          },
+          "desc": {
+            "en": "499: client disconnected before the upstream call.",
+            "zh-CN": "499：客户端在上游调用前断开。"
+          },
+          "tone": "neutral"
+        },
+        "client-abort": {
+          "label": {
+            "en": "Client aborted during stream",
+            "zh-CN": "流式传输中客户端中止"
+          },
+          "desc": {
+            "en": "Client disconnected while the response was relayed.",
+            "zh-CN": "转发响应期间客户端断开。"
+          },
+          "tone": "neutral"
+        },
+        "stream-duration-cap": {
+          "label": {
+            "en": "Stream duration cap",
+            "zh-CN": "流式时长上限"
+          },
+          "desc": {
+            "en": "The stream reached the router's maximum duration.",
+            "zh-CN": "流式响应达到 router 最大时长。"
+          },
+          "tone": "warning"
+        },
+        "mid-stream": {
+          "label": {
+            "en": "Upstream failed mid-stream",
+            "zh-CN": "上游在流式中失败"
+          },
+          "desc": {
+            "en": "502: upstream error after the response started.",
+            "zh-CN": "502：响应开始后上游出错。"
+          },
+          "tone": "error"
+        },
+        "internal": {
+          "label": {
+            "en": "Internal error",
+            "zh-CN": "内部错误"
+          },
+          "desc": {
+            "en": "500: unexpected router error.",
+            "zh-CN": "500：router 意外错误。"
+          },
+          "tone": "error"
+        },
+        "expect-continue-forbidden": {
+          "label": {
+            "en": "Expect: 100-continue refused",
+            "zh-CN": "拒绝 Expect: 100-continue"
+          },
+          "desc": {
+            "en": "403: the router does not accept Expect: 100-continue.",
+            "zh-CN": "403：router 不接受 Expect: 100-continue。"
+          },
+          "tone": "notice"
+        },
+        "access-cap": {
+          "label": {
+            "en": "Model above your tier limit",
+            "zh-CN": "模型超出档位上限"
+          },
+          "desc": {
+            "en": "400: the requested or pinned model is above the caller's tier limit and not in its allowed pins.",
+            "zh-CN": "400：请求或指定的模型超出调用方的档位上限，且不在允许指定的列表中。"
+          },
+          "tone": "notice"
+        },
+        "access-cap-context": {
+          "label": {
+            "en": "No model within your limit fits",
+            "zh-CN": "上限内没有可容纳的模型"
+          },
+          "desc": {
+            "en": "400: no model within the caller's tier limit fits the prompt's context size.",
+            "zh-CN": "400：调用方档位上限内没有模型能容纳该提示的上下文长度。"
+          },
+          "tone": "warning"
+        },
+        "identity-blocked": {
+          "label": {
+            "en": "Caller blocked",
+            "zh-CN": "调用方已被拦截"
+          },
+          "desc": {
+            "en": "403: the principal is disabled or blocked by an admin.",
+            "zh-CN": "403：该身份已被管理员停用或拦截。"
+          },
+          "tone": "error"
+        },
+        "budget-exceeded": {
+          "label": {
+            "en": "Budget exceeded",
+            "zh-CN": "预算已用尽"
+          },
+          "desc": {
+            "en": "429: the principal's monthly list-price budget hard stop was reached.",
+            "zh-CN": "429：该身份的月度标价预算已触发硬性停止。"
+          },
+          "tone": "error"
+        },
+        "identity-missing": {
+          "label": {
+            "en": "No identity token",
+            "zh-CN": "缺少身份令牌"
+          },
+          "desc": {
+            "en": "401: No x-api-key was sent.",
+            "zh-CN": "401：未发送 x-api-key。"
+          },
+          "tone": "notice"
+        },
+        "identity-malformed": {
+          "label": {
+            "en": "Malformed token",
+            "zh-CN": "令牌格式错误"
+          },
+          "desc": {
+            "en": "401: x-api-key is not a JWT.",
+            "zh-CN": "401：x-api-key 不是 JWT。"
+          },
+          "tone": "error"
+        },
+        "identity-alg": {
+          "label": {
+            "en": "Unsupported token algorithm",
+            "zh-CN": "不支持的令牌算法"
+          },
+          "desc": {
+            "en": "401: The token is not signed with RS256.",
+            "zh-CN": "401：令牌未使用 RS256 签名。"
+          },
+          "tone": "error"
+        },
+        "identity-kid-unknown": {
+          "label": {
+            "en": "Unknown signing key",
+            "zh-CN": "未知签名密钥"
+          },
+          "desc": {
+            "en": "401: The token's key id is not in the pool's current key set (key rotation; an alarm fires).",
+            "zh-CN": "401：令牌的密钥 ID 不在用户池当前密钥集中（密钥轮换；会触发告警）。"
+          },
+          "tone": "error"
+        },
+        "identity-signature": {
+          "label": {
+            "en": "Bad token signature",
+            "zh-CN": "令牌签名无效"
+          },
+          "desc": {
+            "en": "401: The signature does not verify.",
+            "zh-CN": "401：签名校验失败。"
+          },
+          "tone": "error"
+        },
+        "identity-expired": {
+          "label": {
+            "en": "Token expired",
+            "zh-CN": "令牌已过期"
+          },
+          "desc": {
+            "en": "401: exp or nbf is outside the allowed window; the client should fetch a new token.",
+            "zh-CN": "401：exp 或 nbf 超出允许范围；客户端应获取新令牌。"
+          },
+          "tone": "notice"
+        },
+        "identity-issuer": {
+          "label": {
+            "en": "Wrong token issuer",
+            "zh-CN": "令牌签发方错误"
+          },
+          "desc": {
+            "en": "401: The token was not issued by this deployment's user pool.",
+            "zh-CN": "401：令牌不是由本部署的用户池签发。"
+          },
+          "tone": "error"
+        },
+        "identity-token-use": {
+          "label": {
+            "en": "Not an access token",
+            "zh-CN": "不是访问令牌"
+          },
+          "desc": {
+            "en": "401: token_use is not 'access' (e.g. an ID token was sent).",
+            "zh-CN": "401：token_use 不是 access（例如发送了 ID 令牌）。"
+          },
+          "tone": "error"
+        },
+        "identity-scope": {
+          "label": {
+            "en": "Missing invoke scope",
+            "zh-CN": "缺少调用权限范围"
+          },
+          "desc": {
+            "en": "401: The token lacks the router invoke scope.",
+            "zh-CN": "401：令牌缺少 router 调用权限范围。"
+          },
+          "tone": "error"
+        },
+        "identity-client": {
+          "label": {
+            "en": "Client not allowed",
+            "zh-CN": "客户端不被允许"
+          },
+          "desc": {
+            "en": "401: The token's app client is not allowed (only when a client allowlist is configured).",
+            "zh-CN": "401：令牌的应用客户端不被允许（仅在配置了客户端允许列表时）。"
+          },
+          "tone": "error"
+        },
+        "identity-keys-unavailable": {
+          "label": {
+            "en": "Signing keys unavailable",
+            "zh-CN": "签名密钥不可用"
+          },
+          "desc": {
+            "en": "401: The router has no usable key set (jwks.json missing or stale); an alarm fires.",
+            "zh-CN": "401：router 没有可用的密钥集（jwks.json 缺失或过期）；会触发告警。"
+          },
+          "tone": "error"
+        }
+      }
+    },
+    "request.hopToken": {
+      "label": {
+        "en": "Hop token",
+        "zh-CN": "跳转令牌"
+      },
+      "codes": {
+        "absent": {
+          "label": {
+            "en": "Absent",
+            "zh-CN": "无"
+          },
+          "desc": {
+            "en": "No x-amz-security-token on the hop.",
+            "zh-CN": "跳转请求不含 x-amz-security-token。"
+          },
+          "tone": "neutral"
+        },
+        "redacted": {
+          "label": {
+            "en": "Redacted by gateway",
+            "zh-CN": "已由网关遮蔽"
+          },
+          "desc": {
+            "en": "Expected: the gateway mapping overwrote the token.",
+            "zh-CN": "符合预期：网关映射覆盖了令牌。"
+          },
+          "tone": "positive"
+        },
+        "other": {
+          "label": {
+            "en": "Unexpected token",
+            "zh-CN": "意外令牌"
+          },
+          "desc": {
+            "en": "Security alert: the gateway's session token reached the router (mapping missing).",
+            "zh-CN": "安全告警：网关会话令牌到达了 router（映射缺失）。"
+          },
+          "tone": "error"
+        }
+      }
+    },
+    "identity": {
+      "label": {
+        "en": "Identity",
+        "zh-CN": "身份"
+      },
+      "note": "RequestLog.identity: 'verified' | 'missing' | 'invalid:<code>' (code = the identity-* suffix).",
+      "codes": {
+        "verified": {
+          "label": {
+            "en": "Verified",
+            "zh-CN": "已验证"
+          },
+          "desc": {
+            "en": "The caller's Cognito access token was verified in the router.",
+            "zh-CN": "调用方的 Cognito 访问令牌已在 router 中验证。"
+          },
+          "tone": "positive"
+        },
+        "missing": {
+          "label": {
+            "en": "Not provided",
+            "zh-CN": "未提供"
+          },
+          "desc": {
+            "en": "No identity token; served in observe mode, refused in require mode.",
+            "zh-CN": "无身份令牌；观察模式下照常服务，强制模式下拒绝。"
+          },
+          "tone": "notice"
+        }
+      }
+    },
+    "principal.kind": {
+      "label": {
+        "en": "Caller type",
+        "zh-CN": "调用方类型"
+      },
+      "codes": {
+        "user": {
+          "label": {
+            "en": "Member",
+            "zh-CN": "成员"
+          },
+          "desc": {
+            "en": "A console user (Cognito sub).",
+            "zh-CN": "控制台用户（Cognito sub）。"
+          },
+          "tone": "neutral"
+        },
+        "client": {
+          "label": {
+            "en": "Service client",
+            "zh-CN": "服务客户端"
+          },
+          "desc": {
+            "en": "A machine client (client-credentials app client id).",
+            "zh-CN": "机器客户端（client-credentials 应用客户端 ID）。"
+          },
+          "tone": "neutral"
+        },
+        "none": {
+          "label": {
+            "en": "Unattributed",
+            "zh-CN": "未归属"
+          },
+          "desc": {
+            "en": "No verified identity on this request.",
+            "zh-CN": "该请求没有已验证的身份。"
+          },
+          "tone": "notice"
+        }
+      }
+    },
+    "principal.group": {
+      "label": {
+        "en": "Group",
+        "zh-CN": "用户组"
+      },
+      "codes": {
+        "admin": {
+          "label": {
+            "en": "Admin",
+            "zh-CN": "管理员"
+          },
+          "desc": {
+            "en": "Group from principals.json.",
+            "zh-CN": "来自 principals.json 的用户组。"
+          },
+          "tone": "neutral"
+        },
+        "member": {
+          "label": {
+            "en": "Member",
+            "zh-CN": "成员"
+          },
+          "desc": {
+            "en": "Group from principals.json.",
+            "zh-CN": "来自 principals.json 的用户组。"
+          },
+          "tone": "neutral"
+        },
+        "service": {
+          "label": {
+            "en": "Service",
+            "zh-CN": "服务"
+          },
+          "desc": {
+            "en": "Group from principals.json.",
+            "zh-CN": "来自 principals.json 的用户组。"
+          },
+          "tone": "neutral"
+        }
+      }
+    },
+    "config.status": {
+      "label": {
+        "en": "Config activation",
+        "zh-CN": "配置生效"
+      },
+      "note": "Router kind:'config' lines.",
+      "codes": {
+        "applied": {
+          "label": {
+            "en": "Applied",
+            "zh-CN": "已生效"
+          },
+          "desc": {
+            "en": "The router validated and activated this config version.",
+            "zh-CN": "router 已校验并启用该配置版本。"
+          },
+          "tone": "positive"
+        },
+        "rejected": {
+          "label": {
+            "en": "Rejected",
+            "zh-CN": "已拒绝"
+          },
+          "desc": {
+            "en": "The router refused this version and kept the last good config (see issue codes).",
+            "zh-CN": "router 拒绝了该版本并保留上一个有效配置（见问题代码）。"
+          },
+          "tone": "error"
+        },
+        "drift": {
+          "label": {
+            "en": "Pack drift",
+            "zh-CN": "提示词包漂移"
+          },
+          "desc": {
+            "en": "The image's pack differs from the version approved in the config; the router runs the image's pack. Review the rules and re-save.",
+            "zh-CN": "镜像中的提示词包与配置中批准的版本不同；router 使用镜像中的提示词包。请检查规则后重新保存。"
+          },
+          "tone": "warning"
+        }
+      }
+    },
+    "settings.issue": {
+      "label": {
+        "en": "Assessor settings",
+        "zh-CN": "评估器设置"
+      },
+      "note": "SettingsIssue.code from validateAssessorSettings (packages/router/src/settings.ts); message is English detail.",
+      "codes": {
+        "object-required": {
+          "label": {
+            "en": "Settings must be an object",
+            "zh-CN": "设置必须是对象"
+          },
+          "desc": {
+            "en": "Settings must be an object.",
+            "zh-CN": "设置必须是对象。"
+          },
+          "tone": "error"
+        },
+        "unexpected-key": {
+          "label": {
+            "en": "Unknown setting",
+            "zh-CN": "未知设置项"
+          },
+          "desc": {
+            "en": "Unknown setting.",
+            "zh-CN": "未知设置项。"
+          },
+          "tone": "error"
+        },
+        "mode-invalid": {
+          "label": {
+            "en": "Mode must be off, observe or auto",
+            "zh-CN": "模式必须为 off、observe 或 auto"
+          },
+          "desc": {
+            "en": "Mode must be off, observe or auto.",
+            "zh-CN": "模式必须为 off、observe 或 auto。"
+          },
+          "tone": "error"
+        },
+        "pack-unknown": {
+          "label": {
+            "en": "Pack not in the running image",
+            "zh-CN": "运行中的镜像不含该提示词包"
+          },
+          "desc": {
+            "en": "Pack not in the running image.",
+            "zh-CN": "运行中的镜像不含该提示词包。"
+          },
+          "tone": "error"
+        },
+        "pack-version-drift": {
+          "label": {
+            "en": "Pack changed in the running image",
+            "zh-CN": "运行中镜像的提示词包已变更"
+          },
+          "desc": {
+            "en": "The pack's content differs from the version these settings were saved for; review its rules and save again.",
+            "zh-CN": "提示词包内容与保存设置时的版本不同；请检查规则后重新保存。"
+          },
+          "tone": "warning"
+        },
+        "pack-version-invalid": {
+          "label": {
+            "en": "Malformed pack version",
+            "zh-CN": "提示词包版本格式错误"
+          },
+          "desc": {
+            "en": "Malformed pack version.",
+            "zh-CN": "提示词包版本格式错误。"
+          },
+          "tone": "error"
+        },
+        "model-invalid": {
+          "label": {
+            "en": "Malformed model id",
+            "zh-CN": "模型 ID 格式错误"
+          },
+          "desc": {
+            "en": "Malformed model id.",
+            "zh-CN": "模型 ID 格式错误。"
+          },
+          "tone": "error"
+        },
+        "model-not-in-catalog": {
+          "label": {
+            "en": "Model not in this region's price catalog",
+            "zh-CN": "该区域价格目录中没有此模型"
+          },
+          "desc": {
+            "en": "Model not in this region's price catalog.",
+            "zh-CN": "该区域价格目录中没有此模型。"
+          },
+          "tone": "error"
+        },
+        "model-no-adapter": {
+          "label": {
+            "en": "Model cannot act as assessor",
+            "zh-CN": "该模型不能用作评估器"
+          },
+          "desc": {
+            "en": "Model cannot act as assessor.",
+            "zh-CN": "该模型不能用作评估器。"
+          },
+          "tone": "error"
+        },
+        "model-not-invokable": {
+          "label": {
+            "en": "Router may not invoke this model",
+            "zh-CN": "router 无权调用此模型"
+          },
+          "desc": {
+            "en": "The task role's model grant (deploy parameter) does not include it; widening it is a CDK deploy.",
+            "zh-CN": "任务角色的模型授权（部署参数）不包含该模型；扩大授权需要 CDK 部署。"
+          },
+          "tone": "error"
+        },
+        "threshold-invalid": {
+          "label": {
+            "en": "Threshold must be between 0 and 1",
+            "zh-CN": "阈值必须在 0 到 1 之间"
+          },
+          "desc": {
+            "en": "Threshold must be between 0 and 1.",
+            "zh-CN": "阈值必须在 0 到 1 之间。"
+          },
+          "tone": "error"
+        },
+        "timeout-invalid": {
+          "label": {
+            "en": "Timeout must be 100–10000 ms",
+            "zh-CN": "超时必须为 100–10000 毫秒"
+          },
+          "desc": {
+            "en": "Timeout must be 100–10000 ms.",
+            "zh-CN": "超时必须为 100–10000 毫秒。"
+          },
+          "tone": "error"
+        },
+        "auto-rules-invalid": {
+          "label": {
+            "en": "Auto rules must be pack or all",
+            "zh-CN": "自动规则必须为 pack 或 all"
+          },
+          "desc": {
+            "en": "Auto rules must be pack or all.",
+            "zh-CN": "自动规则必须为 pack 或 all。"
+          },
+          "tone": "error"
+        },
+        "auto-cannot-act": {
+          "label": {
+            "en": "Auto mode could never act with this pack",
+            "zh-CN": "该提示词包下自动模式永远不会生效"
+          },
+          "desc": {
+            "en": "Every rule of the pack is auto:false; use observe, or autoRules 'all' (experiment).",
+            "zh-CN": "提示词包所有规则均为 auto:false；请使用观察模式，或将 autoRules 设为 all（实验）。"
+          },
+          "tone": "error"
+        }
+      }
+    }
+  },
+  "patterns": [
+    {
+      "group": "decision.source",
+      "match": "^rule:([a-z0-9-]+)$",
+      "label": {
+        "en": "Policy rule {1}",
+        "zh-CN": "策略规则 {1}"
+      },
+      "desc": {
+        "en": "A routing-policy rule matched and set the tier.",
+        "zh-CN": "命中路由策略规则并设定档位。"
+      },
+      "tone": "neutral"
+    },
+    {
+      "group": "decision.source",
+      "match": "^assessor\\(([0-9.]+)\\)$",
+      "label": {
+        "en": "Assessor (confidence {1})",
+        "zh-CN": "评估器（置信度 {1}）"
+      },
+      "desc": {
+        "en": "The tier assessor's opinion set the tier (auto mode).",
+        "zh-CN": "由档位评估器的意见设定档位（自动模式）。"
+      },
+      "tone": "notice"
+    },
+    {
+      "group": "assessor.outcome",
+      "match": "^unavailable:http-([0-9]{3})$",
+      "label": {
+        "en": "Unavailable: HTTP {1}",
+        "zh-CN": "不可用：HTTP {1}"
+      },
+      "desc": {
+        "en": "Bedrock answered the assessor call with HTTP {1} (429 = throttled).",
+        "zh-CN": "Bedrock 以 HTTP {1} 响应评估器调用（429 = 限流）。"
+      },
+      "tone": "warning"
+    },
+    {
+      "group": "assessor.outcome",
+      "match": "^unavailable:(.+)$",
+      "label": {
+        "en": "Unavailable: {1}",
+        "zh-CN": "不可用：{1}"
+      },
+      "desc": {
+        "en": "Assessor failure code {1}.",
+        "zh-CN": "评估器失败代码 {1}。"
+      },
+      "tone": "warning"
+    },
+    {
+      "group": "request.reason",
+      "match": "^upstream-(timeout|network|aborted)$",
+      "label": {
+        "en": "Upstream {1}",
+        "zh-CN": "上游 {1}"
+      },
+      "desc": {
+        "en": "The call to Bedrock failed before response headers ({1}).",
+        "zh-CN": "调用 Bedrock 在收到响应头前失败（{1}）。"
+      },
+      "tone": "error"
+    },
+    {
+      "group": "request.reason",
+      "match": "^fault-inject:(.+)$",
+      "label": {
+        "en": "Fault injection: {1}",
+        "zh-CN": "故障注入：{1}"
+      },
+      "desc": {
+        "en": "E2E fault injection is on; never in production.",
+        "zh-CN": "端到端故障注入已开启；生产环境不应出现。"
+      },
+      "tone": "error"
+    },
+    {
+      "group": "request.sanitized",
+      "match": "^beta:(.+)$",
+      "label": {
+        "en": "Dropped beta {1}",
+        "zh-CN": "已移除 beta {1}"
+      },
+      "desc": {
+        "en": "Bedrock rejects this anthropic-beta, so the router removed it.",
+        "zh-CN": "Bedrock 不支持此 anthropic-beta，router 已移除。"
+      },
+      "tone": "neutral"
+    },
+    {
+      "group": "request.sanitized",
+      "match": "^user_id$",
+      "label": {
+        "en": "Dropped metadata.user_id",
+        "zh-CN": "已移除 metadata.user_id"
+      },
+      "desc": {
+        "en": "Bedrock-compat edit.",
+        "zh-CN": "Bedrock 兼容性修改。"
+      },
+      "tone": "neutral"
+    },
+    {
+      "group": "request.hints",
+      "match": "^chatIncludeUsage:(.+)$",
+      "label": {
+        "en": "Usage requested on stream ({1})",
+        "zh-CN": "流式请求附带用量（{1}）"
+      },
+      "desc": {
+        "en": "The router asked for stream usage so it can account the request.",
+        "zh-CN": "router 请求流式用量以便计费核算。"
+      },
+      "tone": "neutral"
+    },
+    {
+      "group": "request.hints",
+      "match": "^claudeAutoCache$",
+      "label": {
+        "en": "Cache points added",
+        "zh-CN": "已添加缓存点"
+      },
+      "desc": {
+        "en": "The router added prompt-cache breakpoints.",
+        "zh-CN": "router 添加了提示缓存断点。"
+      },
+      "tone": "neutral"
+    },
+    {
+      "group": "identity",
+      "match": "^invalid:([a-z-]+)$",
+      "label": {
+        "en": "Invalid token ({1})",
+        "zh-CN": "令牌无效（{1}）"
+      },
+      "desc": {
+        "en": "Look up request.reason identity-{1} for the cause.",
+        "zh-CN": "原因见 request.reason 中的 identity-{1}。"
+      },
+      "tone": "error"
+    }
+  ],
+  "ruleTitles": {
+    "note": "Short titles per rule id for list views. Not authoritative: the rule's tier and instruction (English prompt text, shown untranslated) come from the pack archive for the record's packVersion; a title is shown only when the archive entry's id matches.",
+    "explore-readonly": {
+      "en": "Read-only exploration",
+      "zh-CN": "只读探索"
+    },
+    "mechanical-edit": {
+      "en": "Specified mechanical edit",
+      "zh-CN": "明确的机械性修改"
+    },
+    "bounded-change": {
+      "en": "Bounded change",
+      "zh-CN": "有边界的改动"
+    },
+    "deep-investigation": {
+      "en": "Deep investigation / open-ended design",
+      "zh-CN": "深度排查 / 开放式设计"
+    }
+  }
+}

@@ -15,7 +15,8 @@
     "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "eval": "node src/eval/cli.ts",
-    "smoke": "node src/eval/cli.ts smoke"
+    "smoke": "node src/eval/cli.ts smoke",
+    "manifest": "node src/manifest-cli.ts"
   },
   "dependencies": {
     "@auto-router/core": "workspace:*",

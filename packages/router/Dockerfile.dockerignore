@@ -9,6 +9,7 @@
 !packages/core/src/**
 !packages/assessor/package.json
 !packages/assessor/src/**
+!packages/assessor/prompts/**
 !packages/router/package.json
 !packages/router/src/**
 !packages/router/config/**

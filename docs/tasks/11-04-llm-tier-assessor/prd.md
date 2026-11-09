@@ -28,7 +28,7 @@ configuration, not code.
   `confidence`, `reason ≤ 30 words`. Strict validation (unknown/missing/duplicate rule ids, enums, bounds).
 - R5 Deterministic tier mapping: a pure function from validated facts + matched rules → tier or "no opinion";
   confidence threshold (default 0.8); conflicts → no opinion.
-- R6 Failure handling: invalid output, timeout (default 1.5 s) or transport error → `unavailable` (never an
+- R6 Failure handling: invalid output, timeout (default 5 s; 1.5 s until 2026-11-05) or transport error → `unavailable` (never an
   exception into the request path); caller keeps the current or default tier.
 - R7 Integration contract for core: an optional `assessor` in `createEngine` options, consulted by `desiredTier`
   after hint/alias/deterministic rules and before the pool default, only at session start, sub-agent start and

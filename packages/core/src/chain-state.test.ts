@@ -33,11 +33,11 @@ describe('previous_response_id with no router state', () => {
     expect(r2.decision).toMatchObject({ action: 'retain', model: LUNA, point: 'hard-lock-response-chain', reason: expect.stringMatching(/^hard-lock: previous_response_id resp_1; /) })
   })
 
-  it('observe mode: concrete ids are served as is, aliases get observeDefaults; wouldChoose is the dialect default', async () => {
+  it('observe mode: concrete ids are pins, aliases get observeDefaults; wouldChoose is the dialect default', async () => {
     const hz = new Harness(testPolicy({ mode: 'observe', observeDefaults: { 'anthropic-messages': 'global.anthropic.claude-sonnet-5-5', 'openai-chat': SOL, 'openai-responses': LUNA } }))
     const concrete = await hz.step('openai-responses', chained('resp_x', ASTRA))
-    expect(concrete.decision).toMatchObject({ mode: 'observe', model: ASTRA, wouldChoose: SOL, point: 'hard-lock-response-chain', reason: expect.stringMatching(/^chain-state-missing: /) })
-    expect(concrete.result.chainStateMissing).toBe(true)
+    expect(concrete.decision).toMatchObject({ mode: 'observe', action: 'pin', model: ASTRA, point: 'pinned' })
+    expect(concrete.decision.wouldChoose).toBeUndefined()
     const alias = await hz.step('openai-responses', chained('resp_y'), { 'x-session-id': 'o2' })
     expect(alias.decision).toMatchObject({ model: LUNA, wouldChoose: SOL, reason: expect.stringMatching(/^observe-default: chain-state-missing: /) })
     expect(alias.result.chainStateMissing).toBe(true)

@@ -1,0 +1,8 @@
+# Local runtime config (names a pool and region) and Playwright output
+/public/config.json
+/test-results/
+/playwright-report/
+/e2e/results/
+# Deployed-console E2E output and screenshots (may show deployment URLs and test-user names)
+/e2e/deployed-results/
+/e2e/deployed-shots/

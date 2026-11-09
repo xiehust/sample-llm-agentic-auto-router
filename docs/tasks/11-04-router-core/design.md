@@ -414,7 +414,12 @@ Steps, in order. The first match returns.
    - **gate-recover**: if `state.gateForced` is set, the gate passed normally (no fallback note), and
      `pickForTier(desired)` has the desired tier, move there with reason `gate-recover`, without the
      downgrade cost gate. This also applies under `userTurn: 'retain'`, because the forced move was never a
-     policy choice. Hard locks and failover come first.
+     policy choice. Hard locks and failover come first. The user-turn recovery restores at most the tier of
+     `gateForced.from` (2026-11-05 follow-up): a desired tier below it, from any source (assessor, hint, alias,
+     rule), is a policy downgrade, so the lineage recovers to the `from` tier (reason suffix `(desired <tier>:
+     the downgrade waits for the usual gates)`). The downgrade is then decided by a later user turn through the
+     cost and count gates, or, under `userTurn: 'retain'` (user turns never downgrade), at the next break point.
+     Break points are full decisions anyway, so their gate-recover goes straight to the desired tier.
    - `policy.userTurn === 'retain'`: return `retain` with reason `retain: boundary-gated`.
    - `desired = tierOf(hints.tier ?? alias tier ?? first matching rule ?? pool.defaultTier)`.
    - **Upgrade** (desired > tier(current)): switch now to `pickForTier(desired)`. The decision is
@@ -604,7 +609,7 @@ outcomes. Scenarios:
 | 27 | gate: 909,981-token repro stays on Sonnet; cheapest / largest fallbacks; gate-forced → gate-recover (`gate.test.ts`) | no Sonnet→Opus |
 | 28 | lineage kind + `costModeledSubagentFast`: Claude Code trace and replay summary shape (with/without noteRoot, sub-agent first) | main standard, sub fast |
 | 29 | item 8 numbers: Sonnet→Haiku 150K/188K at 5m/1h (`cost.test.ts`) | break-even H |
-| 30 | assessor outcomes at session start: ok/applied, equal-to-default (applied false), low confidence, no tier, unavailable, invalid tier/confidence/shape, throwing getters, sync throw, rejection, card thunk throws, timeout (fake timers: abort at 1500 ms, no timer left) and an assessor that ignores the signal (`assessor.test.ts`) | status, model, applied |
+| 30 | assessor outcomes at session start: ok/applied, equal-to-default (applied false), low confidence, no tier, unavailable, invalid tier/confidence/shape, throwing getters, sync throw, rejection, card thunk throws, timeout (fake timers: abort at the default `ASSESSOR_DEFAULTS.timeoutMs`, 5000 ms, no timer left) and an assessor that ignores the signal (`assessor.test.ts`) | status, model, applied |
 | 31 | assessor modes: observe = no-assessor decisions + audit; off / no assessor / no card thunk = identical decisions, no calls; policy observe → `wouldChoose` | deep equality |
 | 32 | assessor caching: concurrent and repeated decides for one turn → 1 call (`cached`); persisted `assessed` reused by another engine; other assessor id re-assesses; new user turn → new call; tool loop never; a timeout persisted on the 5xx path is reused for a retry of the same turn only; memo bound (`ASSESS_MEMO_MAX`) | call counts |
 | 33 | assessor not consulted: tool loop, response chain, chain-state-missing, header pin, concrete model (auto), hint tier, alias tier, rule match, failover, session start ending in a tool result; card thunk untouched | calls 0 |
@@ -612,6 +617,9 @@ outcomes. Scenarios:
 | 35 | assessor tier changes: upgrade at a user turn (no cost gate), idle-expired break point, downgrade rejected by cost / min-turns, `userTurn: 'retain'`; the context gate excludes the opinion's tier; same-family upgrade with thinking state, same-model portability → `hard-lock-state` (not consulted); option validation | reasons |
 | 36 | item B: other models' expired entries pruned through record and record-by-record (`pruneExpired`), current kept (`record.test.ts`) | perModel keys |
 | 37 | item C: response chain failover retains the exact id (`failover-chain-locked`), the same failure without a chain rotates; no current model → chain-state-missing default (`failover.test.ts`) | point, model |
+| 38 | `userTurn: 'retain'` + assessor: plain user turn not consulted (no call, no card, no assessment); session start and `idle-expired` still consulted and applied; forced move (`ineligible`) and gate-forced lineage (`gate-recover`) consulted; `cost-gated` user turns still consulted | calls, models |
+| 39 | `userTurn: 'retain'`: a gate-forced lineage held by the gate fallback (`gate-fallback:current`) is not consulted | calls |
+| 40 | downgrade guard on a gate-forced lineage judges from `gateForced.from`: standard forced to frontier + standard / fast opinion → user-turn gate-recover to standard (fast held: next turn `downgrade-rejected`; under `retain` the next turn is `boundary-gated`), not guarded; frontier forced to standard + standard opinion → guarded, recovers to frontier | models, guard |
 
 ## 11. 2026-11-04 follow-up decisions (parent)
 
@@ -698,7 +706,7 @@ interface AssessedTurn { turnKey: string; assessorId: string; status: Assessment
 // Decision.assessment?: Assessment; SessionState.compactions?: number; SessionState.assessed?: AssessedTurn
 // StateStore.rootLineage?(root: string): Promise<string | undefined>     (InMemoryStateStore implements it)
 // EngineOptions: assessor?; assessorMode?: 'off' | 'observe' | 'auto' (default 'observe');
-//   assessorTimeoutMs?: number (default 1500, > 0); assessorMinConfidence?: number (default 0.8, in [0, 1])
+//   assessorTimeoutMs?: number (default 5000, > 0; 1500 until 2026-11-05); assessorMinConfidence?: number (default 0.8, in [0, 1])
 // Engine.decide(summary, extras?: DecideExtras)
 ```
 
@@ -712,7 +720,11 @@ bad value: mode, timeout (finite, > 0), confidence (finite, in [0, 1]), assessor
   matching rule;
 - the point admits it: `session-start` / `subagent-start` / `task-start` unless the last message is a tool
   result; any other break point (`idle-expired`, `compaction`, `prefix-reset`) or the step 6 user turn only when
-  `lastTurn === 'user-text'`.
+  `lastTurn === 'user-text'`;
+- at the step 6 user turn under `userTurn: 'retain'`, only when the opinion can act there (2026-11-05): a forced
+  move (the current model is ineligible or outside the context gate) or a gate-forced lineage whose gate passes
+  again (gate-recover; not while a gate fallback holds it, 2026-11-05 follow-up). A plain retained user turn is not consulted, so retain sessions pay no assessor latency or spend for an opinion
+  that `retain: boundary-gated` would ignore. Start points and other break points are unaffected.
 
 Never on pins (header, or a concrete model in auto mode), failover, chain-state-missing, hard locks (tool loop,
 response chain, non-portable state), prefill (`assistant`), or any tool-result follow-up. The decision steps
@@ -783,7 +795,11 @@ frontier work (0/45 frontier on SWE-bench; on the frontier→standard replay pai
 frontier calls). EngineOptions `assessorDowngradeFrom?: Tier[]`, default `['standard']`, validated (tiers only).
 - "From" tier = the lineage's current model tier (pool tier; a failover profile counts as its entry; else the
   catalog tier), or the pool default at a start point with no current model. In policy observe the current model is
-  the served one, so the guard follows what was actually served.
+  the served one, so the guard follows what was actually served. A gate-forced lineage (`gateForced`) is judged
+  from the tier of `gateForced.from`, the model it was forced off (2026-11-05 follow-up): the forced model's tier
+  was never a choice, so it neither blocks recovery (standard forced up to frontier, then a standard or fast
+  opinion recovers, to standard at a user turn; see step 6 gate-recover) nor licenses a downgrade (frontier forced down to standard, then a standard opinion is guarded
+  and the lineage recovers to frontier).
 - An opinion below "from" with "from" ∉ the list is **clamped to "from"**: in auto mode the lineage holds its tier
   (retain; the pool default cannot pull it down on that consulted turn either), `applied: false`,
   `Assessment.guard = 'assessor-downgrade-guarded'`, and the reason gets the suffix

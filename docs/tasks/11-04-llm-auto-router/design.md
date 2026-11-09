@@ -146,7 +146,7 @@ export type AssessorResult =
   | { status: 'ok'; tier?: Tier; confidence: number; audit: Record<string, unknown>; latencyMs: number; costUsd?: number }
   | { status: 'unavailable'; reason: string; latencyMs: number }
 // createEngine opts: assessor?: TierAssessor; assessorMode?: 'off' | 'observe' | 'auto' (default 'observe');
-//   assessorTimeoutMs?: number (default 1500); assessorMinConfidence?: number (default 0.8)
+//   assessorTimeoutMs?: number (default 5000; 1500 until 2026-11-05); assessorMinConfidence?: number (default 0.8)
 //   assessorDowngradeFrom?: Tier[] (default ['standard']; added 2026-11-04 after the assessor eval: 0/45 frontier on
 //   SWE-bench) — an assessor-driven downgrade applies only from a listed tier ("from" = current model tier, else the
 //   pool default at a start point); otherwise the opinion is clamped to "from" (retain), applied=false,

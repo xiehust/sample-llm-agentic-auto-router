@@ -12,7 +12,8 @@ import type { Transport, TransportResponse } from './transport.ts'
 import { validateAssessment } from './validate.ts'
 
 export const DEFAULT_ASSESSOR_MODEL = 'global.openai.gpt-6-luna'
-export const DEFAULT_TIMEOUT_MS = 1500
+/** 5 s: Codex-sized cards answer at p50 ~1.5 s / p95 ~2.1 s, so the earlier 1.5 s default timed out most of them. */
+export const DEFAULT_TIMEOUT_MS = 5000
 export const DEFAULT_MAX_OUTPUT_TOKENS = 800
 export const DEFAULT_REASONING_EFFORT = 'none'
 
@@ -35,7 +36,7 @@ export interface AssessorConfig {
   api?: OpenAiApi // OpenAI-shape models only; default 'responses'
   reasoningEffort?: string | null // OpenAI shapes; default 'none'; null omits the field
   threshold?: number // default 0.8
-  timeoutMs?: number // default 1500
+  timeoutMs?: number // default 5000
   autoFacts?: FactSignal[] // default []
   cache?: boolean // default true
   roleLabels?: Record<string, string> // template family → role label, used by assessor.card()
@@ -151,7 +152,7 @@ export function createAssessor(config: AssessorConfig): Assessor {
     const checked = validateAssessment(parsed.raw, pack.rules)
     if (!checked.ok) return fail(`invalid: ${checked.issues[0] ?? 'unknown'}`, called)
     const a = checked.value
-    const m = mapTier(a, pack.rules, { threshold, autoFacts })
+    const m = mapTier(a, pack.rules, { threshold, autoFacts, ...(pack.mapping ? { mapping: pack.mapping } : {}) })
     const enabledIds = new Set(pack.rules.filter((r) => r.enabled).map((r) => r.id))
     const audit: Record<string, unknown> = {
       ...base,

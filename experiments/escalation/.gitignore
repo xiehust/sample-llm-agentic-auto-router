@@ -1,0 +1,5 @@
+# Derived per-run signals stay local (they join run ids to outcomes).
+results/
+__pycache__/
+.ruff_cache/
+.pytest_cache/

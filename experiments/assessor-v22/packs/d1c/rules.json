@@ -1,0 +1,37 @@
+[
+  {
+    "id": "explore-readonly",
+    "tier": "fast",
+    "enabled": true,
+    "auto": false,
+    "instruction": "Read-only exploration or lookup: find files, grep, list usages, summarise code, or answer where or what something is. No edits are requested and no bug has to be diagnosed."
+  },
+  {
+    "id": "mechanical-edit",
+    "tier": "fast",
+    "enabled": true,
+    "auto": false,
+    "instruction": "A fully specified mechanical change that the request itself commands: rename, apply a given diff, bump a version, fix a typo or an import, change a named value. Target and exact change are explicit. An issue or bug report that describes wrong behaviour and suggests or sketches a fix is NOT a specified change: the suggestion must still be verified and tested, so judge it as bounded-change or deep-investigation."
+  },
+  {
+    "id": "contained-fix",
+    "tier": "fast",
+    "enabled": true,
+    "auto": false,
+    "instruction": "The request names the symptom or the required behaviour concretely enough that an engineer could start editing immediately: a failing test, a stated wrong output, a named function or flag to add. It may need reading code to find the spot. It does not fit only when the goal itself is open (\"improve\", \"redesign\") or the symptom is vague."
+  },
+  {
+    "id": "bounded-change",
+    "tier": "standard",
+    "enabled": true,
+    "auto": false,
+    "instruction": "Implement or fix a bounded feature or bug in known code with clear acceptance, typical pull-request-sized work. Includes fixing a failing test or bug whose cause is not yet known but is likely local, and a bug report that points to the faulty code or suggests a fix."
+  },
+  {
+    "id": "deep-investigation",
+    "tier": "frontier",
+    "enabled": true,
+    "auto": false,
+    "instruction": "Open-ended design or architecture work with no defined deliverable yet (choose an approach, plan a migration), or work that has already failed twice. A bug, failing test or feature with a stated expected behaviour is not this rule, however many files or how much analysis it needs: judge it as bounded-change."
+  }
+]

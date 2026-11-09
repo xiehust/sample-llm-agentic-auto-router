@@ -190,9 +190,10 @@ describe('pack v2', () => {
 })
 
 describe('default pack selection', () => {
-  it('defaults to v2.1 while v1 and v2 stay selectable', () => {
-    expect(loadPack().id).toBe('assessor/v2.1')
-    expect(defaultPackDir).toBe(packDirs['v2.1'])
+  it('defaults to v2.2 while v1, v2 and v2.1 stay selectable', () => {
+    expect(loadPack().id).toBe('assessor/v2.2')
+    expect(defaultPackDir).toBe(packDirs['v2.2'])
+    expect(loadPack(packDirs['v2.1']).id).toBe('assessor/v2.1')
     expect(loadPack(packDirs.v1).id).toBe('assessor/v1')
     expect(loadPack(packDirs.v2).id).toBe('assessor/v2')
   })

@@ -7,6 +7,7 @@ import { createEngine, InMemoryStateStore, validatePolicy, type Engine, type Eng
 import { loadCatalog } from '@auto-router/pricing'
 import { DEFAULT_TIMEOUTS, type HopAuth, type Hints, type RouterConfig, type Timeouts } from './config.ts'
 import type { Signer } from './forward.ts'
+import type { RuntimeRef } from './runtime.ts'
 import { createRouter, type RouterDeps } from './server.ts'
 
 export const fixtureDir = new URL('../../pricing/src/__fixtures__/', import.meta.url)
@@ -112,7 +113,9 @@ export async function startFakeBedrock(script: Script): Promise<{ url: URL; requ
 export interface TestRouter { url: string; logs: Record<string, unknown>[]; lines: string[]; engine: Engine; close(): Promise<void> }
 
 export async function startRouter(upstream: URL, opts: { hopAuth?: HopAuth; hints?: Partial<Hints>; policy?: ReturnType<typeof testPolicy>;
-  maxBodyBytes?: number; fault?: RouterConfig['fault']; deps?: Partial<RouterDeps>; wrapEngine?: (e: Engine) => Engine; engineOptions?: Partial<EngineOptions>; timeouts?: Partial<Timeouts>; region?: string } = {}): Promise<TestRouter> {
+  maxBodyBytes?: number; fault?: RouterConfig['fault']; deps?: Partial<RouterDeps>; wrapEngine?: (e: Engine) => Engine; engineOptions?: Partial<EngineOptions>; timeouts?: Partial<Timeouts>; region?: string
+  /** Builds a generation holder over the router's catalog, store and log sink (the router then uses it). */
+  runtime?: (base: { catalog: RouterConfig['catalog']; store: InMemoryStateStore; sink: (line: string) => void; policy: ReturnType<typeof testPolicy> }) => RuntimeRef } = {}): Promise<TestRouter> {
   const policy = opts.policy ?? testPolicy()
   const region = opts.region ?? 'ap-northeast-1'
   const catalog = loadCatalog(region)
@@ -120,16 +123,17 @@ export async function startRouter(upstream: URL, opts: { hopAuth?: HopAuth; hint
     bind: '127.0.0.1', port: 0, maxBodyBytes: opts.maxBodyBytes ?? 16 * 1024 * 1024, region, upstream,
     hopAuth: opts.hopAuth ?? { kind: 'apigw-iam', gatewayRoleArn: TEST_ROLE_ARN, gatewayArn: TEST_GATEWAY_ARN, vpceId: TEST_VPCE },
     hints: { chatIncludeUsage: 'off', claudeAutoCache: false, claudeCacheTtl: 'keep', ...opts.hints },
-    policy, catalog, fault: opts.fault ?? 'none', timeouts: { ...DEFAULT_TIMEOUTS, ...opts.timeouts },
+    policy, catalog, fault: opts.fault ?? 'none', timeouts: { ...DEFAULT_TIMEOUTS, ...opts.timeouts }, assessor: { mode: 'off' },
   }
   const store = new InMemoryStateStore()
-  const real = createEngine({ policy, catalog, store, ...opts.engineOptions })
-  const engine = opts.wrapEngine ? opts.wrapEngine(real) : real
   const lines: string[] = []
   const logs: Record<string, unknown>[] = []
+  const sink = (l: string): void => { lines.push(l); const o = JSON.parse(l) as Record<string, unknown>; if (!('_aws' in o)) logs.push(o) }
+  const runtime = opts.runtime?.({ catalog, store, sink, policy })
+  const real = runtime ? runtime.current().engine : createEngine({ policy, catalog, store, ...opts.engineOptions })
+  const engine = opts.wrapEngine ? opts.wrapEngine(real) : real
   const { server } = createRouter({
-    config, engine, store, signer: fakeSigner, sleep: async () => undefined,
-    sink: (l) => { lines.push(l); const o = JSON.parse(l) as Record<string, unknown>; if (!('_aws' in o)) logs.push(o) },
+    config, ...(runtime ? { runtime } : { engine }), store, signer: fakeSigner, sleep: async () => undefined, sink,
     ...opts.deps,
   })
   await new Promise<void>((ok) => server.listen(0, '127.0.0.1', ok))

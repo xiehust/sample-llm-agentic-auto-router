@@ -1,11 +1,28 @@
 // decide(): decision-point classification + model choice (core design.md §6; parent §5).
 import { cachedAssessment, memoKey, opinionOf, remember, runAssessor, turnKeyOf, type AssessorConfig } from './assess.ts'
+import { tierWithinCap, type Cap } from './cap.ts'
 import { estimateCost } from './cost.ts'
 import { tierRank, TIERS, type LineageKind, type Policy, type PolicyRule, type PoolEntry, type Portability, type Tier } from './policy.ts'
 import type { Dialect, ModelPrice } from './pricing-types.ts'
 import { templateFamilyOf } from './summarize/index.ts'
 import type { AssessedTurn, Assessment, CardContext, Decision, DecideExtras, DecisionPoint, RequestSummary, SessionState, StateStore } from './types.ts'
 import { blockSetOf, isExpired, maxLiveTokens, warmTokens, writeTtlFor } from './warmth.ts'
+
+/**
+ * The caller's access cap leaves nothing to route to (design 0.16): 'access-cap' = no pool model of the dialect is
+ * within the cap; 'access-cap-context' = models within the cap exist but none fits the prompt, while one above
+ * the cap would. The router answers 400 with the code (never 5xx, which would trigger the gateway fallback).
+ */
+export class AccessCapError extends Error {
+  readonly code: 'access-cap' | 'access-cap-context'
+  readonly dialect: Dialect
+  constructor(dialect: Dialect, code: 'access-cap' | 'access-cap-context', detail: string) {
+    super(`${code} for ${dialect}: ${detail}`)
+    this.name = 'AccessCapError'
+    this.code = code
+    this.dialect = dialect
+  }
+}
 
 export class NoEligibleModelError extends Error {
   readonly dialect: Dialect
@@ -36,8 +53,17 @@ interface EvalMeta {
   kind: LineageKind
 }
 type Opinion = { tier: Tier; confidence: number }
+/** sessionTier 'root': the tier taken from the root lineage (pending: the root has no served model yet). */
+type Inherited = { tier: Tier; pending: boolean }
 
 const START_POINTS: ReadonlySet<DecisionPoint> = new Set(['session-start', 'subagent-start', 'task-start'])
+/**
+ * Break points: a free choice of model (no switch cost assumed). Observe mode moves a held lineage only here, and
+ * the observe projection takes a fresh value here (0d research §1.6, §2.4).
+ */
+export const BREAK_POINTS: ReadonlySet<DecisionPoint> = new Set(['session-start', 'subagent-start', 'task-start', 'compaction', 'idle-expired', 'prefix-reset'])
+/** Points where a lineage keeps its model whatever the policy or cap says (I3). */
+const HOLD_POINTS: ReadonlySet<DecisionPoint> = new Set(['hard-lock-tool-loop', 'hard-lock-response-chain', 'hard-lock-state', 'failover'])
 
 export async function decide(ctx: DecideContext, s: RequestSummary, extras?: DecideExtras): Promise<Decision> {
   const { policy } = ctx
@@ -46,15 +72,14 @@ export async function decide(ctx: DecideContext, s: RequestSummary, extras?: Dec
   const isAlias = Object.hasOwn(policy.aliases, requested)
   const tag = `family=${templateFamilyOf(s)} est=${s.prefix.estPromptTokens}`
 
-  // 1. Pinned (R11). In observe mode a concrete model is evaluated instead (step 8).
+  // 1. Pinned (R11). A concrete model is a pin in both modes (admin console 0.3a): auto would pin it, so an observe
+  // evaluation of it would describe something auto never does. The caller checks pins against the access cap.
   if (s.hints.pin) return { ...base, action: 'pin', model: s.hints.pin, point: 'pinned', reason: `pin: x-router-pin ${s.hints.pin}; ${tag}` }
-  if (policy.mode === 'auto' && !isAlias) return { ...base, action: 'pin', model: requested, point: 'pinned', reason: `pin: concrete model ${requested}; ${tag}` }
+  if (!isAlias) return { ...base, action: 'pin', model: requested, point: 'pinned', reason: `pin: concrete model ${requested}; ${tag}` }
 
   const pool = policy.pools[s.dialect]
-  if (!pool || pool.models.length === 0) {
-    if (!isAlias) return { ...base, action: 'pin', model: requested, point: 'pinned', reason: `pin: no pool for ${s.dialect}; ${tag}` }
-    throw new NoEligibleModelError(s.dialect, 'no pool configured')
-  }
+  if (!pool || pool.models.length === 0) throw new NoEligibleModelError(s.dialect, 'no pool configured')
+  const cap = extras?.cap?.maxTier !== undefined ? extras.cap : undefined
 
   let state = await ctx.store.get(s.session.lineage)
   let newUnderRoot = false
@@ -74,22 +99,47 @@ export async function decide(ctx: DecideContext, s: RequestSummary, extras?: Dec
       if (a?.current !== undefined) state = a
     }
   }
+  // Opt-in session-scoped tier (§13): only the root lineage's first served decision may consult; every other
+  // auto decision under the root takes the tier of the root lineage's current model.
+  let inherited: Inherited | undefined
+  if (policy.sessionTier === 'root') {
+    const rootLin = await ctx.store.rootLineage?.(s.session.root)
+    const isRoot = rootLin === undefined || rootLin === s.session.lineage
+    if (!isRoot || state?.current !== undefined) {
+      const rs = isRoot ? state : await ctx.store.get(rootLin as string)
+      const t = rs?.current !== undefined ? tierOfModel(ctx, pool, rs.current) : undefined
+      inherited = t !== undefined ? { tier: t, pending: false } : { tier: pool.defaultTier, pending: true }
+    }
+  }
   const meta: EvalMeta = { consult: false, desiredDefault: false, kind: 'root' }
-  let auto = evaluate(ctx, s, pool, state, tag, newUnderRoot, undefined, meta)
+  let auto = evaluate(ctx, s, pool, state, tag, newUnderRoot, undefined, meta, inherited, cap)
   const card = extras?.card
   if (ctx.assessor !== undefined && typeof card === 'function' && meta.consult && meta.desiredDefault) {
-    auto = await withAssessment(ctx, ctx.assessor, s, pool, state, meta.kind, card, auto, (op) => evaluate(ctx, s, pool, state, tag, newUnderRoot, op))
+    auto = await withAssessment(ctx, ctx.assessor, s, pool, state, meta.kind, card, auto, (op) => evaluate(ctx, s, pool, state, tag, newUnderRoot, op, undefined, undefined, cap))
   }
   if (policy.mode === 'auto') return { ...base, ...auto }
 
-  // 8. Observe: same evaluation, but serve what the client asked for (or the observe default for aliases).
-  const served = isAlias ? (policy.observeDefaults?.[s.dialect] ?? auto.model) : requested
+  // 8. Observe (aliases only: concrete models are pins): same evaluation, but serve the observe default. A lineage
+  // whose model differs from the default (a config swap changed the default, or flipped auto → observe) is held on
+  // it until its next break point, so a swap never moves a tool loop or a response chain (0d research I3).
+  const current = state?.current
+  let dflt = policy.observeDefaults?.[s.dialect] ?? auto.model
+  // The cap applies to the served model too (design 0.16): a default above it serves auto's (capped) choice.
+  if (cap && !tierWithinCap(cap, tierOfModel(ctx, pool, dflt))) dflt = auto.model
+  // A model above the caller's cap holds only where auto holds it too (hard locks, failover retains); at a user turn
+  // it moves, as auto's 'ineligible' move does.
+  const hold = current !== undefined && current !== dflt && !BREAK_POINTS.has(auto.point)
+    && (HOLD_POINTS.has(auto.point) || tierWithinCap(cap, tierOfModel(ctx, pool, current)))
+  const prev = state?.projected ?? current
+  const free = BREAK_POINTS.has(auto.point) || auto.action === 'initialize' || auto.action === 'switch'
+  const projected = free || prev === undefined ? auto.model : prev
   return {
     ...base,
     ...auto,
-    model: served,
-    reason: isAlias ? `observe-default: ${auto.reason}` : auto.reason,
+    model: hold ? (current as string) : dflt,
+    reason: `${hold ? 'observe-hold' : 'observe-default'}: ${auto.reason}`,
     wouldChoose: auto.model,
+    projected: { model: projected, switch: prev !== undefined && projected !== prev },
   }
 }
 
@@ -103,6 +153,8 @@ function evaluate(
   newUnderRoot: boolean,
   opinion?: Opinion,
   meta?: EvalMeta,
+  inherited?: Inherited,
+  cap?: Cap,
 ): Choice {
   const { policy, catalog } = ctx
   const now = s.receivedAt
@@ -117,13 +169,16 @@ function evaluate(
   const costFor = (model: string, price: ModelPrice): number =>
     estimateCost(price, { warmTokens: warm(model), promptTokens: est, horizon: policy.horizon, writeTtl: writeTtlFor(policy, model, price) }).totalUsd
 
-  // 2. Candidates: pool ∩ catalog ∩ dialect.
-  const inPool: Candidate[] = []
+  // 2. Candidates: pool ∩ catalog ∩ dialect, then ∩ the caller's cap (design 0.16). A current model above the cap
+  // is no candidate, so it holds through hard locks and moves at the next user turn ('ineligible') or break point.
+  const all: Candidate[] = []
   for (const entry of pool.models) {
     const price = catalog.get(entry.model)
-    if (price && price.dialects.includes(s.dialect)) inPool.push({ entry, tier: entry.tier ?? price.tier, price })
+    if (price && price.dialects.includes(s.dialect)) all.push({ entry, tier: entry.tier ?? price.tier, price })
   }
-  if (inPool.length === 0) throw new NoEligibleModelError(s.dialect, 'no pool model is in the catalog')
+  if (all.length === 0) throw new NoEligibleModelError(s.dialect, 'no pool model is in the catalog')
+  const inPool = cap ? all.filter((c) => tierWithinCap(cap, c.tier)) : all
+  if (inPool.length === 0) throw new AccessCapError(s.dialect, 'access-cap', `no pool model within maxTier ${cap?.maxTier}`)
 
   const current = state?.current
   // A failover profile counts as a member of its pool entry (same tier), so the router stays on it
@@ -146,6 +201,9 @@ function evaluate(
   let fallbackCurrent = false
   if (eligible.length === 0 && portable.length > 0) {
     const physical = portable.filter((c) => fitsPhysically(c.price))
+    if (cap && physical.length === 0 && !restricted && all.some((c) => fitsPhysically(c.price))) {
+      throw new AccessCapError(s.dialect, 'access-cap-context', `no model within maxTier ${cap.maxTier} fits ${est + maxOut} tokens`)
+    }
     if (currentEntry !== undefined && portable.includes(currentEntry) && fitsPhysically(currentPrice ?? currentEntry.price)) {
       eligible = [currentEntry]
       gateNote = '; gate-fallback:current'
@@ -161,12 +219,14 @@ function evaluate(
   /** True when the gate keeps the lineage from the model it would pick for tier t without the gate. */
   const gateBlocks = (t: Tier): boolean => portable.length > 0 && !eligible.includes(pickForTier(portable, t))
 
-  const retain = (point: DecisionPoint, reason: string): Choice => ({ action: 'retain', model: current as string, point, reason: `${reason}; ${tag}${gateNote}` })
+  // '; access-cap:<tier>' on decisions the cap shaped (set after the hard locks; savings keep them apart, 0d §1.4).
+  let capNote = ''
+  const retain = (point: DecisionPoint, reason: string): Choice => ({ action: 'retain', model: current as string, point, reason: `${reason}; ${tag}${gateNote}${capNote}` })
   // Moves to candidate c's primary profile (so a failover profile is left at the next break point).
   const choose = (c: Candidate, point: DecisionPoint, reason: string): Choice => {
     const model = c.entry.model
     const action: Decision['action'] = !current ? 'initialize' : model === current ? 'retain' : 'switch'
-    return { action, model, point, reason: `${reason}; ${tag}${gateNote}` }
+    return { action, model, point, reason: `${reason}; ${tag}${gateNote}${capNote}` }
   }
 
   // 3. Failover: the model we would use failed (429/5xx) within the window.
@@ -183,7 +243,7 @@ function evaluate(
 
   const subHint = s.hints.boundary === 'subagent-start' || s.hints.parentSession !== undefined || s.hints.agentId !== undefined
   const kind: LineageKind = state?.kind ?? ((current === undefined && newUnderRoot) || subHint ? 'subagent' : 'root')
-  const desired = desiredTier(policy, pool, s, kind, opinion)
+  const desired = desiredTier(policy, pool, s, kind, opinion, inherited)
   if (meta) {
     meta.kind = kind
     meta.desiredDefault = desired.source === 'default'
@@ -196,6 +256,15 @@ function evaluate(
     if (restricted && eligible.every((c) => c === currentEntry)) {
       return retain('hard-lock-state', `hard-lock: non-portable state ${s.nonPortableState.join(',')}`)
     }
+  }
+  if (cap?.maxTier !== undefined) {
+    const overCap = current !== undefined && currentEntry === undefined && all.some((c) => c.entry.model === current || c.entry.failover?.includes(current))
+    // '<from>' = the tier routing would have chosen without the cap: the desired tier, else (a lineage above a new cap)
+    // the tier it is on. Usage ingest reads it for the cap savings row (0d §1.4).
+    const from = tierRank(desired.tier) > tierRank(cap.maxTier) ? desired.tier : overCap ? tierOfModel(ctx, pool, current as string) : undefined
+    // The older 2-part form when the uncapped tier is unknown (a current model outside pool and catalog tiers).
+    if (from !== undefined) capNote = `; access-cap:${cap.maxTier}:${from}`
+    else if (overCap) capNote = `; access-cap:${cap.maxTier}`
   }
 
   // 5. Free break points: full decision, no switch cost.
@@ -216,10 +285,12 @@ function evaluate(
 
   // 7. Assistant prefill: continue on the same model.
   if (s.lastTurn === 'assistant') return retain('user-turn', 'retain: prefill')
-  if (meta) meta.consult = s.lastTurn === 'user-text'
-
   // 6. User turn.
   const curOk = currentEntry !== undefined && currentPrice !== undefined && eligible.includes(currentEntry) && (fallbackCurrent || fits(currentPrice))
+  // Under userTurn 'retain' the desired tier only matters for a forced move (!curOk) or a gate recovery (which
+  // needs the gate to pass again: no gate fallback), so a plain user turn does not consult the assessor (no
+  // latency or spend for an opinion that cannot act).
+  if (meta) meta.consult = s.lastTurn === 'user-text' && (policy.userTurn !== 'retain' || !curOk || (state?.gateForced !== undefined && gateNote === ''))
   if (!curOk) {
     // A forced move, so go straight to the desired tier. In the pool but outside the gate ⇒ gate-forced
     // (not sticky: see gate-recover); out of the pool ⇒ ineligible.
@@ -229,10 +300,17 @@ function evaluate(
   }
   // A gate-forced lineage returns to the desired tier as soon as that tier passes the gate again, without
   // the downgrade cost gate (the move was never a policy choice). Applies under both userTurn settings.
+  // Recovery restores at most the tier the lineage was forced off: a desired tier below it (from any source:
+  // assessor, hint, alias or rule) is a policy downgrade, so it waits for the usual gates (a later cost-gated
+  // user turn, or the next break point under userTurn 'retain').
   if (state?.gateForced && gateNote === '') {
-    const c = pickForTier(eligible, desired.tier)
-    if (c.tier === desired.tier) {
-      return choose(c, 'user-turn', `gate-recover: ${current} → ${c.entry.model}, forced from ${state.gateForced.from}, tier=${desired.tier} via ${desired.source}`)
+    const fromTier = tierOfModel(ctx, pool, state.gateForced.from)
+    const held = fromTier !== undefined && tierRank(desired.tier) < tierRank(fromTier)
+    const target = held ? fromTier : desired.tier
+    const c = pickForTier(eligible, target)
+    if (c.tier === target) {
+      const note = held ? ` (desired ${desired.tier}: the downgrade waits for the usual gates)` : ''
+      return choose(c, 'user-turn', `gate-recover: ${current} → ${c.entry.model}, forced from ${state.gateForced.from}, tier=${target} via ${desired.source}${note}`)
     }
   }
   if (policy.userTurn === 'retain') return retain('user-turn', 'retain: boundary-gated')
@@ -254,7 +332,7 @@ function evaluate(
 
   // Upgrade: quality-driven, no cost gate.
   if (targetRank > curRank) {
-    return { action: 'switch', model: target.entry.model, point: 'user-turn', reason: `upgrade:${desired.source}: ${move}; ${tag}`, estimate }
+    return { action: 'switch', model: target.entry.model, point: 'user-turn', reason: `upgrade:${desired.source}: ${move}; ${tag}${capNote}`, estimate }
   }
 
   // Downgrade: cheap gates first, then break-even with hysteresis.
@@ -269,9 +347,9 @@ function evaluate(
   else if (!(saving > need)) rejected = 'cost'
   if (rejected !== undefined) {
     const [code, ...rest] = rejected.split(' ')
-    return { action: 'retain', model: current, point: 'user-turn', reason: `downgrade-rejected:${code}: ${[...rest, move, money].join(' ')}; ${tag}`, estimate }
+    return { action: 'retain', model: current, point: 'user-turn', reason: `downgrade-rejected:${code}: ${[...rest, move, money].join(' ')}; ${tag}${capNote}`, estimate }
   }
-  return { action: 'switch', model: target.entry.model, point: 'user-turn', reason: `downgrade: ${move} ${money}; ${tag}`, estimate }
+  return { action: 'switch', model: target.entry.model, point: 'user-turn', reason: `downgrade: ${move} ${money}; ${tag}${capNote}`, estimate }
 }
 
 /** Time of the last 429/5xx on `model` (failures map, else the legacy lastFailure). */
@@ -400,6 +478,7 @@ function desiredTier(
   s: RequestSummary,
   kind: LineageKind,
   opinion?: Opinion,
+  inherited?: Inherited,
 ): { tier: Tier; source: string } {
   // summarize() only emits valid tiers, but replay may build summaries by hand.
   if (s.hints.tier && (TIERS as readonly string[]).includes(s.hints.tier)) return { tier: s.hints.tier as Tier, source: 'hint' }
@@ -408,6 +487,7 @@ function desiredTier(
   const family = templateFamilyOf(s)
   const rule = policy.rules.find((r) => ruleMatches(r, s, family, kind))
   if (rule) return { tier: rule.tier, source: `rule:${rule.id}` }
+  if (inherited) return { tier: inherited.tier, source: inherited.pending ? 'session-tier:pending' : 'session-tier' }
   if (opinion) return { tier: opinion.tier, source: `assessor(${opinion.confidence.toFixed(2)})` }
   return { tier: pool.defaultTier, source: 'default' }
 }
@@ -462,11 +542,15 @@ async function withAssessment(
   }
   let op = opinionOf(rec, cfg.minConfidence)
   // Downgrade guard: an assessor downgrade may only start from a tier in assessorDowngradeFrom (the assessor
-  // under-calls frontier work). "From" is the current model's tier, else the pool default at a start point.
-  // A guarded opinion is clamped to that tier, so the lineage holds it instead of drifting to the default.
+  // under-calls frontier work). "From" is the current model's tier, else the pool default at a start point. A
+  // gate-forced lineage is judged from the model it was forced off (gateForced.from): the forced model's tier was
+  // never a choice, so it must neither block recovery (standard forced up to frontier) nor license a downgrade
+  // (frontier forced down to standard). A guarded opinion is clamped to that tier, so the lineage holds it
+  // instead of drifting to the default.
   let guarded: { from: Tier; to: Tier } | undefined
   if (op !== undefined) {
-    const from = (state?.current !== undefined ? tierOfModel(ctx, pool, state.current) : undefined) ?? pool.defaultTier
+    const tierOf = (m: string | undefined): Tier | undefined => (m !== undefined ? tierOfModel(ctx, pool, m) : undefined)
+    const from = tierOf(state?.gateForced?.from) ?? tierOf(state?.current) ?? pool.defaultTier
     if (tierRank(op.tier) < tierRank(from) && !cfg.downgradeFrom.has(from)) {
       guarded = { from, to: op.tier }
       op = { tier: from, confidence: op.confidence }

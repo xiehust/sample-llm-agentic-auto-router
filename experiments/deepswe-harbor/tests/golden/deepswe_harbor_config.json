@@ -1,0 +1,480 @@
+{
+ "agent_proxy_allowlist": {
+  "caps": {
+   "disable_internet": true,
+   "docker_compose": true,
+   "dynamic_network_policy": true,
+   "gpus": true,
+   "mounted": true,
+   "network_allowlist": true,
+   "network_allowlist_hostnames": true,
+   "network_allowlist_ipv4_addresses": true,
+   "network_allowlist_ipv4_cidrs": true,
+   "network_allowlist_ipv6_addresses": true,
+   "network_allowlist_ipv6_cidrs": true,
+   "network_allowlist_wildcard_hostnames": true,
+   "stream": false,
+   "tpus": false,
+   "windows": true
+  },
+  "compose_tail": [
+   "docker-compose-build.yaml",
+   "docker-compose-egress-control.yaml",
+   "main-cap-drop-net-raw.json"
+  ],
+  "egress_control": true,
+  "offline": false
+ },
+ "checks_no_network": {
+  "caps": {
+   "disable_internet": true,
+   "docker_compose": true,
+   "dynamic_network_policy": true,
+   "gpus": true,
+   "mounted": true,
+   "network_allowlist": false,
+   "network_allowlist_hostnames": false,
+   "network_allowlist_ipv4_addresses": false,
+   "network_allowlist_ipv4_cidrs": false,
+   "network_allowlist_ipv6_addresses": false,
+   "network_allowlist_ipv6_cidrs": false,
+   "network_allowlist_wildcard_hostnames": false,
+   "stream": false,
+   "tpus": false,
+   "windows": true
+  },
+  "compose_tail": [
+   "docker-compose-build.yaml",
+   "docker-compose-no-network.yaml"
+  ],
+  "egress_control": false,
+  "offline": true
+ },
+ "environment_config": {
+  "delete": true,
+  "import_path": "llmar_env:LlmarDockerEnvironment"
+ },
+ "environment_config_bin": {
+  "delete": true,
+  "import_path": "llmar_env:LlmarDockerEnvironment",
+  "mounts": [
+   {
+    "read_only": true,
+    "source": "/golden/bin/codex",
+    "target": "/usr/local/bin/codex",
+    "type": "bind"
+   }
+  ]
+ },
+ "job_config": {
+  "A": {
+   "agents": [
+    {
+     "env": {
+      "LLMAR_DUMMY_KEY": "not-a-credential"
+     },
+     "extra_allowed_hosts": [
+      "172.17.0.1"
+     ],
+     "kwargs": {
+      "config": {
+       "analytics": {
+        "enabled": false
+       },
+       "approval_policy": "never",
+       "check_for_update_on_startup": false,
+       "features": {
+        "apps": false,
+        "enable_request_compression": false,
+        "goals": false,
+        "memories": false,
+        "multi_agent": false,
+        "plugin_discovery_prefetch": false,
+        "plugins": false,
+        "remote_plugin": false
+       },
+       "feedback": {
+        "enabled": false
+       },
+       "hide_agent_reasoning": false,
+       "history": {
+        "persistence": "none"
+       },
+       "include_environment_context_time": false,
+       "model": "auto",
+       "model_auto_compact_token_limit": 200000,
+       "model_context_window": 272000,
+       "model_provider": "llmar",
+       "model_providers": {
+        "llmar": {
+         "base_url": "http://172.17.0.1:8088/r/0123456789abcdef0123456789abcdef/v1",
+         "env_key": "LLMAR_DUMMY_KEY",
+         "name": "llmar experiment proxy",
+         "request_max_retries": 4,
+         "requires_openai_auth": false,
+         "stream_idle_timeout_ms": 300000,
+         "stream_max_retries": 5,
+         "supports_websockets": false,
+         "wire_api": "responses"
+        }
+       },
+       "model_reasoning_summary": "none",
+       "otel": {
+        "exporter": "none",
+        "metrics_exporter": "none",
+        "trace_exporter": "none"
+       },
+       "project_doc_max_bytes": 0,
+       "sandbox_mode": "danger-full-access",
+       "show_raw_agent_reasoning": false
+      },
+      "reasoning_effort": "high",
+      "version": "0.166.0"
+     },
+     "model_name": "auto",
+     "name": "codex",
+     "skip_model_parsing": true
+    }
+   ],
+   "environment": {
+    "delete": true,
+    "import_path": "llmar_env:LlmarDockerEnvironment",
+    "mounts": [
+     {
+      "read_only": true,
+      "source": "/golden/bin/codex",
+      "target": "/usr/local/bin/codex",
+      "type": "bind"
+     }
+    ]
+   },
+   "job_name": "0123456789abcdef0123456789abcdef",
+   "jobs_dir": "/golden/jobs",
+   "n_attempts": 1,
+   "n_concurrent_trials": 1,
+   "quiet": true,
+   "retry": {
+    "max_retries": 0
+   },
+   "tasks": [
+    {
+     "path": "/golden/tasks/t"
+    }
+   ],
+   "verifier": {}
+  },
+  "B": {
+   "agents": [
+    {
+     "env": {
+      "LLMAR_DUMMY_KEY": "not-a-credential"
+     },
+     "extra_allowed_hosts": [
+      "172.17.0.1"
+     ],
+     "kwargs": {
+      "config": {
+       "analytics": {
+        "enabled": false
+       },
+       "approval_policy": "never",
+       "check_for_update_on_startup": false,
+       "features": {
+        "apps": false,
+        "enable_request_compression": false,
+        "goals": false,
+        "memories": false,
+        "multi_agent": false,
+        "plugin_discovery_prefetch": false,
+        "plugins": false,
+        "remote_plugin": false
+       },
+       "feedback": {
+        "enabled": false
+       },
+       "hide_agent_reasoning": false,
+       "history": {
+        "persistence": "none"
+       },
+       "include_environment_context_time": false,
+       "model": "auto",
+       "model_auto_compact_token_limit": 200000,
+       "model_context_window": 272000,
+       "model_provider": "llmar",
+       "model_providers": {
+        "llmar": {
+         "base_url": "http://172.17.0.1:8088/r/0123456789abcdef0123456789abcdef/v1",
+         "env_key": "LLMAR_DUMMY_KEY",
+         "name": "llmar experiment proxy",
+         "request_max_retries": 4,
+         "requires_openai_auth": false,
+         "stream_idle_timeout_ms": 300000,
+         "stream_max_retries": 5,
+         "supports_websockets": false,
+         "wire_api": "responses"
+        }
+       },
+       "model_reasoning_summary": "none",
+       "otel": {
+        "exporter": "none",
+        "metrics_exporter": "none",
+        "trace_exporter": "none"
+       },
+       "project_doc_max_bytes": 0,
+       "sandbox_mode": "danger-full-access",
+       "show_raw_agent_reasoning": false
+      },
+      "reasoning_effort": "high",
+      "version": "0.166.0"
+     },
+     "model_name": "auto",
+     "name": "codex",
+     "skip_model_parsing": true
+    }
+   ],
+   "environment": {
+    "delete": true,
+    "import_path": "llmar_env:LlmarDockerEnvironment",
+    "mounts": [
+     {
+      "read_only": true,
+      "source": "/golden/bin/codex",
+      "target": "/usr/local/bin/codex",
+      "type": "bind"
+     }
+    ]
+   },
+   "job_name": "0123456789abcdef0123456789abcdef",
+   "jobs_dir": "/golden/jobs",
+   "n_attempts": 1,
+   "n_concurrent_trials": 1,
+   "quiet": true,
+   "retry": {
+    "max_retries": 0
+   },
+   "tasks": [
+    {
+     "path": "/golden/tasks/t"
+    }
+   ],
+   "verifier": {}
+  },
+  "C": {
+   "agents": [
+    {
+     "env": {
+      "LLMAR_DUMMY_KEY": "not-a-credential"
+     },
+     "extra_allowed_hosts": [
+      "172.17.0.1"
+     ],
+     "kwargs": {
+      "config": {
+       "analytics": {
+        "enabled": false
+       },
+       "approval_policy": "never",
+       "check_for_update_on_startup": false,
+       "features": {
+        "apps": false,
+        "enable_request_compression": false,
+        "goals": false,
+        "memories": false,
+        "multi_agent": false,
+        "plugin_discovery_prefetch": false,
+        "plugins": false,
+        "remote_plugin": false
+       },
+       "feedback": {
+        "enabled": false
+       },
+       "hide_agent_reasoning": false,
+       "history": {
+        "persistence": "none"
+       },
+       "include_environment_context_time": false,
+       "model": "auto",
+       "model_auto_compact_token_limit": 200000,
+       "model_context_window": 272000,
+       "model_provider": "llmar",
+       "model_providers": {
+        "llmar": {
+         "base_url": "http://172.17.0.1:8088/r/0123456789abcdef0123456789abcdef/v1",
+         "env_key": "LLMAR_DUMMY_KEY",
+         "name": "llmar experiment proxy",
+         "request_max_retries": 4,
+         "requires_openai_auth": false,
+         "stream_idle_timeout_ms": 300000,
+         "stream_max_retries": 5,
+         "supports_websockets": false,
+         "wire_api": "responses"
+        }
+       },
+       "model_reasoning_summary": "none",
+       "otel": {
+        "exporter": "none",
+        "metrics_exporter": "none",
+        "trace_exporter": "none"
+       },
+       "project_doc_max_bytes": 0,
+       "sandbox_mode": "danger-full-access",
+       "show_raw_agent_reasoning": false
+      },
+      "reasoning_effort": "high",
+      "version": "0.166.0"
+     },
+     "model_name": "auto",
+     "name": "codex",
+     "skip_model_parsing": true
+    }
+   ],
+   "environment": {
+    "delete": true,
+    "import_path": "llmar_env:LlmarDockerEnvironment",
+    "mounts": [
+     {
+      "read_only": true,
+      "source": "/golden/bin/codex",
+      "target": "/usr/local/bin/codex",
+      "type": "bind"
+     }
+    ]
+   },
+   "job_name": "0123456789abcdef0123456789abcdef",
+   "jobs_dir": "/golden/jobs",
+   "n_attempts": 1,
+   "n_concurrent_trials": 1,
+   "quiet": true,
+   "retry": {
+    "max_retries": 0
+   },
+   "tasks": [
+    {
+     "path": "/golden/tasks/t"
+    }
+   ],
+   "verifier": {}
+  },
+  "F": {
+   "agents": [
+    {
+     "env": {
+      "LLMAR_DUMMY_KEY": "not-a-credential"
+     },
+     "extra_allowed_hosts": [
+      "172.17.0.1"
+     ],
+     "kwargs": {
+      "config": {
+       "analytics": {
+        "enabled": false
+       },
+       "approval_policy": "never",
+       "check_for_update_on_startup": false,
+       "features": {
+        "apps": false,
+        "enable_request_compression": false,
+        "goals": false,
+        "memories": false,
+        "multi_agent": false,
+        "plugin_discovery_prefetch": false,
+        "plugins": false,
+        "remote_plugin": false
+       },
+       "feedback": {
+        "enabled": false
+       },
+       "hide_agent_reasoning": false,
+       "history": {
+        "persistence": "none"
+       },
+       "include_environment_context_time": false,
+       "model": "auto",
+       "model_auto_compact_token_limit": 200000,
+       "model_context_window": 272000,
+       "model_provider": "llmar",
+       "model_providers": {
+        "llmar": {
+         "base_url": "http://172.17.0.1:8088/r/0123456789abcdef0123456789abcdef/v1",
+         "env_key": "LLMAR_DUMMY_KEY",
+         "name": "llmar experiment proxy",
+         "request_max_retries": 4,
+         "requires_openai_auth": false,
+         "stream_idle_timeout_ms": 300000,
+         "stream_max_retries": 5,
+         "supports_websockets": false,
+         "wire_api": "responses"
+        }
+       },
+       "model_reasoning_summary": "none",
+       "otel": {
+        "exporter": "none",
+        "metrics_exporter": "none",
+        "trace_exporter": "none"
+       },
+       "project_doc_max_bytes": 0,
+       "sandbox_mode": "danger-full-access",
+       "show_raw_agent_reasoning": false
+      },
+      "reasoning_effort": "high",
+      "version": "0.166.0"
+     },
+     "model_name": "auto",
+     "name": "codex",
+     "skip_model_parsing": true
+    }
+   ],
+   "environment": {
+    "delete": true,
+    "import_path": "llmar_env:LlmarDockerEnvironment",
+    "mounts": [
+     {
+      "read_only": true,
+      "source": "/golden/bin/codex",
+      "target": "/usr/local/bin/codex",
+      "type": "bind"
+     }
+    ]
+   },
+   "job_name": "0123456789abcdef0123456789abcdef",
+   "jobs_dir": "/golden/jobs",
+   "n_attempts": 1,
+   "n_concurrent_trials": 1,
+   "quiet": true,
+   "retry": {
+    "max_retries": 0
+   },
+   "tasks": [
+    {
+     "path": "/golden/tasks/t"
+    }
+   ],
+   "verifier": {}
+  }
+ },
+ "verifier_no_network": {
+  "caps": {
+   "disable_internet": true,
+   "docker_compose": true,
+   "dynamic_network_policy": true,
+   "gpus": true,
+   "mounted": true,
+   "network_allowlist": false,
+   "network_allowlist_hostnames": false,
+   "network_allowlist_ipv4_addresses": false,
+   "network_allowlist_ipv4_cidrs": false,
+   "network_allowlist_ipv6_addresses": false,
+   "network_allowlist_ipv6_cidrs": false,
+   "network_allowlist_wildcard_hostnames": false,
+   "stream": false,
+   "tpus": false,
+   "windows": true
+  },
+  "compose_tail": [
+   "docker-compose-build.yaml",
+   "docker-compose-no-network.yaml"
+  ],
+  "egress_control": false,
+  "offline": true
+ }
+}

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { request as httpRequest } from 'node:http'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { Engine, RecordOutcome } from '@auto-router/core'
@@ -6,7 +7,7 @@ import { buildCard } from '@auto-router/assessor'
 import { costOf, createStreamUsageAccumulator, findModel, loadCatalog, normalizeUsage, parseSse, type Dialect } from '@auto-router/pricing'
 import { RETRYABLE_STATUS } from './index.ts'
 import {
-  chop, fixture, HAIKU, HAIKU_JP, hopHeaders, LUNA, startFakeBedrock, startRouter, testPolicy, waitForLogs, type Reply, type Script,
+  chop, fixture, HAIKU, HAIKU_JP, hopHeaders, TEST_GATEWAY_ARN, LUNA, startFakeBedrock, startRouter, testPolicy, waitForLogs, type Reply, type Script,
 } from './test-helpers.ts'
 
 const catalog = loadCatalog('ap-northeast-1')
@@ -94,6 +95,28 @@ describe('router pipeline against a fake bedrock-runtime', () => {
     await waitForLogs(router, 1)
     expect(router.logs[0]?.lineage).toMatch(/^[0-9a-f]{16}$/)
     expect(JSON.stringify(router.logs)).not.toContain('sess-1')
+  })
+
+  it('logs the session label sha256(root)[:16] so a client can join its runs; never the raw id, never an EMF dimension', async () => {
+    const text = fixture('anthropic-messages/nonstream-read.json')
+    const { router } = await setup(() => ({ chunks: [text] }))
+    const label = (v: string) => createHash('sha256').update(v).digest('hex').slice(0, 16)
+    const sent = requestBody('anthropic-messages', 'auto', false)
+    expect((await post(router.url, '/v1/messages', sent, { 'x-router-session': 'run-0001' })).status).toBe(200)
+    // A sub-agent call: the root is the parent session, so it joins to the same run.
+    expect((await post(router.url, '/v1/messages', sent, { 'x-router-session': 'run-0001-sub', 'x-router-parent-session': 'run-0001' })).status).toBe(200)
+    await waitForLogs(router, 2)
+    expect(router.logs.map((l) => l.session)).toEqual([label('run-0001'), label('run-0001')])
+    expect(router.logs[0]?.lineage).not.toBe(router.logs[1]?.lineage)
+    const all = router.lines.join('\n')
+    expect(all).not.toContain('run-0001')
+    const emfDocs = router.lines.map((l) => JSON.parse(l) as Record<string, any>).filter((d) => d._aws)
+    expect(emfDocs.length).toBeGreaterThan(0)
+    for (const d of emfDocs) {
+      expect(d.session).toBeUndefined()
+      const dims = (d._aws.CloudWatchMetrics as Array<{ Dimensions: string[][] }>).flatMap((m) => m.Dimensions.flat())
+      expect(new Set(dims)).toEqual(new Set(['Dialect', 'ServedModel', 'Mode', 'StatusClass', 'Reason']))
+    }
   })
 
   it('chatIncludeUsage inject-strip: upstream gets include_usage, client sees no usage, cost is still logged', async () => {
@@ -291,6 +314,34 @@ describe('router edges', () => {
     expect(fake.requests).toHaveLength(0)
     await waitForLogs(router, 2)
     expect(router.logs.map((l) => l.reason)).toEqual(['caller-missing', 'principal-not-gateway'])
+  })
+
+  it('model discovery without x-amz-source-arn is answered (shape logged); inference without it stays 403', async () => {
+    const { fake, router } = await setup(() => ({ chunks: ['{}'] }))
+    const { 'x-amz-source-arn': _drop, ...noSource } = hopHeaders()
+    const d = await fetch(router.url + '/v1/models', { headers: noSource })
+    expect(d.status).toBe(200)
+    await d.text()
+    const r = await fetch(router.url + '/v1/messages', { method: 'POST', body: '{"model":"auto"}', headers: { 'content-type': 'application/json', ...noSource } })
+    expect(r.status).toBe(403)
+    await r.text()
+    await waitForLogs(router, 2)
+    expect(router.logs.map((l) => [l.status, l.reason, l.sourceArn])).toEqual([[200, 'models', 'absent'], [403, 'source-arn-mismatch', 'absent']])
+    expect(router.lines.join('\n')).not.toContain(TEST_GATEWAY_ARN)
+    expect(fake.requests).toHaveLength(0)
+  })
+
+  it('model discovery with any source ARN other than absent or the gateway is 403, shape logged', async () => {
+    const { fake, router } = await setup(() => ({ chunks: ['{}'] }))
+    for (const v of [`${TEST_GATEWAY_ARN}/target/abc`, `${TEST_GATEWAY_ARN}, ${TEST_GATEWAY_ARN}`]) {
+      const d = await fetch(router.url + '/v1/models', { headers: hopHeaders(undefined, v) })
+      expect(d.status).toBe(403)
+      await d.text()
+    }
+    await waitForLogs(router, 2)
+    expect(router.logs.map((l) => [l.status, l.reason, l.sourceArn])).toEqual([[403, 'source-arn-mismatch', 'gateway-subresource'], [403, 'source-arn-repeated', 'other']])
+    expect(router.lines.join('\n')).not.toContain(TEST_GATEWAY_ARN)
+    expect(fake.requests).toHaveLength(0)
   })
 
   it('answers model discovery (GET /v1/models) behind hop auth, in a shape valid for OpenAI and Anthropic clients', async () => {

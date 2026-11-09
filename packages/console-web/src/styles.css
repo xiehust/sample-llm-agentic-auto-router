@@ -1,0 +1,94 @@
+/* The few styles Cloudscape does not cover. Bundled as a file: the CSP allows style-src 'self' only.
+   Theme-dependent colours come from @cloudscape-design/design-tokens as inline style values (CSSOM). */
+
+.llmar-code {
+  position: relative;
+}
+
+.llmar-code pre {
+  margin: 0;
+  padding: 12px 16px;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid;
+  font-family: Monaco, Menlo, Consolas, 'Courier Prime', Courier, 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+.llmar-code pre:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.llmar-json textarea {
+  font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.llmar-lanes {
+  display: grid;
+  gap: 8px;
+}
+
+.llmar-lane {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.llmar-lane-label {
+  min-width: 140px;
+  font-weight: 700;
+}
+
+.llmar-dot {
+  display: inline-block;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 7px;
+  border: 0;
+  color: #fff;
+  font-size: 10px;
+  line-height: 14px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.llmar-dot:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+}
+
+.llmar-tier-fast { background: #037f0c; }
+.llmar-tier-standard { background: #0972d3; }
+.llmar-tier-frontier { background: #d91515; }
+.llmar-tier-none { background: #8d99a8; }
+
+.llmar-bar {
+  display: flex;
+  width: 120px;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.llmar-bar span { display: block; height: 100%; }
+.llmar-bar .read { background: #037f0c; }
+.llmar-bar .write { background: #f89256; }
+.llmar-bar .uncached { background: #8d99a8; }
+
+.llmar-diff {
+  margin: 0;
+  max-height: 480px;
+  overflow: auto;
+  font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.llmar-diff .add { background: rgba(3, 127, 12, 0.12); }
+.llmar-diff .del { background: rgba(217, 21, 21, 0.12); }

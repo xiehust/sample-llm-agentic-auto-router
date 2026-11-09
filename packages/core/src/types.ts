@@ -1,4 +1,5 @@
 // Core contract types (parent design.md §3, incl. approved additions C1–C5). Owned by @auto-router/core.
+import type { Cap } from './cap.ts'
 import type { Tier } from './policy.ts'
 import type { Dialect, NormalizedUsage } from './pricing-types.ts'
 
@@ -35,6 +36,11 @@ export interface Decision {
   estimate?: { stayUsd: number; switchUsd: number; horizonCalls: number }
   /** Tier assessor hook (parent §3, 2026-11-04): present only when the assessor was consulted (or its result reused). */
   assessment?: Assessment
+  /**
+   * Observe mode, alias requests (admin console C3; 0d research §1.6): the model auto would be on for this lineage,
+   * carried forward from the last free choice (break point, initialize or switch), and whether it moved on this call.
+   */
+  projected?: { model: string; switch: boolean }
 }
 
 // ---------- tier assessor hook (parent design.md §3, approved 2026-11-04; implementation in @auto-router/assessor) ----------
@@ -56,8 +62,12 @@ export interface CardContext {
   lineageKind: 'root' | 'subagent'
 }
 
-/** Second argument of Engine.decide. `card` is called lazily, only when core consults the assessor. */
-export interface DecideExtras { card?: (ctx: CardContext) => unknown }
+/**
+ * Second argument of Engine.decide. `card` is called lazily, only when core consults the assessor. `cap` is the
+ * caller's access cap (admin console 0.16): routing never chooses a model above `cap.maxTier`; a lineage already on
+ * one keeps it through hard locks and moves at its next decision point. Pins are the caller's check (pinAllowedByCap).
+ */
+export interface DecideExtras { card?: (ctx: CardContext) => unknown; cap?: Cap }
 
 /**
  * Outcome of one consultation. 'ok' and 'unavailable' come from the assessor; 'timeout' (assessorTimeoutMs hit,
@@ -127,6 +137,11 @@ export interface RecordResult {
   miss?: MissAttribution
   /** The gateway (or a fallback) served a different model than the decision named. */
   servedDiffers?: true
+  /**
+   * The lineage moved off `model` on this call (status < 400). `warmTokens` = the prefix tokens still warm on `model`
+   * at receivedAt, i.e. what the lineage would have read had it stayed (cold-cache switch penalty, 0d research §1.2).
+   */
+  switchedFrom?: { model: string; warmTokens: number }
   /** Follow-up 2026-11-04 (item 3): previous_response_id arrived without router state (reason code chain-state-missing). */
   chainStateMissing?: true
 }
@@ -160,6 +175,8 @@ export interface SessionState {
   compactions?: number
   /** Last assessor consultation, reused by decide() for the same user turn (any engine on the store). */
   assessed?: AssessedTurn
+  /** Observe mode: Decision.projected.model of the last observe decision (cleared by an auto decision). */
+  projected?: string
 }
 
 export interface StateStore {

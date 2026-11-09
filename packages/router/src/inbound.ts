@@ -5,8 +5,29 @@
 import type { IncomingHttpHeaders } from 'node:http'
 import type { HopAuth } from './config.ts'
 
-export type InboundResult = { ok: true; principal?: string } | { ok: false; reason: string }
-export type InboundCheck = (headers: IncomingHttpHeaders) => InboundResult
+/**
+ * Shape of x-amz-source-arn when it is not this gateway's ARN: logged for diagnosis, never the value.
+ * gateway-subresource = `<gatewayArn>/…`; other-agentcore = another bedrock-agentcore ARN.
+ */
+export type SourceArnShape = 'absent' | 'gateway' | 'gateway-subresource' | 'other-agentcore' | 'other'
+export type InboundResult = { ok: true; principal?: string; sourceArn?: SourceArnShape } | { ok: false; reason: string; sourceArn?: SourceArnShape }
+/**
+ * `discovery`: the gateway's model discovery (GET /v1/models, run when a target is created or updated). It carries no
+ * x-amz-source-arn (the 2026-11-08 deploy logged sourceArn=absent), so there the header may be absent or exactly the
+ * gateway ARN; any other shape (gateway-subresource, other-agentcore, other) or a repeated value is rejected. The
+ * caller (gateway role, IAM-verified by API Gateway) and the VPC endpoint are still required. Inference keeps the
+ * strict check (exactly the gateway ARN).
+ */
+export type InboundCheck = (headers: IncomingHttpHeaders, opts?: { discovery?: boolean }) => InboundResult
+
+export function sourceArnShape(v: string | undefined | null, gatewayArn: string): SourceArnShape {
+  if (v === undefined) return 'absent'
+  if (v === null) return 'other' // repeated / ambiguous
+  if (v === gatewayArn) return 'gateway'
+  if (v.startsWith(`${gatewayArn}/`)) return 'gateway-subresource'
+  if (/^arn:aws[a-z-]*:bedrock-agentcore:/.test(v)) return 'other-agentcore'
+  return 'other'
+}
 
 /**
  * One header value, or null when it is ambiguous: node:http joins a repeated header with ', ', and an array means
@@ -36,7 +57,7 @@ export function createInboundCheck(auth: HopAuth): InboundCheck {
   if (auth.kind !== 'apigw-iam') return () => ({ ok: false, reason: 'hop-auth-unconfigured' })
   const want = roleOf(auth.gatewayRoleArn)
   if (!want) return () => ({ ok: false, reason: 'hop-auth-unconfigured' })
-  return (headers) => {
+  return (headers, opts = {}) => {
     const caller = single(headers, 'x-router-caller-arn')
     if (!caller) return { ok: false, reason: caller === null ? 'caller-repeated' : 'caller-missing' }
     const got = principalRole(caller)
@@ -44,9 +65,10 @@ export function createInboundCheck(auth: HopAuth): InboundCheck {
     const vpce = single(headers, 'x-router-source-vpce')
     if (vpce !== auth.vpceId) return { ok: false, reason: vpce === null ? 'vpce-repeated' : 'vpce-mismatch' }
     const source = single(headers, 'x-amz-source-arn')
-    if (source !== auth.gatewayArn) return { ok: false, reason: source === null ? 'source-arn-repeated' : 'source-arn-mismatch' }
+    const shape = source === auth.gatewayArn ? undefined : sourceArnShape(source, auth.gatewayArn)
+    if (shape && !(opts.discovery && shape === 'absent')) return { ok: false, reason: source === null ? 'source-arn-repeated' : 'source-arn-mismatch', sourceArn: shape }
     const account = single(headers, 'x-amz-source-account')
-    if (account !== undefined && account !== want.account) return { ok: false, reason: 'source-account-mismatch' }
-    return { ok: true, principal: `role/${got.name}` }
+    if (account !== undefined && account !== want.account) return { ok: false, reason: 'source-account-mismatch', ...(shape ? { sourceArn: shape } : {}) }
+    return { ok: true, principal: `role/${got.name}`, ...(shape ? { sourceArn: shape } : {}) }
   }
 }

@@ -1,0 +1,6191 @@
+{
+  "dataset": {
+    "repo": "R2E-Gym/R2E-Gym-Subset",
+    "revision": "2e8108ff942f24fcb5686badfaf7f9a8808566d5",
+    "license": "Apache-2.0"
+  },
+  "seed": 20261105,
+  "pilot": [
+    "aiohttp-4a2e64-fd3a92",
+    "numpy-8eccbf-7df2f5",
+    "pandas-fe934d-8dba34"
+  ],
+  "validated": {
+    "aiohttp-147aa3-deb935": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 49,
+      "slowest_s": 0.8
+    },
+    "aiohttp-45147c-4e18d2": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 179,
+      "slowest_s": 17.0
+    },
+    "aiohttp-4a2e64-fd3a92": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 41,
+      "slowest_s": 1.3
+    },
+    "aiohttp-598334-fa5125": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 108,
+      "slowest_s": 5.0
+    },
+    "aiohttp-bff763-13298d": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 135,
+      "slowest_s": 7.9
+    },
+    "aiohttp-fca116-274b5e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 13,
+      "slowest_s": 0.9
+    },
+    "coveragepy-c44bbc-d1d86e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 14,
+      "slowest_s": 0.6
+    },
+    "numpy-088c56-5bd959": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 34,
+      "slowest_s": 1.9
+    },
+    "numpy-0f0474-e5c1bd": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 219,
+      "slowest_s": 1.8
+    },
+    "numpy-2f381f-edddfe": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 17,
+      "slowest_s": 0.9
+    },
+    "numpy-8eccbf-7df2f5": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 218,
+      "slowest_s": 1.5
+    },
+    "numpy-966849-09b41c": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 39,
+      "slowest_s": 1.1
+    },
+    "numpy-a87031-f25e4f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 4061,
+      "slowest_s": 15.9
+    },
+    "numpy-a95aae-3acac0": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 44,
+      "slowest_s": 2.2
+    },
+    "numpy-b8769a-21cddc": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 236,
+      "slowest_s": 1.7
+    },
+    "numpy-e7de40-1f5c96": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 7,
+      "p2p": 211,
+      "slowest_s": 1.6
+    },
+    "orange3-4014f2-483e3b": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 26,
+      "slowest_s": 3.8
+    },
+    "orange3-44af12-fce66d": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 64,
+      "slowest_s": 3.0
+    },
+    "orange3-5dc49d-190937": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 78,
+      "slowest_s": 8.6
+    },
+    "orange3-95b35c-5f6292": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 28,
+      "slowest_s": 10.5
+    },
+    "orange3-972405-f970d8": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 79,
+      "slowest_s": 14.5
+    },
+    "orange3-98182d-847f6e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 9,
+      "slowest_s": 7.2
+    },
+    "orange3-9b95c1-77f454": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 10,
+      "slowest_s": 6.3
+    },
+    "orange3-ee4dd2-c9e3db": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 2,
+      "slowest_s": 2.8
+    },
+    "pandas-2a0e77-2e85b4": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 4,
+      "p2p": 16,
+      "slowest_s": 3.7
+    },
+    "pandas-30dd64-145515": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 79,
+      "slowest_s": 4.3
+    },
+    "pandas-6d340a-9ee37b": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 21,
+      "slowest_s": 3.2
+    },
+    "pandas-8561eb-51c113": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 14,
+      "p2p": 14,
+      "slowest_s": 5.7
+    },
+    "pandas-915053-68a3b1": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 56,
+      "slowest_s": 4.5
+    },
+    "pandas-af498f-e8f107": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 3,
+      "p2p": 289,
+      "slowest_s": 4.1
+    },
+    "pandas-deec94-0c2bde": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 3,
+      "p2p": 79,
+      "slowest_s": 3.7
+    },
+    "pandas-f48981-44ca57": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 98,
+      "slowest_s": 4.0
+    },
+    "pandas-fe934d-8dba34": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 118,
+      "slowest_s": 4.1
+    },
+    "pillow-1b2501-9a27a8": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 97,
+      "slowest_s": 2.0
+    },
+    "pillow-2ad43c-4eeb8c": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 50,
+      "slowest_s": 0.4
+    },
+    "pillow-869b78-6db158": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 6,
+      "slowest_s": 0.9
+    },
+    "pillow-877d97-e85844": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 7,
+      "slowest_s": 2.1
+    },
+    "pillow-b78e60-1b6316": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 4,
+      "slowest_s": 0.9
+    },
+    "pillow-f543b0-34bdf8": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 20,
+      "slowest_s": 0.8
+    },
+    "pillow-f5440c-c3e1b0": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 3,
+      "slowest_s": 0.2
+    },
+    "pillow-ffcc06-70381f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 4,
+      "p2p": 45,
+      "slowest_s": 0.4
+    },
+    "pyramid-1281a5-ccffdb": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 817,
+      "slowest_s": 5.8
+    },
+    "pyramid-579a5f-47523a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 853,
+      "slowest_s": 5.6
+    },
+    "pyramid-749575-a93961": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 868,
+      "slowest_s": 4.6
+    },
+    "pyramid-ae7bcd-7cabc5": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 3,
+      "p2p": 912,
+      "slowest_s": 4.9
+    },
+    "pyramid-b2c239-53cc51": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 905,
+      "slowest_s": 4.5
+    },
+    "pyramid-bff312-df8c36": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 812,
+      "slowest_s": 4.8
+    },
+    "scrapy-5bcb8f-d5019c": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 24,
+      "slowest_s": 1.8
+    },
+    "scrapy-9ec60e-8e4aad": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 5,
+      "slowest_s": 1.3
+    },
+    "scrapy-a8a6f0-50e71f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 8,
+      "slowest_s": 1.7
+    },
+    "scrapy-bfcee4-52b0f9": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 12,
+      "slowest_s": 2.4
+    },
+    "scrapy-f042ad-0f3959": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 11,
+      "slowest_s": 1.4
+    },
+    "tornado-1b4556-f1507d": {
+      "ok": false,
+      "reasons": [
+        "gold-fails-strict"
+      ],
+      "f2p": 1,
+      "p2p": 51,
+      "slowest_s": 0.5
+    },
+    "scrapy-7a51d3-70f3a5": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 4,
+      "p2p": 16,
+      "slowest_s": 5.8
+    },
+    "aiohttp-409c83-3db67a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 63,
+      "slowest_s": 1.0
+    },
+    "aiohttp-56445f-c9c043": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 55,
+      "slowest_s": 1.0
+    },
+    "aiohttp-8a4439-8aca58": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 42,
+      "slowest_s": 0.8
+    },
+    "aiohttp-92cd42-5bca4c": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 14,
+      "slowest_s": 0.8
+    },
+    "aiohttp-9c932f-71ec5a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 46,
+      "slowest_s": 5.2
+    },
+    "aiohttp-b8548c-7d4784": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 37,
+      "slowest_s": 1.0
+    },
+    "aiohttp-c0c337-6e6699": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 21,
+      "slowest_s": 6.3
+    },
+    "aiohttp-c0e449-0aa747": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 37,
+      "slowest_s": 1.1
+    },
+    "aiohttp-fca5a7-a0c8f3": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 4,
+      "slowest_s": 5.6
+    },
+    "coveragepy-590196-7e95ae": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 76,
+      "slowest_s": 2.6
+    },
+    "coveragepy-5dbbe1-430c16": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 74,
+      "slowest_s": 4.1
+    },
+    "coveragepy-731e9a-776539": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 29,
+      "slowest_s": 2.3
+    },
+    "coveragepy-be2812-163d49": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 58,
+      "slowest_s": 2.6
+    },
+    "coveragepy-ea131d-cba50d": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 24,
+      "slowest_s": 2.0
+    },
+    "datalad-1c6afc-455269": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 4,
+      "slowest_s": 9.3
+    },
+    "datalad-32d46b-6b7d1f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 2,
+      "slowest_s": 5.9
+    },
+    "datalad-48975a-033c2f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 2,
+      "slowest_s": 1.3
+    },
+    "datalad-780607-ffa876": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 2,
+      "slowest_s": 1.8
+    },
+    "datalad-8fb58b-5da3dc": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 3,
+      "slowest_s": 3.7
+    },
+    "numpy-01fd01-0c6fd2": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 249,
+      "slowest_s": 1.9
+    },
+    "numpy-0210cc-a2e101": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 119,
+      "slowest_s": 47.5
+    },
+    "numpy-05a88a-d2aacd": {
+      "ok": false,
+      "reasons": [
+        "unstable",
+        "gold-fails-strict"
+      ],
+      "f2p": 2,
+      "p2p": 346,
+      "slowest_s": 20.0
+    },
+    "numpy-173fbc-700971": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 4,
+      "slowest_s": 2.1
+    },
+    "numpy-1cdc9a-8f72e4": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 3,
+      "p2p": 43,
+      "slowest_s": 1.0
+    },
+    "numpy-2aa0bf-6973b7": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 15,
+      "slowest_s": 2.5
+    },
+    "numpy-2b7fff-08567f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 201,
+      "slowest_s": 1.5
+    },
+    "numpy-4d87d9-09bab7": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 142,
+      "slowest_s": 1.8
+    },
+    "numpy-4f8d95-23ef29": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 169,
+      "slowest_s": 2.1
+    },
+    "numpy-548112-04a63c": {
+      "ok": false,
+      "reasons": [
+        "unstable",
+        "gold-fails-strict"
+      ],
+      "f2p": 4,
+      "p2p": 298,
+      "slowest_s": 18.8
+    },
+    "numpy-5c7c69-6db344": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 26,
+      "slowest_s": 2.1
+    },
+    "numpy-6cada2-7f1744": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 36,
+      "slowest_s": 2.1
+    },
+    "numpy-725488-8b9ffe": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 252,
+      "slowest_s": 1.8
+    },
+    "numpy-76f1ed-be09f4": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 573,
+      "slowest_s": 4.7
+    },
+    "numpy-8888a7-6c2c82": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 230,
+      "slowest_s": 1.9
+    },
+    "numpy-89944e-80e6fc": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 48,
+      "slowest_s": 0.9
+    },
+    "numpy-8ec391-a3384f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 225,
+      "slowest_s": 1.5
+    },
+    "numpy-8fee75-6d8c9d": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 3,
+      "slowest_s": 0.9
+    },
+    "numpy-95b550-b27ea3": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 13,
+      "slowest_s": 0.9
+    },
+    "numpy-968507-bdfb44": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 89,
+      "slowest_s": 1.4
+    },
+    "numpy-9c3d24-74b391": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 13,
+      "slowest_s": 0.9
+    },
+    "numpy-a12a17-1dc5b0": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 235,
+      "slowest_s": 1.5
+    },
+    "numpy-a46539-02cd6a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 23,
+      "slowest_s": 0.7
+    },
+    "numpy-a525da-81de28": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 5,
+      "p2p": 32,
+      "slowest_s": 2.3
+    },
+    "numpy-a53224-29c56f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 253,
+      "slowest_s": 2.0
+    },
+    "numpy-a9465d-b4c70f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 221,
+      "slowest_s": 1.5
+    },
+    "numpy-aa422b-7c391a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 268,
+      "slowest_s": 1.6
+    },
+    "numpy-afad59-02f2e5": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 106,
+      "slowest_s": 1.4
+    },
+    "numpy-b89849-b1213e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 16,
+      "slowest_s": 0.9
+    },
+    "numpy-ba9f93-d8ad97": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 255,
+      "slowest_s": 5.7
+    },
+    "numpy-c37bef-b43ae9": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 256,
+      "slowest_s": 1.8
+    },
+    "numpy-d69d51-c0d26f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 221,
+      "slowest_s": 1.5
+    },
+    "numpy-e05772-51672d": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 168,
+      "slowest_s": 2.5
+    },
+    "numpy-eef0e0-ead310": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 79,
+      "slowest_s": 0.9
+    },
+    "numpy-f36828-60cfe2": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 49,
+      "slowest_s": 1.0
+    },
+    "numpy-fe16f8-322e7a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 51,
+      "slowest_s": 1.2
+    },
+    "orange3-02ad5e-6cdac8": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 60,
+      "slowest_s": 4.9
+    },
+    "orange3-10b160-ba7df8": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 60,
+      "slowest_s": 6.4
+    },
+    "orange3-1a9c4b-531e63": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 41,
+      "slowest_s": 3.1
+    },
+    "orange3-271eee-df4d66": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 27,
+      "slowest_s": 5.1
+    },
+    "orange3-4e7e54-1c4f9e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 22,
+      "slowest_s": 12.8
+    },
+    "orange3-78406f-9e22e2": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 4,
+      "p2p": 38,
+      "slowest_s": 7.8
+    },
+    "orange3-7aa3fe-79511b": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 78,
+      "slowest_s": 12.5
+    },
+    "orange3-9b5494-e26f40": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 7,
+      "slowest_s": 4.2
+    },
+    "orange3-a45aed-7c4a01": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 9,
+      "p2p": 31,
+      "slowest_s": 10.0
+    },
+    "orange3-a72ff0-b6556f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 51,
+      "slowest_s": 10.5
+    },
+    "orange3-cab0ee-2c1d54": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 29,
+      "slowest_s": 9.5
+    },
+    "orange3-d52671-8b8504": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 0,
+      "slowest_s": 3.4
+    },
+    "orange3-dd8436-6eca09": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 12,
+      "slowest_s": 8.0
+    },
+    "orange3-e0fc89-491a48": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 42,
+      "slowest_s": 5.3
+    },
+    "orange3-fabacd-f3870d": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 28,
+      "slowest_s": 10.8
+    },
+    "pandas-030f87-03858e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 360,
+      "slowest_s": 7.3
+    },
+    "pandas-054c49-c219c0": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 101,
+      "slowest_s": 3.1
+    },
+    "pandas-05f85a-438472": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 3,
+      "p2p": 174,
+      "slowest_s": 6.2
+    },
+    "pandas-0cdaa7-1c1646": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 279,
+      "slowest_s": 5.0
+    },
+    "pandas-13f005-5dc7d1": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 13,
+      "slowest_s": 3.5
+    },
+    "pandas-1a1a81-e8278c": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 526,
+      "slowest_s": 10.1
+    },
+    "pandas-1c88e6-aff94c": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 8,
+      "p2p": 972,
+      "slowest_s": 7.3
+    },
+    "pandas-2b32e4-104779": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 21,
+      "slowest_s": 3.6
+    },
+    "pandas-3a4821-e0550e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 57,
+      "slowest_s": 3.7
+    },
+    "pandas-3e4a21-79db02": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 36,
+      "slowest_s": 3.3
+    },
+    "pandas-436f5e-b0b28f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 14,
+      "p2p": 22,
+      "slowest_s": 4.5
+    },
+    "pandas-441280-0d1878": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 14,
+      "p2p": 1658,
+      "slowest_s": 37.5
+    },
+    "pandas-4f9187-547e79": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 3,
+      "slowest_s": 3.3
+    },
+    "pandas-62c238-eff919": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 183,
+      "slowest_s": 4.7
+    },
+    "pandas-693fb7-1ac4b9": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 10,
+      "p2p": 382,
+      "slowest_s": 7.0
+    },
+    "pandas-6a0e27-60873f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 270,
+      "slowest_s": 5.0
+    },
+    "pandas-6ce9be-69e51f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 109,
+      "slowest_s": 3.4
+    },
+    "pandas-797732-ae1165": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 4,
+      "p2p": 1105,
+      "slowest_s": 6.7
+    },
+    "pandas-7cf2d0-fbba47": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 20,
+      "slowest_s": 3.7
+    },
+    "pandas-844445-38a887": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 13,
+      "p2p": 0,
+      "slowest_s": 3.3
+    },
+    "pandas-877876-098c88": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 23,
+      "slowest_s": 3.6
+    },
+    "pandas-891a41-9a5155": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 7,
+      "slowest_s": 2.5
+    },
+    "pandas-9cfd1b-41c1c5": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 5,
+      "p2p": 501,
+      "slowest_s": 7.0
+    },
+    "pandas-9e33bf-7b1308": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 156,
+      "slowest_s": 3.0
+    },
+    "pandas-9e5573-e16122": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 100,
+      "slowest_s": 5.8
+    },
+    "pandas-9eaf63-f66fea": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 12,
+      "p2p": 208,
+      "slowest_s": 8.9
+    },
+    "pandas-a49be7-f4ea47": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 133,
+      "slowest_s": 4.6
+    },
+    "pandas-a53cf8-d479a7": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 378,
+      "slowest_s": 10.7
+    },
+    "pandas-a5aed5-d29794": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 6,
+      "slowest_s": 2.6
+    },
+    "pandas-b6222e-c976a7": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 68,
+      "slowest_s": 3.5
+    },
+    "pandas-be6a3b-c46382": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 32,
+      "slowest_s": 4.3
+    },
+    "pandas-c4e8eb-3b1240": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 7,
+      "slowest_s": 3.1
+    },
+    "pandas-c92b37-01efff": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 9,
+      "slowest_s": 4.2
+    },
+    "pandas-cb7137-6385c3": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 19,
+      "slowest_s": 3.3
+    },
+    "pandas-cffcfe-d01278": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 22,
+      "slowest_s": 4.1
+    },
+    "pandas-d06fb9-127828": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 10,
+      "slowest_s": 3.8
+    },
+    "pandas-db980b-a1ee9a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 18,
+      "slowest_s": 3.4
+    },
+    "pandas-dd943c-8bfdcc": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 202,
+      "slowest_s": 4.3
+    },
+    "pandas-e58260-216e00": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 10,
+      "slowest_s": 3.2
+    },
+    "pandas-f0b2ff-3c0397": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 3,
+      "p2p": 135,
+      "slowest_s": 4.3
+    },
+    "pandas-fba672-389b74": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 4,
+      "p2p": 36,
+      "slowest_s": 3.5
+    },
+    "pandas-fd9ec6-c71d3a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 69,
+      "slowest_s": 3.3
+    },
+    "pillow-039b7e-cd561b": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 13,
+      "slowest_s": 0.9
+    },
+    "pillow-15ae39-674e63": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 2,
+      "slowest_s": 0.8
+    },
+    "pillow-1f19c0-23e1b2": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 39,
+      "slowest_s": 0.3
+    },
+    "pillow-275d21-b90514": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 22,
+      "slowest_s": 1.0
+    },
+    "pillow-50e0c8-5380df": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 33,
+      "slowest_s": 1.5
+    },
+    "pillow-5431b1-5bd2f8": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 112,
+      "slowest_s": 0.9
+    },
+    "pillow-5c05fe-4d9b98": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 16,
+      "slowest_s": 0.8
+    },
+    "pillow-71b7f3-daf388": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 13,
+      "slowest_s": 0.9
+    },
+    "pillow-87092a-d4f8e5": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 24,
+      "slowest_s": 0.4
+    },
+    "pillow-adda3b-7473be": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 3,
+      "slowest_s": 0.2
+    },
+    "pillow-b26237-86320c": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 1,
+      "slowest_s": 0.8
+    },
+    "pillow-b65fcb-280ab2": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 34,
+      "slowest_s": 1.2
+    },
+    "pillow-b77cd0-09e210": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 43,
+      "slowest_s": 2.6
+    },
+    "pillow-cf4017-bfd8ac": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 25,
+      "slowest_s": 0.9
+    },
+    "pillow-dd15f1-5d08bf": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 73,
+      "slowest_s": 1.3
+    },
+    "pillow-f4fb9c-54030a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 7,
+      "slowest_s": 0.8
+    },
+    "pyramid-13b303-4d5f18": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 748,
+      "slowest_s": 5.5
+    },
+    "pyramid-1930eb-fdc99e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 823,
+      "slowest_s": 4.4
+    },
+    "pyramid-dfa449-126a8c": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 807,
+      "slowest_s": 7.0
+    },
+    "scrapy-0f2a5c-db8edb": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 7,
+      "slowest_s": 1.2
+    },
+    "scrapy-3f7685-3bd27d": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 10,
+      "slowest_s": 2.3
+    },
+    "scrapy-5e6c49-296791": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 1,
+      "slowest_s": 1.7
+    },
+    "scrapy-62778c-f23f6e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 4,
+      "p2p": 164,
+      "slowest_s": 1.5
+    },
+    "scrapy-6320b7-43cff3": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 12,
+      "slowest_s": 1.2
+    },
+    "scrapy-9aec78-56b009": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 155,
+      "slowest_s": 1.5
+    },
+    "scrapy-e044bf-a60f07": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 6,
+      "slowest_s": 1.3
+    },
+    "scrapy-fe4341-1bc4d0": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 5,
+      "slowest_s": 4.1
+    },
+    "tornado-007032-40498a": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 12,
+      "slowest_s": 0.3
+    },
+    "tornado-13aa5a-18568b": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 9,
+      "slowest_s": 0.3
+    },
+    "tornado-15e350-aa2749": {
+      "ok": false,
+      "reasons": [
+        "gold-fails-strict"
+      ],
+      "f2p": 1,
+      "p2p": 107,
+      "slowest_s": 1.4
+    },
+    "tornado-4427df-1c81d7": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 22,
+      "slowest_s": 1.3
+    },
+    "tornado-465e15-f35402": {
+      "ok": false,
+      "reasons": [
+        "gold-fails-strict"
+      ],
+      "f2p": 2,
+      "p2p": 16,
+      "slowest_s": 10.9
+    },
+    "tornado-486abf-b8a3b2": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 2,
+      "p2p": 26,
+      "slowest_s": 0.8
+    },
+    "tornado-4f486a-4aec74": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 51,
+      "slowest_s": 5.7
+    },
+    "tornado-9ba61c-636899": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 46,
+      "slowest_s": 0.6
+    },
+    "tornado-abdb69-2dd8b6": {
+      "ok": false,
+      "reasons": [
+        "gold-fails-strict"
+      ],
+      "f2p": 1,
+      "p2p": 93,
+      "slowest_s": 0.9
+    },
+    "tornado-ccc890-25f250": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 1,
+      "slowest_s": 0.5
+    },
+    "tornado-eb6102-9aa268": {
+      "ok": false,
+      "reasons": [
+        "gold-fails-strict"
+      ],
+      "f2p": 1,
+      "p2p": 158,
+      "slowest_s": 0.8
+    },
+    "numpy-6d950b-383bff": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 22,
+      "slowest_s": 1.0
+    },
+    "numpy-b3fdef-08b5c5": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 26,
+      "slowest_s": 0.8
+    },
+    "numpy-f9e077-163242": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 195,
+      "slowest_s": 1.4
+    },
+    "pillow-e40033-dfc46f": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 102,
+      "slowest_s": 1.5
+    },
+    "pyramid-796af5-8e3741": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 833,
+      "slowest_s": 4.1
+    },
+    "scrapy-776129-a9513e": {
+      "ok": true,
+      "reasons": [],
+      "f2p": 1,
+      "p2p": 7,
+      "slowest_s": 1.0
+    }
+  },
+  "replacements": [
+    {
+      "failed": "tornado-1b4556-f1507d",
+      "reason": "gold-fails-strict",
+      "replacement": "scrapy-7a51d3-70f3a5",
+      "at": "2026-11-05T05:59:43.232Z"
+    },
+    {
+      "failed": "numpy-05a88a-d2aacd",
+      "reason": "unstable,gold-fails-strict",
+      "replacement": "numpy-6d950b-383bff",
+      "at": "2026-11-05T06:37:35.602Z"
+    },
+    {
+      "failed": "numpy-548112-04a63c",
+      "reason": "unstable,gold-fails-strict",
+      "replacement": "numpy-b3fdef-08b5c5",
+      "at": "2026-11-05T06:44:02.827Z"
+    },
+    {
+      "failed": "tornado-15e350-aa2749",
+      "reason": "gold-fails-strict",
+      "replacement": "pillow-e40033-dfc46f",
+      "at": "2026-11-05T07:47:24.048Z"
+    },
+    {
+      "failed": "tornado-465e15-f35402",
+      "reason": "gold-fails-strict",
+      "replacement": "scrapy-776129-a9513e",
+      "at": "2026-11-05T07:48:09.221Z"
+    },
+    {
+      "failed": "tornado-abdb69-2dd8b6",
+      "reason": "gold-fails-strict",
+      "replacement": "pyramid-796af5-8e3741",
+      "at": "2026-11-05T07:48:34.697Z"
+    },
+    {
+      "failed": "tornado-eb6102-9aa268",
+      "reason": "gold-fails-strict",
+      "replacement": "numpy-f9e077-163242",
+      "at": "2026-11-05T07:49:10.130Z"
+    }
+  ],
+  "tierpass": {
+    "n": 500,
+    "status": {
+      "ok": 500
+    },
+    "recorded_deadline_ms": 1500,
+    "pred_tier": {
+      "none": 307,
+      "standard": 193
+    },
+    "pred_tier_untimed": {
+      "none": 12,
+      "standard": 488
+    },
+    "within_deadline": 198,
+    "deadlines": {
+      "1500": {
+        "pred_tier": {
+          "none": 307,
+          "standard": 193
+        },
+        "within": 198
+      },
+      "5000": {
+        "pred_tier": {
+          "none": 12,
+          "standard": 488
+        },
+        "within": 500
+      }
+    },
+    "latency_ms": {
+      "p10": 1414.0,
+      "p50": 1532.0,
+      "p90": 1838.0,
+      "p95": 2051.0,
+      "max": 2907.0
+    },
+    "cost_usd": 0.351935
+  },
+  "validation_summary": {
+    "by_tier": {
+      "none": {
+        "validated": 129,
+        "ok": 123
+      },
+      "standard": {
+        "validated": 81,
+        "ok": 80
+      }
+    },
+    "validated": 210,
+    "ok": 203
+  },
+  "schema": "codex-deepswe-selection/v3",
+  "created": "2026-11-05T06:22:01.027Z",
+  "previous_schema": "codex-deepswe-selection/v2",
+  "rules": {
+    "n_main": 200,
+    "n_pilot": 3,
+    "repo_cap": 50,
+    "repo_cap_frac": 0.25,
+    "subsets": {
+      "C": 60,
+      "B": 30,
+      "D": 10
+    },
+    "n_repeat": 20,
+    "repeat_reps": 2,
+    "design": "§12: the v2 sample (50 + 3 pilot, validated) extended along the same seeded order to 200"
+  },
+  "kept_from_v2": {
+    "main": 50,
+    "pilot": 3
+  },
+  "repo_counts": {
+    "aiohttp": 14,
+    "coveragepy": 6,
+    "datalad": 5,
+    "numpy": 44,
+    "orange3": 23,
+    "pandas": 50,
+    "pillow": 24,
+    "pyramid": 9,
+    "scrapy": 14,
+    "tornado": 11
+  },
+  "size_counts": {
+    "large": 14,
+    "medium": 83,
+    "small": 103
+  },
+  "repo_cap_effect": {
+    "skipped_by_cap": 10,
+    "skipped_by_repo": {
+      "pandas": 10
+    },
+    "pool_by_repo": {
+      "aiohttp": 27,
+      "coveragepy": 16,
+      "datalad": 16,
+      "numpy": 89,
+      "orange3": 58,
+      "pandas": 141,
+      "pillow": 76,
+      "pyramid": 22,
+      "scrapy": 24,
+      "tornado": 31
+    }
+  },
+  "pred_tier_counts": {
+    "none": 122,
+    "standard": 78
+  },
+  "tasks": {
+    "aiohttp-147aa3-deb935": {
+      "repo": "aiohttp",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-45147c-4e18d2": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-4a2e64-fd3a92": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-598334-fa5125": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-bff763-13298d": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-fca116-274b5e": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-c44bbc-d1d86e": {
+      "repo": "coveragepy",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-088c56-5bd959": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-0f0474-e5c1bd": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-2f381f-edddfe": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-8eccbf-7df2f5": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-966849-09b41c": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-a87031-f25e4f": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-a95aae-3acac0": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-b8769a-21cddc": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-e7de40-1f5c96": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-4014f2-483e3b": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-44af12-fce66d": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-5dc49d-190937": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-95b35c-5f6292": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-972405-f970d8": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-98182d-847f6e": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-9b95c1-77f454": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "orange3-ee4dd2-c9e3db": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-2a0e77-2e85b4": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-30dd64-145515": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-6d340a-9ee37b": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-8561eb-51c113": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-915053-68a3b1": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-af498f-e8f107": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-deec94-0c2bde": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-f48981-44ca57": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-fe934d-8dba34": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-1b2501-9a27a8": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-2ad43c-4eeb8c": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-869b78-6db158": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-877d97-e85844": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-b78e60-1b6316": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-f543b0-34bdf8": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-f5440c-c3e1b0": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-ffcc06-70381f": {
+      "repo": "pillow",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-1281a5-ccffdb": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-579a5f-47523a": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-749575-a93961": {
+      "repo": "pyramid",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-ae7bcd-7cabc5": {
+      "repo": "pyramid",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-b2c239-53cc51": {
+      "repo": "pyramid",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-bff312-df8c36": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-5bcb8f-d5019c": {
+      "repo": "scrapy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-9ec60e-8e4aad": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-a8a6f0-50e71f": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-bfcee4-52b0f9": {
+      "repo": "scrapy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-f042ad-0f3959": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-1b4556-f1507d": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-7a51d3-70f3a5": {
+      "repo": "scrapy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-fd9ec6-c71d3a": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-693fb7-1ac4b9": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-d06fb9-127828": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-cb7137-6385c3": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-05f85a-438472": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-dd943c-8bfdcc": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-be6a3b-c46382": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-2aa0bf-6973b7": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-89944e-80e6fc": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-f36828-60cfe2": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-877876-098c88": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-9eaf63-f66fea": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-2b32e4-104779": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-1cdc9a-8f72e4": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-4f8d95-23ef29": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-a45aed-7c4a01": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-173fbc-700971": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-9e5573-e16122": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-afad59-02f2e5": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-76f1ed-be09f4": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-1c88e6-aff94c": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-9c3d24-74b391": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-3e4a21-79db02": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-e58260-216e00": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-6cada2-7f1744": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-9cfd1b-41c1c5": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-548112-04a63c": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "pandas-1a1a81-e8278c": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-007032-40498a": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-441280-0d1878": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-c92b37-01efff": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-cffcfe-d01278": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-6ce9be-69e51f": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-5c05fe-4d9b98": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-4f486a-4aec74": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-10b160-ba7df8": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-fba672-389b74": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-62778c-f23f6e": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-e0fc89-491a48": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-db980b-a1ee9a": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-15e350-aa2749": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-abdb69-2dd8b6": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-13aa5a-18568b": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-7cf2d0-fbba47": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-b26237-86320c": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-6a0e27-60873f": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-9c932f-71ec5a": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-a72ff0-b6556f": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-c0e449-0aa747": {
+      "repo": "aiohttp",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-eef0e0-ead310": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-465e15-f35402": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-a525da-81de28": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-a12a17-1dc5b0": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-c37bef-b43ae9": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-8fb58b-5da3dc": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-c0c337-6e6699": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-4f9187-547e79": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-ba9f93-d8ad97": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-02ad5e-6cdac8": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-731e9a-776539": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-9ba61c-636899": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-b6222e-c976a7": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-adda3b-7473be": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-9b5494-e26f40": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-968507-bdfb44": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "scrapy-e044bf-a60f07": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-1930eb-fdc99e": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-a49be7-f4ea47": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-4427df-1c81d7": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-62c238-eff919": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-054c49-c219c0": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-409c83-3db67a": {
+      "repo": "aiohttp",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-ea131d-cba50d": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-275d21-b90514": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-9e33bf-7b1308": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-c4e8eb-3b1240": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-5c7c69-6db344": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-f0b2ff-3c0397": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-e05772-51672d": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-1f19c0-23e1b2": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-48975a-033c2f": {
+      "repo": "datalad",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-ccc890-25f250": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-5e6c49-296791": {
+      "repo": "scrapy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-8888a7-6c2c82": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-486abf-b8a3b2": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-50e0c8-5380df": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-0cdaa7-1c1646": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-71b7f3-daf388": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-a5aed5-d29794": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-436f5e-b0b28f": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-b65fcb-280ab2": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-1a9c4b-531e63": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-b77cd0-09e210": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-d69d51-c0d26f": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-05a88a-d2aacd": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-dfa449-126a8c": {
+      "repo": "pyramid",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-0210cc-a2e101": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-15ae39-674e63": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-844445-38a887": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-d52671-8b8504": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-891a41-9a5155": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "tornado-eb6102-9aa268": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-fabacd-f3870d": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-cf4017-bfd8ac": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-87092a-d4f8e5": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-a9465d-b4c70f": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-aa422b-7c391a": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-a53cf8-d479a7": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-6320b7-43cff3": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-01fd01-0c6fd2": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-7aa3fe-79511b": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-fe16f8-322e7a": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-030f87-03858e": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-3a4821-e0550e": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-8fee75-6d8c9d": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-8ec391-a3384f": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-590196-7e95ae": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-0f2a5c-db8edb": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-797732-ae1165": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-78406f-9e22e2": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "orange3-cab0ee-2c1d54": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-3f7685-3bd27d": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-92cd42-5bca4c": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-13f005-5dc7d1": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-a46539-02cd6a": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-dd8436-6eca09": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-4e7e54-1c4f9e": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-780607-ffa876": {
+      "repo": "datalad",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-95b550-b27ea3": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-725488-8b9ffe": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-fe4341-1bc4d0": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-5dbbe1-430c16": {
+      "repo": "coveragepy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-be2812-163d49": {
+      "repo": "coveragepy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-f4fb9c-54030a": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-4d87d9-09bab7": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-a53224-29c56f": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-8a4439-8aca58": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-9aec78-56b009": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-b89849-b1213e": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-dd15f1-5d08bf": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-2b7fff-08567f": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-5431b1-5bd2f8": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-13b303-4d5f18": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-271eee-df4d66": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-b8548c-7d4784": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-1c6afc-455269": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-32d46b-6b7d1f": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-56445f-c9c043": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-039b7e-cd561b": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-fca5a7-a0c8f3": {
+      "repo": "aiohttp",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-6d950b-383bff": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-b3fdef-08b5c5": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-e40033-dfc46f": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-776129-a9513e": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-796af5-8e3741": {
+      "repo": "pyramid",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-f9e077-163242": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    }
+  },
+  "main": [
+    "aiohttp-147aa3-deb935",
+    "aiohttp-409c83-3db67a",
+    "aiohttp-45147c-4e18d2",
+    "aiohttp-56445f-c9c043",
+    "aiohttp-598334-fa5125",
+    "aiohttp-8a4439-8aca58",
+    "aiohttp-92cd42-5bca4c",
+    "aiohttp-9c932f-71ec5a",
+    "aiohttp-b8548c-7d4784",
+    "aiohttp-bff763-13298d",
+    "aiohttp-c0c337-6e6699",
+    "aiohttp-c0e449-0aa747",
+    "aiohttp-fca116-274b5e",
+    "aiohttp-fca5a7-a0c8f3",
+    "coveragepy-590196-7e95ae",
+    "coveragepy-5dbbe1-430c16",
+    "coveragepy-731e9a-776539",
+    "coveragepy-be2812-163d49",
+    "coveragepy-c44bbc-d1d86e",
+    "coveragepy-ea131d-cba50d",
+    "datalad-1c6afc-455269",
+    "datalad-32d46b-6b7d1f",
+    "datalad-48975a-033c2f",
+    "datalad-780607-ffa876",
+    "datalad-8fb58b-5da3dc",
+    "numpy-01fd01-0c6fd2",
+    "numpy-0210cc-a2e101",
+    "numpy-088c56-5bd959",
+    "numpy-0f0474-e5c1bd",
+    "numpy-173fbc-700971",
+    "numpy-1cdc9a-8f72e4",
+    "numpy-2aa0bf-6973b7",
+    "numpy-2b7fff-08567f",
+    "numpy-2f381f-edddfe",
+    "numpy-4d87d9-09bab7",
+    "numpy-4f8d95-23ef29",
+    "numpy-5c7c69-6db344",
+    "numpy-6cada2-7f1744",
+    "numpy-6d950b-383bff",
+    "numpy-725488-8b9ffe",
+    "numpy-76f1ed-be09f4",
+    "numpy-8888a7-6c2c82",
+    "numpy-89944e-80e6fc",
+    "numpy-8ec391-a3384f",
+    "numpy-8fee75-6d8c9d",
+    "numpy-95b550-b27ea3",
+    "numpy-966849-09b41c",
+    "numpy-968507-bdfb44",
+    "numpy-9c3d24-74b391",
+    "numpy-a12a17-1dc5b0",
+    "numpy-a46539-02cd6a",
+    "numpy-a525da-81de28",
+    "numpy-a53224-29c56f",
+    "numpy-a87031-f25e4f",
+    "numpy-a9465d-b4c70f",
+    "numpy-a95aae-3acac0",
+    "numpy-aa422b-7c391a",
+    "numpy-afad59-02f2e5",
+    "numpy-b3fdef-08b5c5",
+    "numpy-b8769a-21cddc",
+    "numpy-b89849-b1213e",
+    "numpy-ba9f93-d8ad97",
+    "numpy-c37bef-b43ae9",
+    "numpy-d69d51-c0d26f",
+    "numpy-e05772-51672d",
+    "numpy-e7de40-1f5c96",
+    "numpy-eef0e0-ead310",
+    "numpy-f36828-60cfe2",
+    "numpy-f9e077-163242",
+    "numpy-fe16f8-322e7a",
+    "orange3-02ad5e-6cdac8",
+    "orange3-10b160-ba7df8",
+    "orange3-1a9c4b-531e63",
+    "orange3-271eee-df4d66",
+    "orange3-4014f2-483e3b",
+    "orange3-44af12-fce66d",
+    "orange3-4e7e54-1c4f9e",
+    "orange3-5dc49d-190937",
+    "orange3-78406f-9e22e2",
+    "orange3-7aa3fe-79511b",
+    "orange3-95b35c-5f6292",
+    "orange3-972405-f970d8",
+    "orange3-98182d-847f6e",
+    "orange3-9b5494-e26f40",
+    "orange3-9b95c1-77f454",
+    "orange3-a45aed-7c4a01",
+    "orange3-a72ff0-b6556f",
+    "orange3-cab0ee-2c1d54",
+    "orange3-d52671-8b8504",
+    "orange3-dd8436-6eca09",
+    "orange3-e0fc89-491a48",
+    "orange3-ee4dd2-c9e3db",
+    "orange3-fabacd-f3870d",
+    "pandas-030f87-03858e",
+    "pandas-054c49-c219c0",
+    "pandas-05f85a-438472",
+    "pandas-0cdaa7-1c1646",
+    "pandas-13f005-5dc7d1",
+    "pandas-1a1a81-e8278c",
+    "pandas-1c88e6-aff94c",
+    "pandas-2a0e77-2e85b4",
+    "pandas-2b32e4-104779",
+    "pandas-30dd64-145515",
+    "pandas-3a4821-e0550e",
+    "pandas-3e4a21-79db02",
+    "pandas-436f5e-b0b28f",
+    "pandas-441280-0d1878",
+    "pandas-4f9187-547e79",
+    "pandas-62c238-eff919",
+    "pandas-693fb7-1ac4b9",
+    "pandas-6a0e27-60873f",
+    "pandas-6ce9be-69e51f",
+    "pandas-6d340a-9ee37b",
+    "pandas-797732-ae1165",
+    "pandas-7cf2d0-fbba47",
+    "pandas-844445-38a887",
+    "pandas-8561eb-51c113",
+    "pandas-877876-098c88",
+    "pandas-891a41-9a5155",
+    "pandas-915053-68a3b1",
+    "pandas-9cfd1b-41c1c5",
+    "pandas-9e33bf-7b1308",
+    "pandas-9e5573-e16122",
+    "pandas-9eaf63-f66fea",
+    "pandas-a49be7-f4ea47",
+    "pandas-a53cf8-d479a7",
+    "pandas-a5aed5-d29794",
+    "pandas-af498f-e8f107",
+    "pandas-b6222e-c976a7",
+    "pandas-be6a3b-c46382",
+    "pandas-c4e8eb-3b1240",
+    "pandas-c92b37-01efff",
+    "pandas-cb7137-6385c3",
+    "pandas-cffcfe-d01278",
+    "pandas-d06fb9-127828",
+    "pandas-db980b-a1ee9a",
+    "pandas-dd943c-8bfdcc",
+    "pandas-deec94-0c2bde",
+    "pandas-e58260-216e00",
+    "pandas-f0b2ff-3c0397",
+    "pandas-f48981-44ca57",
+    "pandas-fba672-389b74",
+    "pandas-fd9ec6-c71d3a",
+    "pillow-039b7e-cd561b",
+    "pillow-15ae39-674e63",
+    "pillow-1b2501-9a27a8",
+    "pillow-1f19c0-23e1b2",
+    "pillow-275d21-b90514",
+    "pillow-2ad43c-4eeb8c",
+    "pillow-50e0c8-5380df",
+    "pillow-5431b1-5bd2f8",
+    "pillow-5c05fe-4d9b98",
+    "pillow-71b7f3-daf388",
+    "pillow-869b78-6db158",
+    "pillow-87092a-d4f8e5",
+    "pillow-877d97-e85844",
+    "pillow-adda3b-7473be",
+    "pillow-b26237-86320c",
+    "pillow-b65fcb-280ab2",
+    "pillow-b77cd0-09e210",
+    "pillow-b78e60-1b6316",
+    "pillow-cf4017-bfd8ac",
+    "pillow-dd15f1-5d08bf",
+    "pillow-e40033-dfc46f",
+    "pillow-f4fb9c-54030a",
+    "pillow-f543b0-34bdf8",
+    "pillow-f5440c-c3e1b0",
+    "pillow-ffcc06-70381f",
+    "pyramid-1281a5-ccffdb",
+    "pyramid-13b303-4d5f18",
+    "pyramid-1930eb-fdc99e",
+    "pyramid-579a5f-47523a",
+    "pyramid-749575-a93961",
+    "pyramid-796af5-8e3741",
+    "pyramid-ae7bcd-7cabc5",
+    "pyramid-b2c239-53cc51",
+    "pyramid-bff312-df8c36",
+    "pyramid-dfa449-126a8c",
+    "scrapy-0f2a5c-db8edb",
+    "scrapy-3f7685-3bd27d",
+    "scrapy-5bcb8f-d5019c",
+    "scrapy-5e6c49-296791",
+    "scrapy-62778c-f23f6e",
+    "scrapy-6320b7-43cff3",
+    "scrapy-776129-a9513e",
+    "scrapy-7a51d3-70f3a5",
+    "scrapy-9aec78-56b009",
+    "scrapy-9ec60e-8e4aad",
+    "scrapy-a8a6f0-50e71f",
+    "scrapy-bfcee4-52b0f9",
+    "scrapy-e044bf-a60f07",
+    "scrapy-f042ad-0f3959",
+    "scrapy-fe4341-1bc4d0",
+    "tornado-007032-40498a",
+    "tornado-13aa5a-18568b",
+    "tornado-4427df-1c81d7",
+    "tornado-486abf-b8a3b2",
+    "tornado-4f486a-4aec74",
+    "tornado-9ba61c-636899",
+    "tornado-ccc890-25f250"
+  ],
+  "arms": {
+    "A": [
+      "aiohttp-147aa3-deb935",
+      "aiohttp-409c83-3db67a",
+      "aiohttp-45147c-4e18d2",
+      "aiohttp-56445f-c9c043",
+      "aiohttp-598334-fa5125",
+      "aiohttp-8a4439-8aca58",
+      "aiohttp-92cd42-5bca4c",
+      "aiohttp-9c932f-71ec5a",
+      "aiohttp-b8548c-7d4784",
+      "aiohttp-bff763-13298d",
+      "aiohttp-c0c337-6e6699",
+      "aiohttp-c0e449-0aa747",
+      "aiohttp-fca116-274b5e",
+      "aiohttp-fca5a7-a0c8f3",
+      "coveragepy-590196-7e95ae",
+      "coveragepy-5dbbe1-430c16",
+      "coveragepy-731e9a-776539",
+      "coveragepy-be2812-163d49",
+      "coveragepy-c44bbc-d1d86e",
+      "coveragepy-ea131d-cba50d",
+      "datalad-1c6afc-455269",
+      "datalad-32d46b-6b7d1f",
+      "datalad-48975a-033c2f",
+      "datalad-780607-ffa876",
+      "datalad-8fb58b-5da3dc",
+      "numpy-01fd01-0c6fd2",
+      "numpy-0210cc-a2e101",
+      "numpy-088c56-5bd959",
+      "numpy-0f0474-e5c1bd",
+      "numpy-173fbc-700971",
+      "numpy-1cdc9a-8f72e4",
+      "numpy-2aa0bf-6973b7",
+      "numpy-2b7fff-08567f",
+      "numpy-2f381f-edddfe",
+      "numpy-4d87d9-09bab7",
+      "numpy-4f8d95-23ef29",
+      "numpy-5c7c69-6db344",
+      "numpy-6cada2-7f1744",
+      "numpy-6d950b-383bff",
+      "numpy-725488-8b9ffe",
+      "numpy-76f1ed-be09f4",
+      "numpy-8888a7-6c2c82",
+      "numpy-89944e-80e6fc",
+      "numpy-8ec391-a3384f",
+      "numpy-8fee75-6d8c9d",
+      "numpy-95b550-b27ea3",
+      "numpy-966849-09b41c",
+      "numpy-968507-bdfb44",
+      "numpy-9c3d24-74b391",
+      "numpy-a12a17-1dc5b0",
+      "numpy-a46539-02cd6a",
+      "numpy-a525da-81de28",
+      "numpy-a53224-29c56f",
+      "numpy-a87031-f25e4f",
+      "numpy-a9465d-b4c70f",
+      "numpy-a95aae-3acac0",
+      "numpy-aa422b-7c391a",
+      "numpy-afad59-02f2e5",
+      "numpy-b3fdef-08b5c5",
+      "numpy-b8769a-21cddc",
+      "numpy-b89849-b1213e",
+      "numpy-ba9f93-d8ad97",
+      "numpy-c37bef-b43ae9",
+      "numpy-d69d51-c0d26f",
+      "numpy-e05772-51672d",
+      "numpy-e7de40-1f5c96",
+      "numpy-eef0e0-ead310",
+      "numpy-f36828-60cfe2",
+      "numpy-f9e077-163242",
+      "numpy-fe16f8-322e7a",
+      "orange3-02ad5e-6cdac8",
+      "orange3-10b160-ba7df8",
+      "orange3-1a9c4b-531e63",
+      "orange3-271eee-df4d66",
+      "orange3-4014f2-483e3b",
+      "orange3-44af12-fce66d",
+      "orange3-4e7e54-1c4f9e",
+      "orange3-5dc49d-190937",
+      "orange3-78406f-9e22e2",
+      "orange3-7aa3fe-79511b",
+      "orange3-95b35c-5f6292",
+      "orange3-972405-f970d8",
+      "orange3-98182d-847f6e",
+      "orange3-9b5494-e26f40",
+      "orange3-9b95c1-77f454",
+      "orange3-a45aed-7c4a01",
+      "orange3-a72ff0-b6556f",
+      "orange3-cab0ee-2c1d54",
+      "orange3-d52671-8b8504",
+      "orange3-dd8436-6eca09",
+      "orange3-e0fc89-491a48",
+      "orange3-ee4dd2-c9e3db",
+      "orange3-fabacd-f3870d",
+      "pandas-030f87-03858e",
+      "pandas-054c49-c219c0",
+      "pandas-05f85a-438472",
+      "pandas-0cdaa7-1c1646",
+      "pandas-13f005-5dc7d1",
+      "pandas-1a1a81-e8278c",
+      "pandas-1c88e6-aff94c",
+      "pandas-2a0e77-2e85b4",
+      "pandas-2b32e4-104779",
+      "pandas-30dd64-145515",
+      "pandas-3a4821-e0550e",
+      "pandas-3e4a21-79db02",
+      "pandas-436f5e-b0b28f",
+      "pandas-441280-0d1878",
+      "pandas-4f9187-547e79",
+      "pandas-62c238-eff919",
+      "pandas-693fb7-1ac4b9",
+      "pandas-6a0e27-60873f",
+      "pandas-6ce9be-69e51f",
+      "pandas-6d340a-9ee37b",
+      "pandas-797732-ae1165",
+      "pandas-7cf2d0-fbba47",
+      "pandas-844445-38a887",
+      "pandas-8561eb-51c113",
+      "pandas-877876-098c88",
+      "pandas-891a41-9a5155",
+      "pandas-915053-68a3b1",
+      "pandas-9cfd1b-41c1c5",
+      "pandas-9e33bf-7b1308",
+      "pandas-9e5573-e16122",
+      "pandas-9eaf63-f66fea",
+      "pandas-a49be7-f4ea47",
+      "pandas-a53cf8-d479a7",
+      "pandas-a5aed5-d29794",
+      "pandas-af498f-e8f107",
+      "pandas-b6222e-c976a7",
+      "pandas-be6a3b-c46382",
+      "pandas-c4e8eb-3b1240",
+      "pandas-c92b37-01efff",
+      "pandas-cb7137-6385c3",
+      "pandas-cffcfe-d01278",
+      "pandas-d06fb9-127828",
+      "pandas-db980b-a1ee9a",
+      "pandas-dd943c-8bfdcc",
+      "pandas-deec94-0c2bde",
+      "pandas-e58260-216e00",
+      "pandas-f0b2ff-3c0397",
+      "pandas-f48981-44ca57",
+      "pandas-fba672-389b74",
+      "pandas-fd9ec6-c71d3a",
+      "pillow-039b7e-cd561b",
+      "pillow-15ae39-674e63",
+      "pillow-1b2501-9a27a8",
+      "pillow-1f19c0-23e1b2",
+      "pillow-275d21-b90514",
+      "pillow-2ad43c-4eeb8c",
+      "pillow-50e0c8-5380df",
+      "pillow-5431b1-5bd2f8",
+      "pillow-5c05fe-4d9b98",
+      "pillow-71b7f3-daf388",
+      "pillow-869b78-6db158",
+      "pillow-87092a-d4f8e5",
+      "pillow-877d97-e85844",
+      "pillow-adda3b-7473be",
+      "pillow-b26237-86320c",
+      "pillow-b65fcb-280ab2",
+      "pillow-b77cd0-09e210",
+      "pillow-b78e60-1b6316",
+      "pillow-cf4017-bfd8ac",
+      "pillow-dd15f1-5d08bf",
+      "pillow-e40033-dfc46f",
+      "pillow-f4fb9c-54030a",
+      "pillow-f543b0-34bdf8",
+      "pillow-f5440c-c3e1b0",
+      "pillow-ffcc06-70381f",
+      "pyramid-1281a5-ccffdb",
+      "pyramid-13b303-4d5f18",
+      "pyramid-1930eb-fdc99e",
+      "pyramid-579a5f-47523a",
+      "pyramid-749575-a93961",
+      "pyramid-796af5-8e3741",
+      "pyramid-ae7bcd-7cabc5",
+      "pyramid-b2c239-53cc51",
+      "pyramid-bff312-df8c36",
+      "pyramid-dfa449-126a8c",
+      "scrapy-0f2a5c-db8edb",
+      "scrapy-3f7685-3bd27d",
+      "scrapy-5bcb8f-d5019c",
+      "scrapy-5e6c49-296791",
+      "scrapy-62778c-f23f6e",
+      "scrapy-6320b7-43cff3",
+      "scrapy-776129-a9513e",
+      "scrapy-7a51d3-70f3a5",
+      "scrapy-9aec78-56b009",
+      "scrapy-9ec60e-8e4aad",
+      "scrapy-a8a6f0-50e71f",
+      "scrapy-bfcee4-52b0f9",
+      "scrapy-e044bf-a60f07",
+      "scrapy-f042ad-0f3959",
+      "scrapy-fe4341-1bc4d0",
+      "tornado-007032-40498a",
+      "tornado-13aa5a-18568b",
+      "tornado-4427df-1c81d7",
+      "tornado-486abf-b8a3b2",
+      "tornado-4f486a-4aec74",
+      "tornado-9ba61c-636899",
+      "tornado-ccc890-25f250"
+    ],
+    "F": [
+      "aiohttp-147aa3-deb935",
+      "aiohttp-409c83-3db67a",
+      "aiohttp-45147c-4e18d2",
+      "aiohttp-56445f-c9c043",
+      "aiohttp-598334-fa5125",
+      "aiohttp-8a4439-8aca58",
+      "aiohttp-92cd42-5bca4c",
+      "aiohttp-9c932f-71ec5a",
+      "aiohttp-b8548c-7d4784",
+      "aiohttp-bff763-13298d",
+      "aiohttp-c0c337-6e6699",
+      "aiohttp-c0e449-0aa747",
+      "aiohttp-fca116-274b5e",
+      "aiohttp-fca5a7-a0c8f3",
+      "coveragepy-590196-7e95ae",
+      "coveragepy-5dbbe1-430c16",
+      "coveragepy-731e9a-776539",
+      "coveragepy-be2812-163d49",
+      "coveragepy-c44bbc-d1d86e",
+      "coveragepy-ea131d-cba50d",
+      "datalad-1c6afc-455269",
+      "datalad-32d46b-6b7d1f",
+      "datalad-48975a-033c2f",
+      "datalad-780607-ffa876",
+      "datalad-8fb58b-5da3dc",
+      "numpy-01fd01-0c6fd2",
+      "numpy-0210cc-a2e101",
+      "numpy-088c56-5bd959",
+      "numpy-0f0474-e5c1bd",
+      "numpy-173fbc-700971",
+      "numpy-1cdc9a-8f72e4",
+      "numpy-2aa0bf-6973b7",
+      "numpy-2b7fff-08567f",
+      "numpy-2f381f-edddfe",
+      "numpy-4d87d9-09bab7",
+      "numpy-4f8d95-23ef29",
+      "numpy-5c7c69-6db344",
+      "numpy-6cada2-7f1744",
+      "numpy-6d950b-383bff",
+      "numpy-725488-8b9ffe",
+      "numpy-76f1ed-be09f4",
+      "numpy-8888a7-6c2c82",
+      "numpy-89944e-80e6fc",
+      "numpy-8ec391-a3384f",
+      "numpy-8fee75-6d8c9d",
+      "numpy-95b550-b27ea3",
+      "numpy-966849-09b41c",
+      "numpy-968507-bdfb44",
+      "numpy-9c3d24-74b391",
+      "numpy-a12a17-1dc5b0",
+      "numpy-a46539-02cd6a",
+      "numpy-a525da-81de28",
+      "numpy-a53224-29c56f",
+      "numpy-a87031-f25e4f",
+      "numpy-a9465d-b4c70f",
+      "numpy-a95aae-3acac0",
+      "numpy-aa422b-7c391a",
+      "numpy-afad59-02f2e5",
+      "numpy-b3fdef-08b5c5",
+      "numpy-b8769a-21cddc",
+      "numpy-b89849-b1213e",
+      "numpy-ba9f93-d8ad97",
+      "numpy-c37bef-b43ae9",
+      "numpy-d69d51-c0d26f",
+      "numpy-e05772-51672d",
+      "numpy-e7de40-1f5c96",
+      "numpy-eef0e0-ead310",
+      "numpy-f36828-60cfe2",
+      "numpy-f9e077-163242",
+      "numpy-fe16f8-322e7a",
+      "orange3-02ad5e-6cdac8",
+      "orange3-10b160-ba7df8",
+      "orange3-1a9c4b-531e63",
+      "orange3-271eee-df4d66",
+      "orange3-4014f2-483e3b",
+      "orange3-44af12-fce66d",
+      "orange3-4e7e54-1c4f9e",
+      "orange3-5dc49d-190937",
+      "orange3-78406f-9e22e2",
+      "orange3-7aa3fe-79511b",
+      "orange3-95b35c-5f6292",
+      "orange3-972405-f970d8",
+      "orange3-98182d-847f6e",
+      "orange3-9b5494-e26f40",
+      "orange3-9b95c1-77f454",
+      "orange3-a45aed-7c4a01",
+      "orange3-a72ff0-b6556f",
+      "orange3-cab0ee-2c1d54",
+      "orange3-d52671-8b8504",
+      "orange3-dd8436-6eca09",
+      "orange3-e0fc89-491a48",
+      "orange3-ee4dd2-c9e3db",
+      "orange3-fabacd-f3870d",
+      "pandas-030f87-03858e",
+      "pandas-054c49-c219c0",
+      "pandas-05f85a-438472",
+      "pandas-0cdaa7-1c1646",
+      "pandas-13f005-5dc7d1",
+      "pandas-1a1a81-e8278c",
+      "pandas-1c88e6-aff94c",
+      "pandas-2a0e77-2e85b4",
+      "pandas-2b32e4-104779",
+      "pandas-30dd64-145515",
+      "pandas-3a4821-e0550e",
+      "pandas-3e4a21-79db02",
+      "pandas-436f5e-b0b28f",
+      "pandas-441280-0d1878",
+      "pandas-4f9187-547e79",
+      "pandas-62c238-eff919",
+      "pandas-693fb7-1ac4b9",
+      "pandas-6a0e27-60873f",
+      "pandas-6ce9be-69e51f",
+      "pandas-6d340a-9ee37b",
+      "pandas-797732-ae1165",
+      "pandas-7cf2d0-fbba47",
+      "pandas-844445-38a887",
+      "pandas-8561eb-51c113",
+      "pandas-877876-098c88",
+      "pandas-891a41-9a5155",
+      "pandas-915053-68a3b1",
+      "pandas-9cfd1b-41c1c5",
+      "pandas-9e33bf-7b1308",
+      "pandas-9e5573-e16122",
+      "pandas-9eaf63-f66fea",
+      "pandas-a49be7-f4ea47",
+      "pandas-a53cf8-d479a7",
+      "pandas-a5aed5-d29794",
+      "pandas-af498f-e8f107",
+      "pandas-b6222e-c976a7",
+      "pandas-be6a3b-c46382",
+      "pandas-c4e8eb-3b1240",
+      "pandas-c92b37-01efff",
+      "pandas-cb7137-6385c3",
+      "pandas-cffcfe-d01278",
+      "pandas-d06fb9-127828",
+      "pandas-db980b-a1ee9a",
+      "pandas-dd943c-8bfdcc",
+      "pandas-deec94-0c2bde",
+      "pandas-e58260-216e00",
+      "pandas-f0b2ff-3c0397",
+      "pandas-f48981-44ca57",
+      "pandas-fba672-389b74",
+      "pandas-fd9ec6-c71d3a",
+      "pillow-039b7e-cd561b",
+      "pillow-15ae39-674e63",
+      "pillow-1b2501-9a27a8",
+      "pillow-1f19c0-23e1b2",
+      "pillow-275d21-b90514",
+      "pillow-2ad43c-4eeb8c",
+      "pillow-50e0c8-5380df",
+      "pillow-5431b1-5bd2f8",
+      "pillow-5c05fe-4d9b98",
+      "pillow-71b7f3-daf388",
+      "pillow-869b78-6db158",
+      "pillow-87092a-d4f8e5",
+      "pillow-877d97-e85844",
+      "pillow-adda3b-7473be",
+      "pillow-b26237-86320c",
+      "pillow-b65fcb-280ab2",
+      "pillow-b77cd0-09e210",
+      "pillow-b78e60-1b6316",
+      "pillow-cf4017-bfd8ac",
+      "pillow-dd15f1-5d08bf",
+      "pillow-e40033-dfc46f",
+      "pillow-f4fb9c-54030a",
+      "pillow-f543b0-34bdf8",
+      "pillow-f5440c-c3e1b0",
+      "pillow-ffcc06-70381f",
+      "pyramid-1281a5-ccffdb",
+      "pyramid-13b303-4d5f18",
+      "pyramid-1930eb-fdc99e",
+      "pyramid-579a5f-47523a",
+      "pyramid-749575-a93961",
+      "pyramid-796af5-8e3741",
+      "pyramid-ae7bcd-7cabc5",
+      "pyramid-b2c239-53cc51",
+      "pyramid-bff312-df8c36",
+      "pyramid-dfa449-126a8c",
+      "scrapy-0f2a5c-db8edb",
+      "scrapy-3f7685-3bd27d",
+      "scrapy-5bcb8f-d5019c",
+      "scrapy-5e6c49-296791",
+      "scrapy-62778c-f23f6e",
+      "scrapy-6320b7-43cff3",
+      "scrapy-776129-a9513e",
+      "scrapy-7a51d3-70f3a5",
+      "scrapy-9aec78-56b009",
+      "scrapy-9ec60e-8e4aad",
+      "scrapy-a8a6f0-50e71f",
+      "scrapy-bfcee4-52b0f9",
+      "scrapy-e044bf-a60f07",
+      "scrapy-f042ad-0f3959",
+      "scrapy-fe4341-1bc4d0",
+      "tornado-007032-40498a",
+      "tornado-13aa5a-18568b",
+      "tornado-4427df-1c81d7",
+      "tornado-486abf-b8a3b2",
+      "tornado-4f486a-4aec74",
+      "tornado-9ba61c-636899",
+      "tornado-ccc890-25f250"
+    ],
+    "B": [
+      "aiohttp-409c83-3db67a",
+      "aiohttp-56445f-c9c043",
+      "aiohttp-598334-fa5125",
+      "numpy-01fd01-0c6fd2",
+      "numpy-1cdc9a-8f72e4",
+      "numpy-5c7c69-6db344",
+      "numpy-6cada2-7f1744",
+      "numpy-9c3d24-74b391",
+      "numpy-a87031-f25e4f",
+      "numpy-b8769a-21cddc",
+      "numpy-ba9f93-d8ad97",
+      "numpy-d69d51-c0d26f",
+      "numpy-f9e077-163242",
+      "numpy-fe16f8-322e7a",
+      "orange3-02ad5e-6cdac8",
+      "orange3-271eee-df4d66",
+      "orange3-7aa3fe-79511b",
+      "pandas-030f87-03858e",
+      "pandas-054c49-c219c0",
+      "pandas-2a0e77-2e85b4",
+      "pandas-8561eb-51c113",
+      "pandas-a53cf8-d479a7",
+      "pandas-be6a3b-c46382",
+      "pillow-877d97-e85844",
+      "pillow-b77cd0-09e210",
+      "pillow-f5440c-c3e1b0",
+      "pyramid-749575-a93961",
+      "scrapy-5bcb8f-d5019c",
+      "scrapy-e044bf-a60f07",
+      "tornado-4427df-1c81d7"
+    ],
+    "C": [
+      "aiohttp-bff763-13298d",
+      "aiohttp-c0c337-6e6699",
+      "aiohttp-c0e449-0aa747",
+      "coveragepy-731e9a-776539",
+      "coveragepy-c44bbc-d1d86e",
+      "coveragepy-ea131d-cba50d",
+      "datalad-780607-ffa876",
+      "numpy-01fd01-0c6fd2",
+      "numpy-0f0474-e5c1bd",
+      "numpy-2f381f-edddfe",
+      "numpy-6cada2-7f1744",
+      "numpy-725488-8b9ffe",
+      "numpy-8888a7-6c2c82",
+      "numpy-8ec391-a3384f",
+      "numpy-9c3d24-74b391",
+      "numpy-a12a17-1dc5b0",
+      "numpy-a525da-81de28",
+      "numpy-b89849-b1213e",
+      "numpy-d69d51-c0d26f",
+      "numpy-eef0e0-ead310",
+      "numpy-f9e077-163242",
+      "orange3-1a9c4b-531e63",
+      "orange3-271eee-df4d66",
+      "orange3-44af12-fce66d",
+      "orange3-7aa3fe-79511b",
+      "orange3-9b5494-e26f40",
+      "orange3-a72ff0-b6556f",
+      "orange3-d52671-8b8504",
+      "orange3-e0fc89-491a48",
+      "orange3-ee4dd2-c9e3db",
+      "pandas-0cdaa7-1c1646",
+      "pandas-30dd64-145515",
+      "pandas-62c238-eff919",
+      "pandas-693fb7-1ac4b9",
+      "pandas-797732-ae1165",
+      "pandas-a53cf8-d479a7",
+      "pandas-a5aed5-d29794",
+      "pandas-b6222e-c976a7",
+      "pandas-c92b37-01efff",
+      "pandas-db980b-a1ee9a",
+      "pandas-f48981-44ca57",
+      "pandas-fd9ec6-c71d3a",
+      "pillow-15ae39-674e63",
+      "pillow-1b2501-9a27a8",
+      "pillow-2ad43c-4eeb8c",
+      "pillow-b26237-86320c",
+      "pillow-b65fcb-280ab2",
+      "pillow-e40033-dfc46f",
+      "pillow-f543b0-34bdf8",
+      "pyramid-1281a5-ccffdb",
+      "pyramid-13b303-4d5f18",
+      "pyramid-579a5f-47523a",
+      "pyramid-749575-a93961",
+      "pyramid-796af5-8e3741",
+      "pyramid-bff312-df8c36",
+      "scrapy-3f7685-3bd27d",
+      "scrapy-776129-a9513e",
+      "tornado-13aa5a-18568b",
+      "tornado-486abf-b8a3b2",
+      "tornado-ccc890-25f250"
+    ],
+    "D": [
+      "aiohttp-409c83-3db67a",
+      "coveragepy-be2812-163d49",
+      "numpy-725488-8b9ffe",
+      "orange3-44af12-fce66d",
+      "orange3-78406f-9e22e2",
+      "pandas-797732-ae1165",
+      "pandas-9cfd1b-41c1c5",
+      "pandas-a49be7-f4ea47",
+      "pillow-5c05fe-4d9b98",
+      "pillow-cf4017-bfd8ac"
+    ]
+  },
+  "repeat": [
+    "coveragepy-731e9a-776539",
+    "numpy-725488-8b9ffe",
+    "numpy-968507-bdfb44",
+    "numpy-a525da-81de28",
+    "numpy-b8769a-21cddc",
+    "numpy-ba9f93-d8ad97",
+    "pandas-030f87-03858e",
+    "pandas-0cdaa7-1c1646",
+    "pandas-2b32e4-104779",
+    "pandas-436f5e-b0b28f",
+    "pandas-62c238-eff919",
+    "pandas-797732-ae1165",
+    "pandas-c92b37-01efff",
+    "pandas-f48981-44ca57",
+    "pillow-f5440c-c3e1b0",
+    "pyramid-b2c239-53cc51",
+    "scrapy-0f2a5c-db8edb",
+    "scrapy-3f7685-3bd27d",
+    "scrapy-bfcee4-52b0f9",
+    "tornado-ccc890-25f250"
+  ],
+  "reserves": [
+    "pandas-3e40c3-a419e5",
+    "pandas-e5266a-f349d0",
+    "pandas-935244-a9b9c0",
+    "pandas-272cab-b03c67",
+    "pandas-448f38-c5ef97",
+    "pandas-45982d-8db8e7",
+    "pandas-85182d-fe3cf9",
+    "pandas-f7e2b7-4f1bcc",
+    "pandas-e58a19-340881",
+    "pandas-621007-7d32a9",
+    "pandas-9824c5-73a485",
+    "pandas-775110-8ac5cb",
+    "pandas-ddff84-a5ddbf",
+    "pillow-4bc648-3564ae",
+    "coveragepy-f5eb5f-215918",
+    "coveragepy-2d7ad5-03f60f",
+    "tornado-fab955-0e8723",
+    "numpy-927e88-09cb56",
+    "scrapy-954869-1fdd47",
+    "numpy-d2d1dd-5accbd",
+    "pillow-b2b3b6-2be724",
+    "pandas-002b2c-37f374",
+    "pandas-0625e9-940c34",
+    "pandas-37bd0f-d0ea68",
+    "pyramid-aae62a-0ba0d4",
+    "pandas-d1dd46-8272f3",
+    "orange3-0336aa-7c1db5",
+    "pillow-7a1925-1d0dcd",
+    "pandas-7070aa-e40b7b",
+    "datalad-a477ba-2efff4",
+    "orange3-cd67c6-6c5c07",
+    "datalad-ec2569-7dfdb2",
+    "datalad-b0cfdb-b1b24a",
+    "pandas-866457-2fe63d",
+    "orange3-4467fb-9e9245",
+    "pillow-a3f7ce-5b7344",
+    "numpy-307177-8e3711",
+    "datalad-468626-952126",
+    "pillow-a0b691-a219d2",
+    "numpy-0f5908-7af94b",
+    "pillow-3fd6a1-e31201",
+    "orange3-ce169d-7770c4",
+    "pandas-86e47d-396d09",
+    "pandas-b01869-1fa9df",
+    "pillow-db4916-849ec2",
+    "pillow-7a2510-cf6b05",
+    "orange3-f72c88-4f1b3f",
+    "tornado-b1a739-00196f",
+    "pillow-81b473-f9d232",
+    "pandas-f9fb02-ec2c36",
+    "pandas-7e96ad-6dddc4",
+    "pandas-1c029a-813605",
+    "numpy-d45cf0-b261b4",
+    "tornado-e7cb79-779582",
+    "orange3-b20eca-e85303",
+    "tornado-b2091c-407a44",
+    "pandas-68f763-e7533e",
+    "pandas-0270b2-3d8395",
+    "pillow-17d993-8ece60",
+    "pillow-1b74bd-dfde5f",
+    "pandas-7a8d16-54f040",
+    "pandas-27135a-5ea230",
+    "pillow-fc497f-fe5ec2",
+    "tornado-0c7c46-4af2a9",
+    "numpy-11cdc3-d7e3c2",
+    "numpy-c926d0-a5b087",
+    "datalad-368535-66a3b2",
+    "pandas-1996b1-759973",
+    "pyramid-741025-0313f8",
+    "tornado-9e4ae9-e9cfa6",
+    "pillow-bb0d31-2de775",
+    "pillow-9e7de7-0bac3f",
+    "orange3-5429e1-c18b0c",
+    "numpy-e25f7c-9e314e",
+    "orange3-a85cc5-75713f",
+    "orange3-41bb6d-7be53e",
+    "tornado-1c3d22-fcf530",
+    "numpy-777a82-41c8a8",
+    "numpy-bdbac0-2b0bdd",
+    "pandas-300d1f-cafb02",
+    "pillow-b36041-67ad84",
+    "tornado-542c8a-51b1cf",
+    "orange3-d4e259-f71e0e",
+    "coveragepy-378c32-1ba035",
+    "tornado-cab39b-eba263",
+    "numpy-7a1816-43665a",
+    "numpy-911015-e445f9",
+    "pandas-0ed362-666903",
+    "numpy-02f338-87b751",
+    "aiohttp-306b4d-0c4cbb",
+    "pillow-9e4c54-e10f40",
+    "pandas-a09259-b5699b",
+    "orange3-6aaad1-c92dc0",
+    "numpy-c01165-f43068",
+    "numpy-d8d7c2-528b99",
+    "aiohttp-cdb512-9afc79",
+    "numpy-1be850-b0782a",
+    "orange3-0d04d8-1360a5",
+    "orange3-0adb9b-491530",
+    "pandas-77a0f1-9c5327",
+    "orange3-b7b003-b2e84e",
+    "pandas-73e0b5-eaea5b",
+    "pyramid-420ea0-5bee3a",
+    "aiohttp-78d45e-733dfe",
+    "orange3-62549d-259297",
+    "pandas-f0a7d1-86dea0",
+    "pandas-7f2b41-8d370f",
+    "pandas-d2031d-76f739",
+    "pillow-daa8e7-dacdfc",
+    "pyramid-5da7f5-b0514e",
+    "numpy-fa5643-7c4eb4",
+    "pandas-7b8c0a-fb3fb1",
+    "pandas-914064-71739f",
+    "pillow-bb5240-18d35e",
+    "pandas-1104f0-dc0294",
+    "pillow-688e6f-163f59",
+    "pillow-e62449-f94cc1",
+    "aiohttp-c054f5-79dd04",
+    "pyramid-7a2b72-c2ba01",
+    "pillow-e0eca1-f3d9ba",
+    "orange3-cd675c-8e4e74",
+    "pillow-7c0344-bb9997",
+    "numpy-982caf-d324d6",
+    "orange3-f5b986-b11e51",
+    "tornado-cb8d42-197f48",
+    "pandas-278c69-bca0b0",
+    "orange3-8aa72f-416cf8",
+    "numpy-d80479-67b654",
+    "pandas-090d6a-132625",
+    "numpy-e30cc8-e11485",
+    "scrapy-214525-c2c16c",
+    "orange3-3e6f5b-f3a48a",
+    "pandas-30362e-d828be",
+    "pillow-22837c-37e279",
+    "numpy-4097ec-3ec10c",
+    "numpy-d86e3f-ee3c99",
+    "pyramid-b8b896-b748ba",
+    "pandas-9a8152-c95c8c",
+    "pyramid-4b13e0-dfcdf4",
+    "pandas-d8ae9a-7c91ef",
+    "pillow-56ca35-9c657e",
+    "pillow-9c6d0b-dcb7c3",
+    "pandas-a73fa3-29b85a",
+    "pandas-01cc1e-e1e265",
+    "pandas-4ca4fc-a839ce",
+    "tornado-e49a0c-285d14",
+    "pandas-f9a0b8-73a242",
+    "datalad-f5e1d2-76ab51",
+    "orange3-b838a6-d8ab37",
+    "pyramid-4d32f7-3a86e7",
+    "pandas-16034e-1c640a",
+    "pandas-4556fe-20e76f",
+    "orange3-bd737a-656906",
+    "aiohttp-7eecdf-f163cc",
+    "orange3-ee88ee-b6fccb",
+    "scrapy-b7553d-921afe",
+    "aiohttp-50efb2-a38941",
+    "orange3-878ea9-ba93c7",
+    "tornado-bb02cd-701f33",
+    "numpy-254055-4039db",
+    "coveragepy-b5ff17-dbadb4",
+    "scrapy-20c4f9-f43a10",
+    "orange3-06794a-7a3101",
+    "tornado-57d15b-b28549",
+    "numpy-09d4d3-5bb979",
+    "orange3-4b0340-1ac360",
+    "pandas-337f3c-a60e22",
+    "pillow-b2f00d-7c59ff",
+    "pandas-9e3b8d-ff24ea",
+    "coveragepy-933ef8-36fce0",
+    "numpy-2a5f73-5a94c7",
+    "numpy-bd3a2c-580e2d",
+    "aiohttp-d697d4-211b38",
+    "pandas-14d7b9-6f1638",
+    "datalad-2c4c67-35e390",
+    "coveragepy-a9f5f7-fadaca",
+    "pillow-e6a521-130e97",
+    "pillow-4198a5-80cf0a",
+    "pandas-afca08-b3e834",
+    "pandas-ccf951-962bb0",
+    "pandas-d7e96d-830c3f",
+    "datalad-19f5b4-5096ca",
+    "pillow-6da416-9f3724",
+    "pandas-dcba60-85596e",
+    "scrapy-262999-7a2f62",
+    "pillow-e225f9-f589e0",
+    "numpy-d18156-b00d42",
+    "pillow-143e08-c92c80",
+    "pandas-c96773-1bb539",
+    "orange3-538e16-d73839",
+    "numpy-e1ccca-947a29",
+    "pandas-fda316-214243",
+    "pandas-6a8055-d8a52e",
+    "numpy-c5cf20-ab673c",
+    "pillow-1e040f-eb1b3c",
+    "pandas-79e3ee-6fce88",
+    "pandas-1f135e-b94eac",
+    "numpy-36f481-ba4f16",
+    "aiohttp-d15dbb-3be317",
+    "orange3-ef3f59-88d256",
+    "pillow-9b72f0-513c89",
+    "orange3-0a6539-921793",
+    "orange3-fd78b8-bb1aa2",
+    "coveragepy-94b231-f7b617",
+    "pandas-54f352-a243df",
+    "numpy-954aee-7ab016",
+    "pillow-a77eb6-71a10b",
+    "pillow-6a43ea-86ead2",
+    "pillow-61c390-74f507",
+    "coveragepy-2ace7a-261901",
+    "pillow-e98469-ecf6ad",
+    "pillow-e107af-41a9b6",
+    "pandas-669128-5bbf5a",
+    "pandas-c271d4-dd0b01",
+    "pillow-4cf7c5-62e4f9",
+    "aiohttp-bce6e3-c7324f",
+    "numpy-bdd455-8c2643",
+    "datalad-bfd9fd-10b42c",
+    "numpy-ae56c5-8db420",
+    "tornado-fffaa2-f7f729",
+    "pandas-ab687a-ec3866",
+    "pyramid-1bbe66-8972a6",
+    "orange3-8eaa67-00d6b4",
+    "pandas-cd0224-d26c60",
+    "pandas-1843cf-23c7aa",
+    "pandas-23b546-f96f49",
+    "pandas-37c334-38837c",
+    "coveragepy-1cd6c9-bba0b4",
+    "pandas-f14663-292831",
+    "pandas-362f2e-2d8ca4",
+    "pandas-922806-64969a",
+    "pillow-9fa421-923c7a",
+    "pillow-8f6b7b-258b11",
+    "pillow-7d97fa-8b86a9",
+    "pandas-6a5eb1-36c736",
+    "pillow-3cce86-3ec815",
+    "tornado-e85e0b-68ab28",
+    "aiohttp-f0caa6-54b2db",
+    "pandas-14b4c0-723a92",
+    "scrapy-0fcb05-54d10d",
+    "pandas-7f912a-4009da",
+    "tornado-06be57-c11f98",
+    "pandas-475a98-0c6b5f",
+    "datalad-cd3ead-491e4a",
+    "orange3-cdcf39-d70b5c",
+    "pandas-882719-afa5aa",
+    "pyramid-26694a-797b90",
+    "numpy-52ff75-bcf108",
+    "pandas-3e3ffe-f5a091",
+    "numpy-849756-ff1582",
+    "scrapy-1f59a6-9a971b",
+    "pandas-909af8-b6da9c",
+    "pandas-3bbaa8-952f67",
+    "coveragepy-8eb95b-5ad2ed",
+    "pillow-fae9af-e35164",
+    "pandas-433c90-077810",
+    "aiohttp-f21c6f-2ca512",
+    "scrapy-0d58af-86971b",
+    "orange3-76b360-8e3d24",
+    "scrapy-93385e-647a23",
+    "numpy-dd8a2a-8e29b0",
+    "orange3-1d1299-dd5768",
+    "aiohttp-b78cef-374c1e",
+    "tornado-9bdc31-767411",
+    "numpy-7ed541-ce3a91",
+    "orange3-400ff3-7b9f13",
+    "pillow-c057ad-1535f5",
+    "tornado-de39a3-98fb55",
+    "pandas-2974e2-2ddfb4",
+    "pillow-a0602f-b68c62",
+    "pillow-922e23-9cca2a",
+    "pillow-9b2027-6c45d7",
+    "pandas-f669f9-4a186e",
+    "tornado-8fd1f9-b2cde3",
+    "numpy-65e1e0-e4ba09",
+    "orange3-0aa171-4905af",
+    "pyramid-e5c4da-2f5e7e",
+    "pandas-0e9269-7cb920",
+    "numpy-6153a7-05c3bf",
+    "pandas-d7da0e-68fcb4",
+    "pandas-c7d98e-132120",
+    "pandas-041b6b-180f81",
+    "datalad-6b6d67-1fe7a7",
+    "pandas-b2f6b7-01e999",
+    "pyramid-5688b6-e76ba8",
+    "numpy-2f6427-4d360b",
+    "pillow-bbb3be-9a9d01",
+    "pillow-0e10a5-cc7be0",
+    "pillow-dd28af-0dfa2a",
+    "numpy-0b5dfb-0fb2a6"
+  ],
+  "reserve_meta": {
+    "pandas-3e40c3-a419e5": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-e5266a-f349d0": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-935244-a9b9c0": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-272cab-b03c67": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-448f38-c5ef97": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-45982d-8db8e7": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-85182d-fe3cf9": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-f7e2b7-4f1bcc": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-e58a19-340881": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-621007-7d32a9": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-9824c5-73a485": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-775110-8ac5cb": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-ddff84-a5ddbf": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-4bc648-3564ae": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-f5eb5f-215918": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-2d7ad5-03f60f": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-fab955-0e8723": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-927e88-09cb56": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-954869-1fdd47": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-d2d1dd-5accbd": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-b2b3b6-2be724": {
+      "repo": "pillow",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-002b2c-37f374": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-0625e9-940c34": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-37bd0f-d0ea68": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-aae62a-0ba0d4": {
+      "repo": "pyramid",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-d1dd46-8272f3": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-0336aa-7c1db5": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-7a1925-1d0dcd": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-7070aa-e40b7b": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-a477ba-2efff4": {
+      "repo": "datalad",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-cd67c6-6c5c07": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-ec2569-7dfdb2": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-b0cfdb-b1b24a": {
+      "repo": "datalad",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-866457-2fe63d": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-4467fb-9e9245": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-a3f7ce-5b7344": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-307177-8e3711": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-468626-952126": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-a0b691-a219d2": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-0f5908-7af94b": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-3fd6a1-e31201": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-ce169d-7770c4": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-86e47d-396d09": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-b01869-1fa9df": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-db4916-849ec2": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-7a2510-cf6b05": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-f72c88-4f1b3f": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-b1a739-00196f": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-81b473-f9d232": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-f9fb02-ec2c36": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-7e96ad-6dddc4": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-1c029a-813605": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-d45cf0-b261b4": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-e7cb79-779582": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-b20eca-e85303": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-b2091c-407a44": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-68f763-e7533e": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-0270b2-3d8395": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-17d993-8ece60": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-1b74bd-dfde5f": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-7a8d16-54f040": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-27135a-5ea230": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-fc497f-fe5ec2": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-0c7c46-4af2a9": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-11cdc3-d7e3c2": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-c926d0-a5b087": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-368535-66a3b2": {
+      "repo": "datalad",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-1996b1-759973": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-741025-0313f8": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-9e4ae9-e9cfa6": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-bb0d31-2de775": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-9e7de7-0bac3f": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-5429e1-c18b0c": {
+      "repo": "orange3",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-e25f7c-9e314e": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-a85cc5-75713f": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-41bb6d-7be53e": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-1c3d22-fcf530": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-777a82-41c8a8": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-bdbac0-2b0bdd": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-300d1f-cafb02": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-b36041-67ad84": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-542c8a-51b1cf": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-d4e259-f71e0e": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-378c32-1ba035": {
+      "repo": "coveragepy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "tornado-cab39b-eba263": {
+      "repo": "tornado",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-7a1816-43665a": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-911015-e445f9": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-0ed362-666903": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-02f338-87b751": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-306b4d-0c4cbb": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-9e4c54-e10f40": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-a09259-b5699b": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-6aaad1-c92dc0": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-c01165-f43068": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-d8d7c2-528b99": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-cdb512-9afc79": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-1be850-b0782a": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-0d04d8-1360a5": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-0adb9b-491530": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-77a0f1-9c5327": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "orange3-b7b003-b2e84e": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-73e0b5-eaea5b": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-420ea0-5bee3a": {
+      "repo": "pyramid",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-78d45e-733dfe": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-62549d-259297": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-f0a7d1-86dea0": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-7f2b41-8d370f": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-d2031d-76f739": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-daa8e7-dacdfc": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-5da7f5-b0514e": {
+      "repo": "pyramid",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-fa5643-7c4eb4": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-7b8c0a-fb3fb1": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-914064-71739f": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-bb5240-18d35e": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-1104f0-dc0294": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-688e6f-163f59": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-e62449-f94cc1": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-c054f5-79dd04": {
+      "repo": "aiohttp",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-7a2b72-c2ba01": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-e0eca1-f3d9ba": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-cd675c-8e4e74": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-7c0344-bb9997": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-982caf-d324d6": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-f5b986-b11e51": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-cb8d42-197f48": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-278c69-bca0b0": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-8aa72f-416cf8": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-d80479-67b654": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-090d6a-132625": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-e30cc8-e11485": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-214525-c2c16c": {
+      "repo": "scrapy",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-3e6f5b-f3a48a": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-30362e-d828be": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-22837c-37e279": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-4097ec-3ec10c": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-d86e3f-ee3c99": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-b8b896-b748ba": {
+      "repo": "pyramid",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-9a8152-c95c8c": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-4b13e0-dfcdf4": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-d8ae9a-7c91ef": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-56ca35-9c657e": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-9c6d0b-dcb7c3": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-a73fa3-29b85a": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-01cc1e-e1e265": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-4ca4fc-a839ce": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-e49a0c-285d14": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-f9a0b8-73a242": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-f5e1d2-76ab51": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-b838a6-d8ab37": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-4d32f7-3a86e7": {
+      "repo": "pyramid",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-16034e-1c640a": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-4556fe-20e76f": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-bd737a-656906": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-7eecdf-f163cc": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-ee88ee-b6fccb": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-b7553d-921afe": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-50efb2-a38941": {
+      "repo": "aiohttp",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "orange3-878ea9-ba93c7": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-bb02cd-701f33": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-254055-4039db": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-b5ff17-dbadb4": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-20c4f9-f43a10": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-06794a-7a3101": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-57d15b-b28549": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-09d4d3-5bb979": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-4b0340-1ac360": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-337f3c-a60e22": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-b2f00d-7c59ff": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-9e3b8d-ff24ea": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-933ef8-36fce0": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-2a5f73-5a94c7": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-bd3a2c-580e2d": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-d697d4-211b38": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-14d7b9-6f1638": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-2c4c67-35e390": {
+      "repo": "datalad",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-a9f5f7-fadaca": {
+      "repo": "coveragepy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-e6a521-130e97": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-4198a5-80cf0a": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-afca08-b3e834": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-ccf951-962bb0": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-d7e96d-830c3f": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-19f5b4-5096ca": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-6da416-9f3724": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-dcba60-85596e": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-262999-7a2f62": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-e225f9-f589e0": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-d18156-b00d42": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-143e08-c92c80": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "pandas-c96773-1bb539": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-538e16-d73839": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "numpy-e1ccca-947a29": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-fda316-214243": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-6a8055-d8a52e": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-c5cf20-ab673c": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-1e040f-eb1b3c": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-79e3ee-6fce88": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-1f135e-b94eac": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-36f481-ba4f16": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-d15dbb-3be317": {
+      "repo": "aiohttp",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-ef3f59-88d256": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-9b72f0-513c89": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-0a6539-921793": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-fd78b8-bb1aa2": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-94b231-f7b617": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-54f352-a243df": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-954aee-7ab016": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-a77eb6-71a10b": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-6a43ea-86ead2": {
+      "repo": "pillow",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-61c390-74f507": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-2ace7a-261901": {
+      "repo": "coveragepy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "pillow-e98469-ecf6ad": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-e107af-41a9b6": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-669128-5bbf5a": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-c271d4-dd0b01": {
+      "repo": "pandas",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-4cf7c5-62e4f9": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-bce6e3-c7324f": {
+      "repo": "aiohttp",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-bdd455-8c2643": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-bfd9fd-10b42c": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-ae56c5-8db420": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-fffaa2-f7f729": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-ab687a-ec3866": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-1bbe66-8972a6": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-8eaa67-00d6b4": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-cd0224-d26c60": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-1843cf-23c7aa": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-23b546-f96f49": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-37c334-38837c": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-1cd6c9-bba0b4": {
+      "repo": "coveragepy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-f14663-292831": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-362f2e-2d8ca4": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-922806-64969a": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-9fa421-923c7a": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-8f6b7b-258b11": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-7d97fa-8b86a9": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-6a5eb1-36c736": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-3cce86-3ec815": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-e85e0b-68ab28": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-f0caa6-54b2db": {
+      "repo": "aiohttp",
+      "size": "large",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-14b4c0-723a92": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-0fcb05-54d10d": {
+      "repo": "scrapy",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-7f912a-4009da": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-06be57-c11f98": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-475a98-0c6b5f": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-cd3ead-491e4a": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-cdcf39-d70b5c": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-882719-afa5aa": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-26694a-797b90": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-52ff75-bcf108": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-3e3ffe-f5a091": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-849756-ff1582": {
+      "repo": "numpy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-1f59a6-9a971b": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-909af8-b6da9c": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-3bbaa8-952f67": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "coveragepy-8eb95b-5ad2ed": {
+      "repo": "coveragepy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-fae9af-e35164": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-433c90-077810": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-f21c6f-2ca512": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-0d58af-86971b": {
+      "repo": "scrapy",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-76b360-8e3d24": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "scrapy-93385e-647a23": {
+      "repo": "scrapy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-dd8a2a-8e29b0": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-1d1299-dd5768": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "aiohttp-b78cef-374c1e": {
+      "repo": "aiohttp",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-9bdc31-767411": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-7ed541-ce3a91": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-400ff3-7b9f13": {
+      "repo": "orange3",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-c057ad-1535f5": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-de39a3-98fb55": {
+      "repo": "tornado",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-2974e2-2ddfb4": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-a0602f-b68c62": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-922e23-9cca2a": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-9b2027-6c45d7": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-f669f9-4a186e": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "tornado-8fd1f9-b2cde3": {
+      "repo": "tornado",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-65e1e0-e4ba09": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "orange3-0aa171-4905af": {
+      "repo": "orange3",
+      "size": "medium",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-e5c4da-2f5e7e": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "none",
+      "pred_tier_5000": "none"
+    },
+    "pandas-0e9269-7cb920": {
+      "repo": "pandas",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-6153a7-05c3bf": {
+      "repo": "numpy",
+      "size": "large",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-d7da0e-68fcb4": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-c7d98e-132120": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-041b6b-180f81": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "datalad-6b6d67-1fe7a7": {
+      "repo": "datalad",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pandas-b2f6b7-01e999": {
+      "repo": "pandas",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pyramid-5688b6-e76ba8": {
+      "repo": "pyramid",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-2f6427-4d360b": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-bbb3be-9a9d01": {
+      "repo": "pillow",
+      "size": "medium",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-0e10a5-cc7be0": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "pillow-dd28af-0dfa2a": {
+      "repo": "pillow",
+      "size": "small",
+      "pred_tier": "standard",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    },
+    "numpy-0b5dfb-0fb2a6": {
+      "repo": "numpy",
+      "size": "small",
+      "pred_tier": "none",
+      "pred_tier_untimed": "standard",
+      "pred_tier_5000": "standard"
+    }
+  }
+}

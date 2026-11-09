@@ -6,7 +6,8 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { taskCardIssue } from './card.ts'
 import { TIERS, type Tier } from './contract.ts'
-import { DEFAULT_THRESHOLD, mapTier } from './map.ts'
+import { DEFAULT_MAPPING, DEFAULT_THRESHOLD, mapTier, type PackMapping } from './map.ts'
+import { REASONING_DEPTHS, SPECIFICATIONS } from './schema.ts'
 import { validateAssessment, type Assessment } from './validate.ts'
 
 export interface PackRule { id: string; tier: Tier; enabled: boolean; auto: boolean; instruction: string }
@@ -20,6 +21,8 @@ export interface Pack {
   instructions: string
   rules: PackRule[]
   examples: PackExample[]
+  /** Optional mapping parameters (pack.json `mapping`); absent = DEFAULT_MAPPING, the pre-v2.2 mapping. */
+  mapping?: PackMapping
 }
 
 export interface RenderedPrompt { system: string; user: string; packVersion: string }
@@ -33,18 +36,24 @@ export class PackError extends Error {
   }
 }
 
-/** The default pack: v2.1 (v2's fast-side tightening with v1's frontier and `deep` definitions; every rule auto:false). */
-export const defaultPackDir: string = fileURLToPath(new URL('../prompts/assessor/v2.1/', import.meta.url))
 /**
  * Shipped pack versions. v1 is the original pack; v2 tightens the fast boundary and widens `deep` (over-upgrades to
- * frontier on held-out data); v2.1 is the default.
+ * frontier on held-out data); v2.1 takes v2's fast side with v1's frontier; v2.2 is the default.
  */
-export type PackName = 'v1' | 'v2' | 'v2.1'
+export type PackName = 'v1' | 'v2' | 'v2.1' | 'v2.2'
 export const packDirs: Readonly<Record<PackName, string>> = {
   v1: fileURLToPath(new URL('../prompts/assessor/v1/', import.meta.url)),
   v2: fileURLToPath(new URL('../prompts/assessor/v2/', import.meta.url)),
   'v2.1': fileURLToPath(new URL('../prompts/assessor/v2.1/', import.meta.url)),
+  // v2.2 (task 11-07): v2.1 with frontier narrowed to open-ended design or repeated failure (`deep` alone no longer
+  // gives frontier; `mapping` block). Content = the frozen v2.2-D pack (experiments/assessor-v22/packs), tuned on the
+  // DeepSWE tune split only; no new fast rule. Every rule auto:false.
+  'v2.2': fileURLToPath(new URL('../prompts/assessor/v2.2/', import.meta.url)),
 }
+/** The default pack name (router ROUTER_ASSESSOR_PACK and infra assessorPack defaults follow it). */
+export const defaultPackName: PackName = 'v2.2'
+/** The default pack's directory. */
+export const defaultPackDir: string = packDirs[defaultPackName]
 export const isPackName = (s: string): s is PackName => Object.hasOwn(packDirs, s)
 
 export const PACK_LIMITS = { ruleIdPattern: /^[a-z0-9-]{1,40}$/, instructionChars: 600 } as const
@@ -95,6 +104,8 @@ export function validatePack(value: unknown): Pack {
     })
   }
 
+  const mapping = value.mapping === undefined ? undefined : validateMapping(value.mapping, issues)
+
   const examples: PackExample[] = []
   if (!Array.isArray(value.examples)) issues.push('examples: array required')
   else {
@@ -107,7 +118,7 @@ export function validatePack(value: unknown): Pack {
       const checked = validateAssessment(exampleOutput(e.output, rules), rules)
       if (!checked.ok) issues.push(`${at}.output: ${checked.issues[0]}`)
       else {
-        const mapped = mapTier(checked.value, rules, { threshold: DEFAULT_THRESHOLD })
+        const mapped = mapTier(checked.value, rules, { threshold: DEFAULT_THRESHOLD, ...(mapping ? { mapping } : {}) })
         if (mapped.proposedTier !== e.tier) issues.push(`${at}: output maps to ${mapped.proposedTier ?? mapped.outcome}, labelled ${String(e.tier)}`)
       }
       examples.push({ tier: e.tier as Tier, card: e.card, output: e.output as Assessment })
@@ -122,7 +133,42 @@ export function validatePack(value: unknown): Pack {
     instructions: value.instructions as string,
     rules,
     examples,
+    ...(mapping ? { mapping } : {}),
   }
+}
+
+const MAPPING_ENUMS = {
+  frontierFacts: ['deep', 'prior-failures'],
+  standardFacts: ['multi-file-edit'],
+  fastSpecifications: SPECIFICATIONS,
+  fastDepths: REASONING_DEPTHS,
+} as const
+
+/** pack.json `mapping`: every key optional (defaults from DEFAULT_MAPPING), lists of known values without repeats. */
+function validateMapping(v: unknown, issues: string[]): PackMapping | undefined {
+  if (!isObj(v)) { issues.push('mapping: object required'); return undefined }
+  const out: Record<string, unknown> = { ...DEFAULT_MAPPING }
+  for (const [k, val] of Object.entries(v)) {
+    if (k === 'fastBeatsStandard') {
+      if (typeof val !== 'boolean') issues.push('mapping.fastBeatsStandard: boolean required')
+      else out[k] = val
+    } else if (k === 'priorFailuresMin') {
+      if (!Number.isInteger(val) || (val as number) < 1 || (val as number) > 20) issues.push('mapping.priorFailuresMin: integer 1-20 required')
+      else out[k] = val
+    } else if (Object.hasOwn(MAPPING_ENUMS, k)) {
+      const allowed = MAPPING_ENUMS[k as keyof typeof MAPPING_ENUMS] as readonly string[]
+      if (!Array.isArray(val) || !val.every((x) => typeof x === 'string' && allowed.includes(x)) || new Set(val).size !== val.length) {
+        issues.push(`mapping.${k}: array of distinct values from ${allowed.join('|')} required`)
+      } else out[k] = [...val]
+    } else issues.push(`mapping: unexpected key ${k}`)
+  }
+  return out as unknown as PackMapping
+}
+
+/** The mapping in a fixed key order (for the prompt version hash). */
+function mappingKey(m: PackMapping): string {
+  return JSON.stringify({ frontierFacts: m.frontierFacts, priorFailuresMin: m.priorFailuresMin, standardFacts: m.standardFacts,
+    fastSpecifications: m.fastSpecifications, fastDepths: m.fastDepths, fastBeatsStandard: m.fastBeatsStandard })
 }
 
 /** An example output restricted to the enabled rules (entries for disabled rules are not rendered). */
@@ -152,7 +198,11 @@ export function renderSystem(pack: Pack): { system: string; packVersion: string 
     parts.push('', `<task_card>${cardJson(e.card)}</task_card>`, `→ ${JSON.stringify(exampleOutput(e.output, pack.rules))}`)
   }
   const system = `${parts.join('\n')}\n`
-  const packVersion = `${pack.id}+${createHash('sha256').update(system).digest('hex').slice(0, 12)}`
+  // A mapping block is part of the version (it changes tiers without changing the prompt); packs without one hash
+  // the system prompt alone, as before the block existed.
+  const h = createHash('sha256').update(system)
+  if (pack.mapping) h.update(`\n<mapping>${mappingKey(pack.mapping)}`)
+  const packVersion = `${pack.id}+${h.digest('hex').slice(0, 12)}`
   return { system, packVersion }
 }
 

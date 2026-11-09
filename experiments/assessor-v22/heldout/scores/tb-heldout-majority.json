@@ -1,0 +1,185 @@
+{
+ "dataset": "tb21",
+ "exclude": [],
+ "majority": true,
+ "n_boot": 10000,
+ "n_tasks": 34,
+ "packs": {
+  "v21": {
+   "M1_vs_Sol": {
+    "cost": 18.209595333333333,
+    "cost_ratio_vs_A": 2.713454658198195,
+    "cost_ratio_vs_A_ci": [
+     1.7454523428495083,
+     3.692678163215482
+    ],
+    "dR_vs_A": 0.0,
+    "dR_vs_A_ci": [
+     0.0,
+     0.0
+    ],
+    "rate": 0.8823529411764706,
+    "reading": "point + CIs only"
+   },
+   "M2_vs_pinned": {
+    "C": {
+     "cost_ratio": 0.5543382032970899,
+     "cost_ratio_ci": [
+      0.3605003945370263,
+      0.7278967170959443
+     ],
+     "dR": -0.00980392156862745,
+     "dR_ci": [
+      -0.049019607843137254,
+      0.029411764705882356
+     ]
+    },
+    "F": {
+     "cost_ratio": 24.669668819383585,
+     "cost_ratio_ci": [
+      15.263502294308177,
+      39.26903815889637
+     ],
+     "dR": 0.1568627450980392,
+     "dR_ci": [
+      0.02941176470588236,
+      0.28431372549019607
+     ]
+    }
+   },
+   "M3_fast": {
+    "fast_calls": 0,
+    "fast_coverage": 0.0,
+    "fast_loss_pp": null,
+    "fast_precision": null,
+    "fast_precision_ci": null
+   },
+   "M4_agreement": {
+    "accuracy": 0.20588235294117646,
+    "confusion": {
+     "fast": {
+      "fast": 0,
+      "frontier": 9,
+      "standard": 13
+     },
+     "frontier": {
+      "fast": 0,
+      "frontier": 0,
+      "standard": 3
+     },
+     "standard": {
+      "fast": 0,
+      "frontier": 2,
+      "standard": 7
+     }
+    },
+    "fast_safe_agreement": 0.3235294117647059,
+    "kappa": -0.002183406113537116
+   },
+   "call_share": {
+    "fast": 0.0,
+    "frontier": 0.3235294117647059,
+    "standard": 0.6764705882352942
+   },
+   "calls_per_task": 1
+  },
+  "v22": {
+   "M1_vs_Sol": {
+    "cost": 5.745097666666666,
+    "cost_ratio_vs_A": 0.8560905248061113,
+    "cost_ratio_vs_A_ci": [
+     0.6637102836024004,
+     0.9890245422934052
+    ],
+    "dR_vs_A": -0.0392156862745098,
+    "dR_vs_A_ci": [
+     -0.10784313725490197,
+     0.0
+    ],
+    "rate": 0.8431372549019608,
+    "reading": "point + CIs only"
+   },
+   "M2_vs_pinned": {
+    "C": {
+     "cost_ratio": 0.17489280019729725,
+     "cost_ratio_ci": [
+      0.1331936015960381,
+      0.2160840373130193
+     ],
+     "dR": -0.049019607843137254,
+     "dR_ci": [
+      -0.13725490196078433,
+      0.0196078431372549
+     ]
+    },
+    "F": {
+     "cost_ratio": 7.783240328918167,
+     "cost_ratio_ci": [
+      5.34843622464286,
+      12.142817340094492
+     ],
+     "dR": 0.11764705882352941,
+     "dR_ci": [
+      3.2653618371328133e-18,
+      0.23529411764705882
+     ]
+    }
+   },
+   "M3_fast": {
+    "fast_calls": 4,
+    "fast_coverage": 0.11764705882352941,
+    "fast_loss_pp": 33.33333333333333,
+    "fast_precision": 0.5,
+    "fast_precision_ci": [
+     0.0,
+     1.0
+    ]
+   },
+   "M4_agreement": {
+    "accuracy": 0.29411764705882354,
+    "confusion": {
+     "fast": {
+      "fast": 2,
+      "frontier": 0,
+      "standard": 20
+     },
+     "frontier": {
+      "fast": 1,
+      "frontier": 0,
+      "standard": 2
+     },
+     "standard": {
+      "fast": 1,
+      "frontier": 0,
+      "standard": 8
+     }
+    },
+    "fast_safe_agreement": 0.3235294117647059,
+    "kappa": -0.022556390977443632
+   },
+   "call_share": {
+    "fast": 0.11764705882352941,
+    "frontier": 0.0,
+    "standard": 0.8823529411764706
+   },
+   "calls_per_task": 1
+  }
+ },
+ "pinned": {
+  "A": {
+   "cost": 6.710853,
+   "rate": 0.8823529411764706
+  },
+  "C": {
+   "cost": 32.84925199999999,
+   "rate": 0.8921568627450981
+  },
+  "F": {
+   "cost": 0.7381369999999997,
+   "rate": 0.7254901960784313
+  }
+ },
+ "seed": 20261107,
+ "split": "heldout",
+ "tb_basis": "graded"
+}

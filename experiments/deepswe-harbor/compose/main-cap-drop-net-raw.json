@@ -1,0 +1,7 @@
+{
+  "services": {
+    "main": {
+      "cap_drop": ["NET_RAW"]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+ "schema": "cc-arms/v1",
+ "note": "Claude Code × Harbor arms (PRD; 4f). client_model: ANTHROPIC_MODEL in the trial container. main_model: what serves the main loop (auto = the router with the assessor; 4f's proxy rewrites the client model to auto in such an arm). hint: the x-router-hint the proxy stamps; null for every Claude Code arm (a pin hint would pin helper calls too; the body model is the pin). pack: the assessor pack (null: none). worst_model: the CapLedger's worst-case model per call. codex_ref: the Codex arm paired for κ. planning_usd: 0d's per-run planning cost at m = 1, the prior κ before the pilot. Adding an arm before stage 1 is an edit of this file, then shardplan derive --force.",
+ "order": ["A", "B", "C", "F"],
+ "arms": {
+  "A": {"client_model": "global.anthropic.claude-sonnet-5-5", "main_model": "global.anthropic.claude-sonnet-5-5", "hint": null, "pack": null, "worst_model": "global.anthropic.claude-sonnet-5-5", "codex_ref": "A", "planning_usd": {"deepswe": 0.71, "tb21": 0.2}},
+  "B": {"client_model": "global.anthropic.claude-sonnet-5-5", "main_model": "auto", "hint": null, "pack": "v2.2", "worst_model": "global.anthropic.claude-opus-5-5", "codex_ref": "B", "planning_usd": {"deepswe": 0.68, "tb21": 0.19}},
+  "C": {"client_model": "global.anthropic.claude-opus-5-5", "main_model": "global.anthropic.claude-opus-5-5", "hint": null, "pack": null, "worst_model": "global.anthropic.claude-opus-5-5", "codex_ref": "C", "planning_usd": {"deepswe": 1.35, "tb21": 0.37}},
+  "F": {"client_model": "global.anthropic.claude-haiku-5-5", "main_model": "global.anthropic.claude-haiku-5-5", "hint": null, "pack": null, "worst_model": "global.anthropic.claude-haiku-5-5", "codex_ref": "F", "planning_usd": {"deepswe": 0.13, "tb21": 0.02}}
+ }
+}

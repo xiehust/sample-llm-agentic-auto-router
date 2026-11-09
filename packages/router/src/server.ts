@@ -2,18 +2,23 @@
 // splice -> SigV4 forward (+ failover) -> relay -> record + log.
 import { randomUUID } from 'node:crypto'
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
-import type { CardContext, Decision, Engine, RequestSummary, StateStore } from '@auto-router/core'
-import { RETRYABLE_STATUS } from '@auto-router/core'
-import { costFor, emit, hitRate, hopTokenOf, lineageLabel, loggedHeaders, stdoutSink, type LogSink, type RequestLog } from './account.ts'
+import type { Cap, CardContext, Decision, Engine, RequestSummary, StateStore } from '@auto-router/core'
+import { AccessCapError, pinAllowedByCap, RETRYABLE_STATUS, tierOfPoolModel, tierWithinCap } from '@auto-router/core'
+import type { RouterAssessor } from './assessor.ts'
+import { costBound, costFor, emit, hitRate, hopTokenOf, lineageLabel, loggedHeaders, stdoutSink, type LogSink, type RequestLog } from './account.ts'
 import { betaVeto, parseBetas, type BetaTable } from './beta.ts'
+import { chatTokenLimit, sanitizeMetadata, stripBetas } from './bedrock-compat.ts'
 import { BodyError, readBody, spliceTopLevel, topLevelMembers } from './body.ts'
 import type { RouterConfig } from './config.ts'
 import { failoverTargets, jitterMs } from './failover.ts'
 import { forward, upstreamHeaders, type Signer } from './forward.ts'
 import { applyBodyHints, coreHeaders } from './hints.ts'
+import { principalKey, type IdentityGate, type IdentityMode } from './identity.ts'
 import { createInboundCheck, type InboundCheck } from './inbound.ts'
 import { allowedModels, poolTiers } from './models.ts'
 import { routeOf } from './routes.ts'
+import { createRuntime, type Generation, type RuntimeRef } from './runtime.ts'
+import { bakedDocument, resolveCap } from './settings.ts'
 import { relay } from './stream.ts'
 
 /**
@@ -25,7 +30,13 @@ export type CardBuilder = (summary: RequestSummary, body: unknown, ctx: CardCont
 
 export interface RouterDeps {
   config: RouterConfig
-  engine: Engine
+  /**
+   * Generation holder (runtime.ts). Every request takes `runtime.current()` once and uses it to the end. Without it,
+   * the router runs one fixed generation built from `config.policy`, `engine` and `assessor` (tests, no config source).
+   */
+  runtime?: RuntimeRef
+  /** Engine for the fixed generation (ignored when `runtime` is given). */
+  engine?: Engine
   store: StateStore
   signer: Signer
   inbound?: InboundCheck
@@ -34,13 +45,34 @@ export interface RouterDeps {
   now?: () => number
   sleep?: (ms: number) => Promise<void>
   card?: CardBuilder
+  /**
+   * Tier assessor of the fixed generation (createRouterAssessor; ignored when `runtime` is given: the generation
+   * carries its own). Supplies the card builder (unless `card` is given) and logs each consultation. The engine must
+   * have been created with its `engineOptions`.
+   */
+  assessor?: RouterAssessor
   betaTable?: BetaTable
+  /**
+   * The request's verified principal key "<user|client>:<id>" (C2 identity), or undefined when unattributed. It
+   * selects the access cap (design 0.16: principals.json, then the group default). Never a client-asserted header.
+   */
+  principalOf?: (req: IncomingMessage) => string | undefined
+  /**
+   * Identity gate (identity.ts): verifies the client's token from the identity header and applies blocks and budget
+   * stops. Its verified principal selects the cap (principalOf is then ignored). Absent: identity off.
+   */
+  identity?: IdentityGate
 }
 
 export interface Router { server: Server; handle(req: IncomingMessage, res: ServerResponse, slot?: LogSlot): Promise<void> }
 
 /** Lets the server wrapper log a request whose handler threw (review fix 11). */
-export interface LogSlot { log?: RequestLog; emitted?: boolean }
+export interface LogSlot {
+  log?: RequestLog
+  emitted?: boolean
+  /** The generation an earlier check of this request used (Expect: 100-continue), so the request keeps it (I1). */
+  gen?: Generation
+}
 
 function json(res: ServerResponse, status: number, body: unknown, close = false): void {
   if (res.headersSent) { res.destroy(); return }
@@ -56,6 +88,7 @@ function forbid(res: ServerResponse): void {
 }
 
 const MAX_REASON = 200
+const IDENTITY_ERROR: Record<401 | 403 | 429, string> = { 401: 'unauthorized', 403: 'forbidden', 429: 'budget exceeded' }
 
 /**
  * Model discovery answer (the gateway calls GET <endpoint>/v1/models when it creates an inference provider target).
@@ -79,7 +112,7 @@ const reasonCode = (reason: string): string => reason.split(':', 1)[0]?.trim() |
 const headerSafe = (v: string, max = 256): string => v.slice(0, max).replace(/[^\x20-\x7e]/g, '?')
 
 export function createRouter(deps: RouterDeps): Router {
-  const { config, engine, store, signer } = deps
+  const { config, store, signer } = deps
   const inbound = deps.inbound ?? createInboundCheck(config.hopAuth)
   const sink = deps.sink ?? stdoutSink
   const now = deps.now ?? Date.now
@@ -88,9 +121,12 @@ export function createRouter(deps: RouterDeps): Router {
   const faultAt = config.fault.startsWith('upstream-503-once') ? Number(config.fault.split(':')[1] ?? 1) : 0
   let upstreamAttempts = 0
   const pauseMs = config.fault.startsWith('pause-after-first-frame:') ? Number(config.fault.split(':')[1]) : 0
-  const allowed = allowedModels(config.policy, config.catalog)
-  const aliases = new Set(Object.keys(config.policy.aliases))
-  const known = (id: string) => aliases.has(id) || allowed.has(id)
+  const runtime: RuntimeRef = deps.runtime ?? fixedRuntime(deps, sink)
+  // Every model a decision may name under any accepted configuration (I4: the IAM grant). Decisions, failover
+  // targets and the EMF ServedModel bound use it; client-supplied concrete ids use the generation's pinAllowed.
+  const universe = config.modelUniverse ?? defaultUniverse(config, runtime.current())
+  /** Identity mode of a generation: the document's identity.mode, else the env default (off without identity). */
+  const identityMode = (g: Generation): IdentityMode => g.document.identity?.mode ?? config.identity?.mode ?? 'off'
 
   async function handle(req: IncomingMessage, res: ServerResponse, slot: LogSlot = {}): Promise<void> {
     const t0 = now()
@@ -104,7 +140,7 @@ export function createRouter(deps: RouterDeps): Router {
       log.durationMs = now() - t0
       if (body !== undefined) json(res, status, body)
       slot.emitted = true
-      emit(sink, log, now(), allowed)
+      emit(sink, log, now(), universe)
     }
     if (route.kind === 'not-found') { log.reason = 'not-found'; finish(404, { error: 'not found' }); return }
     log.hopToken = hopTokenOf(req.headers['x-amz-security-token'])
@@ -114,9 +150,32 @@ export function createRouter(deps: RouterDeps): Router {
     res.on('close', () => { if (!res.writableFinished) abort.abort() })
 
     // 1. Hop authentication, before the body is read.
-    const auth = inbound(req.headers)
+    const auth = inbound(req.headers, { discovery: route.kind === 'models' })
+    if (auth.sourceArn) log.sourceArn = auth.sourceArn
     if (!auth.ok) { log.reason = auth.reason; req.resume(); forbid(res); finish(403); return }
-    if (route.kind === 'models') { req.resume(); log.reason = 'models'; finish(200, modelList(config.policy.aliases, now())); return }
+    // One generation for the whole request (I1): decide, beta veto, model checks, failover, record and the log line.
+    const gen = slot.gen ?? runtime.current()
+    if (route.kind === 'models') { req.resume(); log.reason = 'models'; finish(200, modelList(gen.policy.aliases, now())); return }
+    const { engine } = gen
+    const assessor = gen.assessor
+    const known = (id: string) => gen.aliases.has(id) || gen.pinAllowed.has(id)
+    // 1b. Verified principal, before the body (model discovery above carries no client token). The mode is the
+    // generation's (document over env). Rejections are 401/403/429, never 5xx (the gateway fallback would serve it).
+    let principal = deps.principalOf?.(req)
+    if (deps.identity) {
+      const id = deps.identity.check(req.headers, identityMode(gen))
+      principal = id.principal?.id !== undefined ? principalKey(id.principal) : undefined
+      if (id.principal) {
+        const group = principal !== undefined ? gen.principals.get(principal)?.group : undefined
+        log.principal = { ...id.principal, ...(group ? { group } : {}) }
+      }
+      if (id.identity) log.identity = id.identity
+      if (!id.ok) { log.configVersion = gen.configVersion; log.reason = id.code; req.resume(); finish(id.status, { error: IDENTITY_ERROR[id.status], code: id.code }); return }
+    }
+    const resolved = resolveCap(gen.document.access, gen.principals, principal)
+    const cap: Cap | undefined = resolved.cap?.maxTier !== undefined || resolved.cap?.allowPins?.length ? resolved.cap : undefined
+    log.configVersion = gen.configVersion
+    log.catalogVersion = config.catalog.version
     log.kind = 'model'
     log.dialect = route.dialect
     log.headers = loggedHeaders(req.headers)
@@ -142,6 +201,7 @@ export function createRouter(deps: RouterDeps): Router {
       return
     }
     const tBody = now()
+    log.bodyReadMs = tBody - t0
     const stream = body.stream === true
     log.stream = stream
     if (typeof body.model === 'string') {
@@ -155,16 +215,43 @@ export function createRouter(deps: RouterDeps): Router {
     try {
       summary = engine.summarize(route.dialect, body, coreHeaders(req.headers), tBody)
       log.lineage = lineageLabel(summary.session.lineage)
+      log.session = lineageLabel(summary.session.root)
       // Concrete ids (body model or x-router-hint pin) are limited to the policy's models (review fix 5).
       const pin = summary.hints.pin
-      if ((!aliases.has(summary.requestedModel) && !allowed.has(summary.requestedModel)) || (pin !== undefined && !allowed.has(pin))) {
+      if ((!gen.aliases.has(summary.requestedModel) && !gen.pinAllowed.has(summary.requestedModel)) || (pin !== undefined && !gen.pinAllowed.has(pin))) {
         log.reason = 'pin-not-allowed'
         finish(400, { error: 'model not allowed', code: 'pin-not-allowed' })
         return
       }
-      const card = deps.card
-      decision = await engine.decide(summary, card ? { card: (ctx) => card(summary, body, ctx) } : undefined)
+      // Pins against the caller's cap (design 0.3a/0.16): checked at once (access semantics), after pin-not-allowed.
+      const pinned = pin ?? (gen.aliases.has(summary.requestedModel) ? undefined : summary.requestedModel)
+      if (cap && pinned !== undefined && !pinAllowedByCap(cap, pinned, tierOfPoolModel(gen.policy, config.catalog, route.dialect, pinned))) {
+        log.reason = 'access-cap'
+        finish(400, { error: `model above your tier limit (${cap.maxTier})`, code: 'access-cap' })
+        return
+      }
+      const tDecide = now()
+      const card = deps.card ?? assessor?.card
+      const extras = card || cap
+        ? { ...(card ? { card: (ctx: CardContext) => card(summary, body, ctx) } : {}), ...(cap ? { cap } : {}) }
+        : undefined
+      if (assessor) {
+        // Consultation happens inside decide() (core bounds it); the trace collects its structured audit fields.
+        const { value, trace } = await assessor.traced(() => engine.decide(summary, extras))
+        decision = value
+        const a = assessor.logOf(decision, trace)
+        if (a) log.assessor = a
+      } else {
+        decision = await engine.decide(summary, extras)
+      }
+      log.decideMs = now() - tDecide // includes the assessor consultation, if any
     } catch (e) {
+      if (e instanceof AccessCapError) {
+        // Never 5xx: the gateway fallback would serve the request without the router (design 0.15/0.16).
+        log.reason = e.code
+        finish(400, { error: e.code === 'access-cap' ? `no model within your tier limit (${cap?.maxTier})` : `no model within your tier limit (${cap?.maxTier}) fits this request`, code: e.code })
+        return
+      }
       log.kind = 'error'
       log.error = (e as Error).name
       log.reason = 'decide-failed'
@@ -173,17 +260,25 @@ export function createRouter(deps: RouterDeps): Router {
     }
 
     // 4. Beta veto (Messages only): deny list, never in observe mode, never to a lower tier.
+    // Bedrock compatibility (bedrock-compat.ts): betas Bedrock rejects are dropped from the header before the veto
+    // sees them, so the veto and the upstream request use the same list.
+    const betaHeader = typeof req.headers['anthropic-beta'] === 'string' ? req.headers['anthropic-beta'] : undefined
+    const compat = route.dialect === 'anthropic-messages' ? stripBetas(betaHeader) : { header: betaHeader, stripped: [] as string[] }
+    const sanitized: string[] = compat.stripped.map((b) => `beta:${b}`)
     if (route.dialect === 'anthropic-messages') {
-      const betas = parseBetas(typeof req.headers['anthropic-beta'] === 'string' ? req.headers['anthropic-beta'] : undefined)
+      const betas = parseBetas(compat.header)
       if (betas.length) {
         const current = (await store.get(summary.session.lineage))?.current
-        const pool = poolTiers(config.policy, config.catalog, route.dialect)
+        // A veto moves up a tier, never above the caller's cap.
+        const pool = poolTiers(gen.policy, config.catalog, route.dialect).filter((m) => tierWithinCap(cap, m.tier))
         const v = betaVeto(decision, betas, { ...(current ? { current } : {}), pool }, deps.betaTable)
         decision = v.decision
         if (v.vetoed) log.betaVeto = v.vetoed
       }
     }
-    if (!allowed.has(decision.model)) { // defensive: core only returns pool models or allowed pins
+    // Defensive: core returns pool models, allowed pins, or a hard-locked lineage's current model, which an earlier
+    // generation may have chosen (I3), so the bound is the universe, not this generation's policy.
+    if (!universe.has(decision.model)) {
       log.reason = 'pin-not-allowed'
       finish(400, { error: 'model not allowed', code: 'pin-not-allowed' })
       return
@@ -192,25 +287,52 @@ export function createRouter(deps: RouterDeps): Router {
       action: decision.action, point: decision.point, mode: decision.mode, model: decision.model, reason: decision.reason.slice(0, MAX_REASON),
       policyVersion: decision.policyVersion,
       ...(decision.wouldChoose ? { wouldChoose: decision.wouldChoose } : {}), ...(decision.estimate ? { estimate: decision.estimate } : {}),
+      ...(decision.projected ? { projected: decision.projected } : {}),
     }
 
     // 5. Opt-in hints, then the model splice.
-    let upstreamBody: Buffer
+    let baseBody: Buffer
     let stripUsage = false
     try {
       const h = applyBodyHints(route.dialect, raw, body, config.hints)
       stripUsage = h.stripUsage
       if (h.applied.length) log.hints = h.applied
-      upstreamBody = spliceTopLevel(h.body, 'model', JSON.stringify(decision.model))
+      let b = h.body
+      if (route.dialect === 'anthropic-messages') {
+        const m = sanitizeMetadata(b, body)
+        if (m.edited) { b = m.body; sanitized.unshift('user_id') }
+      }
+      if (sanitized.length) log.sanitized = sanitized
+      baseBody = b
     } catch (e) {
       log.reason = 'invalid-json'
       finish(e instanceof BodyError ? e.status : 400, { error: e instanceof BodyError ? e.message : 'invalid JSON body' })
       return
     }
 
+    // The body for one attempt's model: the model splice, then the per-model Chat edit (a failover to another family
+    // gets its own body). The edits of the attempt that is relayed are logged.
+    const bodyFor = (model: string): { body: Buffer; edits: string[] } => {
+      const b = spliceTopLevel(baseBody, 'model', JSON.stringify(model))
+      return route.dialect === 'openai-chat' ? chatTokenLimit(b, model, config.catalog) : { body: b, edits: [] }
+    }
+    let first: { body: Buffer; edits: string[] }
+    try {
+      first = bodyFor(decision.model)
+    } catch (e) {
+      log.reason = 'invalid-json'
+      finish(e instanceof BodyError ? e.status : 400, { error: e instanceof BodyError ? e.message : 'invalid JSON body' })
+      return
+    }
+    let edits = first.edits
+
     // 7. Forward, with one failover before any byte reaches the client.
     if (abort.signal.aborted) { log.clientAborted = true; log.reason = 'client-aborted'; finish(499); res.destroy(); return }
     const headers = upstreamHeaders(req.headers)
+    if (compat.stripped.length) {
+      if (compat.header === undefined) delete headers['anthropic-beta']
+      else headers['anthropic-beta'] = compat.header
+    }
     const headerMs = stream ? config.timeouts.streamHeaderMs : config.timeouts.nonStreamHeaderMs
     // One header deadline for ALL attempts (first try + failover): the gateway's first-byte timeout (610 s) must
     // never fire before the router answers. Cleared once the attempt we relay has its headers.
@@ -230,33 +352,36 @@ export function createRouter(deps: RouterDeps): Router {
     const tUp = now()
     log.overheadMs = tUp - tBody
     let served = decision.model
-    let up = await attempt(upstreamBody)
+    let up = await attempt(first.body)
     const failed = (r: Response | { network: string }) => !(r instanceof Response) || RETRYABLE_STATUS.has(r.status)
     // No profile rotation inside a Responses chain (core: failover-chain-locked).
     const chainLocked = summary.previousResponseId !== undefined || decision.point === 'hard-lock-response-chain'
     // Same-model profile retry only for policy.failover.profileRotateOn (default 429; a network error counts as 502):
     // a 5xx on global. is very likely shared by the geo profile, so it goes to core / the gateway fallback instead.
-    const rotatable = (r: Response | { network: string }) => config.policy.failover.profileRotateOn.includes(r instanceof Response ? r.status : 502)
+    const rotatable = (r: Response | { network: string }) => gen.policy.failover.profileRotateOn.includes(r instanceof Response ? r.status : 502)
     if (failed(up) && rotatable(up) && !abort.signal.aborted && !deadline.signal.aborted && !chainLocked) {
-      const to = failoverTargets(config.policy, route.dialect, decision.model).find((m) => allowed.has(m))
+      const to = failoverTargets(gen.policy, route.dialect, decision.model).find((m) => universe.has(m))
       if (to) {
         const status = up instanceof Response ? up.status : up.network
         if (up instanceof Response) await up.body?.cancel().catch(() => undefined)
         // Core learns about the failed profile first, so the final record() and the next decide() see it.
-        await record(summary, decision, decision.model, typeof status === 'number' ? status : 502)
+        await record(engine, summary, decision, decision.model, typeof status === 'number' ? status : 502)
         await sleep(jitterMs())
         log.failover = { from: decision.model, to, status }
         served = to
-        up = await attempt(spliceTopLevel(upstreamBody, 'model', JSON.stringify(to)))
+        const next = bodyFor(to) // same members as the first body: it cannot newly fail to parse
+        edits = next.edits
+        up = await attempt(next.body)
       }
     }
     clearTimeout(deadlineTimer) // headers arrived (or every attempt failed): the body is governed by the idle timeout
     log.servedModel = served
+    if (edits.length) log.bodyEdits = edits
     if (!(up instanceof Response)) {
       log.reason = `upstream-${up.network}`
       if (up.network === 'aborted') { log.clientAborted = true; finish(499); res.destroy(); return }
       finish(502, { error: 'upstream unavailable' })
-      await record(summary, decision, served, 502)
+      await record(engine, summary, decision, served, 502)
       return
     }
     log.upstreamTtfbMs = now() - tUp
@@ -290,12 +415,19 @@ export function createRouter(deps: RouterDeps): Router {
     log.usage = r.usage
     log.costUsd = costFor(config.catalog, served, r.usage)
     log.hitRate = hitRate(r.usage)
-    const rec = await record(summary, decision, served, status, r.usage, r.responseId)
+    if (r.usage === undefined && up.status < 400) {
+      // No usage event at all (0.3c): the call was billed but its size is unknown, so log an approximate bound.
+      log.usageMissing = true
+      const b = costBound(config.catalog, served, summary)
+      if (b) { log.costBoundUsd = b.usd; if (b.partial) log.boundPartial = true }
+    }
+    const rec = await record(engine, summary, decision, served, status, r.usage, r.responseId)
     if (rec?.miss) log.miss = rec.miss
+    if (rec?.switchedFrom) log.switchedFrom = rec.switchedFrom
     finish(r.clientAborted ? 499 : status)
   }
 
-  async function record(summary: RequestSummary, decision: Decision, servedModel: string, status: number,
+  async function record(engine: Engine, summary: RequestSummary, decision: Decision, servedModel: string, status: number,
     usage?: RequestLog['usage'], responseId?: string) {
     try {
       return await engine.record(summary, decision, { servedModel, status, ...(usage ? { usage } : {}), ...(responseId ? { responseId } : {}) })
@@ -304,8 +436,7 @@ export function createRouter(deps: RouterDeps): Router {
     }
   }
 
-  const run = (req: IncomingMessage, res: ServerResponse) => {
-    const slot: LogSlot = {}
+  const run = (req: IncomingMessage, res: ServerResponse, slot: LogSlot = {}) => {
     handle(req, res, slot).catch((e: unknown) => {
       // Router bug: 5xx so the gateway fallback serves the request. No details leave the process.
       if (!res.headersSent) json(res, 500, { error: 'internal error' })
@@ -316,23 +447,53 @@ export function createRouter(deps: RouterDeps): Router {
       log.status = 500
       log.reason = 'internal'
       log.error = (e as Error)?.name ?? 'Error'
-      emit(sink, log, now(), allowed)
+      emit(sink, log, now(), universe)
     })
   }
   const server = createServer(run)
   // Expect: 100-continue: authenticate before inviting the body.
   server.on('checkContinue', (req, res) => {
     const route = routeOf(req.method, req.url)
-    if (route.kind !== 'health' && route.kind !== 'not-found' && !inbound(req.headers).ok) {
-      emit(sink, { ts: new Date(now()).toISOString(), reqId: randomUUID(), kind: 'rejected', status: 403, reason: 'expect-continue-forbidden' }, now(), allowed)
+    if (route.kind !== 'health' && route.kind !== 'not-found' && !inbound(req.headers, { discovery: route.kind === 'models' }).ok) {
+      emit(sink, { ts: new Date(now()).toISOString(), reqId: randomUUID(), kind: 'rejected', status: 403, reason: 'expect-continue-forbidden' }, now(), universe)
       forbid(res)
       return
     }
+    // One generation for the identity check here and the whole request after it (I1: the mode cannot change between them).
+    const gen = runtime.current()
+    if (route.kind === 'model' && deps.identity) {
+      const id = deps.identity.check(req.headers, identityMode(gen))
+      if (!id.ok) {
+        emit(sink, { ts: new Date(now()).toISOString(), reqId: randomUUID(), kind: 'rejected', status: id.status, reason: id.code,
+          principal: id.principal, identity: id.identity, configVersion: gen.configVersion }, now(), universe)
+        json(res, id.status, { error: IDENTITY_ERROR[id.status], code: id.code }, true)
+        return
+      }
+    }
     res.writeContinue()
-    run(req, res)
+    run(req, res, { gen })
   })
   server.requestTimeout = 15 * 60_000
   server.headersTimeout = 30_000
   server.keepAliveTimeout = 65_000
   return { server, handle }
+}
+
+/** The router without a config source: one fixed generation from the boot policy, engine and assessor. */
+function fixedRuntime(deps: RouterDeps, sink: (line: string) => void): RuntimeRef {
+  const { config } = deps
+  if (!deps.engine) throw new TypeError('createRouter: `engine` or `runtime` required')
+  const engine = deps.engine
+  return createRuntime(bakedDocument(config.policy), {
+    catalog: config.catalog, store: deps.store, sink, engineFor: () => engine,
+    buildAssessor: () => ({ ok: true, ...(deps.assessor ? { assessor: deps.assessor } : {}) }),
+  })
+}
+
+/** Without ROUTER_MODEL_UNIVERSE: the boot generation's models plus the assessor model (today's IAM grant). */
+export function defaultUniverse(config: RouterConfig, g: Generation): ReadonlySet<string> {
+  const u = new Set(allowedModels(config.policy, config.catalog))
+  for (const m of g.pinAllowed) u.add(m)
+  if (g.assessor) u.add(g.assessor.settings.model)
+  return u
 }

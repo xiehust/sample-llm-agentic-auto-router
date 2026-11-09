@@ -1,0 +1,28 @@
+{
+  "schema": "cc-native-roles/v1",
+  "claude_code": {"version": "2.1.318", "observed_build": "linux-arm64 (sha256 53a0d7e219d7b0804ecba5dbc002745e89f786cc946d2de85a6470d5b2d1fb06)"},
+  "observed": "2026-11-07, dev box, no AWS. The binary run directly (not through Harbor, so Harbor's alias override was never involved) in an isolated network namespace (unshare -rn) against a scripted loopback mock of /v1/messages. Env: ANTHROPIC_MODEL = M; ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU}_MODEL = their own 5.5 ids, ANTHROPIC_SMALL_FAST_MODEL = the Haiku id, ANTHROPIC_DEFAULT_FABLE_MODEL = the Fable id; CLAUDE_CODE_SUBAGENT_MODEL unset; the non-essential-traffic switches; flags as Harbor's claude-code agent: --verbose --output-format=stream-json --effort high --disallowedTools WebSearch,WebFetch --permission-mode=bypassPermissions --print. The mock scripted, in one session: Bash, then Agent(subagent_type Explore), Agent(general-purpose), Agent(Plan), Bash with a near-window usage report (995,000 input tokens) to force auto-compaction, a text answer to the summarization request, then end_turn. Run once for each M.",
+  "main_models": {
+    "sonnet": "global.anthropic.claude-sonnet-5-5",
+    "opus": "global.anthropic.claude-opus-5-5",
+    "haiku": "global.anthropic.claude-haiku-5-5"
+  },
+  "roles": {
+    "main": {"requested": "M", "observed": {"sonnet": 6, "opus": 6, "haiku": 7}, "how": "requests without x-claude-code-agent-id whose system opening is the main-loop prompt (Sonnet: 5 before and 1 after the compaction)"},
+    "task": {"requested": "M", "observed": {"sonnet": 1, "opus": 1, "haiku": 1}, "how": "Agent tool_use with subagent_type general-purpose; its requests carry x-claude-code-agent-id"},
+    "plan": {"requested": "M", "observed": {"sonnet": 1, "opus": 1, "haiku": 1}, "how": "Agent tool_use with subagent_type Plan; x-claude-code-agent-id"},
+    "explore": {"requested": "M", "observed": {"sonnet": 1, "opus": 1, "haiku": 1}, "how": "Agent tool_use with subagent_type Explore; x-claude-code-agent-id. Not Haiku in 2.1.318: the Explore definition inherits the main model"},
+    "compaction": {"requested": "M", "observed": {"sonnet": 2, "opus": 0, "haiku": 0}, "how": "auto-compaction after the near-window usage report: same system and tools as the main loop, the summarization instruction in the last user message; the stream-json log shows compact_boundary. Opus and Haiku sessions ended at the blocking limit before a summarization request reached the mock (Claude Code's own stop on the injected usage); the request type is the main lineage's, so M is expected there too"},
+    "background": {"requested": null, "observed": {"sonnet": 0, "opus": 0, "haiku": 0}, "how": "no request without tools (titles, summaries, command-prefix checks) occurred in --print mode with bypassPermissions in any session"}
+  },
+  "conclusion": "In --print mode, 2.1.318 requests the main model M for every observed request type; Claude Code's native defaults put no call on Haiku unless M is Haiku. 'Helper' (a Haiku-named call in A, B or C) is expected to be empty; any such call is reported, never remapped.",
+  "classifier": {
+    "note": "Structural request type (hproxy call_type), from text-free features: whether x-claude-code-agent-id is present, sha256[:12] of the first 60 characters of the last system block (system_sig), sha256[:12] of the sorted tool names (tools_sig), whether tools are present, and Claude Code's own summarization marker in the last user message (compaction). Anything else is unknown.",
+    "main": {"agent_header": false, "system_sig": "215162530c1f", "tools_sig": "9011af9a1220", "n_tools": 12},
+    "task": {"agent_header": true, "system_sig": "90a6c3c3bcec", "tools_sig": "d448d2cf3f20", "n_tools": 8},
+    "plan": {"agent_header": true, "system_sig": "30552cffc8db", "tools_sig": "0f6804fb785f", "n_tools": 5},
+    "explore": {"agent_header": true, "system_sig": "29fc4dc5b51e", "tools_sig": "0f6804fb785f", "n_tools": 5},
+    "compaction": {"agent_header": false, "system_sig": "215162530c1f", "marker": "Respond with TEXT ONLY"},
+    "background": {"agent_header": false, "tools": "absent"}
+  }
+}

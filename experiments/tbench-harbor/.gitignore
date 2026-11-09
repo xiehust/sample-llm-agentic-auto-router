@@ -1,0 +1,3 @@
+# Raw outputs stay local: bodies carry task text, ledgers and tiers carry run data.
+results/
+__pycache__/
