@@ -474,7 +474,7 @@
   "getStarted.tab.curl": "curl",
   "getStarted.claudeCode.where": "In ~/.claude/settings.json, or a project's .claude/settings.json:",
   "getStarted.claudeCode.token": "apiKeyHelper runs llmar-token. Claude Code sends the token as a bearer token and as x-api-key. With the TTL at 4 minutes it asks often; llmar answers from its cache and refreshes the token before it expires.",
-  "getStarted.claudeCode.tiers": "The alias variables make /model opus, sonnet and haiku ask the router for a tier. Claude Code shows an unrecognized_model notice for auto. You can ignore it.",
+  "getStarted.claudeCode.tiers": "The alias variables make /model opus, sonnet and haiku ask the router for a tier. Claude Code does not know the name auto; CLAUDE_CODE_MAX_CONTEXT_TOKENS gives it the 1M window of the router's Claude models, so it does not compact at its 200K default.",
   "getStarted.claudeCode.countTokens": "The gateway does not offer /v1/messages/count_tokens. Claude Code gets a 404 and uses its own estimate.",
   "getStarted.claudeCode.refusal": "If the model refuses on safety grounds, Claude Code may retry with its built-in fallback model. That id is not routable, so the retry fails.",
   "getStarted.codex.where": "In ~/.codex/config.toml:",

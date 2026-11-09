@@ -21,6 +21,8 @@ export const DEPLOYMENT_PLACEHOLDERS: ReadonlySet<string> = new Set(['inference 
 /** The one value each reader fills in: Codex needs an absolute path to llmar-token and the browser cannot know $HOME. */
 export const USER_PLACEHOLDER = 'you'
 export const HOME_SED = `sed -i "s#/home/<${USER_PLACEHOLDER}>#$HOME#" ~/.codex/config.toml`
+/** Window Claude Code assumes for 'auto' (it assumes 200K for ids it does not know): the default Claude pool is all 1M. */
+export const CLAUDE_CONTEXT_TOKENS = '1000000'
 
 const or = (v: string | number | undefined, name: string) => (v === undefined || v === '' ? `<${name}>` : String(v))
 
@@ -58,6 +60,8 @@ export const claudeCode = (v: SnippetValues) => JSON.stringify({
     ANTHROPIC_DEFAULT_OPUS_MODEL: 'auto:frontier',
     ANTHROPIC_DEFAULT_SONNET_MODEL: 'auto:standard',
     ANTHROPIC_DEFAULT_HAIKU_MODEL: 'auto:fast',
+    // Claude Code does not know 'auto' and would assume a 200K window and compact there; the pool's Claude models have 1M.
+    CLAUDE_CODE_MAX_CONTEXT_TOKENS: CLAUDE_CONTEXT_TOKENS,
     CLAUDE_CODE_API_KEY_HELPER_TTL_MS: '240000',
     CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: '1',
   },
@@ -94,6 +98,7 @@ delivery = { kind = "header", name = "x-api-key" }
 [features]
 enable_request_compression = false`
 
+export const claudeContextLine = `"CLAUDE_CODE_MAX_CONTEXT_TOKENS": "${CLAUDE_CONTEXT_TOKENS}"`
 export const credentialsStoreLine = 'credentials_store = "file"'
 export const configParentFix = 'chmod g-w ~/.config'
 export const claudeEnvCheck = "env | grep -E 'CLAUDE_CODE_USE_BEDROCK|ANTHROPIC_API_KEY|ANTHROPIC_BASE_URL'"

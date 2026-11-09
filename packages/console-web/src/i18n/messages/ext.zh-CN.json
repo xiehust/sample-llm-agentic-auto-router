@@ -28,5 +28,5 @@
   "ext.getStarted.faq.claudeApiKey.q": "Claude Code 警告 “Both apiKeyHelper and ANTHROPIC_API_KEY set”",
   "ext.getStarted.faq.claudeApiKey.a": "环境里的 ANTHROPIC_API_KEY 会取代 apiKeyHelper，router 就拿不到你的 llmar token。使用 router 时请取消它，并从设置文件里删除：",
   "ext.getStarted.faq.claudeModel.q": "Claude Code 提示 “Model \"auto\" isn't recognized · context assumed to be 200k tokens”",
-  "ext.getStarted.faq.claudeModel.a": "无害：auto 是 router 的别名。Claude Code 只用它来估算自己的上下文。"
+  "ext.getStarted.faq.claudeModel.a": "Claude Code 不认识 router 的别名 auto，于是假定上下文窗口只有 200K，到 200K 就压缩对话。router 的 Claude 模型都是 1M 窗口。在 router 设置的 env 里保留下面这一行（上面的配置片段里已经有），然后重启 Claude Code。只有管理员把你限制在窗口更小的模型上时，才需要改成更小的值。"
 }

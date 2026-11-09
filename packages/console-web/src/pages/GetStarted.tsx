@@ -45,7 +45,7 @@ function Content({ s }: { s: SetupInfo }) {
   const faq: Array<{ id: string; values?: Record<string, string | number>; code?: string; plain?: boolean }> = [
     { id: 'claudeBedrock', code: S.claudeEnvCheck },
     { id: 'claudeApiKey', code: S.unsetApiKey },
-    { id: 'claudeModel' },
+    { id: 'claudeModel', code: S.claudeContextLine },
     { id: 'configure', code: S.configParentFix },
     { id: 'redirectPort', values: { port: s.codexOauthPort ?? '—' } },
     { id: 'gatewaySignIn', code: S.credentialsStoreLine },
