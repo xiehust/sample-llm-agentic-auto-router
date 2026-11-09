@@ -43,12 +43,32 @@ export function deployModels(s: Settings, read: (p: string) => string = (p) => r
     for (const m of Object.values(FALLBACK)) if (!known.has(m)) issues.push(`fallback model '${m}' is not in the ${s.region} catalog`)
   }
   if (issues.length || !policy || !catalog) throw new SettingsError(issues)
+  const routerModels = modelUniverse(s.modelUniverse, policy, catalog, issues)
+  // The default-project grant covers every router model that can serve the Responses API, so a console policy may
+  // put any of them in its openai-responses pool (with the policy file's universe this is that pool's models).
   const resp = policy.pools['openai-responses']
-  const routerResponsesModels = resp ? [...new Set(resp.models.flatMap((e) => [e.model, ...(e.failover ?? [])]).concat(policy.observeDefaults?.['openai-responses'] ?? []))].sort() : []
-  if (s.assessor) checkAssessor(s.assessor, catalog, allowedModels(policy, catalog), routerResponsesModels, read, issues)
+  const responsesIds = new Set(catalog.models.filter((m) => m.dialects.includes('openai-responses')).map((m) => m.modelId))
+  const responsesCapable = routerModels.filter((id) => responsesIds.has(id))
+  const routerResponsesModels = [...new Set([...(resp ? resp.models.flatMap((e) => [e.model, ...(e.failover ?? [])]) : []),
+    ...(policy.observeDefaults?.['openai-responses'] ? [policy.observeDefaults['openai-responses']] : []), ...responsesCapable])].sort()
+  if (s.assessor) checkAssessor(s.assessor, catalog, routerModels, routerResponsesModels, read, issues)
   if (issues.length) throw new SettingsError(issues)
-  return { policy, catalog, routerModels: allowedModels(policy, catalog), fallbackModels: [...new Set(Object.values(FALLBACK))].sort(),
+  return { policy, catalog, routerModels, fallbackModels: [...new Set(Object.values(FALLBACK))].sort(),
     routerResponsesModels, fallbackResponsesModels: [FALLBACK.openai] }
+}
+
+/**
+ * The router's model universe (allowedModelUniverse): the policy file's models, plus every catalog model ('catalog')
+ * or the listed ids. The task role's InvokeModel grants, ROUTER_MODEL_UNIVERSE and the console's allowed list are
+ * this set, so a console policy can use any of these models without a deploy.
+ */
+function modelUniverse(u: Settings['modelUniverse'], policy: Policy, catalog: PriceCatalog, issues: string[]): string[] {
+  const base = allowedModels(policy, catalog)
+  if (u === 'policy') return base
+  const known = new Set(catalog.models.map((m) => m.modelId))
+  const extra = u === 'catalog' ? [...known] : u
+  for (const id of extra) if (!known.has(id)) issues.push(`allowedModelUniverse: '${id}' is not in the ${catalog.region} catalog (use policy, catalog or a comma list of catalog model ids)`)
+  return [...new Set([...base, ...extra.filter((id) => known.has(id))])].sort()
 }
 
 /**

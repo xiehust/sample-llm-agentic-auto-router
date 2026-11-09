@@ -136,8 +136,8 @@ the call, so usage, cost and decisions are per caller. Client-asserted headers a
 - **Model.** Send `model: "auto"`, or `auto:fast` / `auto:standard` / `auto:frontier` to ask for a tier. Every
   model name goes to the router. A concrete Bedrock model id is treated as a pin: it is served if it is in the
   router's policy and within your tier limit, otherwise the request gets 400 (`pin-not-allowed` or `access-cap`).
-- **Auth.** `Authorization: Bearer <access token>` and `x-api-key: <access token>`. Member tokens last 30 minutes,
-  service-client tokens 60 minutes. The `llmar` CLI refreshes member tokens for you.
+- **Auth.** `Authorization: Bearer <access token>` and `x-api-key: <access token>`. Member and
+  service-client tokens last 60 minutes. The `llmar` CLI refreshes member tokens for you.
 - **Identity mode.** The router runs in `off`, `observe` or `require` mode (an admin setting). In `observe`, blocks,
   budgets and tier limits apply to every call that carries a valid `x-api-key`; a call without one is served
   unattributed and escapes them. In `require`, such a call gets 401, so they bind everyone.
@@ -204,7 +204,9 @@ In `~/.claude/settings.json`, or a project's `.claude/settings.json`:
 ```
 
 - **Tokens.** Claude Code sends the helper's output both as a bearer token and as `X-Api-Key`, so no extra setting
-  is needed. The 4-minute TTL makes it ask `llmar-token` often; `llmar` answers from its cache.
+  is needed. The 4-minute TTL makes it ask `llmar-token` often; `llmar` answers from its cache. Claude Code can
+  keep using a cached token past the TTL while it refreshes in the background. If the gateway refuses it (an expired
+  token gets 403 `insufficient_scope`), Claude Code asks again, and `llmar` hands out a new token.
 - **Choosing a tier.** The alias variables make `/model opus|sonnet|haiku` ask the router for a tier rather than a
   fixed model.
 - **Context window.** Claude Code does not know the name `auto` and would assume a 200K window, compacting the
@@ -263,7 +265,7 @@ Then run `LLMAR_SESSION=$(uuidgen) codex`. Codex opens its own sign-in page once
 - **Headless Linux without a keyring.** Codex stores its sign-in in the OS keyring by default. Add
   `credentials_store = "file"` to the `gateway_oauth` table to keep it in `$CODEX_HOME/secrets/gateway_oauth.json`
   instead (mode 0600, plain text).
-- **Short sessions (under 30 minutes)** can skip the second sign-in. Leave out the `auth` and `gateway_oauth`
+- **Short sessions (under 60 minutes)** can skip the second sign-in. Leave out the `auth` and `gateway_oauth`
   tables, set `env_key = "LLMAR_TOKEN"` and
   `env_http_headers = { "x-router-session" = "LLMAR_SESSION", "x-api-key" = "LLMAR_TOKEN" }`, and run
   `LLMAR_TOKEN=$(llmar-token) LLMAR_SESSION=$(uuidgen) codex`. Codex reads the token once at start.
@@ -373,6 +375,12 @@ mints a new token, which Cognito bills per token: a long-running job should cach
   the router's alias, so it assumes a 200K window and compacts the conversation at 200K. The router's Claude models
   have a 1M window: keep `"CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000"` in the router settings and restart Claude
   Code. Use a smaller value only if your admin limits you to a model with a smaller window.
+- **Claude Code: `Please run /login · API Error: 403 insufficient_scope` in the middle of a session.** Not a
+  permission problem, and not an Anthropic sign-in: the AgentCore gateway answers an expired access token with 403
+  `insufficient_scope` (not 401). Don't run `/login`; send the prompt again. Claude Code asks `llmar-token` again
+  after the 403, and `llmar` hands out a new token when the same token is asked for again within a minute. If it
+  keeps happening, run `llmar-token > /dev/null` to see whether `llmar login` is needed, and check the clock
+  (`date -u`).
 - **`llmar configure` says "… is writable by others without the sticky bit".** Ubuntu's default umask makes
   `~/.config` group-writable. Current `llmar` accepts that when the group is your own private group; with an older
   copy run `chmod g-w ~/.config`, or set `LLMAR_CONFIG_DIR` (for Claude Code and Codex too).

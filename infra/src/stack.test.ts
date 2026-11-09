@@ -26,9 +26,9 @@ function packsFixture(): string {
   return dir
 }
 
-function build(nag = false, settings = SETTINGS, packsArchiveDir?: string) {
+function build(nag = false, settings = SETTINGS, packsArchiveDir?: string, models = MODELS) {
   const app = new App({ outdir: `/tmp/llmar-infra-test-${process.pid}-${Math.random().toString(36).slice(2)}` })
-  const stack = new RouterStack(app, 'llmar-router', { env: { account: settings.account, region: settings.region }, settings, models: MODELS,
+  const stack = new RouterStack(app, 'llmar-router', { env: { account: settings.account, region: settings.region }, settings, models,
     image: ecs.ContainerImage.fromRegistry(`${settings.account}.dkr.ecr.${settings.region}.amazonaws.com/llmar-router:test`), ...(packsArchiveDir ? { packsArchiveDir } : {}) })
   for (const [k, v] of Object.entries(SETTINGS.tags)) Tags.of(app).add(k, v)
   if (nag) Validations.of(app).addPlugins(new AwsSolutionsChecks(app))
@@ -173,6 +173,38 @@ describe('llmar-mvp stack', () => {
     expect(gw).not.toContain('claude-opus')
     expect(gw).not.toContain('gpt-6-luna')
     expect(gw).toContain('FallbackResponsesDefaultProject') // GPT-6.1 Sol serves Responses on fallback
+  })
+
+  it('allowedModelUniverse: policy (default), catalog or a list widens the task role grants, the router env and the console list together', () => {
+    const policyModels = ['global.anthropic.claude-haiku-5-5', 'global.anthropic.claude-opus-5-5', 'global.anthropic.claude-sonnet-5-5',
+      'global.openai.gpt-6-astra', 'global.openai.gpt-6-luna', 'global.openai.gpt-6.1-sol']
+    expect(SETTINGS.modelUniverse).toBe('policy')
+    expect(MODELS.routerModels).toEqual(policyModels)
+    expect(MODELS.routerResponsesModels).toEqual(['global.openai.gpt-6-astra', 'global.openai.gpt-6-luna', 'global.openai.gpt-6.1-sol'])
+    const base = { region: 'ap-southeast-1', account: SETTINGS.account }
+    const list = resolveSettings(ctx({ ...base, allowedModelUniverse: 'global.anthropic.claude-fable-5-1, global.openai.gpt-5.6-luna' }), {}, DEFAULT_POLICY_FILE)
+    const listed = deployModels(list)
+    expect(listed.routerModels).toEqual([...policyModels, 'global.anthropic.claude-fable-5-1', 'global.openai.gpt-5.6-luna'].sort())
+    expect(listed.routerResponsesModels).toContain('global.openai.gpt-5.6-luna')
+    expect(listed.routerResponsesModels).not.toContain('global.anthropic.claude-fable-5-1')
+    expect(() => deployModels(resolveSettings(ctx({ ...base, allowedModelUniverse: 'global.openai.gpt-9-nope' }), {}, DEFAULT_POLICY_FILE)))
+      .toThrow(/allowedModelUniverse: 'global.openai.gpt-9-nope' is not in the ap-southeast-1 catalog/)
+    expect(() => deployModels(resolveSettings(ctx({ ...base, allowedModelUniverse: 'everything' }), {}, DEFAULT_POLICY_FILE))).toThrow(/'everything' is not in the ap-southeast-1 catalog \(use policy, catalog/)
+    expect(() => resolveSettings(ctx({ ...base, allowedModelUniverse: 'Bad Id' }), {}, DEFAULT_POLICY_FILE)).toThrow(/'Bad Id' is not a model id/)
+
+    const all = resolveSettings(ctx({ ...base, allowedModelUniverse: 'catalog' }), {}, DEFAULT_POLICY_FILE)
+    const wide = deployModels(all)
+    expect(wide.routerModels).toEqual(wide.catalog.models.map((m) => m.modelId).sort())
+    expect(wide.routerResponsesModels).toEqual(wide.catalog.models.filter((m) => m.dialects.includes('openai-responses')).map((m) => m.modelId).sort())
+    const t = build(false, all, undefined, wide).template.toJSON().Resources as typeof resources
+    const iam = JSON.stringify(Object.values(t).filter((r) => r.Type === 'AWS::IAM::Policy' || r.Type === 'AWS::IAM::ManagedPolicy').map((r) => r.Properties))
+    for (const m of wide.routerModels) expect(iam, m).toContain(`inference-profile/${m}`)
+    const env = Object.fromEntries((Object.values(t).find((r) => r.Type === 'AWS::ECS::TaskDefinition')?.Properties?.ContainerDefinitions[0].Environment as Array<{ Name: string; Value: unknown }>).map((e) => [e.Name, e.Value]))
+    expect(env.ROUTER_MODEL_UNIVERSE).toBe(wide.routerModels.join(','))
+    const universeParam = Object.values(t).find((r) => r.Type === 'AWS::SSM::Parameter' && r.Properties?.Name === routerParamName('llmar', 'modelUniverse'))
+    expect(universeParam?.Properties?.Value).toBe(wide.routerModels.join(','))
+    // The router boots with this universe: it must cover the boot policy and be in the catalog.
+    expect(() => loadConfig({ ROUTER_POLICY_FILE: DEFAULT_POLICY_FILE, ROUTER_REGION: 'ap-southeast-1', ROUTER_MODEL_UNIVERSE: env.ROUTER_MODEL_UNIVERSE as string } as never)).not.toThrow()
   })
 
   it('settings: region and account are explicit; AZ IDs, prefix, tags and throttle are deploy inputs with no personal default', () => {
@@ -379,7 +411,7 @@ describe('admin console identity (spike C1 decisions)', () => {
     expect(pool?.AdminCreateUserConfig.AllowAdminCreateUserOnly).toBe(true)
     expect(props('AWS::Cognito::UserPoolResourceServer')[0]?.Scopes.map((x: { ScopeName: string }) => x.ScopeName)).toEqual(['invoke', 'console'])
     const cli = props('AWS::Cognito::UserPoolClient').find((c) => c.ClientName === 'llmar-cli')
-    expect(cli).toMatchObject({ GenerateSecret: false, AllowedOAuthFlows: ['code'], AccessTokenValidity: 30, EnableTokenRevocation: true,
+    expect(cli).toMatchObject({ GenerateSecret: false, AllowedOAuthFlows: ['code'], AccessTokenValidity: 60, IdTokenValidity: 60, EnableTokenRevocation: true,
       RefreshTokenRotation: { Feature: 'ENABLED', RetryGracePeriodSeconds: 30 } })
     expect(cli?.CallbackURLs).toEqual([52817, 52818, 52819, 52820].map((p) => `http://127.0.0.1:${p}/callback`))
     expect(JSON.stringify(cli?.AllowedOAuthScopes)).not.toContain('console')

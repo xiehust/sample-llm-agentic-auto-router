@@ -118,7 +118,7 @@ cd infra && npx cdk deploy -c region=<aws-region> -c account=<account-id> -c pre
   - 发送 `model: "auto"`；要指定档位就发 `auto:fast` / `auto:standard` / `auto:frontier`。
   - 所有模型名都会进入 router。
   - 写具体的 Bedrock 模型 id 等同于指定模型（pin）：该模型在 router 的策略里、且不超过你的档位上限时才会被服务，否则返回 400（`pin-not-allowed` 或 `access-cap`）。
-- **认证。** `Authorization: Bearer <access token>` 加 `x-api-key: <access token>`。成员的 token 有效期 30 分钟，服务客户端的 60 分钟。成员的 token 由 `llmar` 自动刷新。
+- **认证。** `Authorization: Bearer <access token>` 加 `x-api-key: <access token>`。成员和服务客户端的 token 有效期都是 60 分钟。成员的 token 由 `llmar` 自动刷新。
 - **身份识别模式。** router 运行在 `off`、`observe` 或 `require` 模式（管理员设置）。`observe` 下，拦截、预算和档位上限对每个带有效 `x-api-key` 的调用都生效；不带的调用照常服务、不归属，也不受这些约束。`require` 下这类调用返回 401，所以约束对所有人都有效。
 - **可选请求头。** 网关只转发这些：`x-api-key`、`x-router-session`、`x-router-parent-session`、`x-router-agent-id`、`x-router-hint`、`x-claude-code-session-id`、`x-session-id`、`anthropic-version`、`anthropic-beta`、`openai-beta`。
   - `x-router-session: <id>`：让同一个 agent 会话保持在同一条 lineage 上，缓存感知路由依赖它。每个 agent 会话用一个稳定的 id，不要所有会话共用一个常量。Claude Code 自带的 `x-claude-code-session-id` 按同样方式读取。
@@ -168,7 +168,7 @@ llmar status     # who you are and when the token expires
 }
 ```
 
-- **Token：** Claude Code 把脚本的输出同时作为 bearer token 和 `X-Api-Key` 发送，不需要额外设置。TTL 设为 4 分钟，它会经常调用 `llmar-token`；`llmar` 直接用缓存回答。
+- **Token：** Claude Code 把脚本的输出同时作为 bearer token 和 `X-Api-Key` 发送，不需要额外设置。TTL 设为 4 分钟，它会经常调用 `llmar-token`；`llmar` 直接用缓存回答。Claude Code 在后台刷新时，可能在 TTL 过后继续用缓存的 token；如果网关拒绝它（过期的 token 会得到 403 `insufficient_scope`），Claude Code 会再要一次，`llmar` 就会换发新 token。
 - **选择档位：** 有了这几个别名变量，`/model opus|sonnet|haiku` 就是向 router 请求对应档位，而不是固定某个模型。
 - **上下文窗口：** Claude Code 不认识 `auto` 这个名字，会假定窗口只有 200K 并在 200K 压缩对话。`CLAUDE_CODE_MAX_CONTEXT_TOKENS` 告诉它 router 的 Claude 模型是 1M 窗口。
 - **请求兼容：** Claude Code 的会话头会被转发。它的 JSON 格式 `metadata.user_id` 和 `advanced-tool-use` beta 头 Bedrock 不接受，由 router 自动处理。
@@ -216,7 +216,7 @@ enable_request_compression = false     # the gateway/router path takes identity-
 
 - **通过 SSH 使用时**，Codex 自己的登录也要转发回调端口：`ssh -L 52820:127.0.0.1:52820 <host>`。Codex 会打印登录链接，在你自己的电脑上打开。
 - **没有密钥环的无界面 Linux。** Codex 默认把登录信息存在系统密钥环里。在 `gateway_oauth` 一段加上 `credentials_store = "file"`，改存到 `$CODEX_HOME/secrets/gateway_oauth.json`（权限 0600，明文）。
-- **短会话（30 分钟以内）可以省掉第二次登录。** 去掉 `auth` 和 `gateway_oauth` 两段，设置 `env_key = "LLMAR_TOKEN"` 和 `env_http_headers = { "x-router-session" = "LLMAR_SESSION", "x-api-key" = "LLMAR_TOKEN" }`，再运行 `LLMAR_TOKEN=$(llmar-token) LLMAR_SESSION=$(uuidgen) codex`。Codex 只在启动时读一次 token。
+- **短会话（60 分钟以内）可以省掉第二次登录。** 去掉 `auth` 和 `gateway_oauth` 两段，设置 `env_key = "LLMAR_TOKEN"` 和 `env_http_headers = { "x-router-session" = "LLMAR_SESSION", "x-api-key" = "LLMAR_TOKEN" }`，再运行 `LLMAR_TOKEN=$(llmar-token) LLMAR_SESSION=$(uuidgen) codex`。Codex 只在启动时读一次 token。
 - **必须关闭网页搜索。** 请求里如果带着 Codex 默认的网页搜索工具，Bedrock 会在每个流里返回 “web search is not supported for this request” 并结束。Codex 表现为 “stream disconnected before response.completed”，反复重试后失败。
 - **`Model metadata for 'auto' not found` 警告可以忽略。** 正因为 Codex 不认识 `auto`，配置里才要手动设上下文窗口。
 - **上下文窗口。** 1,000,000 是可路由 GPT 模型中最小的窗口（GPT-6.1 Sol；Astra 和 Luna 为 1.05M）。提示超过 272k token 的部分按长上下文价格计费；想留在这个价格档以下，就把两个值都调低。
@@ -302,6 +302,11 @@ with urllib.request.urlopen(req, timeout=30) as r:
 - **Claude Code 提示 `Model "auto" isn't recognized · context assumed to be 200k tokens`。** Claude Code 不认识 router
   的别名，于是假定窗口只有 200K，到 200K 就压缩对话。router 的 Claude 模型都是 1M 窗口：在 router 设置里保留
   `"CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000"`，然后重启 Claude Code。只有管理员把你限制在窗口更小的模型上时，才需要改成更小的值。
+- **Claude Code 会话中途出现 `Please run /login · API Error: 403 insufficient_scope`。** 这不是权限问题，也不需要
+  登录 Anthropic 账号：AgentCore 网关对已过期的 access token 返回 403 `insufficient_scope`（而不是 401）。不要运行
+  `/login`，直接重发提示即可。Claude Code 收到 403 后会再调用一次 `llmar-token`，同一个 token 在一分钟内被再次索取时，
+  `llmar` 会换发新 token。如果反复出现，运行 `llmar-token > /dev/null` 看是否需要 `llmar login`，并用 `date -u`
+  检查本机时钟。
 - **`llmar configure` 提示 "… is writable by others without the sticky bit"。** Ubuntu 默认的 umask 会让
   `~/.config` 对用户组可写。新版 `llmar` 在该用户组是你自己的私有组时会接受；旧版请运行 `chmod g-w ~/.config`，
   或者设置 `LLMAR_CONFIG_DIR`（Claude Code 和 Codex 也要使用同一个值）。

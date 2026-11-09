@@ -46,6 +46,7 @@ function Content({ s }: { s: SetupInfo }) {
     { id: 'claudeBedrock', code: S.claudeEnvCheck },
     { id: 'claudeApiKey', code: S.unsetApiKey },
     { id: 'claudeModel', code: S.claudeContextLine },
+    { id: 'expired403', code: S.tokenCheck, plain: true },
     { id: 'configure', code: S.configParentFix },
     { id: 'redirectPort', values: { port: s.codexOauthPort ?? '—' } },
     { id: 'gatewaySignIn', code: S.credentialsStoreLine },

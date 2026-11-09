@@ -208,7 +208,7 @@ export class RouterStack extends Stack {
       oAuth: { flows: { authorizationCodeGrant: true }, scopes: [cognito.OAuthScope.OPENID, cognito.OAuthScope.resourceServer(rs, scopeDef)],
         callbackUrls: cliPorts.map((p) => `http://127.0.0.1:${p}/callback`) },
       supportedIdentityProviders: [cognito.UserPoolClientIdentityProvider.COGNITO],
-      accessTokenValidity: Duration.minutes(30), idTokenValidity: Duration.minutes(30), refreshTokenValidity: Duration.days(cfg.identity.cliRefreshDays),
+      accessTokenValidity: Duration.minutes(60), idTokenValidity: Duration.minutes(60), refreshTokenValidity: Duration.days(cfg.identity.cliRefreshDays),
     })
     ;(cli.node.defaultChild as cognito.CfnUserPoolClient).refreshTokenRotation = { feature: 'ENABLED', retryGracePeriodSeconds: 30 }
     // Managed login v2: an interactive client without a branding style has no sign-in pages.

@@ -17,7 +17,7 @@ this browser.
 - At first sign-in you replace the temporary password with your own.
 - MFA is off by default. For production, whoever deploys the stack should require it (see [Production hardening](#production-hardening)).
 - The console signs you out after 8 hours. "Sign out everywhere" (Settings) signs you out of every browser and
-  revokes the `llmar` CLI's sign-in. The CLI notices at its next refresh, within the 30-minute token lifetime, and
+  revokes the `llmar` CLI's sign-in. The CLI notices at its next refresh, within the 60-minute token lifetime, and
   the gateway accepts tokens already issued until they expire.
 
 ## What everyone sees
@@ -81,7 +81,7 @@ and auto with the assessor cost 2.6–4.1 times fixed standard with no quality g
 - **Promote to admin:** the person must sign in again before the admin rights apply.
 - **Disable:** the router stops serving the member within about 35 seconds in `require` mode. In `observe` mode,
   only requests that carry the member's identity are blocked; requests without it keep working until the access
-  token expires (at most 30 minutes). Disabling also revokes the member's sign-in, so after Enable they run
+  token expires (at most 60 minutes). Disabling also revokes the member's sign-in, so after Enable they run
   `llmar login` again.
 - **Sign out everywhere** revokes refresh tokens. Access tokens already issued still pass the gateway until they
   expire, unless you also disable the member.
