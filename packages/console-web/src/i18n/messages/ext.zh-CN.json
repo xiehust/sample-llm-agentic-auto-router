@@ -23,6 +23,8 @@
   "ext.getStarted.faq.whichModel.a": "每个响应都带有 x-router-model（实际服务的模型）和 x-router-decision。路由决策页面列出每个请求及其依据。",
   "ext.getStarted.faq.metadata.q": "Codex 警告 “Model metadata for 'auto' not found”",
   "ext.getStarted.faq.metadata.a": "无害：auto 是 router 的别名，不是 Codex 认识的模型。这也是配置里手动设置上下文窗口的原因。",
+  "ext.getStarted.faq.codexPin.q": "Codex 会话正常，但“决策”页出现 400 pin-not-allowed",
+  "ext.getStarted.faq.codexPin.a": "Codex 的一些后台任务不用 auto，而是写死自己的模型名，例如启动时的 memories 提取（gpt-6-luna）。router 拒绝既不是别名、也不在允许列表里的模型名，所以只有这个后台任务失败，你的对话不受影响。在 config.toml 里保留下面这一段（上面的配置片段里已经有），或在那里设置 generate_memories = false 关掉 memories。管理员也可以在“路由策略”页把这个名字加成别名。",
   "ext.getStarted.faq.claudeBedrock.q": "Claude Code 顶部显示 “Amazon Bedrock”，或者报错 “The provided model identifier is invalid”",
   "ext.getStarted.faq.claudeBedrock.a": "Claude Code 在直接调用 Bedrock：你的环境变量或其他设置文件里设置了 CLAUDE_CODE_USE_BEDROCK，它的优先级高于 ANTHROPIC_BASE_URL。在 router 的设置里保留 \"CLAUDE_CODE_USE_BEDROCK\": \"0\"（上面的配置片段里已经有），重启 Claude Code，确认顶部不再显示 Amazon Bedrock。查看当前设置：",
   "ext.getStarted.faq.claudeApiKey.q": "Claude Code 警告 “Both apiKeyHelper and ANTHROPIC_API_KEY set”",

@@ -253,6 +253,10 @@ redirect_port = 52820                  # the port registered for Codex on the cl
 delivery = { kind = "header", name = "x-api-key" }
 # credentials_store = "file"           # headless Linux without a keyring: keep this sign-in in $CODEX_HOME/secrets/
 
+[memories]                             # background memory passes name their own model: keep them on the router
+extract_model = "auto:fast"
+consolidation_model = "auto:fast"
+
 [features]
 enable_request_compression = false     # the gateway/router path takes identity-encoded JSON
 ```
@@ -402,6 +406,11 @@ mints a new token, which Cognito bills per token: a long-running job should cach
 - **Which model answered?** Every response carries `x-router-model` and `x-router-decision`; the console's Decisions
   page lists each request with its basis.
 - **`Model metadata for 'auto' not found` (Codex).** Harmless: `auto` is the router's alias, not a model Codex knows.
+- **Codex: 400 `pin-not-allowed` on the Decisions page while the session works.** Some Codex background passes name
+  a model of their own instead of `auto`, such as memory extraction at startup (`gpt-6-luna`). The router refuses a
+  name that is neither an alias nor an allowed model, so only that pass fails. Keep the `[memories]` table in
+  `config.toml` (it is in the snippet above), or set `generate_memories = false` there to turn memories off. An admin
+  can instead add the name as an alias on the Routing policy page.
 
 ## Security
 

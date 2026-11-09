@@ -56,6 +56,7 @@ function Content({ s }: { s: SetupInfo }) {
     { id: 'maxTokens' },
     { id: 'whichModel' },
     { id: 'metadata' },
+    { id: 'codexPin', code: S.codexMemories.trimEnd(), plain: true },
   ]
   const missing = s.missing ?? []
   const notes = (keys: MessageKey[]) => <SpaceBetween size="xxs">{keys.map((k) => <Box key={k} variant="p">{t(k)}</Box>)}</SpaceBetween>

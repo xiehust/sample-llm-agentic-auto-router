@@ -37,6 +37,8 @@ describe('snippet placeholders', () => {
     // Claude Code assumes 200K for 'auto' and compacts there unless told the window.
     expect(JSON.parse(S.claudeCode(v)).env.CLAUDE_CODE_MAX_CONTEXT_TOKENS).toBe('1000000')
     expect(JSON.parse(`{${S.claudeContextLine}}`)).toEqual({ CLAUDE_CODE_MAX_CONTEXT_TOKENS: '1000000' })
+    // Codex memory passes name gpt-6-luna unless told otherwise; the router refuses it (pin-not-allowed).
+    expect(S.codex(v)).toMatch(/\n\[memories\][^\n]*\nextract_model = "auto:fast"\nconsolidation_model = "auto:fast"\n\n\[features\]/)
     // The 403 FAQ check never prints the token.
     expect(S.tokenCheck).toMatch(/^llmar-token > \/dev\/null && /)
   })
