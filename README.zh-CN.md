@@ -156,6 +156,7 @@ llmar status     # who you are and when the token expires
   "apiKeyHelper": "~/bin/llmar-token",
   "env": {
     "ANTHROPIC_BASE_URL": "https://<gw-id>.gateway.bedrock-agentcore.<region>.amazonaws.com/inference",
+    "CLAUDE_CODE_USE_BEDROCK": "0",
     "ANTHROPIC_MODEL": "auto",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "auto:frontier",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "auto:standard",
@@ -203,6 +204,7 @@ client_id = "<cli client id>"
 scopes = ["openid", "<prefix>/invoke"]
 redirect_port = 52820                  # the port registered for Codex on the cli app client
 delivery = { kind = "header", name = "x-api-key" }
+# credentials_store = "file"           # headless Linux without a keyring: keep this sign-in in $CODEX_HOME/secrets/
 
 [features]
 enable_request_compression = false     # the gateway/router path takes identity-encoded JSON
@@ -286,6 +288,36 @@ with urllib.request.urlopen(req, timeout=30) as r:
 > **2026-11-08 实测**，两轮，都是对运行默认观察策略的已部署 stack：
 > - **客户端（加入身份识别之前）：** curl 访问三个端点；Anthropic 和 OpenAI 的 Python SDK，流式和非流式；Claude Code 2.1.318，包括多轮工具调用，以及 `--model opus` 到达 router 时为 `auto:frontier`；Codex 0.167，包括调用 shell 工具。所有 `auto*` 调用都由观察默认模型服务；`pin=` 生效，未知的 pin 返回 400。
 > - **加入身份识别和控制台后的端到端测试**（ap-southeast-1）： 服务客户端同时带两个头；邀请成员，再 `llmar configure`、`llmar login`，从三种接口调用，用 `apiKeyHelper` 的 Claude Code 和用 `auth.command` 加 `x-api-key` 的 Codex，调用全部归属到该成员；具体模型 id 按指定模型服务。不带 token 和 token 无效的请求返回 401。`require` 模式下，不带 `x-api-key` 的调用返回 401 `identity-missing`，被停用的成员返回 403 `identity-blocked`，超出硬性预算的成员返回 429 `budget-exceeded`。
+
+### 常见问题（FAQ）
+
+- **Claude Code 顶部显示 "Amazon Bedrock"，或者报错 "The provided model identifier is invalid"。** Claude Code 在直接
+  调用 Bedrock：环境变量或其他设置文件里设置了 `CLAUDE_CODE_USE_BEDROCK`，它的优先级高于 `ANTHROPIC_BASE_URL`。在 router
+  的设置里保留 `"CLAUDE_CODE_USE_BEDROCK": "0"`，然后重启 Claude Code。
+  `env | grep -E 'CLAUDE_CODE_USE_BEDROCK|ANTHROPIC_API_KEY|ANTHROPIC_BASE_URL'` 可以查看当前设置。
+- **Claude Code 警告 "Both apiKeyHelper and ANTHROPIC_API_KEY set"。** 环境里的 `ANTHROPIC_API_KEY` 会取代
+  `apiKeyHelper`，router 就拿不到你的 `llmar` token。使用 router 时运行 `unset ANTHROPIC_API_KEY`，并从设置文件里删除它。
+- **Claude Code 提示 `Model "auto" isn't recognized · context assumed to be 200k tokens`。** 无害：`auto` 是 router 的
+  别名，Claude Code 只用它来估算自己的上下文。
+- **`llmar configure` 提示 "… is writable by others without the sticky bit"。** Ubuntu 默认的 umask 会让
+  `~/.config` 对用户组可写。新版 `llmar` 在该用户组是你自己的私有组时会接受；旧版请运行 `chmod g-w ~/.config`，
+  或者设置 `LLMAR_CONFIG_DIR`（Claude Code 和 Codex 也要使用同一个值）。
+- **Codex 的 `redirect_port` 填什么？** `cli` app client 上为 Codex 自己的登录注册的端口（`codexOauthPort`，默认
+  52820）。控制台的接入指南页面会自动填好。
+- **Codex 登录后立即提示 "Gateway sign-in required or unavailable"。** Codex 无法保存登录结果：Linux 上没有
+  keyring（服务器、SSH 会话）。在 `gateway_oauth` 表中取消 `credentials_store = "file"` 的注释，启动 Codex 重新登录。
+- **通过 SSH 在远程机器上登录。** 两次登录都会回调到运行工具那台机器的 `127.0.0.1`。转发回调端口：
+  `ssh -L 52817:127.0.0.1:52817 -L 52820:127.0.0.1:52820 <host>`，然后在你自己的电脑上打开打印出的链接
+  （`llmar login --no-browser` 会打印它）。
+- **为什么要写 `/home/<you>/bin/llmar-token`？** Codex 不会展开 `~`。保存配置后可以运行
+  `sed -i "s#/home/<you>#$HOME#" ~/.codex/config.toml`。
+- **Codex 提示 "auth command exited with status 2"。** `llmar` 没有有效的登录。在终端里运行 `llmar-token` 查看原因；
+  通常需要重新运行 `llmar login`（refresh token 过期之后，或者管理员禁用后又启用了你）。
+- **我的 OpenAI 兼容客户端发送了 `max_tokens`。** 没有问题：Bedrock 上的 GPT 模型不接受 `max_tokens`，由 GPT 模型
+  服务的请求，router 会把它改名为 `max_completion_tokens`。其他模型保持不变。
+- **请求是哪个模型回答的？** 每个响应都带有 `x-router-model` 和 `x-router-decision`；控制台的路由决策页面列出每个请求
+  及其依据。
+- **Codex 提示 `Model metadata for 'auto' not found`。** 无害：`auto` 是 router 的别名，不是 Codex 认识的模型。
 
 ## 安全
 

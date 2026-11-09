@@ -191,6 +191,7 @@ In `~/.claude/settings.json`, or a project's `.claude/settings.json`:
   "apiKeyHelper": "~/bin/llmar-token",
   "env": {
     "ANTHROPIC_BASE_URL": "https://<gw-id>.gateway.bedrock-agentcore.<region>.amazonaws.com/inference",
+    "CLAUDE_CODE_USE_BEDROCK": "0",
     "ANTHROPIC_MODEL": "auto",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "auto:frontier",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "auto:standard",
@@ -245,6 +246,7 @@ client_id = "<cli client id>"
 scopes = ["openid", "<prefix>/invoke"]
 redirect_port = 52820                  # the port registered for Codex on the cli app client
 delivery = { kind = "header", name = "x-api-key" }
+# credentials_store = "file"           # headless Linux without a keyring: keep this sign-in in $CODEX_HOME/secrets/
 
 [features]
 enable_request_compression = false     # the gateway/router path takes identity-encoded JSON
@@ -354,6 +356,39 @@ mints a new token, which Cognito bills per token: a long-running job should cach
 >   `auth.command` plus `x-api-key`, all attributed to the member; a concrete model id served as a pin. Requests
 >   with no token or a bad token got 401. In `require` mode a call without `x-api-key` got 401 `identity-missing`,
 >   a disabled member got 403 `identity-blocked`, and a member over a hard-stop budget got 429 `budget-exceeded`.
+
+### FAQ
+
+- **Claude Code shows "Amazon Bedrock" in its header, or "The provided model identifier is invalid".** Claude Code
+  is calling Bedrock directly: `CLAUDE_CODE_USE_BEDROCK` is set in your environment or another settings file, and it
+  wins over `ANTHROPIC_BASE_URL`. Keep `"CLAUDE_CODE_USE_BEDROCK": "0"` in the router settings and restart Claude
+  Code. `env | grep -E 'CLAUDE_CODE_USE_BEDROCK|ANTHROPIC_API_KEY|ANTHROPIC_BASE_URL'` shows what is set.
+- **Claude Code warns "Both apiKeyHelper and ANTHROPIC_API_KEY set".** An `ANTHROPIC_API_KEY` in your environment
+  takes the place of `apiKeyHelper`, so the router never gets your `llmar` token. `unset ANTHROPIC_API_KEY` for
+  router sessions and remove it from your settings files.
+- **Claude Code: `Model "auto" isn't recognized · context assumed to be 200k tokens`.** Harmless: `auto` is the
+  router's alias; Claude Code only uses it for its own context estimate.
+- **`llmar configure` says "… is writable by others without the sticky bit".** Ubuntu's default umask makes
+  `~/.config` group-writable. Current `llmar` accepts that when the group is your own private group; with an older
+  copy run `chmod g-w ~/.config`, or set `LLMAR_CONFIG_DIR` (for Claude Code and Codex too).
+- **What goes in Codex's `redirect_port`?** The port registered for Codex's own sign-in on the `cli` app client
+  (`codexOauthPort`, default 52820). The console's Get started page fills it in.
+- **Codex: "Gateway sign-in required or unavailable" right after signing in.** Codex could not store its sign-in:
+  Linux without a keyring (servers, SSH sessions). Uncomment `credentials_store = "file"` in the `gateway_oauth`
+  table, start Codex and sign in again.
+- **Signing in on a remote machine over SSH.** Both sign-ins return to `127.0.0.1` on the machine that runs the tool.
+  Forward the callback ports, `ssh -L 52817:127.0.0.1:52817 -L 52820:127.0.0.1:52820 <host>`, and open the
+  printed URL on your own computer (`llmar login --no-browser` prints it).
+- **Why `/home/<you>/bin/llmar-token`?** Codex does not expand `~`. After saving the config you can run
+  `sed -i "s#/home/<you>#$HOME#" ~/.codex/config.toml`.
+- **Codex: "auth command exited with status 2".** `llmar` has no valid sign-in. Run `llmar-token` in a terminal to
+  see why; usually `llmar login` again (after the refresh-token lifetime, or after an admin disabled and re-enabled
+  you).
+- **My OpenAI-compatible client sends `max_tokens`.** That works: GPT models on Bedrock reject `max_tokens`, so the
+  router renames it to `max_completion_tokens` when a GPT model serves the request. Other models are unchanged.
+- **Which model answered?** Every response carries `x-router-model` and `x-router-decision`; the console's Decisions
+  page lists each request with its basis.
+- **`Model metadata for 'auto' not found` (Codex).** Harmless: `auto` is the router's alias, not a model Codex knows.
 
 ## Security
 

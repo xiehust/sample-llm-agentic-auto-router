@@ -83,15 +83,40 @@ def config_dir() -> str:
     return os.path.join(base, 'llmar')
 
 
+def private_group(st: os.stat_result) -> bool:
+    """True when the file's group is the caller's own private group (user private groups: Debian/Ubuntu's default
+    umask 002 makes ~/.config 0775): owned by the caller, group = the caller's primary group, named like the caller,
+    with no other members. Nobody else can write through such a group (the rule of Debian's OpenSSH StrictModes)."""
+    if os.name != 'posix' or st.st_uid != os.getuid() or st.st_gid != os.getgid():
+        return False
+    try:
+        import grp
+        import pwd
+        user = pwd.getpwuid(os.getuid()).pw_name
+        group = grp.getgrgid(st.st_gid)
+    except (ImportError, KeyError):
+        return False
+    return group.gr_name == user and all(m == user for m in group.gr_mem)
+
+
+def others_can_write(st: os.stat_result) -> bool:
+    """Someone other than the caller can create or replace entries: world-writable, or group-writable through a
+    group that is not the caller's private group; the sticky bit (like /tmp) protects entries either way."""
+    if st.st_mode & stat.S_ISVTX:
+        return False
+    return bool(st.st_mode & 0o002) or bool(st.st_mode & 0o020 and not private_group(st))
+
+
 def ensure_dir(path: str) -> None:
     """The directory holds the credentials: ours, and not writable by anyone else. Its parent must not let others
-    replace it either: not group/world-writable unless sticky (like /tmp). Windows: best effort, ACLs not checked."""
+    replace it either: not writable by others unless sticky (like /tmp); group write through the caller's private
+    group is fine. Windows: best effort, ACLs not checked."""
     if os.name == 'posix':
         parent = os.path.dirname(os.path.abspath(path))
         pst = os.stat(parent) if os.path.isdir(parent) else None
-        if pst and pst.st_mode & 0o022 and not pst.st_mode & stat.S_ISVTX:
-            raise CliError(EXIT_CONFIG, f'{parent} is group/world-writable without the sticky bit: '
-                                        'others could replace the llmar directory; use another LLMAR_CONFIG_DIR')
+        if pst and others_can_write(pst):
+            raise CliError(EXIT_CONFIG, f'{parent} is writable by others without the sticky bit: others could replace '
+                                        f'the llmar directory; run `chmod go-w {parent}` or use another LLMAR_CONFIG_DIR')
     if not os.path.isdir(path):
         os.makedirs(path, mode=0o700, exist_ok=True)
         if os.name == 'posix':

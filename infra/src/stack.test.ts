@@ -514,6 +514,11 @@ describe('admin console identity (spike C1 decisions)', () => {
   it('publishes the console stack values as SSM parameters under /<prefix>/router/', () => {
     const names = props('AWS::SSM::Parameter').map((p) => p.Name).sort()
     expect(names).toEqual((Object.keys(ROUTER_PARAMS) as Array<keyof typeof ROUTER_PARAMS>).map((k) => routerParamName('llmar', k)).sort())
+
+    // The Codex gateway_oauth callback port (Get started fills redirect_port from it; the CLI ports exclude it).
+    const value = (k: keyof typeof ROUTER_PARAMS) => props('AWS::SSM::Parameter').find((p) => p.Name === routerParamName('llmar', k))?.Value
+    expect(value('codexOauthPort')).toBe('52820')
+    expect(value('callbackPorts')).toBe('52817,52818,52819')
   })
 })
 

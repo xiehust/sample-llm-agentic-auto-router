@@ -299,6 +299,33 @@ def test_parent_dir_writable_by_others_refused(env, tmp_path):
     os.chmod(shared, 0o700)
 
 
+@pytest.mark.skipif(os.name != 'posix', reason='POSIX permissions')
+def test_group_writable_parent_allowed_only_for_the_callers_private_group(monkeypatch):
+    """Ubuntu's umask 002 makes ~/.config 0775 with the user's private group: allowed. A shared group, a group with
+    other members, a directory owned by someone else, or world write (without sticky) is refused."""
+    import types
+    uid, gid = 4242, 4242
+    monkeypatch.setattr(os, 'getuid', lambda: uid)
+    monkeypatch.setattr(os, 'getgid', lambda: gid)
+    groups = {gid: types.SimpleNamespace(gr_name='ubuntu', gr_mem=[]), 100: types.SimpleNamespace(gr_name='users', gr_mem=['ubuntu', 'bob'])}
+    monkeypatch.setitem(sys.modules, 'pwd', types.SimpleNamespace(getpwuid=lambda u: types.SimpleNamespace(pw_name='ubuntu')))
+    monkeypatch.setitem(sys.modules, 'grp', types.SimpleNamespace(getgrgid=lambda g: groups[g]))
+    st = lambda mode, owner=uid, group=gid: os.stat_result((stat.S_IFDIR | mode, 0, 0, 1, owner, group, 0, 0, 0, 0))  # noqa: E731
+    assert llmar.others_can_write(st(0o775)) is False            # private group: fine
+    assert llmar.others_can_write(st(0o755)) is False
+    assert llmar.others_can_write(st(0o775, group=100)) is True  # shared group with other members
+    groups[gid].gr_mem = ['bob']
+    assert llmar.others_can_write(st(0o775)) is True             # the private group gained a member
+    groups[gid].gr_mem = ['ubuntu']
+    assert llmar.others_can_write(st(0o775)) is False            # listing the user itself is fine
+    groups[gid].gr_name = 'devs'
+    assert llmar.others_can_write(st(0o775)) is True             # not named like the user: not a private group
+    groups[gid].gr_name = 'ubuntu'
+    assert llmar.others_can_write(st(0o775, owner=0)) is True    # owned by someone else
+    assert llmar.others_can_write(st(0o777)) is True             # world-writable
+    assert llmar.others_can_write(st(0o1777)) is False           # sticky, like /tmp
+
+
 def test_login_timeout(env):
     env.configure()
     r = env.run('login', '--no-browser', '--timeout', '1')

@@ -509,7 +509,7 @@
   "getStarted.endpoints.model": "发送 model auto，或 auto:fast、auto:standard、auto:frontier。写具体模型 id 等同于指定模型（pin）：该模型在路由策略里、且不超过你的档位上限时才会被服务，否则返回 400（pin-not-allowed 或 access-cap）。",
   "getStarted.endpoints.headers": "网关只转发这些请求头：{headers}。",
   "getStarted.endpoints.response": "响应头：x-router-decision、x-router-model（实际服务的模型）、x-router-reason。",
-  "getStarted.trouble.title": "常见问题",
+  "getStarted.trouble.title": "故障排查",
   "getStarted.trouble.401": "401：没有 token 或 token 已过期。本部署要求身份时，x-api-key 缺失（identity-missing）或无效（identity-…）也会返回 401。",
   "getStarted.trouble.403": "403 identity-blocked：你的账号已停用或被拦截，请联系管理员。不带这个代码的 403 表示 token 的 scope 不对。",
   "getStarted.trouble.pin": "400 pin-not-allowed：指定或写明的模型不在路由策略里。",

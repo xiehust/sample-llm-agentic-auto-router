@@ -132,10 +132,18 @@ router log group --subscription (kind model|error|rejected|config)--> usage-inge
 | `consoleBundleDir` | `packages/console-web/dist` | A path inside the repository. |
 | `ingest` | `false` | Subscribe usage-ingest to the router log group, so usage data starts flowing. |
 | `adminEmail` | none | Creates the first admin user (see "First admin" below). |
-
 | `recordRetentionDays` | `90` | Per-request records expire after this many days. Daily totals are kept 400 days. |
 | `budgets` | `on` | `off` hides budgets and stops budget evaluation. |
 | `consoleThrottle` | `20,40` | HTTP API stage throttling `<rate>,<burst>`. |
+
+**Repository links in the web app.** Build the bundle with `VITE_CONSOLE_REPO_URL=https://github.com/<owner>/<repo>`
+(and `VITE_CONSOLE_REPO_BRANCH`, default `main`) so Get started shows a working `curl` for the `llmar` CLI (the raw
+URL of `tools/llmar/llmar`) and repository paths become links. Without it the console shows placeholders, so no
+repository is baked in:
+
+```bash
+VITE_CONSOLE_REPO_URL=https://github.com/<owner>/<repo> pnpm -C packages/console-web build
+```
 
 **Invite e-mail.** Invites use Cognito's default e-mail sender, which has a low daily quota. For larger teams,
 configure Amazon SES as the user pool's e-mail sender (a verified SES identity in the same Region) before inviting
