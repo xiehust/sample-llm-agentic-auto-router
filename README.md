@@ -196,6 +196,7 @@ In `~/.claude/settings.json`, or a project's `.claude/settings.json`:
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "auto:frontier",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "auto:standard",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "auto:fast",
+    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
     "CLAUDE_CODE_API_KEY_HELPER_TTL_MS": "240000",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   }
@@ -205,7 +206,9 @@ In `~/.claude/settings.json`, or a project's `.claude/settings.json`:
 - **Tokens.** Claude Code sends the helper's output both as a bearer token and as `X-Api-Key`, so no extra setting
   is needed. The 4-minute TTL makes it ask `llmar-token` often; `llmar` answers from its cache.
 - **Choosing a tier.** The alias variables make `/model opus|sonnet|haiku` ask the router for a tier rather than a
-  fixed model. Claude Code prints an `unrecognized_model` notice for `auto`, which is harmless.
+  fixed model.
+- **Context window.** Claude Code does not know the name `auto` and would assume a 200K window, compacting the
+  conversation there. `CLAUDE_CODE_MAX_CONTEXT_TOKENS` gives it the 1M window of the router's Claude models.
 - **Request compatibility.** Claude Code's session header is forwarded, and its JSON `metadata.user_id` and the
   `advanced-tool-use` beta, which Bedrock rejects, are normalised by the router.
 - **Token counting.** The gateway does not expose `/v1/messages/count_tokens`. Claude Code gets a 404 and falls
@@ -366,8 +369,10 @@ mints a new token, which Cognito bills per token: a long-running job should cach
 - **Claude Code warns "Both apiKeyHelper and ANTHROPIC_API_KEY set".** An `ANTHROPIC_API_KEY` in your environment
   takes the place of `apiKeyHelper`, so the router never gets your `llmar` token. `unset ANTHROPIC_API_KEY` for
   router sessions and remove it from your settings files.
-- **Claude Code: `Model "auto" isn't recognized · context assumed to be 200k tokens`.** Harmless: `auto` is the
-  router's alias; Claude Code only uses it for its own context estimate.
+- **Claude Code: `Model "auto" isn't recognized · context assumed to be 200k tokens`.** Claude Code does not know
+  the router's alias, so it assumes a 200K window and compacts the conversation at 200K. The router's Claude models
+  have a 1M window: keep `"CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000"` in the router settings and restart Claude
+  Code. Use a smaller value only if your admin limits you to a model with a smaller window.
 - **`llmar configure` says "… is writable by others without the sticky bit".** Ubuntu's default umask makes
   `~/.config` group-writable. Current `llmar` accepts that when the group is your own private group; with an older
   copy run `chmod g-w ~/.config`, or set `LLMAR_CONFIG_DIR` (for Claude Code and Codex too).

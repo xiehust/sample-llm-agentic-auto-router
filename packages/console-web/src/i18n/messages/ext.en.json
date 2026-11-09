@@ -28,5 +28,5 @@
   "ext.getStarted.faq.claudeApiKey.q": "Claude Code warns “Both apiKeyHelper and ANTHROPIC_API_KEY set”",
   "ext.getStarted.faq.claudeApiKey.a": "An ANTHROPIC_API_KEY in your environment takes the place of apiKeyHelper, so the router never gets your llmar token. Unset it for router sessions and remove it from your settings files:",
   "ext.getStarted.faq.claudeModel.q": "Claude Code: “Model \"auto\" isn't recognized · context assumed to be 200k tokens”",
-  "ext.getStarted.faq.claudeModel.a": "Harmless: auto is the router's alias. Claude Code only uses it for its own context estimate."
+  "ext.getStarted.faq.claudeModel.a": "Claude Code does not know the router's alias auto, so it assumes a 200K context window and compacts the conversation at 200K. The router's Claude models have a 1M window. Keep this line in the env block of the router settings (it is in the snippet above) and restart Claude Code. Use a smaller value only if your admin limits you to a model with a smaller window."
 }

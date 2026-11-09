@@ -474,7 +474,7 @@
   "getStarted.tab.curl": "curl",
   "getStarted.claudeCode.where": "在 ~/.claude/settings.json 或项目的 .claude/settings.json 中：",
   "getStarted.claudeCode.token": "apiKeyHelper 运行 llmar-token。Claude Code 把 token 同时作为 bearer token 和 x-api-key 发送。TTL 设为 4 分钟，它会经常来取；llmar 直接用缓存回答，并在 token 过期前换新。",
-  "getStarted.claudeCode.tiers": "有了这几个别名变量，/model opus、sonnet、haiku 就是向 router 请求对应档位。Claude Code 会对 auto 打印一条 unrecognized_model 提示，可以忽略。",
+  "getStarted.claudeCode.tiers": "有了这几个别名变量，/model opus、sonnet、haiku 就是向 router 请求对应档位。Claude Code 不认识 auto 这个名字；CLAUDE_CODE_MAX_CONTEXT_TOKENS 告诉它 router 的 Claude 模型是 1M 窗口，这样它不会按默认的 200K 压缩对话。",
   "getStarted.claudeCode.countTokens": "网关没有开放 /v1/messages/count_tokens。Claude Code 收到 404 后会改用自己的估算。",
   "getStarted.claudeCode.refusal": "如果模型出于安全原因拒答，Claude Code 可能改用内置的回退模型重试。这个 id 不可路由，重试会失败。",
   "getStarted.codex.where": "在 ~/.codex/config.toml 中：",

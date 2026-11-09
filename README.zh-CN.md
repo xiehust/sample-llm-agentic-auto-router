@@ -161,6 +161,7 @@ llmar status     # who you are and when the token expires
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "auto:frontier",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "auto:standard",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "auto:fast",
+    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
     "CLAUDE_CODE_API_KEY_HELPER_TTL_MS": "240000",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   }
@@ -168,7 +169,8 @@ llmar status     # who you are and when the token expires
 ```
 
 - **Token：** Claude Code 把脚本的输出同时作为 bearer token 和 `X-Api-Key` 发送，不需要额外设置。TTL 设为 4 分钟，它会经常调用 `llmar-token`；`llmar` 直接用缓存回答。
-- **选择档位：** 有了这几个别名变量，`/model opus|sonnet|haiku` 就是向 router 请求对应档位，而不是固定某个模型。Claude Code 会对 `auto` 打印一条 `unrecognized_model` 提示，可以忽略。
+- **选择档位：** 有了这几个别名变量，`/model opus|sonnet|haiku` 就是向 router 请求对应档位，而不是固定某个模型。
+- **上下文窗口：** Claude Code 不认识 `auto` 这个名字，会假定窗口只有 200K 并在 200K 压缩对话。`CLAUDE_CODE_MAX_CONTEXT_TOKENS` 告诉它 router 的 Claude 模型是 1M 窗口。
 - **请求兼容：** Claude Code 的会话头会被转发。它的 JSON 格式 `metadata.user_id` 和 `advanced-tool-use` beta 头 Bedrock 不接受，由 router 自动处理。
 - **Token 计数：** 网关没有开放 `/v1/messages/count_tokens`。Claude Code 收到 404 后会改用自己的估算。
 - **拒答回退：** 如果模型出于安全原因拒答，Claude Code 2.1 可能改用内置的回退模型重试，例如 `claude-opus-4-8`。这个 id 不在 router 的策略里，重试会返回 400。见 [docs/experiments/claude-code-harbor.zh-CN.md](docs/experiments/claude-code-harbor.zh-CN.md) §5.1。
@@ -297,8 +299,9 @@ with urllib.request.urlopen(req, timeout=30) as r:
   `env | grep -E 'CLAUDE_CODE_USE_BEDROCK|ANTHROPIC_API_KEY|ANTHROPIC_BASE_URL'` 可以查看当前设置。
 - **Claude Code 警告 "Both apiKeyHelper and ANTHROPIC_API_KEY set"。** 环境里的 `ANTHROPIC_API_KEY` 会取代
   `apiKeyHelper`，router 就拿不到你的 `llmar` token。使用 router 时运行 `unset ANTHROPIC_API_KEY`，并从设置文件里删除它。
-- **Claude Code 提示 `Model "auto" isn't recognized · context assumed to be 200k tokens`。** 无害：`auto` 是 router 的
-  别名，Claude Code 只用它来估算自己的上下文。
+- **Claude Code 提示 `Model "auto" isn't recognized · context assumed to be 200k tokens`。** Claude Code 不认识 router
+  的别名，于是假定窗口只有 200K，到 200K 就压缩对话。router 的 Claude 模型都是 1M 窗口：在 router 设置里保留
+  `"CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000"`，然后重启 Claude Code。只有管理员把你限制在窗口更小的模型上时，才需要改成更小的值。
 - **`llmar configure` 提示 "… is writable by others without the sticky bit"。** Ubuntu 默认的 umask 会让
   `~/.config` 对用户组可写。新版 `llmar` 在该用户组是你自己的私有组时会接受；旧版请运行 `chmod g-w ~/.config`，
   或者设置 `LLMAR_CONFIG_DIR`（Claude Code 和 Codex 也要使用同一个值）。

@@ -34,5 +34,8 @@ describe('snippet placeholders', () => {
     expect(placeholdersIn(S.sshForward(52817, 52820))).toEqual(['host'])
     // Claude Code must not fall back to its own Bedrock setup (CLAUDE_CODE_USE_BEDROCK wins over ANTHROPIC_BASE_URL).
     expect(JSON.parse(S.claudeCode(v)).env).toMatchObject({ CLAUDE_CODE_USE_BEDROCK: '0', ANTHROPIC_BASE_URL: setup.inferenceUrl })
+    // Claude Code assumes 200K for 'auto' and compacts there unless told the window.
+    expect(JSON.parse(S.claudeCode(v)).env.CLAUDE_CODE_MAX_CONTEXT_TOKENS).toBe('1000000')
+    expect(JSON.parse(`{${S.claudeContextLine}}`)).toEqual({ CLAUDE_CODE_MAX_CONTEXT_TOKENS: '1000000' })
   })
 })
