@@ -208,6 +208,10 @@ redirect_port = 52820                  # the port registered for Codex on the cl
 delivery = { kind = "header", name = "x-api-key" }
 # credentials_store = "file"           # headless Linux without a keyring: keep this sign-in in $CODEX_HOME/secrets/
 
+[memories]                             # background memory passes name their own model: keep them on the router
+extract_model = "auto:fast"
+consolidation_model = "auto:fast"
+
 [features]
 enable_request_compression = false     # the gateway/router path takes identity-encoded JSON
 ```
@@ -326,6 +330,10 @@ with urllib.request.urlopen(req, timeout=30) as r:
 - **请求是哪个模型回答的？** 每个响应都带有 `x-router-model` 和 `x-router-decision`；控制台的路由决策页面列出每个请求
   及其依据。
 - **Codex 提示 `Model metadata for 'auto' not found`。** 无害：`auto` 是 router 的别名，不是 Codex 认识的模型。
+- **Codex 会话正常，但"决策"页出现 400 `pin-not-allowed`。** Codex 的一些后台任务不用 `auto`，而是写死自己的模型名，
+  例如启动时的 memories 提取（`gpt-6-luna`）。router 拒绝既不是别名、也不在允许列表里的模型名，所以只有这个后台任务
+  失败。在 `config.toml` 里保留 `[memories]` 一段（上面的配置片段里已经有），或在那里设置 `generate_memories = false`
+  关掉 memories。管理员也可以在"路由策略"页把这个名字加成别名。
 
 ## 安全
 

@@ -23,6 +23,8 @@
   "ext.getStarted.faq.whichModel.a": "Every response carries x-router-model (the model that served it) and x-router-decision. The Decisions page lists each request with its basis.",
   "ext.getStarted.faq.metadata.q": "Codex warns “Model metadata for 'auto' not found”",
   "ext.getStarted.faq.metadata.a": "Harmless: auto is the router's alias, not a model Codex knows. That is why the context window is set in the config.",
+  "ext.getStarted.faq.codexPin.q": "Codex: a 400 pin-not-allowed on the Decisions page while the session works",
+  "ext.getStarted.faq.codexPin.a": "Some Codex background passes name a model of their own instead of auto, such as memory extraction at startup (gpt-6-luna). The router refuses a name that is neither an alias nor an allowed model, so only that pass fails; your conversation is not affected. Keep this table in config.toml (it is in the snippet above), or set generate_memories = false there to turn memories off. An admin can instead add the name as an alias on the Routing policy page.",
   "ext.getStarted.faq.claudeBedrock.q": "Claude Code shows “Amazon Bedrock” in its header, or “The provided model identifier is invalid”",
   "ext.getStarted.faq.claudeBedrock.a": "Claude Code is calling Bedrock directly: CLAUDE_CODE_USE_BEDROCK is set in your environment or in another settings file, and it wins over ANTHROPIC_BASE_URL. Keep \"CLAUDE_CODE_USE_BEDROCK\": \"0\" in the router settings (it is in the snippet above), restart Claude Code and check that the header no longer says Amazon Bedrock. To see what is set:",
   "ext.getStarted.faq.claudeApiKey.q": "Claude Code warns “Both apiKeyHelper and ANTHROPIC_API_KEY set”",

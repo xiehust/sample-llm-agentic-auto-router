@@ -95,9 +95,15 @@ redirect_port = ${v.codexOauthPort}
 delivery = { kind = "header", name = "x-api-key" }
 # credentials_store = "file"          # headless Linux without a keyring: keep this sign-in in $CODEX_HOME/secrets/
 
+${codexMemories}
 [features]
 enable_request_compression = false`
 
+/** Codex names its own model for memory extraction and consolidation (gpt-6-luna), which the router refuses (pin-not-allowed). */
+export const codexMemories = `[memories]                             # background memory passes name their own model: keep them on the router
+extract_model = "auto:fast"
+consolidation_model = "auto:fast"
+`
 export const claudeContextLine = `"CLAUDE_CODE_MAX_CONTEXT_TOKENS": "${CLAUDE_CONTEXT_TOKENS}"`
 export const credentialsStoreLine = 'credentials_store = "file"'
 export const configParentFix = 'chmod g-w ~/.config'
