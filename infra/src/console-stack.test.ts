@@ -189,6 +189,7 @@ describe('console stack', () => {
     expect(Object.keys(ingest?.Properties?.Environment.Variables).sort()).toEqual(['BUDGETS', 'CATALOG_REGION', 'CONFIG_BUCKET', 'CONSOLE_TABLE', 'NODE_OPTIONS', 'RECORD_RETENTION_DAYS', 'USAGE_TABLE'])
     const api = fns.find(([, f]) => f.Properties?.ImageConfig.Command[0] === LAMBDA_CMD.consoleApi)?.[1]
     expect(api?.Properties?.Environment.Variables).toMatchObject({ RECORD_RETENTION_DAYS: '90' })
+    expect(JSON.stringify(api?.Properties?.Environment.Variables.CODEX_OAUTH_PORT)).toContain('codexoauthport') // the SSM-backed parameter (Get started redirect_port)
     expect(JSON.stringify(api?.Properties?.Environment.Variables.RESERVED_CLIENT_IDS)).toContain('agentclientid')
   })
 

@@ -37,6 +37,25 @@ function Content({ s }: { s: SetupInfo }) {
   const time = useTime()
   const latest = useLatest()
   const v = S.snippetValues(s, repoRawUrl(CLI_PATH))
+  // What to put in each highlighted placeholder (CodeBlock lists them under the snippet).
+  const explain = (name: string) => name === S.USER_PLACEHOLDER
+    ? <>{t('ext.code.replace.you')} <Box variant="code">{S.HOME_SED}</Box></>
+    : name === 'host' ? t('ext.code.replace.host')
+    : S.DEPLOYMENT_PLACEHOLDERS.has(name) ? t('ext.code.replace.deployment', { name }) : undefined
+  const faq: Array<{ id: string; values?: Record<string, string | number>; code?: string; plain?: boolean }> = [
+    { id: 'claudeBedrock', code: S.claudeEnvCheck },
+    { id: 'claudeApiKey', code: S.unsetApiKey },
+    { id: 'claudeModel' },
+    { id: 'configure', code: S.configParentFix },
+    { id: 'redirectPort', values: { port: s.codexOauthPort ?? '—' } },
+    { id: 'gatewaySignIn', code: S.credentialsStoreLine },
+    { id: 'ssh', code: S.sshForward(s.redirectPorts?.[0], s.codexOauthPort) },
+    { id: 'path', code: S.HOME_SED, plain: true },
+    { id: 'status2', values: { refreshDays: s.refreshDays ?? 30 } },
+    { id: 'maxTokens' },
+    { id: 'whichModel' },
+    { id: 'metadata' },
+  ]
   const missing = s.missing ?? []
   const notes = (keys: MessageKey[]) => <SpaceBetween size="xxs">{keys.map((k) => <Box key={k} variant="p">{t(k)}</Box>)}</SpaceBetween>
   const step = (title: MessageKey, body: React.ReactNode) => <Container header={<Header variant="h2">{t(title)}</Header>}><SpaceBetween size="s">{body}</SpaceBetween></Container>
@@ -58,27 +77,27 @@ function Content({ s }: { s: SetupInfo }) {
         </Container>
         {step('getStarted.step1.title', <>
           <Box variant="p">{t('getStarted.step1.body')}</Box>
-          <CodeBlock label={t('getStarted.step1.title')} code={S.install(v)} />
+          <CodeBlock explain={explain} label={t('getStarted.step1.title')} code={S.install(v)} />
           <Box variant="small" color="text-body-secondary">{t('getStarted.step1.source')}</Box>
         </>)}
         {step('getStarted.configure.title', <>
           <Box variant="p">{t('getStarted.configure.body')}</Box>
-          <CodeBlock label={t('getStarted.configure.title')} code={S.configure(v)} />
+          <CodeBlock explain={explain} label={t('getStarted.configure.title')} code={S.configure(v)} />
         </>)}
         {step('getStarted.step2.title', <>
           <Box variant="p">{t('getStarted.step2.body')}</Box>
-          <CodeBlock label={t('getStarted.step2.title')} code={S.signIn()} />
+          <CodeBlock explain={explain} label={t('getStarted.step2.title')} code={S.signIn()} />
           {notes(['getStarted.step2.mfa', 'getStarted.step2.noBrowser', 'getStarted.step2.test'])}
           <Box variant="p">{t('getStarted.step2.again', { refreshDays: s.refreshDays })}</Box>
         </>)}
         {step('getStarted.step3.title', <>
           <Alert type="info">{t('getStarted.step3.identity')}</Alert>
           <Tabs tabs={[
-            { id: 'claude', label: t('getStarted.tab.claudeCode'), content: <SpaceBetween size="s"><Box>{t('getStarted.claudeCode.where')}</Box><CodeBlock label={t('getStarted.tab.claudeCode')} code={S.claudeCode(v)} />{notes(['getStarted.claudeCode.token', 'getStarted.claudeCode.tiers', 'getStarted.claudeCode.countTokens', 'getStarted.claudeCode.refusal'])}</SpaceBetween> },
-            { id: 'codex', label: t('getStarted.tab.codex'), content: <SpaceBetween size="s"><Box>{t('getStarted.codex.where')}</Box><CodeBlock label={t('getStarted.tab.codex')} code={S.codex(v)} />{notes(['getStarted.codex.auth', 'getStarted.codex.oauth'])}<Box variant="p">{t('getStarted.codex.ssh', { port: s.codexOauthPort ?? '<port>' })}</Box><Box variant="p">{t('getStarted.codex.keyring')}</Box><Box>{t('getStarted.codex.run')}</Box><CodeBlock label={t('getStarted.codex.run')} code={S.codexRun()} /><Box>{t('getStarted.codex.short')}</Box><CodeBlock label={t('getStarted.codex.short')} code={S.codexShort(v)} />{notes(['getStarted.codex.webSearch', 'getStarted.codex.warning'])}</SpaceBetween> },
-            { id: 'anthropic', label: t('getStarted.tab.anthropicSdk'), content: <SpaceBetween size="s"><CodeBlock label={t('getStarted.tab.anthropicSdk')} code={S.anthropicSdk(v)} />{notes(['getStarted.sdk.token', 'getStarted.sdk.session', 'getStarted.sdk.decision', 'getStarted.sdk.stream'])}</SpaceBetween> },
-            { id: 'openai', label: t('getStarted.tab.openaiSdk'), content: <SpaceBetween size="s"><CodeBlock label={t('getStarted.tab.openaiSdk')} code={S.openaiSdk(v)} />{notes(['getStarted.sdk.token', 'getStarted.sdk.session', 'getStarted.sdk.decision', 'getStarted.sdk.stream'])}</SpaceBetween> },
-            { id: 'curl', label: t('getStarted.tab.curl'), content: <SpaceBetween size="s"><CodeBlock label={t('getStarted.tab.curl')} code={S.curl(v)} /><Box>{t('getStarted.curl.body')}</Box></SpaceBetween> },
+            { id: 'claude', label: t('getStarted.tab.claudeCode'), content: <SpaceBetween size="s"><Box>{t('getStarted.claudeCode.where')}</Box><CodeBlock explain={explain} label={t('getStarted.tab.claudeCode')} code={S.claudeCode(v)} />{notes(['getStarted.claudeCode.token', 'getStarted.claudeCode.tiers', 'getStarted.claudeCode.countTokens', 'getStarted.claudeCode.refusal'])}</SpaceBetween> },
+            { id: 'codex', label: t('getStarted.tab.codex'), content: <SpaceBetween size="s"><Box>{t('getStarted.codex.where')}</Box><CodeBlock explain={explain} label={t('getStarted.tab.codex')} code={S.codex(v)} />{notes(['getStarted.codex.auth', 'getStarted.codex.oauth'])}<Box variant="p">{t('getStarted.codex.ssh', { port: s.codexOauthPort ?? '<port>' })}</Box><Box variant="p">{t('getStarted.codex.keyring')}</Box><Box>{t('getStarted.codex.run')}</Box><CodeBlock explain={explain} label={t('getStarted.codex.run')} code={S.codexRun()} /><Box>{t('getStarted.codex.short')}</Box><CodeBlock explain={explain} label={t('getStarted.codex.short')} code={S.codexShort(v)} />{notes(['getStarted.codex.webSearch', 'getStarted.codex.warning'])}</SpaceBetween> },
+            { id: 'anthropic', label: t('getStarted.tab.anthropicSdk'), content: <SpaceBetween size="s"><CodeBlock explain={explain} label={t('getStarted.tab.anthropicSdk')} code={S.anthropicSdk(v)} />{notes(['getStarted.sdk.token', 'getStarted.sdk.session', 'getStarted.sdk.decision', 'getStarted.sdk.stream'])}</SpaceBetween> },
+            { id: 'openai', label: t('getStarted.tab.openaiSdk'), content: <SpaceBetween size="s"><CodeBlock explain={explain} label={t('getStarted.tab.openaiSdk')} code={S.openaiSdk(v)} />{notes(['getStarted.sdk.token', 'getStarted.sdk.session', 'getStarted.sdk.decision', 'getStarted.sdk.stream'])}</SpaceBetween> },
+            { id: 'curl', label: t('getStarted.tab.curl'), content: <SpaceBetween size="s"><CodeBlock explain={explain} label={t('getStarted.tab.curl')} code={S.curl(v)} /><Box>{t('getStarted.curl.body')}</Box></SpaceBetween> },
           ]} />
         </>)}
         {step('getStarted.step4.title', <>
@@ -112,6 +131,17 @@ function Content({ s }: { s: SetupInfo }) {
             <Box>{t('getStarted.endpoints.model')}</Box>
             {s.forwardedHeaders && <Box>{t('getStarted.endpoints.headers', { headers: s.forwardedHeaders.join(', ') })}</Box>}
             <Box>{t('getStarted.endpoints.response')}</Box>
+          </SpaceBetween>
+        </ExpandableSection>
+        <ExpandableSection variant="container" headerText={t('ext.getStarted.faq.title')} data-testid="faq">
+          <SpaceBetween size="m">
+            {faq.map((x) => (
+              <SpaceBetween key={x.id} size="xxs">
+                <Box variant="h4">{t(`ext.getStarted.faq.${x.id}.q` as MessageKey)}</Box>
+                <Box variant="p">{t(`ext.getStarted.faq.${x.id}.a` as MessageKey, x.values)}</Box>
+                {x.code && <CodeBlock {...(x.plain ? {} : { explain })} label={t(`ext.getStarted.faq.${x.id}.q` as MessageKey)} code={x.code} />}
+              </SpaceBetween>
+            ))}
           </SpaceBetween>
         </ExpandableSection>
         <ExpandableSection variant="container" headerText={t('getStarted.trouble.title')}>

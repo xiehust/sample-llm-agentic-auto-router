@@ -14,6 +14,14 @@ export interface SnippetValues {
   cliRawUrl: string
 }
 
+/** Placeholder names for values this deployment should provide (Get started explains them as missing settings). */
+export const CLI_RAW_URL_PLACEHOLDER = 'raw URL of tools/llmar/llmar in your copy of the repository'
+export const DEPLOYMENT_PLACEHOLDERS: ReadonlySet<string> = new Set(['inference URL', 'authorize endpoint', 'token endpoint',
+  'cli client id', 'scope', 'Codex callback port', 'configure JSON', CLI_RAW_URL_PLACEHOLDER])
+/** The one value each reader fills in: Codex needs an absolute path to llmar-token and the browser cannot know $HOME. */
+export const USER_PLACEHOLDER = 'you'
+export const HOME_SED = `sed -i "s#/home/<${USER_PLACEHOLDER}>#$HOME#" ~/.codex/config.toml`
+
 const or = (v: string | number | undefined, name: string) => (v === undefined || v === '' ? `<${name}>` : String(v))
 
 /** Single-quoted shell argument. */
@@ -28,7 +36,7 @@ export function snippetValues(s: SetupInfo, cliRawUrl: string | undefined): Snip
     scope: or(s.scope, 'scope'),
     codexOauthPort: or(s.codexOauthPort, 'Codex callback port'),
     configureJson: s.configureJson ? JSON.stringify(s.configureJson) : '<configure JSON>',
-    cliRawUrl: cliRawUrl ?? '<raw URL of tools/llmar/llmar in your copy of the repository>',
+    cliRawUrl: cliRawUrl ?? `<${CLI_RAW_URL_PLACEHOLDER}>`,
   }
 }
 
@@ -45,6 +53,7 @@ export const claudeCode = (v: SnippetValues) => JSON.stringify({
   apiKeyHelper: '~/bin/llmar-token',
   env: {
     ANTHROPIC_BASE_URL: v.inferenceUrl,
+    CLAUDE_CODE_USE_BEDROCK: '0',   // the router, not Bedrock directly (an existing Bedrock setup would win over ANTHROPIC_BASE_URL)
     ANTHROPIC_MODEL: 'auto',
     ANTHROPIC_DEFAULT_OPUS_MODEL: 'auto:frontier',
     ANTHROPIC_DEFAULT_SONNET_MODEL: 'auto:standard',
@@ -69,7 +78,7 @@ requires_openai_auth = false
 supports_websockets = false
 
 [model_providers.llmar.auth]           # Authorization: Bearer, refreshed by llmar
-command = "/home/<you>/bin/llmar-token"
+command = "/home/<${USER_PLACEHOLDER}>/bin/llmar-token"
 timeout_ms = 15000
 refresh_interval_ms = 240000
 
@@ -80,9 +89,17 @@ client_id = "${v.clientId}"
 scopes = ["openid", "${v.scope}"]
 redirect_port = ${v.codexOauthPort}
 delivery = { kind = "header", name = "x-api-key" }
+# credentials_store = "file"          # headless Linux without a keyring: keep this sign-in in $CODEX_HOME/secrets/
 
 [features]
 enable_request_compression = false`
+
+export const credentialsStoreLine = 'credentials_store = "file"'
+export const configParentFix = 'chmod g-w ~/.config'
+export const claudeEnvCheck = "env | grep -E 'CLAUDE_CODE_USE_BEDROCK|ANTHROPIC_API_KEY|ANTHROPIC_BASE_URL'"
+export const unsetApiKey = 'unset ANTHROPIC_API_KEY'
+export const sshForward = (cliPort: number | undefined, codexPort: number | undefined) =>
+  `ssh -L ${cliPort ?? 52817}:127.0.0.1:${cliPort ?? 52817} -L ${codexPort ?? 52820}:127.0.0.1:${codexPort ?? 52820} <host>`
 
 export const codexRun = () => 'LLMAR_SESSION=$(uuidgen) codex'
 

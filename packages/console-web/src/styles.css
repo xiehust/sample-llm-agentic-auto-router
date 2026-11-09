@@ -17,6 +17,13 @@
   white-space: pre;
 }
 
+.llmar-code mark.llmar-ph {
+  border-radius: 3px;
+  padding: 0 2px;
+  font-weight: 700;
+  outline: 1px dashed currentColor;
+}
+
 .llmar-code pre:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;

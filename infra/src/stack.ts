@@ -503,7 +503,7 @@ export class RouterStack extends Stack {
       userPoolId: pool.userPoolId, userPoolArn: pool.userPoolArn, cognitoDomain: domain.baseUrl(), gatewayId: gateway.attrGatewayIdentifier,
       gatewayUrl: gatewayBase, configBucket: configBucket.bucketName, logGroupName: routerLogs.logGroupName, clusterName: cluster.clusterName,
       serviceName: service.serviceName, serviceArn: service.serviceArn, cliClientId: cli.userPoolClientId, agentClientId: client.userPoolClientId,
-      callbackPorts: cfg.identity.cliRedirectPorts.join(','), modelUniverse: models.routerModels.join(','), identityHeader: 'x-api-key',
+      callbackPorts: cfg.identity.cliRedirectPorts.join(','), codexOauthPort: String(cfg.identity.codexOauthPort), modelUniverse: models.routerModels.join(','), identityHeader: 'x-api-key',
     }
     for (const [k, v] of Object.entries(params) as Array<[RouterParam, string]>) {
       new ssm.StringParameter(this, `Param-${k}`, { parameterName: routerParamName(cfg.prefix, k), stringValue: v, description: `llm-auto-router ${k} (read by the console stack)` })

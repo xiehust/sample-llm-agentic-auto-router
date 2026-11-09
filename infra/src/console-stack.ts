@@ -31,7 +31,7 @@ export const ROUTER_PARAMS = {
   userPoolId: 'user-pool-id', userPoolArn: 'user-pool-arn', cognitoDomain: 'cognito-domain',
   gatewayId: 'gateway-id', gatewayUrl: 'gateway-url', configBucket: 'config-bucket', logGroupName: 'log-group-name',
   clusterName: 'cluster-name', serviceName: 'service-name', serviceArn: 'service-arn', cliClientId: 'cli-client-id', agentClientId: 'agent-client-id',
-  callbackPorts: 'cli-callback-ports', modelUniverse: 'model-universe', identityHeader: 'identity-header',
+  callbackPorts: 'cli-callback-ports', codexOauthPort: 'codex-oauth-port', modelUniverse: 'model-universe', identityHeader: 'identity-header',
 } as const
 export type RouterParam = keyof typeof ROUTER_PARAMS
 export const routerParamName = (prefix: string, p: RouterParam): string => `/${prefix}/router/${ROUTER_PARAMS[p]}`
@@ -243,7 +243,7 @@ export class ConsoleStack extends Stack {
       CONSOLE_TABLE: consoleTable.tableName, USAGE_TABLE: usageTable.tableName, CONFIG_BUCKET: configBucket, USER_POOL_ID: poolId,
       PREFIX: cfg.prefix, CONSOLE_SCOPE: consoleScope, INVOKE_SCOPE: `${cfg.prefix}/invoke`, RESOURCE_SERVER_ID: cfg.prefix,
       GATEWAY_ID: param('gatewayId'), GATEWAY_URL: param('gatewayUrl'), INFERENCE_URL: `${param('gatewayUrl')}/inference`,
-      COGNITO_DOMAIN: cognitoDomain, CLI_CLIENT_ID: param('cliClientId'), CALLBACK_PORTS: param('callbackPorts'),
+      COGNITO_DOMAIN: cognitoDomain, CLI_CLIENT_ID: param('cliClientId'), CALLBACK_PORTS: param('callbackPorts'), CODEX_OAUTH_PORT: param('codexOauthPort'),
       IDENTITY_HEADER: param('identityHeader'), MODEL_UNIVERSE: param('modelUniverse'), CATALOG_REGION: cfg.region,
       ROUTER_CLUSTER: param('clusterName'), ROUTER_SERVICE: param('serviceName'), ROUTER_LOG_GROUP: param('logGroupName'),
       METRICS_NAMESPACE: 'LlmAutoRouter', REFRESH_DAYS: '30', RECORD_RETENTION_DAYS: String(cfg.recordRetentionDays),

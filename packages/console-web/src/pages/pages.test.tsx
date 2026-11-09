@@ -183,6 +183,17 @@ describe.each(['en', 'zh-CN'] as Locale[])('effective configuration in %s (0d-ef
     expect(screen.getAllByRole('radio').some((r) => (r as HTMLInputElement).checked)).toBe(false)
   })
 
+  it('Get started highlights placeholders and says how to replace them', async () => {
+    const t = createTranslator(locale, await loadMessages(locale))
+    await renderPage(GetStarted, { locale, sub: 'u-mia', groups: ['member'] })
+    await screen.findByText(t('getStarted.step4.button'), {}, { timeout: 8000 })
+    // No repository URL is configured in tests: the install step shows the CLI URL as a missing deployment value.
+    const marks = document.querySelectorAll('mark[data-testid="placeholder"]')
+    expect([...marks].some((m) => m.textContent?.includes('raw URL'))).toBe(true)
+    expect(screen.getAllByText(t('ext.code.replace.title')).length).toBeGreaterThan(0)
+    expect(screen.getByText(t('ext.getStarted.faq.title'))).toBeTruthy()
+  })
+
   it('Get started: an unknown identity mode has its own text (the policy, and so the mode, is known)', async () => {
     const t = createTranslator(locale, await loadMessages(locale))
     await renderPage(GetStarted, { locale, sub: 'u-mia', groups: ['member'], mock: 'unknown' })
