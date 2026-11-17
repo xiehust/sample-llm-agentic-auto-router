@@ -3,7 +3,7 @@
 // reference behaviour console-api's tests should match).
 
 import { createHash, randomBytes } from 'node:crypto'
-import { ROUTES, pathOf, type ConfigState, type Page, type Profile, type RecordSummary, type SavingsReport, type UsageReport } from '@auto-router/console-contract'
+import { ROUTES, pathOf, type ConfigState, type GatewayInfo, type HealthReport, type Page, type Profile, type RecordSummary, type SavingsReport, type UsageReport } from '@auto-router/console-contract'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { MOCK_CLIENT_ID, startMock, type MockStack } from './server.ts'
 
@@ -159,6 +159,22 @@ describe('group checks and self-scoping', () => {
 })
 
 describe('contract behaviour', () => {
+  it('gateway mock is router-only with auto and catch-all rules; health keeps its legacy field name', async () => {
+    const t = (await signIn('ada')).access_token
+    const res = await api('/api/admin/gateway', t)
+    expect(res.status).toBe(200)
+    const g = (await res.json()) as GatewayInfo
+    expect(g.targets.map(({ name, role }) => ({ name, role }))).toEqual([{ name: 'router', role: 'router' }])
+    expect(g.rules).toEqual([
+      { priority: 100, match: 'auto or auto:*', target: 'router' },
+      { priority: 1_000_000, match: 'any model (catch-all)', target: 'router' },
+    ])
+    expect(g.fallbackChain).toEqual([])
+    expect(g.cdkParameters.targets).not.toMatch(/fallback/)
+    expect(g.cdkParameters.rules).toContain('fail-closed')
+    const h = (await (await api('/api/admin/health?range=24h', t)).json()) as HealthReport
+    expect(h.fallbackSigns).toEqual({ router5xx: 2, unhealthyTargets: 0, tasksBelowDesired: false })
+  })
   it('profile: role from the group, deployment facts present', async () => {
     const p = (await (await api('/api/me/profile', (await signIn('ada')).access_token)).json()) as Profile
     expect(p.role).toBe('admin')

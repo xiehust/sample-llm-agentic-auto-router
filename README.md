@@ -53,8 +53,8 @@ Request path:
 4. The router verifies the `x-api-key` token and records the caller, decides the model, rewrites only the
    top-level `model` field, SigV4-signs the call to **bedrock-runtime** over a VPC endpoint, and streams the
    response back.
-5. If the router returns 5XX or cannot be reached, the gateway falls back to fixed models (Sonnet 5.5, then
-   GPT-6.1 Sol). Those calls are not seen by the router, so they are not attributed or counted.
+5. If the router returns 5XX, cannot be reached or times out, the request fails. The gateway has no model
+   fallback or direct Bedrock target: it never bypasses the router's identity checks, policy or accounting.
 
 An optional **admin console** (a separate stack) lets admins manage members, service clients, the routing policy and
 the assessor, and shows usage, list-price cost, savings and each routing decision. See

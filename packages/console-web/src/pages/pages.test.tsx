@@ -1,6 +1,7 @@
 // Page renders in jsdom against the in-process mock API (real contract responses), in English and Chinese, for a
 // member and an admin. Also covers React 19 + Cloudscape under jsdom.
 
+import type { GatewayInfo, HealthReport } from '@auto-router/console-contract'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import type { ComponentType } from 'react'
@@ -25,6 +26,7 @@ import Usage from './Usage.tsx'
 import Assessor from './admin/Assessor.tsx'
 import DeploymentSettings from './admin/DeploymentSettings.tsx'
 import Gateway from './admin/Gateway.tsx'
+import Health from './admin/Health.tsx'
 import Members from './admin/Members.tsx'
 import Policy from './admin/Policy.tsx'
 import Versions from './admin/Versions.tsx'
@@ -90,14 +92,17 @@ async function fakeSession(sub: string, groups: string[], m: Mock): Promise<Auth
 }
 
 interface Fail { path: RegExp; status: number; code: string }
-async function renderPage(Page: ComponentType, opts: { locale: Locale; sub: string; groups: string[]; path?: string; admin?: boolean; mock?: keyof typeof mocks; fail?: Fail }) {
+interface ResponseOverride { path: RegExp; body: unknown }
+async function renderPage(Page: ComponentType, opts: { locale: Locale; sub: string; groups: string[]; path?: string; admin?: boolean; mock?: keyof typeof mocks; fail?: Fail; response?: ResponseOverride }) {
   const m = mocks[opts.mock ?? 'default']
   const session = await fakeSession(opts.sub, opts.groups, m)
   const fail = opts.fail
   const api = new ApiClient(session, {
     fetch: (p, init) => fail && fail.path.test(p)
       ? Promise.resolve(new Response(JSON.stringify({ error: { code: fail.code, message: 'test', requestId: 'req-test' } }), { status: fail.status, headers: { 'content-type': 'application/json' } }))
-      : fetch(m.apiUrl + p, init),
+      : opts.response?.path.test(p)
+        ? Promise.resolve(new Response(JSON.stringify(opts.response.body), { headers: { 'content-type': 'application/json' } }))
+        : fetch(m.apiUrl + p, init),
   })
   const i18n = await loadLocale(opts.locale)
   const el = opts.admin ? <RequireRole role="admin"><Page /></RequireRole> : <Page />
@@ -138,6 +143,46 @@ describe('guards', () => {
 })
 
 const ADMIN = { sub: 'u-admin', groups: ['admin'], admin: true }
+
+describe.each(['en', 'zh-CN'] as Locale[])('gateway fail-closed display in %s', (locale) => {
+  it('shows the router-only mock with no fallback chain and failure rather than direct invocation', async () => {
+    const t = createTranslator(locale, await loadMessages(locale))
+    await renderPage(Gateway, { locale, ...ADMIN })
+    await screen.findByText(`${t('gateway.fallbackChain')}: ${t('gateway.fallbackChain.none')}`, {}, { timeout: 8000 })
+    expect(screen.getByText('auto or auto:*')).toBeTruthy()
+    expect(screen.getByText('any model (catch-all)')).toBeTruthy()
+    expect(screen.queryByText(t('gateway.target.fallback'))).toBeNull()
+    expect(screen.queryByText(t('gateway.fallbackChain.legacy'))).toBeNull()
+  })
+
+  it('still shows the exact fallback chain and target read from a legacy deployment', async () => {
+    const t = createTranslator(locale, await loadMessages(locale))
+    const legacy: GatewayInfo = {
+      url: 'https://legacy-gw', id: 'legacy', status: 'READY', authorizer: { discoveryUrl: 'https://idp', allowedScopes: [] },
+      targets: [{ name: 'router', role: 'router', detail: 'READY' }, { name: 'bedrock', role: 'fallback', detail: 'Legacy target' }],
+      rules: [{ priority: 100, match: 'auto', target: 'router' }],
+      fallbackChain: ['bedrock (model-a)', 'bedrock (model-b)'], forwardedHeaders: [], cdkParameters: {},
+    }
+    await renderPage(Gateway, { locale, ...ADMIN, response: { path: /^\/api\/admin\/gateway(\?|$)/, body: legacy } })
+    await screen.findByText(`${t('gateway.fallbackChain')}: bedrock (model-a) → bedrock (model-b)`, {}, { timeout: 8000 })
+    expect(screen.getByText(t('gateway.target.fallback'))).toBeTruthy()
+    expect(screen.getByText(t('gateway.fallbackChain.legacy'))).toBeTruthy()
+    expect(document.body.textContent).not.toContain(t('gateway.fallbackChain.none'))
+  })
+
+  it('zero tasks shows a rejection warning and availability signals, not evidence of fallback', async () => {
+    const t = createTranslator(locale, await loadMessages(locale))
+    const health: HealthReport = {
+      range: '24h', tasks: { running: 0, desired: 2 }, requestsPerMin: [], rate4xx: [], rate5xx: [], failovers: [],
+      overheadP50: [], overheadP99: [], ttfbP50: [], ttfbP99: [], hitRate: [], switches: [], missesByReason: {}, assessor: {},
+      fallbackSigns: { router5xx: 2, unhealthyTargets: 2, tasksBelowDesired: true }, config: { activeVersion: '1-x', rejections: 0 }, alarms: [],
+    }
+    await renderPage(Health, { locale, ...ADMIN, response: { path: /^\/api\/admin\/health(\?|$)/, body: health } })
+    await screen.findByText(t('health.tasksZero'), {}, { timeout: 8000 })
+    expect(screen.getByText(t('health.fallbackSigns'))).toBeTruthy()
+    expect(screen.getByText('2 · 2 · !')).toBeTruthy()
+  })
+})
 
 describe.each(['en', 'zh-CN'] as Locale[])('effective configuration in %s (0d-effective-config)', (locale) => {
   it('Routing policy: each setting shows "from config v#n"', async () => {

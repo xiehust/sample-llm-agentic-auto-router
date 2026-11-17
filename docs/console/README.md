@@ -41,8 +41,8 @@ Members see only their own requests. Admins see everyone's, and can filter by ca
 
 - **List price, not your invoice.** Costs use the Region's versioned price catalog (its version is in the page
   footer). Discounts, credits and taxes are not included.
-- **What is counted.** Every request that reached the router. Calls the gateway fallback served while the router was
-  failing are not seen by the router, so they are missing.
+- **What is counted.** Every request that reached the router. Requests rejected before reaching it are not counted.
+  If the router is unavailable, the gateway fails the request rather than invoking models directly.
 - **Unmetered calls.** If a stream ended before usage arrived, the call has no measured cost. The console shows the
   count and an approximate upper bound apart from the metered cost, and leaves these calls out of savings. The
   bound uses a prompt estimate of 4 characters per token, so it can be too low for Chinese, Japanese or Korean
@@ -130,14 +130,16 @@ chose fast.
 
 ### Gateway
 
-A read-only view of the gateway: URL, authorizer, targets, routing rules, fallback chain and forwarded headers. All
-of it changes only with a CDK deploy.
+A read-only view of the gateway: URL, authorizer, targets, routing rules, fallback chain and forwarded headers. The
+current stack has only a router target and no fallback chain; legacy chains are displayed as read. All of it changes
+only with a CDK deploy.
 
 ### Health
 
 Router tasks, request rate, 4xx and 5xx rates, failovers, router overhead, upstream first byte, cache hit rate,
-assessor latency, active config version and record delay. The gateway publishes no fallback count, so "Signs of
-gateway fallback" shows proxies: router 5xx, unhealthy router targets, and fewer running tasks than desired.
+assessor latency, active config version and record delay. "Router availability signals" shows router 5xx, unhealthy
+router targets, and fewer running tasks than desired. Router unavailability fails requests; it does not trigger direct
+model calls.
 
 ### Audit log
 

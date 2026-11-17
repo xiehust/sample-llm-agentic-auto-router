@@ -217,7 +217,28 @@ describe('Cognito adapters', () => {
 })
 
 describe('gateway', () => {
-  it('maps authorizer, targets, rules, fallback chain and forwarded headers (read only)', async () => {
+  it('reads router-only auto and catch-all rules with no fallback chain', async () => {
+    const ctl = fake((op) => {
+      if (op === 'GetGateway') return { gatewayId: 'gw-1', gatewayUrl: 'https://gw', status: 'READY' }
+      if (op === 'ListGatewayTargets') return { items: [{ targetId: 't1', name: 'router' }] }
+      if (op === 'GetGatewayTarget') return { status: 'READY', targetConfiguration: { http: { allowedRequestHeaders: ['X-Api-Key'] } } }
+      if (op === 'ListGatewayRules') return { gatewayRules: [
+        { priority: 1_000_000, conditions: [], actions: [{ routeToTarget: { staticRoute: { targetName: 'router' } } }] },
+        { priority: 100, conditions: [{ matchModels: { anyOf: [{ value: 'auto' }, { value: 'auto:*' }] } }], actions: [{ routeToTarget: { staticRoute: { targetName: 'router' } } }] },
+      ] }
+      return {}
+    })
+    const g = await new AgentCoreGateway(ctl, 'gw-1').describe()
+    expect(g.targets).toEqual([{ name: 'router', role: 'router', detail: 'READY' }])
+    expect(g.rules.map(({ priority, target }) => ({ priority, target }))).toEqual([{ priority: 100, target: 'router' }, { priority: 1_000_000, target: 'router' }])
+    expect(g.rules[0]!.match).toContain('auto:*')
+    expect(g.fallbackChain).toEqual([])
+    expect(g.forwardedHeaders).toEqual(['x-api-key'])
+    expect(g.cdkParameters.targets).toBe('RouterStack (router-only target)')
+    expect(g.cdkParameters.rules).toBe('RouterStack (auto and catch-all router-only rules; fail-closed)')
+    expect(ctl.calls.every((c) => /^(Get|List)/.test(c.op))).toBe(true)
+  })
+  it('preserves legacy authorizer, targets, rules, fallback chain and forwarded headers (read only)', async () => {
     const ctl = fake((op) => {
       if (op === 'GetGateway') return { gatewayId: 'gw-1', gatewayUrl: 'https://gw', status: 'READY', authorizerConfiguration: { customJWTAuthorizer: { discoveryUrl: 'https://idp/.well-known', allowedScopes: ['llmar/invoke'] } } }
       if (op === 'ListGatewayTargets') return { items: [{ targetId: 't1', name: 'router' }, { targetId: 't2', name: 'bedrock' }] }

@@ -8,10 +8,10 @@ import { loadConfig, packInfos } from '@auto-router/router'
 import { bakedConfigDocument } from '@auto-router/router/settings'
 import { AwsSolutionsChecks } from 'cdk-nag'
 import { describe, expect, it } from 'vitest'
-import { ASSESSOR_DEFAULT_PACK, ASSESSOR_PACKS_DIR, DEFAULT_POLICY_FILE, deployModels, FALLBACK } from './models.ts'
+import { ASSESSOR_DEFAULT_PACK, ASSESSOR_PACKS_DIR, DEFAULT_POLICY_FILE, deployModels } from './models.ts'
 import { resolveSettings } from './settings.ts'
 import { routerParamName, ROUTER_PARAMS } from './console-stack.ts'
-import { assessorEnv, BEDROCK_REQUEST_HEADERS, JWKS_SYNC_CODE, REQUEST_HEADERS, RouterStack, RULE_PRIORITY } from './stack.ts'
+import { assessorEnv, JWKS_SYNC_CODE, REQUEST_HEADERS, RouterStack, RULE_PRIORITY } from './stack.ts'
 
 const ctx = (c: Record<string, string>) => ({ tryGetContext: (k: string) => c[k] })
 const SETTINGS = resolveSettings(ctx({ region: 'ap-southeast-1', account: '000000000000', tags: '{"Owner":"test-owner"}' }), {}, DEFAULT_POLICY_FILE)
@@ -49,7 +49,7 @@ describe('llmar-mvp stack', () => {
       && JSON.stringify(r.Properties?.Roles ?? []).includes('GatewayRole'))?.[0]
     expect(policy).toBeDefined()
     const targets = Object.entries(raw).filter(([, r]) => r.Type === 'AWS::BedrockAgentCore::GatewayTarget')
-    expect(targets.length).toBe(2)
+    expect(targets.length).toBe(1)
     for (const [, t] of targets) expect([t.DependsOn ?? []].flat()).toContain(policy)
   })
 
@@ -144,7 +144,7 @@ describe('llmar-mvp stack', () => {
     }
   })
 
-  it('task role invokes exactly the router models via the documented global-profile pattern; gateway role only the fallback models', () => {
+  it('task role invokes exactly the router models via the documented global-profile pattern; gateway role only invokes the router API', () => {
     const doc = (prefix: string) => ofType('AWS::IAM::Policy').find(([id]) => id.startsWith(prefix))?.[1].Properties?.PolicyDocument
     const fullTask = doc('TaskRole')
     // Model grants only (Router* sids); the config-bucket read is checked in the identity tests below.
@@ -168,11 +168,12 @@ describe('llmar-mvp stack', () => {
     const globalFm = task.Statement.find((st: any) => st.Sid === 'RouterGlobalProfileModels')
     expect(globalFm.Condition.StringEquals['aws:RequestedRegion']).toBe('unspecified')
     expect(JSON.stringify(globalFm.Resource)).toContain('arn:aws:bedrock:::foundation-model/anthropic.claude-sonnet-5-5')
-    const gw = JSON.stringify(doc('GatewayRole'))
-    for (const m of Object.values(FALLBACK)) expect(gw).toContain(m)
-    expect(gw).not.toContain('claude-opus')
-    expect(gw).not.toContain('gpt-6-luna')
-    expect(gw).toContain('FallbackResponsesDefaultProject') // GPT-6.1 Sol serves Responses on fallback
+    const gw = doc('GatewayRole')
+    expect(gw.Statement).toHaveLength(1)
+    expect(gw.Statement[0]).toMatchObject({ Sid: 'InvokeRouterApi', Effect: 'Allow', Action: 'execute-api:Invoke' })
+    expect(JSON.stringify(gw.Statement[0].Resource)).toContain(':execute-api:')
+    expect(JSON.stringify(gw)).not.toContain('bedrock:')
+    expect(JSON.stringify(gw)).not.toContain('Fallback')
   })
 
   it('allowedModelUniverse: policy (default), catalog or a list widens the task role grants, the router env and the console list together', () => {
@@ -226,12 +227,8 @@ describe('llmar-mvp stack', () => {
     expect(deployModels({ ...SETTINGS, region: 'ap-northeast-1', azIds: ['apne1-az1', 'apne1-az2'], policyFile: tokyoExample }).routerModels).toContain('jp.anthropic.claude-haiku-5-5')
   })
 
-  it('stage throttling, fallback first-byte timeout, Container Insights off, endpoint policy on bedrock-runtime', () => {
+  it('stage throttling, Container Insights off, endpoint policy on bedrock-runtime', () => {
     expect(ofType('AWS::ApiGateway::Stage')[0]?.[1].Properties?.MethodSettings).toEqual([{ ResourcePath: '/*', HttpMethod: '*', ThrottlingRateLimit: 20, ThrottlingBurstLimit: 40 }])
-    const fb = ofType('AWS::BedrockAgentCore::GatewayRule')[0]?.[1].Properties?.Actions[0].RouteToTarget.StaticRoute.Fallback
-    expect(fb.FirstByteTimeoutMilliseconds).toBe(610000)
-    expect(fb.TriggerOn.Errors).toContain('FIRST_BYTE_TIMEOUT')
-    expect(fb.CircuitBreaker).toEqual({ Mode: 'ENABLED' })
     const cluster = ofType('AWS::ECS::Cluster')[0]?.[1].Properties
     expect(cluster?.ClusterSettings).toEqual([{ Name: 'containerInsights', Value: 'disabled' }])
     const br = ofType('AWS::EC2::VPCEndpoint').find(([, r]) => JSON.stringify(r.Properties?.ServiceName).includes('bedrock-runtime'))?.[1].Properties
@@ -323,12 +320,20 @@ describe('llmar-mvp stack', () => {
     expect(REQUEST_HEADERS.some((h) => h.startsWith('x-amz') || h === 'x-router-caller-arn' || h === 'x-router-source-vpce')).toBe(false)
   })
 
-  it('fallback rule: auto* -> router, then Sonnet 5.5, then GPT-6.1 Sol', () => {
-    const rule = ofType('AWS::BedrockAgentCore::GatewayRule')[0]?.[1].Properties
-    expect(rule?.Conditions[0].MatchModels.AnyOf.map((m: any) => m.Value)).toEqual(['auto', 'auto:*'])
-    const fb = rule?.Actions[0].RouteToTarget.StaticRoute
-    expect(fb.TargetName).toBe('router')
-    expect(fb.Fallback.TargetFallback.map((t: any) => t.Model)).toEqual(['global.anthropic.claude-sonnet-5-5', 'global.openai.gpt-6.1-sol'])
+  it('fails closed for auto aliases and concrete models: every rule routes only to the router, with no fallback or direct Bedrock target', () => {
+    const rules = ofType('AWS::BedrockAgentCore::GatewayRule').map(([, r]) => r.Properties)
+    expect(rules).toHaveLength(2)
+    const auto = rules.find((r) => r?.Priority === RULE_PRIORITY.auto)
+    expect(auto?.Conditions[0].MatchModels.AnyOf.map((m: any) => m.Value)).toEqual(['auto', 'auto:*'])
+    for (const rule of rules) {
+      expect(rule?.Actions).toEqual([{ RouteToTarget: { StaticRoute: { TargetName: 'router' } } }])
+      expect(rule?.Actions[0].RouteToTarget.StaticRoute.Fallback).toBeUndefined()
+    }
+    const targets = ofType('AWS::BedrockAgentCore::GatewayTarget').map(([, r]) => r.Properties)
+    expect(targets.map((t) => t?.Name)).toEqual(['router'])
+    expect(targets[0]?.TargetConfiguration.Inference.Provider.Operations.map((o: any) => o.Path))
+      .toEqual(['/v1/messages', '/v1/chat/completions', '/v1/responses'])
+    expect(JSON.stringify(targets)).not.toContain('bedrock-runtime')
   })
 
   it('container binds 0.0.0.0 inside awsvpc with no host port, hop auth apigw-iam, 10 MiB cap, desired count 0 by default', () => {
@@ -374,21 +379,18 @@ describe('admin console identity (spike C1 decisions)', () => {
   const props = (type: string) => ofType(type).map(([, r]) => r.Properties ?? {})
   const target = (name: string) => props('AWS::BedrockAgentCore::GatewayTarget').find((t) => t.Name === name)
 
-  it('router target forwards x-api-key (10th header); the Bedrock fallback target never forwards it', () => {
+  it('the only gateway target forwards x-api-key (10th header) for router identity checks', () => {
     expect(REQUEST_HEADERS).toHaveLength(10)
     expect(REQUEST_HEADERS.at(-1)).toBe('x-api-key')
     expect(target('router')?.MetadataConfiguration.AllowedRequestHeaders).toContain('x-api-key')
-    // Bedrock answers 400 "Cannot provide both x-api-key and Authorization headers" when the fallback forwards it.
-    const bedrock = target('bedrock')?.MetadataConfiguration.AllowedRequestHeaders as string[]
-    expect(bedrock).toEqual(BEDROCK_REQUEST_HEADERS)
-    expect(bedrock.map((h) => h.toLowerCase())).not.toContain('x-api-key')
+    expect(target('bedrock')).toBeUndefined()
   })
 
-  it('both gateway targets wait for the ECS service (model discovery must hit the new image, not the old one)', () => {
+  it('the router gateway target waits for the ECS service (model discovery must hit the new image, not the old one)', () => {
     const raw = resources as Record<string, { Type: string; DependsOn?: string | string[] }>
     const svc = Object.entries(raw).find(([, r]) => r.Type === 'AWS::ECS::Service')?.[0] as string
     const targets = Object.entries(raw).filter(([, r]) => r.Type === 'AWS::BedrockAgentCore::GatewayTarget')
-    expect(targets).toHaveLength(2)
+    expect(targets).toHaveLength(1)
     for (const [, t] of targets) expect([t.DependsOn ?? []].flat()).toContain(svc)
   })
 

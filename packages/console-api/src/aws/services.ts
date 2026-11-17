@@ -214,8 +214,8 @@ function targetsOf(actions: unknown): { target?: string; fallback: string[] } {
 }
 
 export const GATEWAY_CDK_PARAMETERS: Record<string, string> = {
-  authorizer: 'RouterStack (Cognito pool, scope <prefix>/invoke)', targets: 'RouterStack (router target, fallback target)',
-  rules: 'RouterStack (catch-all and 5XX fallback rules)', forwardedHeaders: 'RouterStack (target allowedRequestHeaders)',
+  authorizer: 'RouterStack (Cognito pool, scope <prefix>/invoke)', targets: 'RouterStack (router-only target)',
+  rules: 'RouterStack (auto and catch-all router-only rules; fail-closed)', forwardedHeaders: 'RouterStack (target allowedRequestHeaders)',
 }
 
 export class AgentCoreGateway implements GatewayReader {

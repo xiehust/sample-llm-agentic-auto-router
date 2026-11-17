@@ -45,7 +45,7 @@
 2. 所有请求都进入 router 目标：一个 **私有 REST API**（AWS_IAM）。网关通过它托管的私有终端节点，用 SigV4 签名调用这个 API。
 3. API 经 **VPC link** 转发到内部 **NLB**，再到运行在 **ECS Fargate** 上的 router。
 4. router 校验 `x-api-key` 里的 token 并记录调用方，然后决定模型，只改写顶层的 `model` 字段，经 VPC 终端节点用 SigV4 签名调用 **bedrock-runtime**，并把响应流式返回。
-5. 如果 router 返回 5XX 或不可达，网关回退到固定模型：先 Sonnet 5.5，再 GPT-6.1 Sol。这些调用 router 看不到，所以不会归属到调用方，也不计入统计。
+5. 如果 router 返回 5XX、不可达或超时，请求失败。网关没有模型回退链或直连 Bedrock 目标，不会绕过 router 的身份校验、策略和计量。
 
 可选的 **管理控制台**（单独的 stack）供管理员管理成员、服务客户端、路由策略和评估器，并展示用量、目录价成本、节省和每一次路由决策。见 [docs/console/README.zh-CN.md](docs/console/README.zh-CN.md)。
 

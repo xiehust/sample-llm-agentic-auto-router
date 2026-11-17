@@ -257,7 +257,7 @@ export interface IdentityGate {
  * - observe: a verified principal is logged and its blocks apply (403 / 429); missing or invalid tokens are served
  *   and logged as `principal: { kind: 'none' }`.
  * - require: missing or invalid → 401 `identity-<code>` as well.
- * Every rejection is a 4xx: a 5xx would make the gateway fallback serve the caller without the router.
+ * Every rejection is a 4xx (an access/budget rejection, not a router failure); the gateway has no fallback.
  */
 export function createIdentityGate(o: GateOptions): IdentityGate {
   const header = o.header ?? 'x-api-key'
