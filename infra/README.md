@@ -15,8 +15,7 @@ client --Cognito access token in Authorization and x-api-key (scope <prefix>/inv
   (CUSTOM_JWT, scope-only: it authenticates Authorization; members use the `cli` app client, service clients client credentials)
   catch-all rule (every model name) -> target router: inference provider, SigV4 execute-api, managed private endpoint
                         (routingDomain = the execute-api VPC endpoint's DNS name); x-api-key is forwarded unchanged
-       fallback on router 5XX / connection error / unroutable -> target bedrock: Sonnet 5.5, then GPT-6.1 Sol
-                        (the bedrock target's header allowlist excludes x-api-key: Bedrock rejects both headers together)
+       router 5XX / connection error / timeout -> request fails (no model fallback or direct Bedrock target)
   -> private REST API <prefix>-api (AWS_IAM, stage v1, ANY /{proxy+}, HTTP_PROXY, streaming, 15 min)
      resource policy: Allow the gateway role via this VPC endpoint; Deny any other endpoint; Deny any other principal
      integration headers: x-router-caller-arn <- context.identity.userArn, x-router-source-vpce <- context.identity.vpceId,
@@ -65,11 +64,10 @@ The `S3PrefixListId` stack parameter is the Region's `com.amazonaws.<region>.s3`
   - geographic profiles: the foundation model in any destination Region of the profile.
   There are no wildcard model ARNs for global profiles.
   - **Responses also needs the default project.** The Bedrock User Guide (Responses API, "Using the Responses API on the bedrock-runtime endpoint" > Permissions) says creating a response authorizes `bedrock:InvokeModel` on the account's default project, in addition to the inference target. So the stack grants `bedrock:InvokeModel` on `arn:aws:bedrock:<region>:<account>:project/*`, limited with `bedrock:ModelArn` to the inference profiles of the allowed models that serve Responses (with the default universe, the Responses pool's models).
-  - The gateway role gets the same grant for GPT-6.1 Sol, the Responses fallback.
   - Stored-response management (`GetInvoke`/`CancelInvoke`/`DeleteInvoke`) is not granted.
 - **Endpoint policies.** The bedrock-runtime endpoint admits only the task role, for `bedrock:InvokeModel*`. The execute-api endpoint admits only the gateway role, for `execute-api:Invoke`.
 - **Default security group.** It is stripped of all rules (`restrictDefaultSecurityGroup`, a small CDK custom resource).
-- **Gateway role.** `execute-api:Invoke` on the router API stage, `bedrock:InvokeModel*` on the two fallback models (same pattern), and the List/Get calls the Bedrock connector target needs for discovery.
+- **Gateway role.** Only `execute-api:Invoke` on the router API stage, including model discovery through the router. It has no Bedrock invoke or connector-discovery grants.
 
 ## In-VPC transport
 
@@ -403,13 +401,10 @@ npx cdk destroy --app 'node src/runner-app.ts' $RCTX
 
 ## Limits and things to check in E2E
 
-- **Request size.** 10 MiB per request: the API Gateway REST payload cap, below the gateway's 12 MB. A larger request gets 413 from API Gateway, a 4xx, so the 5XX fallback does not apply.
+- **Request size.** 10 MiB per request: the API Gateway REST payload cap, below the gateway's 12 MB. A larger request gets 413 from API Gateway.
 - **Streams.** Up to 15 minutes. API Gateway's idle timeout for private endpoints is 5 minutes; the router's own idle timeout (240 s) fires first.
-- **Fallback chain.** Rule `MatchPaths` only accepts one-segment prefixes (API pattern `/[\w\-.]+/\*`, e.g. `/inference/*`), so a rule cannot pick a model per API path. The chain is Sonnet 5.5 (Messages), then GPT-6.1 Sol on a 4XX (Chat/Responses reject Claude). E7 must confirm both paths.
-  - On Chat/Responses each fallback makes one extra, rejected (unbilled) Sonnet call first.
-  - If both fallback models fail, the client sees the last target's error.
-  - The route's first-byte timeout (610 s, a fallback trigger) sits above the router's 600 s non-stream header deadline. That deadline covers all attempts, failover included, so the router always answers first.
-- **Circuit breaker.** It is enabled explicitly on the fallback route (also the default). After repeated router failures the gateway takes the router out of the chain for a while. Traffic then goes **silently** to the pinned fallback model: no router decisions, no router logs or accounting for those requests. The gateway's documented CloudWatch metrics (`AWS/Bedrock-AgentCore`: Invocations, SystemErrors, UserErrors, Throttles, Latency, Duration, TargetExecutionTime, TargetType) have no fallback or circuit-breaker metric, so compare the gateway's `Invocations` with the router's `Requests`. E7b measures how long the breaker keeps skipping the router after it recovers.
-- **Old bundled schema.** The `MatchModels` and `StaticRoute.Fallback` overrides follow the CloudFormation reference, but the schema bundled with aws-cdk-lib predates them (warning F3018 is acknowledged).
-- **Catch-all rule.** Every model name goes to the router (lowest-priority rule; verified in the identity spike, S7). A concrete Bedrock model id is a pin there: served if it is in the policy and within the caller's tier limit, otherwise 400 `pin-not-allowed` or `access-cap`. Only the 5XX fallback still reaches Bedrock without the router, and those calls are unattributed.
+- **Fail closed.** Both the `auto*` rule and the catch-all route only to the router, without `StaticRoute.Fallback`. Router 5XX, connection failures and timeouts fail the request instead of calling fixed models. There is no direct Bedrock target, and the gateway role has no Bedrock permissions. The router's own profile retry and policy failover remain unchanged.
+  - Deploy-level E2E must verify failures for Messages, Chat Completions and Responses with the router stopped or returning 503, and recovery after the router becomes healthy. Existing E6/E7 fallback results describe the old deployment, not this behavior.
+- **Old bundled schema.** The `MatchModels` override follows the CloudFormation reference, but the schema bundled with aws-cdk-lib predates it (warning F3018 is acknowledged).
+- **Catch-all rule.** Every model name goes to the router (lowest-priority rule; verified in the identity spike, S7). A concrete Bedrock model id is a pin there: served if it is in the policy and within the caller's tier limit, otherwise 400 `pin-not-allowed` or `access-cap`. No request can reach Bedrock without the router.
 - **Logging.** API Gateway access and execution logging need the account-level API Gateway CloudWatch role. The stack does not set it; the cdk-nag findings are acknowledged with that reason.

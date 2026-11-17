@@ -398,12 +398,11 @@ export function buildDb(now: number = Date.now(), effectiveMode: EffectiveMode =
     authorizer: { discoveryUrl: `https://cognito-idp.${REGION}.amazonaws.com/${REGION}_MockPool/.well-known/openid-configuration`, allowedScopes: [`${PREFIX}/invoke`] },
     targets: [
       { name: 'router', role: 'router', detail: 'Private REST API (AWS_IAM, SigV4 by the gateway role)' },
-      { name: 'fallback', role: 'fallback', detail: 'Bedrock models served directly by the gateway', models: ['global.anthropic.claude-sonnet-5-5', 'global.openai.gpt-6.1-sol'] },
     ],
-    rules: [{ priority: 1000, match: 'any model (catch-all)', target: 'router' }, { priority: 0, match: 'router 5xx or unreachable', target: 'fallback' }],
-    fallbackChain: ['router', 'fallback'],
+    rules: [{ priority: 100, match: 'auto or auto:*', target: 'router' }, { priority: 1_000_000, match: 'any model (catch-all)', target: 'router' }],
+    fallbackChain: [],
     forwardedHeaders: ['anthropic-version', 'anthropic-beta', 'openai-beta', 'content-type', 'x-router-session', 'x-router-parent-session', 'x-router-hint', 'x-router-agent', 'x-router-task', 'x-api-key'],
-    cdkParameters: { url: 'stack output GatewayUrl', authorizer: 'gatewayScopes', targets: 'routerTarget / fallbackModels', rules: 'gatewayRules', forwardedHeaders: 'forwardedHeaders' },
+    cdkParameters: { url: 'stack output GatewayUrl', authorizer: 'gatewayScopes', targets: 'RouterStack (router-only target)', rules: 'RouterStack (auto and catch-all router-only rules; fail-closed)', forwardedHeaders: 'forwardedHeaders' },
   }
 
   const principalEntries = new Map<PrincipalKey, PrincipalEntry>()

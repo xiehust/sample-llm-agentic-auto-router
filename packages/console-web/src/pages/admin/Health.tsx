@@ -1,5 +1,5 @@
-// Health (4f §4.13): is the router serving well right now. EMF metrics (namespace LlmAutoRouter) and ECS; "signs of
-// gateway fallback" are proxies (the gateway publishes no fallback count).
+// Health (4f §4.13): router availability from EMF metrics (namespace LlmAutoRouter) and ECS. The legacy
+// fallbackSigns contract field contains health proxies, not evidence of gateway fallback.
 
 import Alert from '@cloudscape-design/components/alert'
 import Box from '@cloudscape-design/components/box'

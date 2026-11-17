@@ -160,7 +160,7 @@ export function createRouter(deps: RouterDeps): Router {
     const assessor = gen.assessor
     const known = (id: string) => gen.aliases.has(id) || gen.pinAllowed.has(id)
     // 1b. Verified principal, before the body (model discovery above carries no client token). The mode is the
-    // generation's (document over env). Rejections are 401/403/429, never 5xx (the gateway fallback would serve it).
+    // generation's (document over env). Rejections are 401/403/429, not router failures; the gateway has no fallback.
     let principal = deps.principalOf?.(req)
     if (deps.identity) {
       const id = deps.identity.check(req.headers, identityMode(gen))
@@ -247,7 +247,7 @@ export function createRouter(deps: RouterDeps): Router {
       log.decideMs = now() - tDecide // includes the assessor consultation, if any
     } catch (e) {
       if (e instanceof AccessCapError) {
-        // Never 5xx: the gateway fallback would serve the request without the router (design 0.15/0.16).
+        // Access rejection, not a router failure: return 400 with the cap code; the gateway has no fallback.
         log.reason = e.code
         finish(400, { error: e.code === 'access-cap' ? `no model within your tier limit (${cap?.maxTier})` : `no model within your tier limit (${cap?.maxTier}) fits this request`, code: e.code })
         return
@@ -255,7 +255,7 @@ export function createRouter(deps: RouterDeps): Router {
       log.kind = 'error'
       log.error = (e as Error).name
       log.reason = 'decide-failed'
-      finish(503, { error: 'no eligible model' }) // 5xx: the gateway fallback rule serves the request
+      finish(503, { error: 'no eligible model' }) // Returned to the client; the gateway has no fallback.
       return
     }
 
@@ -357,7 +357,7 @@ export function createRouter(deps: RouterDeps): Router {
     // No profile rotation inside a Responses chain (core: failover-chain-locked).
     const chainLocked = summary.previousResponseId !== undefined || decision.point === 'hard-lock-response-chain'
     // Same-model profile retry only for policy.failover.profileRotateOn (default 429; a network error counts as 502):
-    // a 5xx on global. is very likely shared by the geo profile, so it goes to core / the gateway fallback instead.
+    // a 5xx on global. is very likely shared by the geo profile: return it to the client; core may fail over next turn.
     const rotatable = (r: Response | { network: string }) => gen.policy.failover.profileRotateOn.includes(r instanceof Response ? r.status : 502)
     if (failed(up) && rotatable(up) && !abort.signal.aborted && !deadline.signal.aborted && !chainLocked) {
       const to = failoverTargets(gen.policy, route.dialect, decision.model).find((m) => universe.has(m))
@@ -438,7 +438,7 @@ export function createRouter(deps: RouterDeps): Router {
 
   const run = (req: IncomingMessage, res: ServerResponse, slot: LogSlot = {}) => {
     handle(req, res, slot).catch((e: unknown) => {
-      // Router bug: 5xx so the gateway fallback serves the request. No details leave the process.
+      // Router bug: return 500 to the client (the gateway has no fallback). No details leave the process.
       if (!res.headersSent) json(res, 500, { error: 'internal error' })
       else res.destroy()
       if (slot.emitted) return

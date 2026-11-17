@@ -111,7 +111,7 @@ describe('region, catalog and policy (publishable: no built-in region)', () => {
 })
 
 describe('shipped default policy (config/policy.default.json)', () => {
-  it('loads, is observe mode, and serves the gateway fallback models for alias requests', async () => {
+  it('loads, is observe mode, and configures fixed router observeDefaults for alias requests', async () => {
     const raw = readFileSync(new URL('../config/policy.default.json', import.meta.url), 'utf8')
     const c = loadConfig({ ROUTER_POLICY_JSON: raw, ROUTER_REGION: 'ap-southeast-1' })
     expect(raw).not.toMatch(/"(jp|us|eu|apac)\./) // global profiles only; region-specific failovers live in the examples

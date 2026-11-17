@@ -2,7 +2,7 @@
 
 > 面向 agent 流量的 cache-aware 模型路由器。Agent 用原生 SDK（Anthropic Messages、OpenAI Chat Completions、OpenAI Responses）调用 AgentCore Gateway；网关后面的自建 router 选择模型，按字节转发到 Amazon Bedrock。目标是**省钱，同时不打破 prompt cache**。
 >
-> 状态：2026-11-04。数据面 hop 已在 spike V9d 端到端验证；路由引擎、计价、assessor、replay 均已实现并有单元测试；整体部署后的 E2E（E0–E12）已于 2026-11-04 在 `ap-southeast-1` 执行：E6 部分通过、待复测，其余全部通过（§13.5）。文中所有 id 都是占位符（`<account>`、`<region>`、`<api-id>` 等）。
+> 状态：当前 CDK 网关为 fail-closed：只有 router target，auto / catch-all 规则均无 `Fallback`，网关角色无 Bedrock 权限；router 失败返回客户端，router 策略内的 failover 不变。数据面 hop 已在 spike V9d 端到端验证；路由引擎、计价、assessor、replay 均已实现并有单元测试。2026-11-04 在 `ap-southeast-1` 执行的 E2E（E0–E12）属于启用了网关回退链的旧部署：E6 部分通过、待复测，其余全部通过（§13.5），不代表当前 fail-closed 网关已完成部署验证。文中所有 id 都是占位符（`<account>`、`<region>`、`<api-id>` 等）。
 
 ## 目录
 
@@ -62,15 +62,15 @@ Agent 的一次任务往往包含几十到上百次模型调用，而且每次�
 3. **硬锁永不切换。** tool loop 中（最后一条是 tool result）、Responses 的 `previous_response_id` 链、历史里带有目标模型无法接受的状态（thinking signature、encrypted reasoning 等）时，一律保持当前模型。
 4. **降级要过成本门。** 用户新 turn 想降到便宜档时，必须满足 `cost(stay, H) − cost(switch, H) > max(minUsd, (k−1)·cost(switch, H))`，再加上迟滞（minTurns、maxSwitches），防止来回抖动。
 5. **升级为了质量，永远不会靠省钱回本。** 往上切（如 Sonnet → Opus）是质量驱动的，立即生效，不走成本门；它在成本上永远是净支出（§6.3）。
-6. **Failover 按失败类型区分。** 429 先换同一模型的另一个 profile（如 `global.` ↔ `<geo>.`），因为不同 profile 的配额是分开的，一个被限流时另一个往往还有余量。5xx 和连接失败不换 profile：`global.` 本身已经跨 Region 路由，它失败时 geo profile 多半也在失败，换过去只会多一次注定失败的调用，单价还贵约 10%，缓存也是冷的；这时直接换同 tier 的兄弟模型，没有兄弟模型就交给网关 fallback。`previous_response_id` 链上从不换 profile。
-7. **网关管身份与治理，router 管一切与缓存相关的事。** 网关的加权路由和改模型的 fallback 从不用于模型选择；网关 fallback 只用于 router 自身故障时的兜底。
+6. **Failover 按失败类型区分。** 429 先换同一模型的另一个 profile（如 `global.` ↔ `<geo>.`），因为不同 profile 的配额是分开的，一个被限流时另一个往往还有余量。5xx 和连接失败不换 profile：`global.` 本身已经跨 Region 路由，它失败时 geo profile 多半也在失败，换过去只会多一次注定失败的调用，单价还贵约 10%，缓存也是冷的；本次失败返回客户端；下一次请求由 core 按策略尝试同 tier 的兄弟模型，没有合格兄弟模型则保留当前模型。`previous_response_id` 链上从不换 profile。
+7. **网关管身份与治理，router 管一切与缓存相关的事。** 网关只配置 router target，auto / catch-all 规则均无 `Fallback`，也不授予网关角色 Bedrock 权限；router 失败返回客户端，不绕过 router 直接调用固定模型。router 策略内的 failover 保持不变。
 8. **先 observe 后 auto。** 默认只记录"auto 会选什么"（`wouldChoose`），实际服务固定模型；验证指标后再逐步放开。
 
 ## 4. 整体架构
 
 ![逻辑架构](diagrams/01-system-architecture.png)
 
-*图 1：逻辑架构（[SVG](diagrams/01-system-architecture.svg)）。* Agent 客户端带着 Cognito 签发的 access token 调用 AgentCore Gateway 的 `/inference` 路径，token 同时放在 `Authorization` 和 `x-api-key` 里。网关校验 `Authorization` 里的 JWT，用兜底规则把所有请求交给 router target，并用自己的角色做 SigV4（service `execute-api`）。router 先校验 `x-api-key` 里的 token，记录调用方（§9.1）。router 内部是一条固定管线：`summarize` 从请求里抽取 lineage、前缀哈希链和锁信息；`decide` 结合会话缓存状态做决策，必要时咨询 tier assessor；`forward` 只改写 `model` 字段，用 task role 做 SigV4 后调用 Bedrock runtime，并把 SSE 原样回传；`record` 用响应里的 usage 计算成本、更新每个模型的缓存状态。router 返回 5XX 时，网关的 fallback 规则绕过 router，直接用固定模型调用 Bedrock。replay 评估器离线复用 core 和 pricing，对历史 trace 重放不同策略。可选的管理控制台（§9.2）管理成员、策略和评估器，并从 router 日志统计用量、成本和节省。
+*图 1：逻辑架构（[SVG](diagrams/01-system-architecture.svg)；历史图，保留旧部署的回退链，不代表当前 fail-closed 网关）。* Agent 客户端带着 Cognito 签发的 access token 调用 AgentCore Gateway 的 `/inference` 路径，token 同时放在 `Authorization` 和 `x-api-key` 里。网关校验 `Authorization` 里的 JWT，用兜底规则把所有请求交给 router target，并用自己的角色做 SigV4（service `execute-api`）。router 先校验 `x-api-key` 里的 token，记录调用方（§9.1）。router 内部是一条固定管线：`summarize` 从请求里抽取 lineage、前缀哈希链和锁信息；`decide` 结合会话缓存状态做决策，必要时咨询 tier assessor；`forward` 只改写 `model` 字段，用 task role 做 SigV4 后调用 Bedrock runtime，并把 SSE 原样回传；`record` 用响应里的 usage 计算成本、更新每个模型的缓存状态。当前网关只有 router target；router 返回 5XX 时，错误返回客户端，网关不会绕过 router 直接调用 Bedrock。replay 评估器离线复用 core 和 pricing，对历史 trace 重放不同策略。可选的管理控制台（§9.2）管理成员、策略和评估器，并从 router 日志统计用量、成本和节省。
 
 ### 4.1 代码包
 
@@ -104,7 +104,7 @@ createAssessor({ model, transport, pack }).assess(card, signal): Promise<Assesso
 
 ![请求路径](diagrams/02-request-flow.png)
 
-*图 2：请求时序（[SVG](diagrams/02-request-flow.svg)）。* ① 客户端用 Bearer JWT 调用网关；网关校验 JWT，规则 `auto*` 命中 router target，并以网关角色做 SigV4（execute-api）。请求经网关在我们子网里创建的托管私有端点（resource gateway ENI）、按 `routingDomain` 进入 execute-api VPC endpoint，到达私有 REST API。API Gateway 做 AWS_IAM 验签，并用 resource policy 只放行"网关角色 + 本 VPCE"；它从 `context.identity` 注入 `x-router-caller-arn` 和 `x-router-source-vpce`（客户端伪造的值会被覆盖），再经 VPC link 和内部 NLB 送到 Fargate 上的 router。② router 先做 fail-closed 的 hop 校验，再校验 body，然后决策、改写 `model`，用 task role SigV4 调用 Bedrock，把 SSE 逐块回传，流结束后计量并写日志与 EMF。③ router 返回 5XX、连接失败或 610 s 内没有首字节时，网关 fallback 链先调用 Bedrock 上的 Sonnet 5.5；如果它返回 4XX（Chat / Responses 请求必然如此），再改用 GPT-6.1 Sol。整个过程 router 不参与。
+*图 2：请求时序（[SVG](diagrams/02-request-flow.svg)；历史图，③ 回退链及静默熔断回退是旧部署行为，不代表当前 fail-closed 网关）。* ① 客户端用 Bearer JWT 调用网关；网关校验 JWT，规则 `auto*` 命中 router target，并以网关角色做 SigV4（execute-api）。请求经网关在我们子网里创建的托管私有端点（resource gateway ENI）、按 `routingDomain` 进入 execute-api VPC endpoint，到达私有 REST API。API Gateway 做 AWS_IAM 验签，并用 resource policy 只放行"网关角色 + 本 VPCE"；它从 `context.identity` 注入 `x-router-caller-arn` 和 `x-router-source-vpce`（客户端伪造的值会被覆盖），再经 VPC link 和内部 NLB 送到 Fargate 上的 router。② router 先做 fail-closed 的 hop 校验，再校验 body，然后决策、改写 `model`，用 task role SigV4 调用 Bedrock，把 SSE 逐块回传，流结束后计量并写日志与 EMF。③ 当前网关不配置回退链：router 返回 5XX、连接失败或首字节超时，客户端收到错误，不会触发网关直连 Bedrock。图中的 Sonnet → Sol 回退链仅是旧部署的历史记录（§13.5）。
 
 ### 5.1 为什么 hop 是私有 REST API
 
@@ -133,28 +133,27 @@ V9d 验证结果（hop 形态，router 位置为 echo stub，无 Bedrock 调用�
 2. **body 校验**：≤ 10 MiB（413）、合法 JSON（400）、无重复顶层 key（400）；具体模型 id 必须在 catalog ∩（pool ∪ failover ∪ observe 默认）内，否则 400 `pin-not-allowed`。
 3. **决策**：`summarize` → `decide`（可选 assessor）→ beta 兼容性 veto（目标模型已知不接受某个 `anthropic-beta` 时，不切过去）。
 4. **改写**：用最小的顶层 JSON 扫描器只替换 `model` 的值，其余字节不动（有 property test 保证）。可选 hint：Chat 流式请求注入 `stream_options.include_usage` 再把 usage chunk 剥掉（`inject-strip`），否则 Bedrock 不返回 usage。
-5. **转发**：SigV4（service `bedrock`）调用 `bedrock-runtime.<region>.amazonaws.com`。首字节前遇到的状态在 `failover.profileRotateOn` 里（默认只有 429；网络错误按 502 计），并且 policy 给该模型配置了 failover profile 时，换 profile 重试一次。5xx 默认不重试，直接返回，由网关 fallback 接手。
+5. **转发**：SigV4（service `bedrock`）调用 `bedrock-runtime.<region>.amazonaws.com`。首字节前遇到的状态在 `failover.profileRotateOn` 里（默认只有 429；网络错误按 502 计），并且 policy 给该模型配置了 failover profile 时，换 profile 重试一次。5xx 默认不重试，直接返回客户端；网关没有 fallback，下一次请求的 core failover 仍按原策略执行。
 6. **回传**：响应头先写 `x-router-decision: <action>;<point>;<mode>`、`x-router-model`、`x-router-reason`，然后边收边转发；tee 出一路 SSE 解析器累计 usage。针对 hop 的流限制：
    - 上游静默期间，每隔 `ROUTER_SSE_HEARTBEAT_MS`（默认 60 s，0 表示关闭）在完整帧之间写一个 SSE comment（`: keepalive`），覆盖 60–240 s 的静默，避免被 API Gateway 5 分钟的 idle timeout 切断。SDK 会忽略 SSE comment。
    - 上游静默达到 240 s 时视为上游已死（`idle-timeout`，记为 `mid-stream`）。
    - 接近 15 分钟上限（`ROUTER_STREAM_CAP_MS` = 900 s）时客户端被断开，记为 499 `stream-duration-cap`，以区别于普通的 `client-abort`；已收到的 usage 照常计价。
 7. **记录**：流结束（或中断）后 `normalizeUsage` → `costOf` → `engine.record`，写一行 JSON 日志和一个 EMF 文档。中途断流记为 502（`mid-stream`），客户端中止记为 499（`client-abort`），都按已看到的 usage 计价。
 
-### 5.3 网关 fallback
+### 5.3 网关 fail-closed（无 fallback）
 
-只有一条兜底规则（优先级最低，匹配所有模型名，身份识别验证实验 S7 已确认）和一条回退链。不能每条路径一条规则，因为 GatewayRule 的 `MatchPathPattern` 只能匹配一个路径段，没法区分 `/v1/messages` 和 `/v1/chat/completions`。
+当前 CDK 只创建 router target。auto 规则和优先级最低、匹配所有模型名的 catch-all 规则都只指向 router，均不配置 `Fallback`；没有 `bedrock` target，网关角色也没有 Bedrock 调用或模型发现权限。
 
-| 跳 | 目标 | 触发条件 |
+| 路径 / 情况 | 目标 / 结果 | 边界 |
 |---|---|---|
-| 主路由 | router target | 所有请求（具体模型 id 在 router 里按指定模型处理） |
-| fallback 1 | `bedrock` target，固定 Sonnet 5.5 | router 返回 5XX、连接失败，或首字节超时（`FirstByteTimeoutMilliseconds` = 610 s，比 router 非流式请求 600 s 的上游响应头时限略长） |
-| fallback 2 | `bedrock` target，固定 GPT-6.1 Sol | Sonnet 返回 4XX：Chat / Responses 请求就是这样到达 Sol 的，代价是多一次注定失败的 Sonnet 调用 |
+| auto 规则 | router target | alias 请求由 router 策略选择模型 |
+| catch-all 规则 | router target | 具体模型 id 在 router 内校验并按指定模型处理；不是模型回退规则 |
+| router 返回 4XX / 429 / 5XX | 错误返回客户端 | 不触发网关 fallback，不绕过 router 的身份、预算或档位约束 |
+| router 连接失败、首字节超时或目标不可用 | 客户端收到错误 | 无其他 target 接手；网关不会直连 Bedrock |
 
-- 两个 fallback 都失败时，客户端看到最后一个 target 的错误。
-- router 返回的任何 4XX（如 413 超过 10 MiB、400 `pin-not-allowed`）以及 429 都**直接**返回客户端，不触发 fallback。
-- `bedrock` target 的请求头白名单不含 `x-api-key`：Bedrock 不接受同时带 `x-api-key` 和 `Authorization` 的请求，否则带身份头的调用回退时会 400（实验 S7 发现并修正）。
-- 客户端只能从响应 body 里的 `model` 看出走了 fallback；router 没见过这次请求，下一次请求它会把前缀不匹配当作断点处理。
-- **熔断**：网关的 circuit breaker 默认开启。router 连续返回 5xx 时，网关可能把 router 暂时摘掉，所有流量会静默地全部走固定的 fallback 模型，这段时间 router 没有任何计量（网关 fallback 服务的 turn 本来就不经过 router，E6 / E7 已确认）。摘除和恢复的时间尚未测量。
+- router 的 profile 重试、同 tier 跨模型 failover 和 Responses 链硬锁不变（§6.4）；移除的是网关绕过 router 的回退链，不是 router 策略内的 failover。
+- 网关的 circuit breaker 默认开启；即使暂时摘除 router，也没有固定模型可以静默接手。摘除和恢复的时间仍待测量。
+- **历史部署**曾配置 Sonnet 5.5 → GPT-6.1 Sol 的回退链，旧 E6 / E7 观察保留在 §13.5。旧实验 S7 还发现：Bedrock 不接受同时带 `x-api-key` 和 `Authorization` 的回退请求，随后修正了旧 `bedrock` target 的头白名单；当前没有该 target。图 1 / 图 2 保留旧回退链，仅作历史记录，不代表当前配置。
 
 ## 6. 路由决策
 
@@ -207,7 +206,7 @@ cost(m, H) = Σ costOf(usage_i)                                    （长上下�
 
 - 每个 profile 单独记录失败时间（窗口默认 10 s）。
 - 换 profile 要同时满足两个条件：policy 给该 pool 条目配置了 `failover` 列表，并且失败状态在 `failover.profileRotateOn` 里（默认 `[429]`，可以加上 5xx 状态，`[]` 表示关闭）。原因：global 和 geo profile 的配额分开计算，429 换 profile 有机会成功；`global.` 本身已经跨 Region 路由，5xx 时 geo profile 大概率也不可用。
-- 默认 policy 只用 global profile，因此没有 router 内重试：5xx 交给网关 fallback，下一次请求 core 再把会话切到同 tier 兄弟。
+- 默认 policy 只用 global profile，因此没有 router 内重试：5xx 返回客户端，下一次请求 core 再按策略尝试把会话切到同 tier 兄弟；网关不再提供 fallback。
 - 5xx 或所有 profile 都失败时才离开当前模型。tool loop 内还要求历史里没有不可移植状态，目标是同 tier、能通过 gate 的兄弟，才允许跨模型；否则保持当前模型（reason 会写明 `no profile rotation on <status>`）。
 - `previous_response_id` 链从不换 profile（跨 profile 读取已存储的 response 尚未验证）。
 
@@ -296,7 +295,7 @@ Policy 是一份带版本的 JSON：模式（observe / auto）、alias、每种 
 | router 自身 | `apigw-iam` hop 校验 fail-closed（§5.2）；没有生产代码里的测试旁路；本地测试旁路只在绑定 loopback 时允许 |
 | 网络 | router 在私有子网，无 IGW、无 NAT；NLB 安全组没有入站规则（只有 VPC link 流量能进）；router 安全组只放行 NLB 的 8080；出站只经 VPC endpoint |
 | router → Bedrock | task role SigV4。`bedrock:InvokeModel*` **只授予 policy 里用到的模型**（pool、failover、observe 默认），按跨 Region 推理的标准模式授权，不用通配模型 ARN |
-| 网关角色 | 只有 router API stage 的 `execute-api:Invoke`、两个 fallback 模型的 `bedrock:InvokeModel*`，以及 Bedrock connector 模型发现所需的 List/Get |
+| 网关角色 | 只有 router API stage 的 `execute-api:Invoke`；无 Bedrock 调用或模型发现权限，不能绕过 router 直连 Bedrock |
 | 凭证不落地 | API Gateway 会把网关会话的 `x-amz-security-token` 透传下来，集成把它覆盖为固定值 `redacted`；router 记录 `hopToken` 状态，一旦看到非预期值就发 `Alerts` 指标 |
 | 日志卫生 | 从不记录 body、prompt、原始 session id，以及除 `anthropic-version`、`anthropic-beta`、`openai-beta`、`content-type` 之外的任何头值；有回归测试断言 `authorization`、`x-amz-security-token`、`x-api-key`、`cookie` 永不出现；lineage 只记哈希前缀；assessor 的 audit 可能引用 prompt，不进入决策对象 |
 | 部署顺序 | 先以 `routerDesiredCount=0` 部署，验证匿名 / 错误 token / 直连 API / 直连 NLB 和 task 全部被拒（E0），再扩到 1 |
@@ -305,9 +304,9 @@ Policy 是一份带版本的 JSON：模式（observe / auto）、alias、每种 
 
 - **做法。** 客户端把同一个 Cognito access token 发两次：`Authorization: Bearer` 给网关校验，`x-api-key` 给 router 校验。网关只认 `Authorization`，`x-api-key` 原样转发（身份识别验证实验 S1/S2）。router 在进程内校验 `x-api-key` 的 JWT：RS256 签名（公钥来自 user pool 的 JWKS，由 `jwks-sync` 每小时写到配置桶，router 不访问互联网）、签发方、`token_use=access`、有效期和 scope `<prefix>/invoke`。调用方记为 `principal`（成员是 `sub`，服务客户端是 client id），日志里只有 id，没有用户名和邮箱。
 - **模式。** `off`（不读这个头）、`observe`（校验并记录；缺失或无效时照常服务，记为未归属）、`require`（缺失或无效返回 401）。`observe` 下，拦截、预算和档位上限对每个带有效 `x-api-key` 的调用都生效，不带的调用照常服务、不归属，也不受约束；只有 `require` 下才对所有人生效。
-- **拦截和预算。** 控制台写拦截名单和调用方名单（组和档位上限），router 每 30 秒轮询，约 35 秒内生效。用量导入写预算拦截名单：它在 CloudWatch Logs 分批送达日志后才运行（通常不到 3 分钟），再加上 router 的 30 秒轮询，所以预算拦截在几分钟内生效，这段时间内的请求照常通过，支出可能略微超出预算。被拦截返回 403 `identity-blocked`，预算用完返回 429 `budget-exceeded`。都是 4xx，所以不会触发网关回退；router 从不为此返回 5xx，否则回退会绕过 router。
+- **拦截和预算。** 控制台写拦截名单和调用方名单（组和档位上限），router 每 30 秒轮询，约 35 秒内生效。用量导入写预算拦截名单：它在 CloudWatch Logs 分批送达日志后才运行（通常不到 3 分钟），再加上 router 的 30 秒轮询，所以预算拦截在几分钟内生效，这段时间内的请求照常通过，支出可能略微超出预算。被拦截返回 403 `identity-blocked`，预算用完返回 429 `budget-exceeded`。这些是身份 / 预算拒绝而不是 router 故障，仍返回 4xx；当前网关无回退链，即使 router 返回 5xx 也不会绕过这些约束直接调用 Bedrock。
 - **为什么不是自造认证。** 网关仍然负责认证；router 只是用 user pool 公开的密钥校验一个标准的 Cognito JWT，用于归属、拦截和预算。要冒用别人，必须持有对方的有效 token，而这本来就等于完全冒充。
-- **剩余限制。** 会话头仍由客户端自行声明：同一个会话 id 可能被别人撞上或污染 lineage，但状态里只有哈希、计数和模型 id，影响仅限路由质量。router 出错时由网关回退服务的调用不经过 router，不归属、不计量，也不受拦截和预算约束。
+- **剩余限制。** 会话头仍由客户端自行声明：同一个会话 id 可能被别人撞上或污染 lineage，但状态里只有哈希、计数和模型 id，影响仅限路由质量。旧部署的网关回退调用曾绕过 router，不归属、不计量，也不受拦截和预算约束；当前 fail-closed 网关已移除该旁路，router 故障返回客户端（§5.3）。
 
 ### 9.2 管理控制台
 
@@ -351,7 +350,7 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
   --parameters S3PrefixListId=<prefix-list-id>
 ```
 
-**按 Region 的差异**：模型池和 failover profile 都要在所选 Region 的目录里存在，否则 synth 和启动都会失败。有 geo profile 的 Region（如 Tokyo 的 `jp.`）可以配置同模型 failover（默认只在 429 时使用），示例 policy 已经加了这些 profile；只有 global profile 的 Region，failover 就是跨模型（交给网关 fallback 和下一次请求的 core）。
+**按 Region 的差异**：模型池和 failover profile 都要在所选 Region 的目录里存在，否则 synth 和启动都会失败。有 geo profile 的 Region（如 Tokyo 的 `jp.`）可以配置同模型 failover（默认只在 429 时使用），示例 policy 已经加了这些 profile；只有 global profile 的 Region，没有同请求内的 profile 重试，失败先返回客户端，下一次请求由 core 按策略尝试同 tier 跨模型 failover；不再交给网关 fallback。
 
 **固定成本（估算）**：即使 `routerDesiredCount=0`，interface endpoint 和 NLB 也按小时计费。以 ap-southeast-1 为例（AWS Price List API 的 On-Demand 价格，2026-11-05 查询）：
 
@@ -396,15 +395,15 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 
 | 约束 | 影响 | 处理 |
 |---|---|---|
-| 请求上限 10 MiB | API Gateway REST 的 payload 上限（网关本身可以 ≥ 12 MB）；超出返回 413，是 4XX，**不触发** fallback | router 的 `ROUTER_MAX_BODY_BYTES` 也是 10 MiB；写进文档 |
+| 请求上限 10 MiB | API Gateway REST 的 payload 上限（网关本身可以 ≥ 12 MB）；超出返回 413 给客户端；当前网关无 fallback | router 的 `ROUTER_MAX_BODY_BYTES` 也是 10 MiB；写进文档 |
 | 流总时长 15 分钟 | 单个响应流约 901 s 处被干净地切断，客户端看不到错误事件 | 硬上限：router 把它记为 `stream-duration-cap`（499）；长的 agent turn 应当流式返回，并控制在 15 分钟以内 |
 | 静默 5 分钟会断流 | 上游静默超过 300 s，流被干净关闭 | 已实现：上游静默期间每 60 s 写 SSE comment 心跳；上游静默 240 s 视为上游已死，记为 `mid-stream`。E10 验证：心跳让流撑过 330 s 的停顿，并能穿过 AgentCore 到达客户端 |
 | 调用方身份 | 已解决：router 校验 `x-api-key` 里的 token 并按调用方统计；会话头仍由客户端声明 | §9.1 |
 | 单 task 内存状态 | MVP 只跑一个 task；多个 task 时状态按 task 分裂，缓存跟踪退化为接近指纹；重启丢状态（下一次请求视为断点） | 外部存储（DynamoDB / ElastiCache）是后续工作 |
 | `anthropic-beta` | Bedrock 会校验 beta 值；切到不支持某个 beta 的模型会 400 | beta deny list：已知被拒的 beta 会否决切换；未知 beta 放行，由 Bedrock 校验 |
-| 网关 fallback 不能按 API 选模型 | `MatchPathPattern` 只能匹配一个路径段 | 单规则回退链：Sonnet 5.5，遇 4XX 再改用 GPT-6.1 Sol；Chat / Responses 的回退因此多一次注定失败的调用（§5.3） |
-| 网关 fallback 的 turn 不可见（E6 / E7 已确认） | 网关 fallback 服务的 turn 根本到不了 router，router 的成本、日志和会话状态里都没有它们，也不归属、不受拦截和预算约束 | 网关不提供 fallback 指标；控制台用 router 5xx、不健康的 router 目标和任务数作为间接迹象；对比 router 的 `Requests` 与网关侧流量 |
-| 网关熔断 | router 连续 5xx 后可能被网关摘掉，`auto*` 流量静默地走 fallback，同样没有 router 计量 | 摘除和恢复的时间尚未测量（§14）；监控方式同上 |
+| 网关 fail-closed | router 不可用时没有网关级模型兜底，客户端收到错误 | 只有 router target，auto / catch-all 均无 `Fallback`，网关角色无 Bedrock 权限；router 内的 failover 不变（§5.3 / §6.4） |
+| 旧部署的网关 fallback turn 不可见（历史 E6 / E7） | 当时回退调用绕过 router，不在 router 成本、日志和状态里，也不受身份、拦截和预算约束 | 当前已移除网关回退旁路；旧实验观察保留在 §13.5，不作为当前行为 |
+| 网关熔断 | router 连续 5xx 后可能被网关暂时摘掉；当前没有其他 target，不能静默回退到固定模型 | 摘除和恢复的时间尚未测量（§14）；关注 router 5xx、router 目标健康和任务数，并对比 router `Requests` 与网关侧流量 |
 | 跨 profile 的 Responses 链 | 已存储的 response 能否跨 profile 读取尚未验证 | `previous_response_id` 链上从不换 profile |
 | 部分流的计价 | 在 `message_delta` 或最后的 usage chunk 之前断流，没有实测用量；中途 502 后不做缓存记账（热度估计偏悲观） | router 记 `usageMissing` 和近似上限 `costBoundUsd`（提示按每 4 个字符 1 个 token 估算，对中日韩文本可能偏低；没有输出上限时只含输入）；控制台把它们作为未计量调用单独显示，不计入节省 |
 | Responses `GET` / `DELETE` | `/inference` 上不可路由 | 不在 MVP 内；需要时加 HTTP passthrough target |
@@ -457,7 +456,7 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 
 ### 13.4 其他已验证事实
 
-- 网关前门 spike（V0–V8）：
+- 网关前门 spike（V0–V8；历史实验，不代表当前网关配置）：
   - 三种 API、两种 target 类型上都是字节级透传；SSE 保持增量。
   - header allowlist 每个方向最多 10 个。
   - `cache_control` 和 1h TTL 能穿过网关（写 9,615 token → 读 9,615 token）。
@@ -467,7 +466,7 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 
 ### 13.5 端到端验证
 
-2026-11-04 在 `ap-southeast-1` 对已部署的 MVP 执行。整次运行的 Bedrock 花费是 $0.036；跑完后 stack 已销毁，拆除验证列举为空。
+2026-11-04 在 `ap-southeast-1` 对已部署的 MVP 执行。**这是启用了网关回退链的旧部署**；下表保留原始观察和结果，尤其 E6 / E7，不代表当前 fail-closed 网关行为或其部署验证。整次运行的 Bedrock 花费是 $0.036；跑完后 stack 已销毁，拆除验证列举为空。
 
 | 项 | 内容 | 结果 |
 |---|---|---|
@@ -485,7 +484,7 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 | E11 router overhead | p50 0 ms，p99 3 ms（要求 < 20 / < 100 ms） | 通过 |
 | E12 日志卫生 | 没有 JWT、AWS key id、Bearer、SigV4、security-token 头、prompt 文本或 client secret | 通过 |
 
-确认的限制：网关 fallback 服务的 turn 不会经过 router，所以不在 router 的成本、日志和状态里（§12）。
+旧部署确认的限制：网关 fallback 服务的 turn 不会经过 router，所以不在 router 的成本、日志和状态里。当前配置已移除该回退链（§5.3 / §12）；上述实验观察仍保留。
 
 ### 13.6 身份识别与管理控制台的端到端验证
 
@@ -506,10 +505,10 @@ npx cdk deploy -c region=<region> -c account=<account> -c tags='{"Owner":"team-x
 
 | 项 | 状态 |
 |---|---|
-| 整体部署后的 E2E（E0–E12，§13.5） | 已完成；E6 部分通过，待复测（harness 已修正，下次部署时重跑） |
+| 整体部署后的 E2E（E0–E12，§13.5，旧部署） | 历史运行已完成；E6 部分通过，原 harness 已修正。下一次部署需验证当前 fail-closed 网关的错误返回 / 无直连 Bedrock 旁路，并复测 router 策略内的 failover；不把旧 E7 通过改写成新行为已验证 |
 | 外部状态存储（DynamoDB / ElastiCache），支持多个 task | 后续 |
 | Assessor prompt pack v2（收紧 `mechanical-edit`），重测后再打开 fast 边界规则的 auto | 完成：v2.1 为默认 pack；fast 边界规则开启 auto 要等真实会话的 observe 数据（router 已记录 `proposedTier` / `basis` / `outcome`，见 [assessor 设计 §7.3](assessor-design.zh-CN.md#73-失败容忍和日志)） |
-| 网关熔断：router 连续 5xx 后被摘掉、流量静默走 fallback 的行为和恢复时间（E7 只验证了回退链） | 待测量 |
+| 网关熔断：当前 fail-closed 配置下 router 连续 5xx 后的摘除、错误返回及恢复时间 | 待测量；旧 E7 只验证了旧部署的回退链，不是当前配置的验证 |
 | `auto:*` 作为 target 模型 glob | 待验证 |
 | 成本估计加入"切回原模型的重写"项 | 后续（需要先有 replay 数据） |
 | 已缓存的失败咨询（timeout / error）加短 TTL | 后续 |

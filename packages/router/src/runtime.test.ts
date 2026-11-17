@@ -352,7 +352,7 @@ describe('access caps at the router (design 0.3a, 0.16)', () => {
     expect(fake.requests.map((r) => r.json.model)).toEqual([SONNET, OPUS, OPUS])
   })
 
-  it("core's AccessCapError is a 400 with its code, never a 5xx (the gateway fallback would bypass the router)", async () => {
+  it("core's AccessCapError is a 400 with its code, never a 5xx (an access rejection, not a router failure)", async () => {
     const fake = await startFakeBedrock(anthropicReply)
     let code: 'access-cap' | 'access-cap-context' = 'access-cap-context'
     const router = await startRouter(fake.url, {

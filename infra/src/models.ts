@@ -1,6 +1,6 @@
 // Model ids the stack grants, from the deploy's policy file validated against the deploy region's price catalog
 // (the same checks the router runs at boot). The task role may invoke exactly the router's allowed models; the
-// gateway role only the pinned fallback models.
+// gateway role signs only the router hop and has no Bedrock permissions.
 import { readFileSync } from 'node:fs'
 import { checkPolicyAgainstCatalog, validatePolicy, type Policy } from '@auto-router/core'
 import { loadCatalog, validateCatalog, type PriceCatalog } from '@auto-router/pricing'
@@ -15,19 +15,13 @@ export const ASSESSOR_DEFAULT_PACK = 'v2.2'
 /** The router's shipped default policy (global profiles only). Deployments pass their own with -c policyFile=. */
 export const DEFAULT_POLICY_FILE = new URL('../../packages/router/config/policy.default.json', import.meta.url).pathname
 
-/** Gateway fallback (rule 5XX -> bedrock target): standard tier, global profiles. Must exist in the region catalog. */
-export const FALLBACK = {
-  messages: 'global.anthropic.claude-sonnet-5-5',
-  openai: 'global.openai.gpt-6.1-sol',
-} as const
-
 export interface DeployModels {
-  policy: Policy; catalog: PriceCatalog; routerModels: string[]; fallbackModels: string[]
-  /** Models that can serve the Responses API (router pool, or the OpenAI fallback): they also need the default project. */
-  routerResponsesModels: string[]; fallbackResponsesModels: string[]
+  policy: Policy; catalog: PriceCatalog; routerModels: string[]
+  /** Router models that can serve the Responses API: they also need the default project. */
+  routerResponsesModels: string[]
 }
 
-/** Loads and cross-checks policy, catalog and fallback models for the deploy region; throws SettingsError. */
+/** Loads and cross-checks policy and catalog for the deploy region; throws SettingsError. */
 export function deployModels(s: Settings, read: (p: string) => string = (p) => readFileSync(p, 'utf8')): DeployModels {
   const issues: string[] = []
   let catalog: PriceCatalog | undefined
@@ -39,8 +33,6 @@ export function deployModels(s: Settings, read: (p: string) => string = (p) => r
   try { policy = validatePolicy(JSON.parse(read(s.policyFile))) } catch (e) { issues.push(`policyFile ${s.policyFile}: ${(e as Error).message}`) }
   if (policy && catalog) {
     try { checkPolicyAgainstCatalog(policy, catalog) } catch (e) { issues.push(`policy vs ${s.region} catalog: ${(e as Error).message}`) }
-    const known = new Set(catalog.models.map((m) => m.modelId))
-    for (const m of Object.values(FALLBACK)) if (!known.has(m)) issues.push(`fallback model '${m}' is not in the ${s.region} catalog`)
   }
   if (issues.length || !policy || !catalog) throw new SettingsError(issues)
   const routerModels = modelUniverse(s.modelUniverse, policy, catalog, issues)
@@ -53,8 +45,7 @@ export function deployModels(s: Settings, read: (p: string) => string = (p) => r
     ...(policy.observeDefaults?.['openai-responses'] ? [policy.observeDefaults['openai-responses']] : []), ...responsesCapable])].sort()
   if (s.assessor) checkAssessor(s.assessor, catalog, routerModels, routerResponsesModels, read, issues)
   if (issues.length) throw new SettingsError(issues)
-  return { policy, catalog, routerModels, fallbackModels: [...new Set(Object.values(FALLBACK))].sort(),
-    routerResponsesModels, fallbackResponsesModels: [FALLBACK.openai] }
+  return { policy, catalog, routerModels, routerResponsesModels }
 }
 
 /**

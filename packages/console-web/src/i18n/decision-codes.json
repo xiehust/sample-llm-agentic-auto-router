@@ -567,8 +567,8 @@
             "zh-CN": "故障切换已用尽"
           },
           "desc": {
-            "en": "No alternative was possible (locked, or no sibling); the model was kept and the gateway fallback may serve the request.",
-            "zh-CN": "无可用替代（锁定或无同档位模型），保持原模型，网关回退可能接管请求。"
+            "en": "No alternative was possible (locked, or no sibling); the model was kept. Any upstream failure is returned to the caller, without direct model invocation by the gateway.",
+            "zh-CN": "无可用替代（锁定或无同档位模型），保持原模型。如上游调用失败，则将失败返回给调用方，网关不会直接调用模型。"
           },
           "tone": "error"
         },
@@ -864,8 +864,8 @@
             "zh-CN": "模型已变更"
           },
           "desc": {
-            "en": "A different model served than the one holding the cache (switch, failover or gateway fallback).",
-            "zh-CN": "实际服务的模型不是持有缓存的模型（切换、故障切换或网关回退）。"
+            "en": "A different model served than the one holding the cache (router switch or failover).",
+            "zh-CN": "实际服务的模型不是持有缓存的模型（router 切换或故障切换）。"
           },
           "tone": "notice"
         },
@@ -1623,8 +1623,8 @@
             "zh-CN": "无可用模型"
           },
           "desc": {
-            "en": "503: the engine could not choose a model; the gateway fallback serves the request.",
-            "zh-CN": "503：引擎无法选择模型；由网关回退处理请求。"
+            "en": "503: the engine could not choose a model; the request fails. Router-only gateways do not invoke a model directly.",
+            "zh-CN": "503：引擎无法选择模型，请求失败。router-only 网关不会直接调用模型。"
           },
           "tone": "error"
         },

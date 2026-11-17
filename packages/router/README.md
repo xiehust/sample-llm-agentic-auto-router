@@ -37,7 +37,7 @@ docker build -f packages/router/Dockerfile -t llmar-router .          # from the
 
 - **Routes.** `POST /v1/messages`, `/v1/chat/completions` and `/v1/responses` go to Bedrock `/anthropic/...` and `/openai/...`. `GET /healthz` needs no auth. `GET /v1/models` (the gateway's model discovery) is behind hop auth and lists the router aliases, in a shape both the OpenAI and the Anthropic SDK parse. Everything else, including Responses GET/DELETE, gets 404 (out of the MVP).
 - **Decision headers.** `x-router-decision: <action>;<point>;<mode>`, `x-router-model` (the model actually served, which differs after a failover) and `x-router-reason` (the reason code).
-- **Errors that trigger the gateway fallback:**
+- **Errors returned to the client (the gateway has no model fallback):**
   - core finds no eligible model: 503;
   - the upstream network fails: 502;
   - an upstream 5xx after one failover: passed through;
@@ -45,10 +45,10 @@ docker build -f packages/router/Dockerfile -t llmar-router .          # from the
 - **`chatIncludeUsage: inject-strip`.** The client stream matches a request without `include_usage`. The usage-only chunk is dropped, and the top-level `"usage":null` that Bedrock adds to every other chunk is removed.
 - **Tier assessor.** Off by default. `ROUTER_ASSESSOR_MODE=observe|auto` turns it on; `ROUTER_ASSESSOR_MODEL` (default `global.openai.gpt-6-luna`, must be a policy model), `ROUTER_ASSESSOR_THRESHOLD` (0.8), `ROUTER_ASSESSOR_PACK` (`v2.2`), `ROUTER_ASSESSOR_TIMEOUT_MS` (5000; core's hard bound adds `ASSESSOR_GRACE_MS`, 100 ms) and `ROUTER_ASSESSOR_AUTO_RULES` (`pack`, or `all` for experiments) tune it. `main.ts` builds it with `createRouterAssessor` on the data-plane signer and upstream; the router passes the card to `engine.decide` and logs each consultation as `log.assessor` (codes and numbers only). Design: [docs/architecture/assessor-design.zh-CN.md](../../docs/architecture/assessor-design.zh-CN.md).
 - **Assessor seam.** `RouterDeps.card = (summary, body, ctx) => buildCard(summary, body, ctx)` (from `@auto-router/assessor`) still works for a custom builder. The router calls `engine.decide(summary, { card: (ctx) => card(summary, body, ctx) })`, so core's CardContext (current model/tier, parent tier, compactions, lineage kind) reaches the card.
-- **Concrete model ids are not routed.** The gateway sends only `auto` / `auto:*` to the router. A concrete Bedrock id in the body goes to the gateway's Bedrock fallback target, where the gateway role only allows the two fallback models, so it gets a 403. Use `x-router-hint: pin=<id>` for a policy model.
+- **Concrete model ids are pins.** The gateway sends every model id to the router. A concrete Bedrock id in the body is served only if the policy and caller's tier limit permit it; otherwise the router rejects it. `x-router-hint: pin=<id>` also pins a policy model.
 - **Models.** Concrete ids, whether a body `model` or an `x-router-hint` pin, must be in catalog ∩ (pool models ∪ failover profiles ∪ observe defaults). Anything else gets 400 `pin-not-allowed` before any upstream call, in observe mode too. To pin a model, add it to the policy. The infra task role grants exactly this set. Logs show `requested` as a known id or alias, else `other` plus `requestedLength`.
 - **anthropic-beta.** The table is a deny list: a model is vetoed only for a beta it is known to reject, and unknown betas are allowed because Bedrock validates them. Observe mode never changes the served model; it only annotates `wouldChoose`. Auto mode moves a vetoed switch/initialize only to a same-or-higher tier model (the current model first), and keeps the decision when there is none.
-- **Failover.** One retry on another profile of the same model, when the policy lists failover profiles (geographic profiles in Regions that have them) and the status is in `failover.profileRotateOn` (default `[429]`; a network error counts as 502). Global and geo profiles have separate quotas, so a throttle may clear on the other one; a 5xx on `global.`, which already routes across Regions, is very likely shared, so it is not retried there. A 5xx (or any failure with global-only profiles) goes to the gateway fallback rule, and core fails the session over to a same-tier sibling on the next call. Each failed attempt is recorded to core first. There is no rotation inside a `previous_response_id` chain.
+- **Failover.** One retry on another profile of the same model, when the policy lists failover profiles (geographic profiles in Regions that have them) and the status is in `failover.profileRotateOn` (default `[429]`; a network error counts as 502). Global and geo profiles have separate quotas, so a throttle may clear on the other one; a 5xx on `global.`, which already routes across Regions, is very likely shared, so it is not retried there. A 5xx (or any failure with global-only profiles) is returned to the client, and core fails the session over to a same-tier sibling on the next call when the policy provides one. Each failed attempt is recorded to core first. There is no rotation inside a `previous_response_id` chain.
 - **Auth edges.** A 403 sends `connection: close` and the socket is dropped after 250 ms. `Expect: 100-continue` is authenticated before `100 Continue` is sent.
 - **Partial calls.** A mid-stream upstream failure is logged and recorded to core as 502 (`reason: mid-stream`), so failover sees it. A client abort is logged as 499 (`reason: client-abort`) and recorded with the upstream status. Both log, price and record the usage seen so far. Limits:
   - The output tokens of a stream cut before `message_delta` (Anthropic), or before the final usage chunk (OpenAI), are unknown and counted as 0, so the price is a lower bound.
@@ -58,7 +58,7 @@ docker build -f packages/router/Dockerfile -t llmar-router .          # from the
 
 ## Adding same-tier siblings (optional)
 
-The shipped `config/policy.default.json` has one model per tier, and relies on the gateway's 5XX fallback when a model fails. That keeps quality, cache warmth and the IAM allowlist predictable. You can give core a cross-model failover target by adding a second model to a tier. core then moves a failing session to that sibling on its next call (`point: failover`), instead of retaining with `failover: exhausted`:
+The shipped `config/policy.default.json` has one model per tier, so a model failure is returned to the client when no profile retry applies. There is no gateway model fallback. That keeps quality, cache warmth and the IAM allowlist predictable. You can give core a cross-model failover target by adding a second model to a tier. core then moves a failing session to that sibling on its next call (`point: failover`), instead of retaining with `failover: exhausted`:
 
 ```jsonc
 // pools.anthropic-messages.models
@@ -74,7 +74,7 @@ The shipped `config/policy.default.json` has one model per tier, and relies on t
 
 | Limit | Value | Behaviour |
 |---|---|---|
-| Request size | 10 MiB | API Gateway returns 413 (a 4xx, so no gateway fallback). The router also rejects above 10 MiB. |
+| Request size | 10 MiB | API Gateway returns 413. The router also rejects above 10 MiB. |
 | Stream duration | 15 min per response | API Gateway closes the stream cleanly, with no error or final event. The router logs `stream-duration-cap`. Long agent turns should stream, which they normally do, and stay under 15 min. |
 | Idle stream | 5 min (API Gateway) | Bridged by the router's SSE heartbeat (60 s). An upstream that stays silent 240 s is treated as dead (`idle-timeout`, logged `mid-stream`). |
-| Gateway fallback | 5XX, connection errors, first-byte timeout (610 s) | 4xx (including 413 and 429) goes back to the client. The router's own profile retry handles statuses in `failover.profileRotateOn` (default 429 only) where the policy lists failover profiles. |
+| Gateway failure handling | Fail closed; no direct model target | Router errors, connection failures and timeouts fail the request. The router's own profile retry handles statuses in `failover.profileRotateOn` (default 429 only) where the policy lists failover profiles. |

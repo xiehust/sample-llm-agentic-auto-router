@@ -15,7 +15,7 @@ import {
 import type { Construct } from 'constructs'
 import { BAKED_KEY, bakedArtifact, bakedVersionKey, type BakedArtifact } from './baked.ts'
 import { routerParamName, type RouterParam } from './console-stack.ts'
-import { baseModelId, FALLBACK, invokeStatements, responsesProjectStatement, type DeployModels } from './models.ts'
+import { baseModelId, invokeStatements, responsesProjectStatement, type DeployModels } from './models.ts'
 import type { Settings } from './settings.ts'
 
 export const ROUTER_PORT = 8080
@@ -23,8 +23,6 @@ export const ROUTER_PORT = 8080
 export const STAGE = 'v1'
 /** API Gateway REST payload cap (V9d: 12 MB gets 413 at the API). The router rejects above it too. */
 export const MAX_BODY_BYTES = 10 * 1024 * 1024
-/** Gateway route first-byte timeout: above the router's 600 s non-stream header timeout. */
-export const FIRST_BYTE_TIMEOUT_MS = 610_000
 /**
  * Request headers the gateway forwards to the router (at most 10). `x-api-key` carries the client's Cognito access
  * token a second time; the router verifies it (admin console design v1 0.1, spike C1: forwarded unchanged).
@@ -33,12 +31,7 @@ export const REQUEST_HEADERS = [
   'x-claude-code-session-id', 'x-session-id', 'anthropic-beta', 'anthropic-version', 'openai-beta',
   'x-router-session', 'x-router-parent-session', 'x-router-agent-id', 'x-router-hint', 'x-api-key',
 ]
-/**
- * Request headers the Bedrock fallback target forwards. Explicit, so the client's x-api-key never reaches
- * bedrock-runtime (spike C1 S7: Bedrock answers 400 "Cannot provide both x-api-key and Authorization headers").
- */
-export const BEDROCK_REQUEST_HEADERS = ['anthropic-version', 'anthropic-beta', 'openai-beta']
-/** Gateway rule priorities (lower number first, spike C1 S7): auto* with fallback, then the catch-all to the router. */
+/** Gateway rule priorities (lower number first): auto* and the catch-all both route only to the router. */
 export const RULE_PRIORITY = { auto: 100, catchAll: 1_000_000 } as const
 /** Identity objects the router reads from the config bucket (router identity.ts, runtime config). */
 export const CONFIG_KEYS = { document: 'config/active.json', identityPrefix: 'identity/', jwks: 'identity/jwks.json' } as const
@@ -215,7 +208,7 @@ export class RouterStack extends Stack {
     new cognito.CfnManagedLoginBranding(this, 'CliBranding', { userPoolId: pool.userPoolId, clientId: cli.userPoolClientId, useCognitoProvidedValues: true })
       .node.addDependency(domain)
 
-    // ---------------------------------------------------------------- gateway role (hop signer + fallback models only)
+    // ---------------------------------------------------------------- gateway role (router hop signer only; no Bedrock access)
     const gatewayRole = new iam.Role(this, 'GatewayRole', {
       roleName: n('gateway-role'),
       assumedBy: new iam.ServicePrincipal('bedrock-agentcore.amazonaws.com', { conditions: {
@@ -231,13 +224,6 @@ export class RouterStack extends Stack {
       const project = responsesProjectStatement(responsesIds, cfg.region, Aws.ACCOUNT_ID)
       if (project) role.addToPolicy(new iam.PolicyStatement({ sid: `${sidPrefix}${project.sid}`, actions: ['bedrock:InvokeModel'], resources: project.resources, conditions: project.conditions }))
     }
-    grantInvoke(gatewayRole, models.fallbackModels, models.fallbackResponsesModels, 'Fallback')
-    gatewayRole.addToPolicy(new iam.PolicyStatement({
-      sid: 'ConnectorDiscovery', resources: ['*'],
-      actions: ['bedrock:ListFoundationModels', 'bedrock:ListInferenceProfiles', 'bedrock:GetInferenceProfile', 'bedrock:GetFoundationModel',
-        'bedrock:ListProvisionedModelThroughputs', 'bedrock:ListCustomModelDeployments', 'bedrock:ListImportedModels',
-        'bedrock:ListMarketplaceModelEndpoints', 'bedrock:ListPromptRouters'],
-    }))
 
     // ---------------------------------------------------------------- execute-api endpoint (private DNS off) + NLB
     // The endpoint policy admits only the gateway role (the API's resource policy names the endpoint, so the endpoint
@@ -319,52 +305,29 @@ export class RouterStack extends Stack {
     })
     // Target creation runs model discovery (GET /v1/models) through the stage, so the API must be deployed first.
     routerTarget.node.addDependency(stage)
-    const bedrockTarget = new agentcore.CfnGatewayTarget(this, 'BedrockTarget', {
-      gatewayIdentifier: gateway.attrGatewayIdentifier, name: 'bedrock', description: 'fallback only (pinned standard-tier models)',
-      targetConfiguration: { inference: { connector: { source: { connectorId: 'bedrock-runtime' } } } },
-      credentialProviderConfigurations: [{ credentialProviderType: 'GATEWAY_IAM_ROLE' }],
-      metadataConfiguration: { allowedRequestHeaders: BEDROCK_REQUEST_HEADERS },
-    })
-    // auto* -> router; on router 5XX/connection errors -> Bedrock with a pinned standard-tier model. Rule MatchPaths
-    // only accept one-segment prefixes (API pattern `/[\w\-.]+/\*`, e.g. /inference/*), so a per-API fallback model
-    // is a two-step chain: the Messages model first; on Chat/Responses Bedrock rejects Claude (4XX), which moves on
-    // to the OpenAI model. Costs: one extra (unbilled, rejected) Bedrock call on those paths, and if both fail the
-    // client sees the last target's error. The route's first-byte timeout sits just above the router's own
-    // non-stream header timeout (600 s), so the router reports first.
-    // CloudFormation documents MatchModels and Fallback; this aws-cdk-lib's L1 and bundled schema predate them.
+    // Fail closed: router errors, connection failures and timeouts return to the client. There is no fallback
+    // target that could bypass the router's identity checks, routing policy or accounting.
+    // CloudFormation documents MatchModels; this aws-cdk-lib's L1 and bundled schema predate it.
     const rule = new agentcore.CfnGatewayRule(this, 'RouteAuto', {
       gatewayIdentifier: gateway.attrGatewayIdentifier, priority: RULE_PRIORITY.auto,
-      description: `auto* -> router; router 5XX -> Bedrock pinned (Messages: ${FALLBACK.messages}, Chat/Responses: ${FALLBACK.openai})`,
+      description: 'auto* -> router only; fail closed on router errors or unavailability',
       actions: [{ routeToTarget: { staticRoute: { targetName: 'router' } } }],
     })
     rule.addPropertyOverride('Conditions', [
       { MatchModels: { AnyOf: [{ Value: 'auto', Operator: 'StringEquals' }, { Value: 'auto:*', Operator: 'StringLike' }] } },
     ])
-    rule.addPropertyOverride('Actions.0.RouteToTarget.StaticRoute.Fallback', {
-      TriggerOn: { StatusCodes: ['5XX'], Errors: ['CONNECTION_ERROR', 'UNROUTABLE', 'FIRST_BYTE_TIMEOUT'] },
-      FirstByteTimeoutMilliseconds: FIRST_BYTE_TIMEOUT_MS,
-      // Explicit (also the default): repeated router failures take the router out of the chain for a while, and
-      // auto* traffic then goes straight to the pinned fallback model, without router decisions or accounting.
-      CircuitBreaker: { Mode: 'ENABLED' },
-      TargetFallback: [
-        { TargetName: 'bedrock', Model: FALLBACK.messages, TriggerOn: { StatusCodes: ['5XX', '400', '404'], Errors: ['CONNECTION_ERROR', 'UNROUTABLE'] } },
-        { TargetName: 'bedrock', Model: FALLBACK.openai },
-      ],
-    })
-    // Target creation runs model discovery with the gateway role (Bedrock List* for the connector, execute-api for the
-    // router). addToPolicy grants live in the role's separate DefaultPolicy resource, so the targets must wait for it,
+    // Target creation runs model discovery with the gateway role (execute-api for the router).
+    // addToPolicy grants live in the role's separate DefaultPolicy resource, so the target must wait for it,
     // or discovery races the policy attachment and the target goes FAILED (seen on the first MVP deploy).
     const gatewayPolicy = gatewayRole.node.tryFindChild('DefaultPolicy')
     if (!gatewayPolicy) throw new Error('gateway role has no DefaultPolicy')
     routerTarget.node.addDependency(gatewayPolicy)
-    bedrockTarget.node.addDependency(gatewayPolicy)
     rule.node.addDependency(routerTarget)
-    rule.node.addDependency(bedrockTarget)
     Validations.of(rule).acknowledge({ id: 'CloudFormation-Validate::F3018',
-      reason: 'MatchModels and StaticRoute.Fallback are documented AWS::BedrockAgentCore::GatewayRule properties; the schema bundled with aws-cdk-lib predates them.' })
+      reason: 'MatchModels is a documented AWS::BedrockAgentCore::GatewayRule property; the schema bundled with aws-cdk-lib predates it.' })
     // Catch-all (no conditions, lowest precedence): every other model id goes to the router too, so a concrete Bedrock id
     // can no longer reach the bedrock target directly and skip the router's identity checks (design v1 0.3, spike C1 S7).
-    // The router answers ids outside its policy with 400 pin-not-allowed. No fallback: the gateway fallback stays auto*-only.
+    // The router answers ids outside its policy with 400 pin-not-allowed. This route also has no fallback.
     const catchAll = new agentcore.CfnGatewayRule(this, 'RouteCatchAll', {
       gatewayIdentifier: gateway.attrGatewayIdentifier, priority: RULE_PRIORITY.catchAll,
       description: 'every other model id -> router (identity checks, pin-not-allowed); no direct bedrock target access',
@@ -468,7 +431,6 @@ export class RouterStack extends Stack {
     // the ECS rolling update to the new image first (2026-11-08: the target updated before the task definition, so
     // discovery hit the old image and the target went UPDATE_UNSUCCESSFUL).
     routerTarget.node.addDependency(service)
-    bedrockTarget.node.addDependency(service)
 
     nlbListener.addTargets('RouterTasks', {
       port: ROUTER_PORT, protocol: elbv2.Protocol.TCP, deregistrationDelay: Duration.seconds(30),
@@ -551,11 +513,9 @@ export class RouterStack extends Stack {
     const geoFindings = (ids: readonly string[]) => ids.filter((id) => models.catalog.models.find((m) => m.modelId === id)?.endpointScope === 'geo')
       .map((id) => `Resource::arn:aws:bedrock:*::foundation-model/${baseModelId(id)}`)
     for (const f of new Set(geoFindings(models.routerModels))) ack(taskRole, `AwsSolutions-IAM5[${f}]`, GEO_REASON)
-    for (const f of new Set(geoFindings(models.fallbackModels))) ack(gatewayRole, `AwsSolutions-IAM5[${f}]`, GEO_REASON)
     const projectReason = 'Responses on bedrock-runtime authorizes InvokeModel on the default project (Bedrock User Guide, Responses API > '
       + 'Permissions); the project id is not known at synth, and bedrock:ModelArn limits the grant to this deployment\'s Responses models.'
-    for (const role of [taskRole, gatewayRole]) ack(role, `AwsSolutions-IAM5[Resource::arn:aws:bedrock:${cfg.region}:<AWS::AccountId>:project/*]`, projectReason)
-    ack(gatewayRole, 'AwsSolutions-IAM5[Resource::*]', 'The Bedrock connector target discovers models with List*/Get* calls that have no resource-level permissions.')
+    ack(taskRole, `AwsSolutions-IAM5[Resource::arn:aws:bedrock:${cfg.region}:<AWS::AccountId>:project/*]`, projectReason)
     ack(gatewayRole, `AwsSolutions-IAM5[Resource::arn:aws:execute-api:<AWS::Region>:<AWS::AccountId>:<RouterApi>/${STAGE}/*/*]`,
       'Invoke on every method and path of the one router API stage, nothing else.')
     ack(task, 'AwsSolutions-IAM5[Resource::*]', 'Execution role: ecr:GetAuthorizationToken has no resource-level permissions (CDK-generated).')

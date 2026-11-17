@@ -50,7 +50,8 @@ export default function Gateway() {
                 ]} />
               <Container header={<Header variant="h2" description={cdk('forwardedHeaders', g.cdkParameters)}>{t('gateway.headers')}</Header>}>
                 <SpaceBetween size="xs">
-                  <span>{t('gateway.fallbackChain')}: {g.fallbackChain.join(' → ')}</span>
+                  <span>{t('gateway.fallbackChain')}: {g.fallbackChain.length > 0 ? g.fallbackChain.join(' → ') : t('gateway.fallbackChain.none')}</span>
+                  {g.fallbackChain.length > 0 && <span>{t('gateway.fallbackChain.legacy')}</span>}
                   <span>{g.forwardedHeaders.map((h) => <Mono key={h}>{h}</Mono>).reduce<React.ReactNode[]>((a, x, i) => (i ? [...a, ', ', x] : [x]), [])}</span>
                 </SpaceBetween>
               </Container>

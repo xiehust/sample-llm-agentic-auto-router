@@ -2,6 +2,8 @@
 // values, and the ext files (18's keys pending 4f) never collide with the deck.
 
 import { IntlMessageFormat } from 'intl-messageformat'
+import { codeLabel } from '../components/codes.ts'
+import decisionCodes from './decision-codes.json'
 import { describe, expect, it } from 'vitest'
 import en from './messages/en.json'
 import extEn from './messages/ext.en.json'
@@ -40,6 +42,33 @@ describe('copy deck', () => {
       }
     })
   }
+
+  it('gateway and health copy distinguishes fail-closed deployments from legacy configuration', () => {
+    expect(en['gateway.rules.fallback']).toContain('fail closed')
+    expect(en['gateway.fallbackChain.none']).toContain('no direct model invocation')
+    expect(zh['gateway.rules.fallback']).toContain('网关不会直接调用模型')
+    expect(zh['gateway.fallbackChain.none']).toContain('不直接调用模型')
+    expect(en['gateway.fallbackChain.legacy']).toContain('read-only')
+    expect(zh['gateway.fallbackChain.legacy']).toContain('旧版回退配置')
+    expect(en['health.tasksZero']).toContain('reject requests')
+    expect(zh['health.tasksZero']).toContain('拒绝请求')
+    expect(en['health.fallbackSigns']).toBe('Router availability signals')
+    expect(zh['health.fallbackSigns']).toBe('router 可用性信号')
+    expect(en['health.fallbackSigns.help']).toContain('not direct model invocation')
+    expect(zh['health.fallbackSigns.help']).toContain('不代表网关直接调用过模型')
+  })
+
+  it('decision descriptions never promise gateway model fallback after router failure', () => {
+    expect(JSON.stringify(decisionCodes)).not.toMatch(/gateway fallback|网关回退/)
+    for (const locale of ['en', 'zh-CN'] as const) {
+      const exhausted = codeLabel('decision.reason', 'failover:exhausted', locale)
+      const failed = codeLabel('request.reason', 'decide-failed', locale)
+      expect(exhausted.known).toBe(true)
+      expect(failed.known).toBe(true)
+      expect(exhausted.desc).toContain(locale === 'en' ? 'failure is returned to the caller' : '失败返回给调用方')
+      expect(failed.desc).toContain(locale === 'en' ? 'the request fails' : '请求失败')
+    }
+  })
 
   it('ext keys never shadow deck keys', () => {
     expect(Object.keys(extEn).filter((k) => k in en)).toEqual([])

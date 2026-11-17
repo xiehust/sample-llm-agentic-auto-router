@@ -150,7 +150,7 @@ describe('router pipeline against a fake bedrock-runtime', () => {
     expect(fake.requests).toHaveLength(2)
   })
 
-  it('does not retry another profile on a 5xx or a network error by default (the gateway fallback takes it)', async () => {
+  it('does not retry another profile on a 5xx or a network error by default (errors return to the client)', async () => {
     for (const status of [500, 503]) {
       const { fake, router } = await setup(() => ({ status, chunks: ['{"message":"busy"}'] }))
       const res = await post(router.url, '/v1/messages', requestBody('anthropic-messages', HAIKU, false))
@@ -384,7 +384,7 @@ describe('router edges', () => {
     expect((await post(router.url, '/v1/messages', JSON.stringify({ model: 'auto', x: 'y'.repeat(2048) }))).status).toBe(413)
   })
 
-  it('returns 503 when core finds no eligible model (the gateway fallback takes over)', async () => {
+  it('returns 503 to the client when core finds no eligible model', async () => {
     const policy = testPolicy({ pools: { 'anthropic-messages': { defaultTier: 'standard', models: [{ model: HAIKU }] } } })
     const { fake, router } = await setup(() => ({ chunks: ['{}'] }), { policy })
     const res = await post(router.url, '/v1/responses', '{"model":"auto","input":"hi"}')
@@ -395,7 +395,7 @@ describe('router edges', () => {
   })
 
   it('fault injection: router-503 answers 503 without calling upstream; upstream-503-once exercises failover', async () => {
-    // Default policy: the injected 503 is not retried on another profile (it goes back to the gateway).
+    // Default policy: the injected 503 is not retried on another profile (it returns to the client).
     const d = await setup(() => ({ chunks: ['{}'] }), { fault: 'upstream-503-once' })
     expect((await post(d.router.url, '/v1/messages', requestBody('anthropic-messages', HAIKU, false))).status).toBe(503)
     expect(d.fake.requests).toHaveLength(0)
@@ -474,7 +474,7 @@ describe('review fixes (2026-11-04)', () => {
       { policy, region: 'ap-southeast-1' })
     const one = [{ role: 'user', content: 'one' }]
     const turn = (messages: unknown[]) => post(router.url, '/v1/messages', JSON.stringify({ model: 'auto', max_tokens: 16, messages }), { 'x-router-session': 'sib' })
-    expect((await turn(one)).status).toBe(503) // no failover profile: the gateway fallback rule takes it
+    expect((await turn(one)).status).toBe(503) // no failover profile: return the error to the client
     expect(fake.requests.map((r) => r.json.model)).toEqual([SONNET55])
     const second = await turn([...one, { role: 'assistant', content: 'ok' }, { role: 'user', content: 'two' }])
     expect(second.status).toBe(200)
@@ -495,7 +495,7 @@ describe('review fixes (2026-11-04)', () => {
     expect(free.headers.get('x-router-model')).toBe('global.openai.gpt-5.6-luna')
   })
 
-  it('a header timeout uses up the one deadline: 502 upstream-timeout, no retry (the gateway fallback serves it)', async () => {
+  it('a header timeout uses up the one deadline: 502 upstream-timeout, no retry (the error returns to the client)', async () => {
     const { fake, router } = await setup((r) => (r.json.model === HAIKU ? { headerDelayMs: 400, chunks: [nonstream()] } : { chunks: [nonstream()] }),
       { timeouts: { nonStreamHeaderMs: 100 } })
     const res = await post(router.url, '/v1/messages', requestBody('anthropic-messages', HAIKU, false))
@@ -505,7 +505,7 @@ describe('review fixes (2026-11-04)', () => {
     expect(router.logs[0]?.reason).toBe('upstream-timeout')
   })
 
-  it('a header timeout with no failover target returns 502 (the gateway fallback serves it)', async () => {
+  it('a header timeout with no failover target returns 502 (the error returns to the client)', async () => {
     const { router } = await setup(() => ({ headerDelayMs: 400, contentType: 'text/event-stream', chunks: ['data: {}\n\n'] }), { timeouts: { streamHeaderMs: 100 } })
     const res = await post(router.url, '/v1/messages', requestBody('anthropic-messages', 'global.anthropic.claude-sonnet-5-5', true))
     expect(res.status).toBe(502)
